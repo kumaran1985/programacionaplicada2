@@ -6,88 +6,67 @@ Imports System.Data.SqlClient
 Imports System.Data.Odbc
 
 Public Class DABase
+    Private _InterfaceConnection As IDbConnection
     Private _OpenOledbConnection As OleDbConnection
     Private _OpenSqlConnection As SqlConnection
     Private _OpenODBCConnection As OdbcConnection
+    Private _ConnectionType As Constants.ConnectionTypeEnum = Nothing
+    Private _IsSetConnection As Boolean = False
+
 
     Public ReadOnly Property GetOpenConnection() As IDbConnection
         Get
-            Dim conType As Constants.ConnectionTypeEnum
+
             Dim oCon As IDbConnection
 
-            conType = Constants.ConnectionType
-            Select Case conType
-                Case Constants.ConnectionTypeEnum.Odbc
-                    oCon = _OpenODBCConnection
-                    If oCon.State = ConnectionState.Closed Then
-                        oCon = New OdbcConnection
-                    End If
-                Case Constants.ConnectionTypeEnum.OleDb
-                    oCon = _OpenOledbConnection
-                    If oCon.State = ConnectionState.Closed Then
-                        oCon = New OleDbConnection
-                    End If
-                Case Constants.ConnectionTypeEnum.Sql
-                    oCon = _OpenSqlConnection
-                    If oCon.State = ConnectionState.Closed Then
-                        oCon = New SqlConnection
-                    End If
-                Case Constants.ConnectionTypeEnum.SqlClient
-                    oCon = _OpenSqlConnection
-                    If oCon.State = ConnectionState.Closed Then
-                        oCon = New SqlConnection
-                    End If
-                Case Else
-                    ErrorManager.NewError("No se puede obtener la conexión activa"
+            'Verifico si ya ha sido seteada la conexion
 
-            End Select
+            oCon = GetConnection
 
-            If oCon.State = ConnectionState.Closed Then
+            If (Not oCon Is Nothing) AndAlso oCon.State = ConnectionState.Closed Then
                 oCon.ConnectionString = Me.GetConnectionString
                 oCon.Open()
             End If
+            
             Return oCon
         End Get
 
     End Property
 
-    Public ReadOnly Property GetOpenConnection() As IDbConnection
+    Public ReadOnly Property GetConnection() As IDbConnection
         Get
-            Dim conType As Constants.ConnectionTypeEnum
-            Dim oCon As IDbConnection
 
-            conType = Constants.ConnectionType
-            Select Case conType
-                Case Constants.ConnectionTypeEnum.Odbc
-                    oCon = _OpenODBCConnection
-                    If oCon.State = ConnectionState.Closed Then
-                        oCon = New OdbcConnection
-                    End If
-                Case Constants.ConnectionTypeEnum.OleDb
-                    oCon = _OpenOledbConnection
-                    If oCon.State = ConnectionState.Closed Then
-                        oCon = New OleDbConnection
-                    End If
-                Case Constants.ConnectionTypeEnum.Sql
-                    oCon = _OpenSqlConnection
-                    If oCon.State = ConnectionState.Closed Then
-                        oCon = New SqlConnection
-                    End If
-                Case Constants.ConnectionTypeEnum.SqlClient
-                    oCon = _OpenSqlConnection
-                    If oCon.State = ConnectionState.Closed Then
-                        oCon = New SqlConnection
-                    End If
-                Case Else
-                    ErrorManager.NewError("No se puede obtener la conexión activa")
+            If IsSetConnection = False Then
+                Dim conType As Constants.ConnectionTypeEnum
+                Dim oCon As IDbConnection
 
-            End Select
+                conType = Constants.ConnectionType
+                Me.ConnectionType = conType
 
-            If oCon.State = ConnectionState.Closed Then
-                oCon.ConnectionString = Me.GetConnectionString
-                oCon.Open()
+                Select Case conType
+                    Case Constants.ConnectionTypeEnum.Odbc
+                        oCon = _OpenODBCConnection
+                    Case Constants.ConnectionTypeEnum.OleDb
+                        oCon = _OpenOledbConnection
+
+                    Case Constants.ConnectionTypeEnum.Sql
+                        oCon = _OpenSqlConnection
+
+                    Case Constants.ConnectionTypeEnum.SqlClient
+                        oCon = _OpenSqlConnection
+
+                    Case Else
+                        ErrorManager.NewError("No se puede obtener la conexión activa")
+
+                End Select
+                'Cambio el estado para saber que la conexion está sereADA
+                IsSetConnection = True
+                _InterfaceConnection = oCon
+                Return oCon
+            Else
+                Return _InterfaceConnection
             End If
-            Return oCon
+            
         End Get
 
     End Property
@@ -104,5 +83,23 @@ Public Class DABase
         Return Nothing
     End Function
 
+
+    Public Property ConnectionType() As Constants.ConnectionTypeEnum
+        Get
+            Return _ConnectionType
+        End Get
+        Set(ByVal value As Constants.ConnectionTypeEnum)
+            _ConnectionType = value
+        End Set
+    End Property
+
+    Private Property IsSetConnection() As Boolean
+        Get
+            Return _IsSetConnection
+        End Get
+        Set(ByVal value As Boolean)
+            _IsSetConnection = value
+        End Set
+    End Property
 
 End Class
