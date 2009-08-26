@@ -12,6 +12,48 @@ Public Class DABase
     Private _OpenODBCConnection As OdbcConnection
     Private _ConnectionType As Constants.ConnectionTypeEnum = Nothing
     Private _IsSetConnection As Boolean = False
+    Private _ActiveCommand As IDbCommand
+
+
+
+    Private Function GetCommandForStoredProcedure() As System.Data.IDbCommand
+        GetCommandForStoredProcedure = GetCommand()
+        GetCommandForStoredProcedure.CommandType = CommandType.StoredProcedure
+    End Function
+
+    Private Function GetCommandForText() As System.Data.IDbCommand
+        GetCommandForText = GetCommand()
+        GetCommandForText.CommandType = CommandType.Text
+    End Function
+
+    Private Function GetCommandForTableDirect() As System.Data.IDbCommand
+        GetCommandForTableDirect = GetCommand()
+        GetCommandForTableDirect.CommandType = CommandType.TableDirect
+    End Function
+
+
+    Private Function GetCommand() As System.Data.IDbCommand
+        GetCommand = Nothing
+        Select Case ConnectionType
+            Case Constants.ConnectionTypeEnum.Odbc
+                GetCommand = New Odbc.OdbcCommand()
+
+            Case Constants.ConnectionTypeEnum.OleDb
+                GetCommand = New OleDb.OleDbCommand()
+
+            Case Constants.ConnectionTypeEnum.Sql
+                GetCommand = New System.Data.SqlClient.SqlCommand()
+
+            Case Constants.ConnectionTypeEnum.SqlClient
+                GetCommand = New System.Data.SqlClient.SqlCommand()
+
+            Case Else
+                ErrorManager.NewError("No se puede obtener el comando")
+
+        End Select
+        GetCommand.Connection = Me.GetOpenConnection() 
+    End Function
+
 
 
     Public ReadOnly Property GetOpenConnection() As IDbConnection
@@ -99,6 +141,66 @@ Public Class DABase
         End Get
         Set(ByVal value As Boolean)
             _IsSetConnection = value
+        End Set
+    End Property
+
+    Private Function GetParamsFromSP() As List(Of Entities.Params)
+
+    End Function
+
+    Private Function ExecuteStoredProcedureNonQuery(ByVal pStoredName As String, ByVal pParams As List(Of Entities.Params)) As Boolean
+
+    End Function
+
+
+    Public Function GetDataSet() As System.Data.DataSet
+
+    End Function
+    Public Function GetDataSet(ByVal pCommand As System.Data.IDbCommand) As System.Data.DataSet
+        Dim oDataAdapter As System.Data.IDataAdapter = Nothing
+        Dim ds As New DataSet
+        Select Case ConnectionType
+            Case Constants.ConnectionTypeEnum.Odbc
+                Dim oCommand As OdbcCommand = CType(pCommand, OdbcCommand)
+                oDataAdapter = New Odbc.OdbcDataAdapter(oCommand)
+
+            Case Constants.ConnectionTypeEnum.OleDb
+                Dim oCommand As OleDbCommand = CType(pCommand, OleDbCommand)
+                oDataAdapter = New OleDb.OleDbDataAdapter(oCommand)
+
+            Case Constants.ConnectionTypeEnum.Sql
+                Dim oCommand As SqlCommand = CType(pCommand, SqlCommand)
+                oDataAdapter = New SqlDataAdapter(oCommand)
+
+            Case Constants.ConnectionTypeEnum.SqlClient
+                Dim oCommand As SqlCommand = CType(pCommand, SqlCommand)
+                oDataAdapter = New SqlClient.SqlDataAdapter(oCommand)
+
+            Case Else
+                ErrorManager.NewError("No se puede obtener el comando")
+
+        End Select
+
+        oDataAdapter.Fill(ds)
+
+        Return ValidatedDataSet(ds)
+    End Function
+
+
+    Private Function ValidatedDataSet(ByVal ds As Data.DataSet) As DataSet
+        If ds Is Nothing OrElse ds.Tables.Count < 1 Then
+            Return Nothing
+        Else
+            Return ds
+        End If
+    End Function
+
+    Public Property ActiveCommand() As IDbCommand
+        Get
+            Return _ActiveCommand
+        End Get
+        Set(ByVal value As IDbCommand)
+            _ActiveCommand = value
         End Set
     End Property
 
