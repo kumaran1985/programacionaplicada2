@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D109FD1A-1521-4DE5-BCED-1688F625AB3F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>MBFrameWork.DataAccess</RootNamespace>
-    <AssemblyName>MBFrameWork.DataAccess</AssemblyName>
-    <MyType>Windows</MyType>
-    <OptionStrict>On</OptionStrict>
+    <ProjectGuid>{2509E163-C21F-4034-9437-BD5C7E95F33C}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>FrmConceptTest.My.MyApplication</StartupObject>
+    <RootNamespace>FrmConceptTest</RootNamespace>
+    <AssemblyName>FrmConceptTest</AssemblyName>
+    <MyType>WindowsForms</MyType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -18,10 +18,8 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>MBFrameWork.DataAccess.xml</DocumentationFile>
-    <NoWarn>
-    </NoWarn>
-    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <DocumentationFile>FrmConceptTest.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,14 +27,15 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>MBFrameWork.DataAccess.xml</DocumentationFile>
-    <NoWarn>
-    </NoWarn>
-    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+    <DocumentationFile>FrmConceptTest.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -45,12 +44,18 @@
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
     <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.vb" />
-    <Compile Include="DABase.vb" />
-    <Compile Include="Entities\Params.vb" />
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -68,6 +73,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Form1.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -88,6 +97,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MBFrameWork.BussinesLogic\MBFrameWork.BussinesLogic.vbproj">
+      <Project>{D99422A5-8885-458A-89C0-C1AEE89EBA31}</Project>
+      <Name>MBFrameWork.BussinesLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MBFrameWork.FormUtils\MBFrameWork.FormUtils.vbproj">
+      <Project>{09773DCB-5CB7-4562-A92B-BD4D7F03340B}</Project>
+      <Name>MBFrameWork.FormUtils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MBFrameWork.GlobalReferences\MBFrameWork.GlobalReferences.vbproj">
       <Project>{1F5D4B48-E291-48A2-92C8-75EEEE4228C4}</Project>
       <Name>MBFrameWork.GlobalReferences</Name>
