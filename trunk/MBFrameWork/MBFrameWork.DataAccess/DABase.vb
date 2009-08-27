@@ -6,6 +6,7 @@ Imports System.Data.SqlClient
 Imports System.Data.Odbc
 
 Public Class DABase
+     
     Private _InterfaceConnection As IDbConnection
     Private _OpenOledbConnection As OleDbConnection
     Private _OpenSqlConnection As SqlConnection
@@ -51,7 +52,7 @@ Public Class DABase
                 ErrorManager.NewError("No se puede obtener el comando")
 
         End Select
-        GetCommand.Connection = Me.GetOpenConnection() 
+        GetCommand.Connection = Me.GetOpenConnection()
     End Function
 
 
@@ -69,7 +70,7 @@ Public Class DABase
                 oCon.ConnectionString = Me.GetConnectionString
                 oCon.Open()
             End If
-            
+
             Return oCon
         End Get
 
@@ -108,7 +109,7 @@ Public Class DABase
             Else
                 Return _InterfaceConnection
             End If
-            
+
         End Get
 
     End Property
@@ -144,16 +145,48 @@ Public Class DABase
         End Set
     End Property
 
-    Private Function GetParamsFromSP() As List(Of Entities.Params)
+    Private Function GetParamsFromSP() As List(Of Entities.StoredProcedureFields)
 
     End Function
 
-    Private Function ExecuteStoredProcedureNonQuery(ByVal pStoredName As String, ByVal pParams As List(Of Entities.Params)) As Boolean
+    Private Function ExecuteStoredProcedureNonQuery(ByVal pStoredName As String, ByVal pParams As List(Of Entities.StoredProcedureFields)) As Boolean
 
     End Function
 
 
-    Public Function GetDataSet() As System.Data.DataSet
+    Public Function GetDataView(ByVal strSql As String, ByVal pcType As CommandType) As System.Data.DataView
+        Dim ds As DataSet = Nothing
+        ds = GetDataSet(strSql, pcType)
+        If ds Is Nothing Then
+            Return Nothing
+        Else
+            Return New DataView(ds.Tables(0))
+        End If
+    End Function
+
+    Public Function GetDataView(ByVal pCommand As System.Data.IDbCommand) As System.Data.DataView
+        Dim ds As DataSet = Nothing
+        ds = GetDataSet(pCommand)
+        If ds Is Nothing Then
+            Return Nothing
+        Else
+            Return New DataView(ds.Tables(0))
+        End If
+    End Function
+
+    Public Function GetDataSet(ByVal strSql As String, ByVal pcType As CommandType) As System.Data.DataSet
+        Dim oCommand As System.Data.IDbCommand = Nothing
+        Dim ds As DataSet = Nothing
+        Select Case pcType
+            Case CommandType.StoredProcedure
+                oCommand = Me.GetCommandForStoredProcedure()
+            Case CommandType.TableDirect
+                oCommand = Me.GetCommandForTableDirect()
+            Case CommandType.Text
+                oCommand = Me.GetCommandForText()
+        End Select
+        oCommand.CommandText = strSql
+        Return GetDataSet(oCommand)
 
     End Function
     Public Function GetDataSet(ByVal pCommand As System.Data.IDbCommand) As System.Data.DataSet
@@ -203,5 +236,9 @@ Public Class DABase
             _ActiveCommand = value
         End Set
     End Property
+
+
+
+
 
 End Class
