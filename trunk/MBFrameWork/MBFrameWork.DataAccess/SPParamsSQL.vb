@@ -1,78 +1,79 @@
 Public Class SPParamsSQL
+    Inherits DABase
     Implements ISPParams
 
- 
 
-    Public Function getTypeFromDB(ByVal sDBType As String) As Entities.Params.ParamTypeEnum Implements ISPParams.getTypeFromDB
-        Select Case sdbType
+
+    Public Function getTypeFromDB(ByVal sDBType As String) As Entities.StoredProcedureFields.ParamTypeEnum Implements ISPParams.getTypeFromDB
+        Select Case sDBType
             Case Is = "bit"
-                Return Entities.ParamsFields.ParamTypeEnum.dbDate
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbDate
             Case Is = "smallint"
-                Return Entities.ParamsFields.ParamTypeEnum.dbInt16
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbInt16
             Case Is = "int"
-                Return Entities.ParamsFields.ParamTypeEnum.dbInt32
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbInt32
             Case Is = "tinyint"
-                Return Entities.ParamsFields.ParamTypeEnum.dbInt16
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbInt16
             Case Is = "bigint"
-                Return Entities.ParamsFields.ParamTypeEnum.dbInt64
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbInt64
             Case Is = "smallmoney"
-                Return Entities.ParamsFields.ParamTypeEnum.dbFloat
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbFloat
             Case Is = "money"
-                Return Entities.ParamsFields.ParamTypeEnum.dbFloat
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbFloat
             Case Is = "numeric"
-                Return Entities.ParamsFields.ParamTypeEnum.dbFloat
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbFloat
             Case Is = "float"
-                Return Entities.ParamsFields.ParamTypeEnum.dbFloat
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbFloat
             Case Is = "real"
-                Return Entities.ParamsFields.ParamTypeEnum.dbFloat
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbFloat
             Case Is = "decimal"
-                Return Entities.ParamsFields.ParamTypeEnum.dbFloat
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbFloat
             Case Is = "date"
-                Return Entities.ParamsFields.ParamTypeEnum.dbDate
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbDate
             Case Is = "datetimeoffset"
-                Return Entities.ParamsFields.ParamTypeEnum.dbDate
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbDate
             Case Is = "datetime2"
-                Return Entities.ParamsFields.ParamTypeEnum.dbDate
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbDate
             Case Is = "smalldatetime"
-                Return Entities.ParamsFields.ParamTypeEnum.dbDate
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbDate
             Case Is = "datetime"
-                Return Entities.ParamsFields.ParamTypeEnum.dbDate
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbDate
             Case Is = "time"
-                Return Entities.ParamsFields.ParamTypeEnum.dbTime
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbTime
             Case Is = "char"
-                Return Entities.ParamsFields.ParamTypeEnum.dbString
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbString
             Case Is = "varchar"
-                Return Entities.ParamsFields.ParamTypeEnum.dbString
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbString
             Case Is = "text"
-                Return Entities.ParamsFields.ParamTypeEnum.dbString
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbString
             Case Is = "nchar"
-                Return Entities.ParamsFields.ParamTypeEnum.dbChar
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbChar
             Case Is = "nvarchar"
-                Return Entities.ParamsFields.ParamTypeEnum.dbString
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbString
             Case Is = "ntext"
-                Return Entities.ParamsFields.ParamTypeEnum.dbString
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbString
             Case Is = "xml"
-                Return Entities.ParamsFields.ParamTypeEnum.dbXML
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbXML
             Case Is = "binary"
-                Return Entities.ParamsFields.ParamTypeEnum.dbObject
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbObject
             Case Is = "varbinary"
-                Return Entities.ParamsFields.ParamTypeEnum.dbObject
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbObject
             Case Is = "image"
-                Return Entities.ParamsFields.ParamTypeEnum.dbObject
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbObject
             Case Is = "cursor"
-                Return Entities.ParamsFields.ParamTypeEnum.dbObject
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbObject
             Case Is = "timestamp"
-                Return Entities.ParamsFields.ParamTypeEnum.dbObject
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbObject
             Case Is = "hierarchyid"
-                Return Entities.ParamsFields.ParamTypeEnum.dbObject
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbObject
             Case Is = "uniqueidentifier"
-                Return Entities.ParamsFields.ParamTypeEnum.dbObject
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbObject
             Case Is = "sql_variant"
-                Return Entities.ParamsFields.ParamTypeEnum.dbObject
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbObject
             Case Is = "table"
-                Return Entities.ParamsFields.ParamTypeEnum.dbObject
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbObject
             Case Else
-                Return Entities.ParamsFields.ParamTypeEnum.dbObject
+                Return Entities.StoredProcedureFields.ParamTypeEnum.dbObject
         End Select
     End Function
 
@@ -102,9 +103,11 @@ Public Class SPParamsSQL
 
         For i As Integer = 0 To ds.Tables(1).Rows.Count - 1
             oParam = New Entities.StoredProcedureFields
-            If Not ds.Tables(1).Rows(i)("Parameter_name") Is DBNull.Value Then
-                oParam.FieldName = ds.Tables(1).Rows(i)("Parameter_name").ToString
-            End If
+
+
+
+            oParam.FieldName = GetValue(ds.Tables(1).Rows(i)("Parameter_name")).ToString
+
 
             If Not ds.Tables(1).Rows(i)("Type") Is DBNull.Value Then
                 'oParam.ParamType = ds.Tables(1).Rows(i)("Parameter_name").ToString
@@ -116,7 +119,7 @@ Public Class SPParamsSQL
             End If
 
             If Not ds.Tables(1).Rows(i)("Prec") Is DBNull.Value Then
-                oParam.FieldPrecision = CInt(ds.Tables(1).Rows(i)("Prec").ToString)
+                oParam.FieldPrecision = CInt(GetValue((ds.Tables(1).Rows(i)("Prec"))))
             End If
 
             If Not ds.Tables(1).Rows(i)("Scale") Is DBNull.Value Then

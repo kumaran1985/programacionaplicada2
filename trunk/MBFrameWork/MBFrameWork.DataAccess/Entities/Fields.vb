@@ -8,6 +8,7 @@ Namespace Entities
         Private _FieldPrecision As Int32
         Private _FieldScale As Int32
         Private _FieldOrder As Int32
+        Private _DotNetEquivalent As System.Type
         Public Enum ParamTypeEnum
             dbInt16
             dbInt32

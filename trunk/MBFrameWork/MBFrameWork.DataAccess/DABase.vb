@@ -14,6 +14,7 @@ Public Class DABase
     Private _ConnectionType As Constants.ConnectionTypeEnum = Nothing
     Private _IsSetConnection As Boolean = False
     Private _ActiveCommand As IDbCommand
+    Private _SPParams As ISPParams = Nothing
 
 
 
@@ -66,6 +67,30 @@ Public Class DABase
 
             oCon = GetConnection
 
+            If (Not oCon Is Nothing) _
+                    OrElse oCon.State = ConnectionState.Closed _
+                    OrElse (oCon.State = ConnectionState.Connecting = False _
+                           AndAlso oCon.State = ConnectionState.Executing = False _
+                           AndAlso oCon.State = ConnectionState.Fetching = False) Then
+                oCon.ConnectionString = Me.GetConnectionString
+                oCon.Open()
+            End If
+
+            Return oCon
+        End Get
+
+    End Property
+
+
+    Public ReadOnly Property GetOpenConnection(ByVal pSPParams As ISPParams) As IDbConnection
+        Get
+
+            Dim oCon As IDbConnection
+
+            'Verifico si ya ha sido seteada la conexion
+
+            oCon = GetConnection
+
             If (Not oCon Is Nothing) AndAlso oCon.State = ConnectionState.Closed Then
                 oCon.ConnectionString = Me.GetConnectionString
                 oCon.Open()
@@ -82,6 +107,7 @@ Public Class DABase
             If IsSetConnection = False Then
                 Dim conType As Constants.ConnectionTypeEnum
                 Dim oCon As IDbConnection
+                oCon = Nothing
 
                 conType = Constants.ConnectionType
                 Me.ConnectionType = conType
@@ -145,7 +171,14 @@ Public Class DABase
         End Set
     End Property
 
-    Private Function GetParamsFromSP() As List(Of Entities.StoredProcedureFields)
+    Private Function GetParamsFromSP(ByVal spName As String) As List(Of Entities.StoredProcedureFields)
+
+        If SPParams Is Nothing Then
+            Throw New Exception("No se encuentra la clase issppparams")
+        End If
+
+        Return SPParams.getParams(spName, Me.GetOpenConnection)
+
 
     End Function
 
@@ -239,6 +272,18 @@ Public Class DABase
 
 
 
+    Public Function GetValue(ByVal vVal As Object) As Object
+        Return IIf(vVal Is DBNull.Value, Nothing, CType(vVal, Object))
+    End Function
+    
 
+    Public Property SPParams() As ISPParams
+        Get
+            Return _SPParams
+        End Get
+        Set(ByVal value As ISPParams)
+            _SPParams = value
+        End Set
+    End Property
 
 End Class
