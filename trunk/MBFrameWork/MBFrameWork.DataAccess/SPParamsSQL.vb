@@ -1,5 +1,5 @@
+Imports MBFrameWork.DataAccess.DABase
 Public Class SPParamsSQL
-    Inherits DABase
     Implements ISPParams
 
 
@@ -85,7 +85,7 @@ Public Class SPParamsSQL
         Dim oParam As New Entities.StoredProcedureFields
 
         Dim strSql As String
-        strSql = "If Exists(SELECT * FROM sys.objects WHERE type = 'P' AND name = '" & spName & "') " & _
+        strSql = "If Exists(SELECT * FROM sys.objects WHERE type = 'P' AND name Like '" & spName & "') " & _
                 " Begin " & _
                 " exec sp_help " & spName & _
                 " End"
@@ -106,7 +106,7 @@ Public Class SPParamsSQL
 
 
 
-            oParam.FieldName = GetValue(ds.Tables(1).Rows(i)("Parameter_name")).ToString
+            oParam.FieldName = GetValue(ds.Tables(1).Rows(i)("Parameter_name")).ToString()
 
 
             If Not ds.Tables(1).Rows(i)("Type") Is DBNull.Value Then

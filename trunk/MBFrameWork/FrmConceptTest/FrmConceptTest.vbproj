@@ -101,6 +101,10 @@
       <Project>{D99422A5-8885-458A-89C0-C1AEE89EBA31}</Project>
       <Name>MBFrameWork.BussinesLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MBFrameWork.DataAccess\MBFrameWork.DataAccess.vbproj">
+      <Project>{D109FD1A-1521-4DE5-BCED-1688F625AB3F}</Project>
+      <Name>MBFrameWork.DataAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MBFrameWork.FormUtils\MBFrameWork.FormUtils.vbproj">
       <Project>{09773DCB-5CB7-4562-A92B-BD4D7F03340B}</Project>
       <Name>MBFrameWork.FormUtils</Name>

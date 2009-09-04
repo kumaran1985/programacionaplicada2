@@ -1,4 +1,5 @@
 Imports MBFrameWork.DataAccess.Entities.StoredProcedureFields
+Imports MBFrameWork.DataAccess
 Public Class Cast
     Shared Function toSystemType(ByVal dbt As ParamTypeEnum) As System.Type
 
@@ -45,7 +46,7 @@ Public Class Cast
 
     End Function
 
-    Shared Function toDBType(ByVal oISPParams As ISPParams, ByVal sdbType As String) As Entities.Params.ParamTypeEnum
+    Shared Function toDBType(ByVal oISPParams As ISPParams, ByVal sdbType As String) As Entities.StoredProcedureFields.ParamTypeEnum
         Return oISPParams.getTypeFromDB(sdbType)
     End Function
 
@@ -86,7 +87,7 @@ Public Class Cast
         Return pObject
     End Function
 
-    Shared Function toDbType(ByVal dbType As Type) As Entities.Params.ParamTypeEnum
+    Shared Function toDbType(ByVal dbType As Type) As Entities.Fields.ParamTypeEnum
 
 
         Select Case True
