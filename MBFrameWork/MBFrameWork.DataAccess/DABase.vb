@@ -66,17 +66,35 @@ Public Class DABase
             'Verifico si ya ha sido seteada la conexion
 
             oCon = GetConnection
+            If oCon Is Nothing Then
 
-            If (Not oCon Is Nothing) _
-                    OrElse oCon.State = ConnectionState.Closed _
-                    OrElse (oCon.State = ConnectionState.Connecting = False _
-                           AndAlso oCon.State = ConnectionState.Executing = False _
-                           AndAlso oCon.State = ConnectionState.Fetching = False) Then
                 oCon.ConnectionString = Me.GetConnectionString
                 oCon.Open()
+                Return oCon
             End If
 
-            Return oCon
+            Select Case oCon.State
+
+                Case ConnectionState.Closed
+                    oCon.ConnectionString = Me.GetConnectionString
+                    oCon.Open()
+                Case ConnectionState.Open
+
+                Case ConnectionState.Connecting
+                    Return oCon
+                Case ConnectionState.Executing
+                    Return oCon
+                Case ConnectionState.Fetching
+                    Return oCon
+                Case ConnectionState.Broken
+                    oCon.Dispose()
+                    oCon.ConnectionString = Me.GetConnectionString
+                    oCon.Open()
+                    Return oCon
+            End Select
+
+            Return Nothing
+
         End Get
 
     End Property
@@ -114,16 +132,15 @@ Public Class DABase
 
                 Select Case conType
                     Case Constants.ConnectionTypeEnum.Odbc
+                        If _OpenODBCConnection Is Nothing Then _OpenODBCConnection = New OdbcConnection
                         oCon = _OpenODBCConnection
                     Case Constants.ConnectionTypeEnum.OleDb
+                        If _OpenOledbConnection Is Nothing Then _OpenOledbConnection = New OleDbConnection
                         oCon = _OpenOledbConnection
 
-                    Case Constants.ConnectionTypeEnum.Sql
-                        oCon = _OpenSqlConnection
-
-                    Case Constants.ConnectionTypeEnum.SqlClient
-                        oCon = _OpenSqlConnection
-
+                    Case Constants.ConnectionTypeEnum.Sql, Constants.ConnectionTypeEnum.SqlClient
+                        If _OpenSqlConnection Is Nothing Then _OpenSqlConnection = New SqlConnection
+                        oCon = _OpenSqlConnection 
                     Case Else
                         ErrorManager.NewError("No se puede obtener la conexión activa")
 
@@ -207,9 +224,17 @@ Public Class DABase
         End If
     End Function
 
+
     Public Function GetDataSet(ByVal strSql As String, ByVal pcType As CommandType) As System.Data.DataSet
+        Return GetDataSet(strSql, pcType, GetOpenConnection())
+    End Function
+
+
+
+    Public Function GetDataSet(ByVal strSql As String, ByVal pcType As CommandType, ByRef cn As IDbConnection) As System.Data.DataSet
         Dim oCommand As System.Data.IDbCommand = Nothing
         Dim ds As DataSet = Nothing
+
         Select Case pcType
             Case CommandType.StoredProcedure
                 oCommand = Me.GetCommandForStoredProcedure()
@@ -218,6 +243,7 @@ Public Class DABase
             Case CommandType.Text
                 oCommand = Me.GetCommandForText()
         End Select
+        oCommand.Connection = cn
         oCommand.CommandText = strSql
         Return GetDataSet(oCommand)
 
@@ -272,7 +298,7 @@ Public Class DABase
 
 
 
-    Public Function GetValue(ByVal vVal As Object) As Object
+    Public Shared Function GetValue(ByVal vVal As Object) As Object
         Return IIf(vVal Is DBNull.Value, Nothing, CType(vVal, Object))
     End Function
     
