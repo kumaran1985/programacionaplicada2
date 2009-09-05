@@ -6,72 +6,49 @@ Imports System.Data.SqlClient
 Imports System.Data.Odbc
 
 Public Class DABase
-     
-    Private _InterfaceConnection As IDbConnection
-    Private _OpenOledbConnection As OleDbConnection
-    Private _OpenSqlConnection As SqlConnection
-    Private _OpenODBCConnection As OdbcConnection
+
+
+    Private _InterfaceConnection As IDbConnection = Nothing
+    Private _OpenOledbConnection As OleDbConnection = Nothing
+    Private _OpenSqlConnection As SqlConnection = Nothing
+    Private _OpenODBCConnection As OdbcConnection = Nothing
     Private _ConnectionType As Constants.ConnectionTypeEnum = Nothing
     Private _IsSetConnection As Boolean = False
-    Private _ActiveCommand As IDbCommand
+    Private _ActiveCommand As IDbCommand = Nothing
     Private _SPParams As ISPParams = Nothing
 
+    Private Property IsSetConnection() As Boolean
+        Get
+            Return Not _InterfaceConnection Is Nothing
+        End Get
+        Set(ByVal value As Boolean)
+            _IsSetConnection = value
+        End Set
+    End Property
 
+    Public Sub NewConnection()
+        If IsSetConnection Then
+            Try
+                _InterfaceConnection.Close()
+            Catch ex As Exception
 
-    Private Function GetCommandForStoredProcedure() As System.Data.IDbCommand
-        GetCommandForStoredProcedure = GetCommand()
-        GetCommandForStoredProcedure.CommandType = CommandType.StoredProcedure
-    End Function
-
-    Private Function GetCommandForText() As System.Data.IDbCommand
-        GetCommandForText = GetCommand()
-        GetCommandForText.CommandType = CommandType.Text
-    End Function
-
-    Private Function GetCommandForTableDirect() As System.Data.IDbCommand
-        GetCommandForTableDirect = GetCommand()
-        GetCommandForTableDirect.CommandType = CommandType.TableDirect
-    End Function
-
-
-    Private Function GetCommand() As System.Data.IDbCommand
-        GetCommand = Nothing
-        Select Case ConnectionType
-            Case Constants.ConnectionTypeEnum.Odbc
-                GetCommand = New Odbc.OdbcCommand()
-
-            Case Constants.ConnectionTypeEnum.OleDb
-                GetCommand = New OleDb.OleDbCommand()
-
-            Case Constants.ConnectionTypeEnum.Sql
-                GetCommand = New System.Data.SqlClient.SqlCommand()
-
-            Case Constants.ConnectionTypeEnum.SqlClient
-                GetCommand = New System.Data.SqlClient.SqlCommand()
-
-            Case Else
-                ErrorManager.NewError("No se puede obtener el comando")
-
-        End Select
-        GetCommand.Connection = Me.GetOpenConnection()
-    End Function
+            End Try
+        End If
+        _InterfaceConnection = Nothing
+        _InterfaceConnection = GetConnection
+        _InterfaceConnection.ConnectionString = GetConnectionString()
+        _InterfaceConnection.Open()
+    End Sub
 
 
 
     Public ReadOnly Property GetOpenConnection() As IDbConnection
         Get
 
-            Dim oCon As IDbConnection
-
-            'Verifico si ya ha sido seteada la conexion
-
-            oCon = GetConnection
-            If oCon Is Nothing Then
-
-                oCon.ConnectionString = Me.GetConnectionString
-                oCon.Open()
-                Return oCon
+            If Not Me.IsSetConnection Then
+                NewConnection()
             End If
+            Dim oCon As IDbConnection = _InterfaceConnection
 
             Select Case oCon.State
 
@@ -79,7 +56,7 @@ Public Class DABase
                     oCon.ConnectionString = Me.GetConnectionString
                     oCon.Open()
                 Case ConnectionState.Open
-
+                    Return oCon
                 Case ConnectionState.Connecting
                     Return oCon
                 Case ConnectionState.Executing
@@ -102,19 +79,10 @@ Public Class DABase
 
     Public ReadOnly Property GetOpenConnection(ByVal pSPParams As ISPParams) As IDbConnection
         Get
-
-            Dim oCon As IDbConnection
-
-            'Verifico si ya ha sido seteada la conexion
-
-            oCon = GetConnection
-
-            If (Not oCon Is Nothing) AndAlso oCon.State = ConnectionState.Closed Then
-                oCon.ConnectionString = Me.GetConnectionString
-                oCon.Open()
+            If Not Me.IsSetConnection Then
+                NewConnection()
             End If
-
-            Return oCon
+            Return Me._InterfaceConnection
         End Get
 
     End Property
@@ -140,7 +108,7 @@ Public Class DABase
 
                     Case Constants.ConnectionTypeEnum.Sql, Constants.ConnectionTypeEnum.SqlClient
                         If _OpenSqlConnection Is Nothing Then _OpenSqlConnection = New SqlConnection
-                        oCon = _OpenSqlConnection 
+                        oCon = _OpenSqlConnection
                     Case Else
                         ErrorManager.NewError("No se puede obtener la conexión activa")
 
@@ -158,6 +126,60 @@ Public Class DABase
     End Property
 
 
+    Public Property ConnectionType() As Constants.ConnectionTypeEnum
+        Get
+            Return _ConnectionType
+        End Get
+        Set(ByVal value As Constants.ConnectionTypeEnum)
+            _ConnectionType = value
+        End Set
+    End Property
+
+    Private Function GetOpenCommand() As System.Data.IDbCommand
+        GetOpenCommand = GetCommand()
+        GetOpenCommand.Connection = Me._InterfaceConnection
+    End Function
+
+    Private Function GetCommand() As System.Data.IDbCommand
+        GetCommand = Nothing
+        Select Case ConnectionType
+            Case Constants.ConnectionTypeEnum.Odbc
+                GetCommand = New Odbc.OdbcCommand()
+
+            Case Constants.ConnectionTypeEnum.OleDb
+                GetCommand = New OleDb.OleDbCommand()
+
+            Case Constants.ConnectionTypeEnum.Sql
+                GetCommand = New System.Data.SqlClient.SqlCommand()
+
+            Case Constants.ConnectionTypeEnum.SqlClient
+                GetCommand = New System.Data.SqlClient.SqlCommand()
+
+            Case Else
+                ErrorManager.NewError("No se puede obtener el comando")
+
+        End Select
+
+    End Function
+
+
+
+    Private Function GetCommandForStoredProcedure() As System.Data.IDbCommand
+        GetCommandForStoredProcedure = GetCommand()
+        GetCommandForStoredProcedure.CommandType = CommandType.StoredProcedure
+    End Function
+
+    Private Function GetCommandForText() As System.Data.IDbCommand
+        GetCommandForText = GetCommand()
+        GetCommandForText.CommandType = CommandType.Text
+    End Function
+
+    Private Function GetCommandForTableDirect() As System.Data.IDbCommand
+        GetCommandForTableDirect = GetCommand()
+        GetCommandForTableDirect.CommandType = CommandType.TableDirect
+    End Function
+
+
 
     Private Function GetConnectionString() As String
         Try
@@ -168,25 +190,6 @@ Public Class DABase
 
         Return Nothing
     End Function
-
-
-    Public Property ConnectionType() As Constants.ConnectionTypeEnum
-        Get
-            Return _ConnectionType
-        End Get
-        Set(ByVal value As Constants.ConnectionTypeEnum)
-            _ConnectionType = value
-        End Set
-    End Property
-
-    Private Property IsSetConnection() As Boolean
-        Get
-            Return _IsSetConnection
-        End Get
-        Set(ByVal value As Boolean)
-            _IsSetConnection = value
-        End Set
-    End Property
 
     Private Function GetParamsFromSP(ByVal spName As String) As List(Of Entities.StoredProcedureFields)
 
@@ -201,6 +204,49 @@ Public Class DABase
 
     Private Function ExecuteStoredProcedureNonQuery(ByVal pStoredName As String, ByVal pParams As List(Of Entities.StoredProcedureFields)) As Boolean
 
+    End Function
+
+    Public Property ActiveCommand() As IDbCommand
+        Get
+            Return _ActiveCommand
+        End Get
+        Set(ByVal value As IDbCommand)
+            _ActiveCommand = value
+        End Set
+    End Property
+
+
+    Public Property SPParams() As ISPParams
+        Get
+            Return _SPParams
+        End Get
+        Set(ByVal value As ISPParams)
+            _SPParams = value
+        End Set
+    End Property
+
+    Public Function GetNewDataAdapter(ByRef pCommand As System.Data.IDbCommand) As IDataAdapter
+        Select Case ConnectionType
+            Case Constants.ConnectionTypeEnum.Odbc
+                Dim oCommand As OdbcCommand = CType(pCommand, OdbcCommand)
+                Return New Odbc.OdbcDataAdapter(oCommand)
+
+            Case Constants.ConnectionTypeEnum.OleDb
+                Dim oCommand As OleDbCommand = CType(pCommand, OleDbCommand)
+                Return New OleDb.OleDbDataAdapter(oCommand)
+
+            Case Constants.ConnectionTypeEnum.Sql
+                Dim oCommand As SqlCommand = CType(pCommand, SqlCommand)
+                Return New SqlDataAdapter(oCommand)
+
+            Case Constants.ConnectionTypeEnum.SqlClient
+                Dim oCommand As SqlCommand = CType(pCommand, SqlCommand)
+                Return New SqlClient.SqlDataAdapter(oCommand)
+
+            Case Else
+                ErrorManager.NewError("No se puede obtener el comando")
+                Return Nothing
+        End Select
     End Function
 
 
@@ -249,32 +295,9 @@ Public Class DABase
 
     End Function
     Public Function GetDataSet(ByVal pCommand As System.Data.IDbCommand) As System.Data.DataSet
-        Dim oDataAdapter As System.Data.IDataAdapter = Nothing
+        Dim oDataAdapter As System.Data.IDataAdapter = GetNewDataAdapter(pCommand)
         Dim ds As New DataSet
-        Select Case ConnectionType
-            Case Constants.ConnectionTypeEnum.Odbc
-                Dim oCommand As OdbcCommand = CType(pCommand, OdbcCommand)
-                oDataAdapter = New Odbc.OdbcDataAdapter(oCommand)
-
-            Case Constants.ConnectionTypeEnum.OleDb
-                Dim oCommand As OleDbCommand = CType(pCommand, OleDbCommand)
-                oDataAdapter = New OleDb.OleDbDataAdapter(oCommand)
-
-            Case Constants.ConnectionTypeEnum.Sql
-                Dim oCommand As SqlCommand = CType(pCommand, SqlCommand)
-                oDataAdapter = New SqlDataAdapter(oCommand)
-
-            Case Constants.ConnectionTypeEnum.SqlClient
-                Dim oCommand As SqlCommand = CType(pCommand, SqlCommand)
-                oDataAdapter = New SqlClient.SqlDataAdapter(oCommand)
-
-            Case Else
-                ErrorManager.NewError("No se puede obtener el comando")
-
-        End Select
-
         oDataAdapter.Fill(ds)
-
         Return ValidatedDataSet(ds)
     End Function
 
@@ -287,29 +310,9 @@ Public Class DABase
         End If
     End Function
 
-    Public Property ActiveCommand() As IDbCommand
-        Get
-            Return _ActiveCommand
-        End Get
-        Set(ByVal value As IDbCommand)
-            _ActiveCommand = value
-        End Set
-    End Property
-
 
 
     Public Shared Function GetValue(ByVal vVal As Object) As Object
         Return IIf(vVal Is DBNull.Value, Nothing, CType(vVal, Object))
     End Function
-    
-
-    Public Property SPParams() As ISPParams
-        Get
-            Return _SPParams
-        End Get
-        Set(ByVal value As ISPParams)
-            _SPParams = value
-        End Set
-    End Property
-
 End Class
