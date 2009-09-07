@@ -5,6 +5,8 @@ Namespace Entities
         Private m_ForeingKey As String
         Private m_ForeingTable As String
         Private m_FieldDescription As String
+        Private _FieldIsNullable As Boolean
+
 
 
 
@@ -43,6 +45,15 @@ Namespace Entities
             End Get
             Set(ByVal value As String)
                 m_FieldDescription = value
+            End Set
+        End Property
+
+        Public Property FieldIsNullable() As Boolean
+            Get
+                Return _FieldIsNullable
+            End Get
+            Set(ByVal value As Boolean)
+                _FieldIsNullable = value
             End Set
         End Property
 

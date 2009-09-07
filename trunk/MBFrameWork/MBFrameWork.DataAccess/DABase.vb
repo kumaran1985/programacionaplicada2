@@ -164,24 +164,25 @@ Public Class DABase
 
 
 
-    Private Function GetCommandForStoredProcedure() As System.Data.IDbCommand
+    Friend Function GetCommandForStoredProcedure() As System.Data.IDbCommand
         GetCommandForStoredProcedure = GetCommand()
         GetCommandForStoredProcedure.CommandType = CommandType.StoredProcedure
     End Function
 
-    Private Function GetCommandForText() As System.Data.IDbCommand
+    Friend Function GetCommandForText() As System.Data.IDbCommand
         GetCommandForText = GetCommand()
         GetCommandForText.CommandType = CommandType.Text
     End Function
 
-    Private Function GetCommandForTableDirect() As System.Data.IDbCommand
+    Friend Function GetCommandForTableDirect() As System.Data.IDbCommand
         GetCommandForTableDirect = GetCommand()
         GetCommandForTableDirect.CommandType = CommandType.TableDirect
+
     End Function
 
 
 
-    Private Function GetConnectionString() As String
+    Friend Function GetConnectionString() As String
         Try
             Return Constants.ConnectionString
         Catch ex As Exception
@@ -191,7 +192,7 @@ Public Class DABase
         Return Nothing
     End Function
 
-    Private Function GetParamsFromSP(ByVal spName As String) As List(Of Entities.StoredProcedureFields)
+    Friend Function GetParamsFromSP(ByVal spName As String) As List(Of Entities.StoredProcedureFields)
 
         If SPParams Is Nothing Then
             Throw New Exception("No se encuentra la clase issppparams")
@@ -202,7 +203,7 @@ Public Class DABase
 
     End Function
 
-    Private Function ExecuteStoredProcedureNonQuery(ByVal pStoredName As String, ByVal pParams As List(Of Entities.StoredProcedureFields)) As Boolean
+    Friend Function ExecuteStoredProcedureNonQuery(ByVal pStoredName As String, ByVal pParams As List(Of Entities.StoredProcedureFields)) As Boolean
 
     End Function
 
@@ -249,6 +250,7 @@ Public Class DABase
         End Select
     End Function
 
+   
 
     Public Function GetDataView(ByVal strSql As String, ByVal pcType As CommandType) As System.Data.DataView
         Dim ds As DataSet = Nothing
@@ -301,8 +303,21 @@ Public Class DABase
         Return ValidatedDataSet(ds)
     End Function
 
+    Public Function GetDataSet(ByVal pCommand As System.Data.IDbCommand, _
+                               ByVal pageNumber As Long, _
+                              ByVal pageSize As Integer) As System.Data.DataSet
 
-    Private Function ValidatedDataSet(ByVal ds As Data.DataSet) As DataSet
+        Dim oDataAdapter As System.Data.IDataAdapter = GetNewDataAdapter(pCommand)
+
+        Dim ds As New DataSet
+
+        oDataAdapter.Fill(ds)
+        Return ValidatedDataSet(ds)
+    End Function
+
+   
+
+    Friend Function ValidatedDataSet(ByVal ds As Data.DataSet) As DataSet
         If ds Is Nothing OrElse ds.Tables.Count < 1 Then
             Return Nothing
         Else
@@ -315,4 +330,5 @@ Public Class DABase
     Public Shared Function GetValue(ByVal vVal As Object) As Object
         Return IIf(vVal Is DBNull.Value, Nothing, CType(vVal, Object))
     End Function
+
 End Class

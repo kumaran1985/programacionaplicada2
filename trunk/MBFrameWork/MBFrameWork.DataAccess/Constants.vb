@@ -17,6 +17,9 @@ Public Class Constants
         End Get
     End Property
 
+    Public Shared DateSeparator As String = "'"
+        
+
     Shared ReadOnly Property ConnectionType() As ConnectionTypeEnum
         Get
             Dim sValue As String
@@ -36,4 +39,7 @@ Public Class Constants
         End Get
     End Property
 
+    Public Sub New()
+        DateSeparator = Configuration.GetAppConfig("DateSeparator")
+    End Sub
 End Class
