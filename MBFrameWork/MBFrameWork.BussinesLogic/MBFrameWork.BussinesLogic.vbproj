@@ -86,10 +86,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MBFrameWork.DataAccess\MBFrameWork.DataAccess.vbproj">
-      <Project>{D109FD1A-1521-4DE5-BCED-1688F625AB3F}</Project>
-      <Name>MBFrameWork.DataAccess</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MBFrameWork.GlobalReferences\MBFrameWork.GlobalReferences.vbproj">
       <Project>{1F5D4B48-E291-48A2-92C8-75EEEE4228C4}</Project>
       <Name>MBFrameWork.GlobalReferences</Name>
