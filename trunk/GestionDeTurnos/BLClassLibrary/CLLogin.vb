@@ -1,5 +1,5 @@
 Public Class CLLogin
-    Inherits MBFrameWork.BussinesLogic.BLBase
+    Inherits MBFrameWork.BussinesLogic.BLBas e
 
     Public Function Login(ByVal usuario As String, ByVal password As String, ByRef msg As String) As Entities.EntUsuarios
         Dim da As New DataAccessCL.CLLogin
