@@ -41,6 +41,21 @@ Public Class DABase
     End Sub
 
 
+    Public Sub CloseConnection()
+        If IsSetConnection Then
+            Try
+                If _InterfaceConnection.State <> ConnectionState.Closed Then
+                    _InterfaceConnection.Close()
+                End If
+
+            Catch ex As Exception
+                MBFrameWork.GlobalReferences.ErrorManager.NewError(ex.Message)
+            End Try
+        End If
+       
+    End Sub
+
+
 
     Public ReadOnly Property GetOpenConnection() As IDbConnection
         Get
@@ -203,6 +218,77 @@ Public Class DABase
 
     End Function
 
+    Friend Function ExecuteNonQuery(ByVal strSql As String) As Boolean
+        ExecuteNonQuery = False
+        Try
+            Me.NewConnection()
+            Dim cn As IDbConnection = Me.GetOpenConnection()
+            Dim cmd As IDbCommand = Me.GetCommandForText()
+            cmd.CommandText = strSql
+            cmd.ExecuteNonQuery()
+            ExecuteNonQuery = True
+        Catch ex As Exception
+            MBFrameWork.GlobalReferences.ErrorManager.NewError(ex)
+        Finally
+            Me.CloseConnection()
+        End Try
+    End Function
+
+    ''' <summary>
+    '''   ejecuta la lista de sentencias, retorna la conexión actual 
+    ''' requiere que se implemente el Bgin trans y el commit
+    ''' </summary>
+    ''' <param name="strSql">cadena de conexion</param>
+    ''' <param name="oCon">conexion activa</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Friend Function ExecuteNonQuery(ByVal strSql As List(Of String), ByVal oCon As IDbConnection) As Boolean
+
+        Try
+            Me.NewConnection()
+
+            For Each s As String In strSql
+                Dim cn As IDbConnection = Me.GetOpenConnection()
+                Dim cmd As IDbCommand = Me.GetCommandForText()
+                cmd.CommandText = s
+                cmd.ExecuteNonQuery()
+            Next
+            ExecuteNonQuery = True
+        Catch ex As Exception
+            MBFrameWork.GlobalReferences.ErrorManager.NewError(ex)
+            ExecuteNonQuery = False
+        Finally
+            Me.CloseConnection()
+        End Try
+
+    End Function
+
+    Friend Function ExecuteNonQuery(ByVal strSql As String, ByVal pConnection As IDbConnection) As Boolean
+        ExecuteNonQuery = False
+        Try
+            Dim cn As IDbConnection = pConnection
+            Dim cmd As IDbCommand = Me.GetCommandForText()
+            cmd.CommandText = strSql
+            cmd.ExecuteNonQuery()
+            Return True
+        Catch ex As Exception
+            MBFrameWork.GlobalReferences.ErrorManager.NewError(ex)
+        End Try
+    End Function
+
+    Friend Function ExecuteNonQuery(ByVal strSql As String, ByVal pCommand As IDbCommand) As Boolean
+        ExecuteNonQuery = False
+        Try
+            pCommand.ExecuteNonQuery()
+            Return True
+        Catch ex As Exception
+            MBFrameWork.GlobalReferences.ErrorManager.NewError(ex)
+        End Try
+    End Function
+
+
+
+
     Friend Function ExecuteStoredProcedureNonQuery(ByVal pStoredName As String, ByVal pParams As List(Of Entities.StoredProcedureFields)) As Boolean
 
     End Function
@@ -297,23 +383,46 @@ Public Class DABase
 
     End Function
     Public Function GetDataSet(ByVal pCommand As System.Data.IDbCommand) As System.Data.DataSet
-        Dim oDataAdapter As System.Data.IDataAdapter = GetNewDataAdapter(pCommand)
-        Dim ds As New DataSet
-        oDataAdapter.Fill(ds)
+        Dim ds As DataSet = Nothing
+        Dim NotHadConnection As Boolean = False
+        Try
+            If pCommand.Connection Is Nothing Then
+                NotHadConnection = True
+                Me.NewConnection()
+                pCommand.Connection = Me.GetOpenConnection()
+            End If
+            Dim oDataAdapter As System.Data.IDataAdapter = GetNewDataAdapter(pCommand)
+            ds = New DataSet
+            oDataAdapter.Fill(ds)
+
+        Catch ex As Exception
+            MBFrameWork.GlobalReferences.ErrorManager.NewError(ex)
+
+        Finally
+            If NotHadConnection Then
+                Me.CloseConnection()
+            End If
+        End Try
         Return ValidatedDataSet(ds)
     End Function
 
-    Public Function GetDataSet(ByVal pCommand As System.Data.IDbCommand, _
-                               ByVal pageNumber As Long, _
-                              ByVal pageSize As Integer) As System.Data.DataSet
+    'Public Function GetDataSet(ByVal pCommand As System.Data.IDbCommand, _
+    '                           ByVal pageNumber As Long, _
+    '                          ByVal pageSize As Integer) As System.Data.DataSet
+    '    Dim ds As New DataSet
 
-        Dim oDataAdapter As System.Data.IDataAdapter = GetNewDataAdapter(pCommand)
+    '    Try
 
-        Dim ds As New DataSet
+    '        Dim oDataAdapter As System.Data.IDataAdapter = GetNewDataAdapter(pCommand)
+    '        oDataAdapter.Fill(ds)
+    '    Catch ex As Exception
+    '        MBFrameWork.GlobalReferences.ErrorManager.NewError(ex)
+    '    Finally
+    '        Me.CloseConnection()
+    '    End Try
 
-        oDataAdapter.Fill(ds)
-        Return ValidatedDataSet(ds)
-    End Function
+    '    Return ValidatedDataSet(ds)
+    'End Function
 
    
 
@@ -321,8 +430,13 @@ Public Class DABase
         If ds Is Nothing OrElse ds.Tables.Count < 1 Then
             Return Nothing
         Else
-            Return ds
+            For Each t As DataTable In ds.Tables
+                If t.Rows.Count > 0 Then
+                    Return ds
+                End If
+            Next
         End If
+        Return Nothing
     End Function
 
 
@@ -331,4 +445,8 @@ Public Class DABase
         Return IIf(vVal Is DBNull.Value, Nothing, CType(vVal, Object))
     End Function
 
+    Protected Overrides Sub Finalize()
+        MyBase.Finalize()
+        Me.CloseConnection()
+    End Sub
 End Class

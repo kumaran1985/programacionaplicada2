@@ -19,6 +19,10 @@ Public Interface IStandarQuerys
 
     Function GetPagedData(ByVal da As IDbDataAdapter, ByVal pageNumber As Integer, ByVal pageSize As Integer) As DataSet
 
+    Function DeleteByPK(ByVal da As IDbDataAdapter, ByVal pk As Object) As Boolean
+
+
+
     Function toDBDate(ByVal strValue As Object) As String
 
 End Interface
