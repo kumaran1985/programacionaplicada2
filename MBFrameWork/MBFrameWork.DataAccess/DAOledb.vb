@@ -200,4 +200,9 @@ Public Class DAOledb
         dt = CDate(strValue)
         Return Constants.DateSeparator & Format(dt, "yyyyMMdd") & " " & dt.Hour & ":" & dt.Minute & ":" & dt.Second & "." & dt.Millisecond & Constants.DateSeparator
     End Function
+
+    Function DeleteByPK(ByVal da As IDbDataAdapter, ByVal pk As Object) As Boolean Implements IStandarQuerys.DeleteByPK
+        Return True
+    End Function
+
 End Class
