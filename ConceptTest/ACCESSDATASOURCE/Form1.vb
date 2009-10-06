@@ -1,7 +1,7 @@
 Public Class Form1
 
-    Private Sub UsuariosBindingNavigatorSaveItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles UsuariosBindingNavigatorSaveItem.Click
-        
+    Private Sub UsuariosBindingNavigatorSaveItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
         If Me.Validate Then
             Me.UsuariosBindingSource.EndEdit()
             Me.UsuariosTableAdapter.Update(Me.UsuariosDataSet.Usuarios)
@@ -37,4 +37,34 @@ Public Class Form1
     End Sub
 
     
+    Private Sub USR_LastAcceessDateTimePicker_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles USR_LastAcceessDateTimePicker.ValueChanged
+
+    End Sub
+    Private Sub USR_LastAcceessLabel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+    End Sub
+    Private Sub USR_MustChangePassCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles USR_MustChangePassCheckBox.CheckedChanged
+
+    End Sub
+    Private Sub USR_MustChangePassLabel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+    End Sub
+    Private Sub USR_PassTextBox_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles USR_PassTextBox.TextChanged
+
+    End Sub
+    Private Sub USR_PassLabel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+    End Sub
+    Private Sub USR_NombreTextBox_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles USR_NombreTextBox.TextChanged
+
+    End Sub
+    Private Sub USR_NombreLabel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+    End Sub
+    Private Sub USR_IDTextBox_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles USR_IDTextBox.TextChanged
+
+    End Sub
+    Private Sub USR_IDLabel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+    End Sub
 End Class

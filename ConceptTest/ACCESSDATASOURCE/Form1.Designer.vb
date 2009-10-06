@@ -23,66 +23,31 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
-        Me.UsuariosBindingNavigator = New System.Windows.Forms.BindingNavigator(Me.components)
-        Me.BindingNavigatorAddNewItem = New System.Windows.Forms.ToolStripButton
+        Dim USR_IDLabel As System.Windows.Forms.Label
+        Dim USR_NombreLabel As System.Windows.Forms.Label
+        Dim USR_PassLabel As System.Windows.Forms.Label
+        Dim USR_MustChangePassLabel As System.Windows.Forms.Label
+        Dim USR_LastAcceessLabel As System.Windows.Forms.Label
         Me.UsuariosBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.UsuariosDataSet = New ACCESSDATASOURCE.UsuariosDataSet
-        Me.BindingNavigatorCountItem = New System.Windows.Forms.ToolStripLabel
-        Me.BindingNavigatorDeleteItem = New System.Windows.Forms.ToolStripButton
-        Me.BindingNavigatorMoveFirstItem = New System.Windows.Forms.ToolStripButton
-        Me.BindingNavigatorMovePreviousItem = New System.Windows.Forms.ToolStripButton
-        Me.BindingNavigatorSeparator = New System.Windows.Forms.ToolStripSeparator
-        Me.BindingNavigatorPositionItem = New System.Windows.Forms.ToolStripTextBox
-        Me.BindingNavigatorSeparator1 = New System.Windows.Forms.ToolStripSeparator
-        Me.BindingNavigatorMoveNextItem = New System.Windows.Forms.ToolStripButton
-        Me.BindingNavigatorMoveLastItem = New System.Windows.Forms.ToolStripButton
-        Me.BindingNavigatorSeparator2 = New System.Windows.Forms.ToolStripSeparator
-        Me.UsuariosBindingNavigatorSaveItem = New System.Windows.Forms.ToolStripButton
-        Me.UsuariosDataGridView = New System.Windows.Forms.DataGridView
-        Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.DataGridViewTextBoxColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.DataGridViewTextBoxColumn3 = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.DataGridViewCheckBoxColumn1 = New System.Windows.Forms.DataGridViewCheckBoxColumn
-        Me.DataGridViewTextBoxColumn4 = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.UsuariosTableAdapter = New ACCESSDATASOURCE.UsuariosDataSetTableAdapters.UsuariosTableAdapter
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
-        CType(Me.UsuariosBindingNavigator, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.UsuariosBindingNavigator.SuspendLayout()
+        Me.UsuariosBindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
+        Me.USR_IDTextBox = New System.Windows.Forms.TextBox
+        Me.USR_NombreTextBox = New System.Windows.Forms.TextBox
+        Me.USR_PassTextBox = New System.Windows.Forms.TextBox
+        Me.USR_MustChangePassCheckBox = New System.Windows.Forms.CheckBox
+        Me.USR_LastAcceessDateTimePicker = New System.Windows.Forms.DateTimePicker
+        USR_IDLabel = New System.Windows.Forms.Label
+        USR_NombreLabel = New System.Windows.Forms.Label
+        USR_PassLabel = New System.Windows.Forms.Label
+        USR_MustChangePassLabel = New System.Windows.Forms.Label
+        USR_LastAcceessLabel = New System.Windows.Forms.Label
         CType(Me.UsuariosBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.UsuariosDataSet, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.UsuariosDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.UsuariosBindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'UsuariosBindingNavigator
-        '
-        Me.UsuariosBindingNavigator.AddNewItem = Me.BindingNavigatorAddNewItem
-        Me.UsuariosBindingNavigator.AllowDrop = True
-        Me.UsuariosBindingNavigator.AllowMerge = False
-        Me.UsuariosBindingNavigator.BindingSource = Me.UsuariosBindingSource
-        Me.UsuariosBindingNavigator.CountItem = Me.BindingNavigatorCountItem
-        Me.UsuariosBindingNavigator.DeleteItem = Me.BindingNavigatorDeleteItem
-        Me.UsuariosBindingNavigator.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BindingNavigatorMoveFirstItem, Me.BindingNavigatorMovePreviousItem, Me.BindingNavigatorSeparator, Me.BindingNavigatorPositionItem, Me.BindingNavigatorCountItem, Me.BindingNavigatorSeparator1, Me.BindingNavigatorMoveNextItem, Me.BindingNavigatorMoveLastItem, Me.BindingNavigatorSeparator2, Me.BindingNavigatorAddNewItem, Me.BindingNavigatorDeleteItem, Me.UsuariosBindingNavigatorSaveItem})
-        Me.UsuariosBindingNavigator.Location = New System.Drawing.Point(0, 0)
-        Me.UsuariosBindingNavigator.MoveFirstItem = Me.BindingNavigatorMoveFirstItem
-        Me.UsuariosBindingNavigator.MoveLastItem = Me.BindingNavigatorMoveLastItem
-        Me.UsuariosBindingNavigator.MoveNextItem = Me.BindingNavigatorMoveNextItem
-        Me.UsuariosBindingNavigator.MovePreviousItem = Me.BindingNavigatorMovePreviousItem
-        Me.UsuariosBindingNavigator.Name = "UsuariosBindingNavigator"
-        Me.UsuariosBindingNavigator.PositionItem = Me.BindingNavigatorPositionItem
-        Me.UsuariosBindingNavigator.Size = New System.Drawing.Size(673, 25)
-        Me.UsuariosBindingNavigator.TabIndex = 0
-        Me.UsuariosBindingNavigator.Text = "BindingNavigator1"
-        '
-        'BindingNavigatorAddNewItem
-        '
-        Me.BindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorAddNewItem.Image = CType(resources.GetObject("BindingNavigatorAddNewItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorAddNewItem.Name = "BindingNavigatorAddNewItem"
-        Me.BindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorAddNewItem.Size = New System.Drawing.Size(23, 22)
-        Me.BindingNavigatorAddNewItem.Text = "Agregar nuevo"
         '
         'UsuariosBindingSource
         '
@@ -94,151 +59,126 @@ Partial Class Form1
         Me.UsuariosDataSet.DataSetName = "UsuariosDataSet"
         Me.UsuariosDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
-        'BindingNavigatorCountItem
-        '
-        Me.BindingNavigatorCountItem.Name = "BindingNavigatorCountItem"
-        Me.BindingNavigatorCountItem.Size = New System.Drawing.Size(38, 22)
-        Me.BindingNavigatorCountItem.Text = "de {0}"
-        Me.BindingNavigatorCountItem.ToolTipText = "Número total de elementos"
-        '
-        'BindingNavigatorDeleteItem
-        '
-        Me.BindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorDeleteItem.Image = CType(resources.GetObject("BindingNavigatorDeleteItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorDeleteItem.Name = "BindingNavigatorDeleteItem"
-        Me.BindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorDeleteItem.Size = New System.Drawing.Size(23, 22)
-        Me.BindingNavigatorDeleteItem.Text = "Eliminar"
-        '
-        'BindingNavigatorMoveFirstItem
-        '
-        Me.BindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMoveFirstItem.Image = CType(resources.GetObject("BindingNavigatorMoveFirstItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorMoveFirstItem.Name = "BindingNavigatorMoveFirstItem"
-        Me.BindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorMoveFirstItem.Size = New System.Drawing.Size(23, 22)
-        Me.BindingNavigatorMoveFirstItem.Text = "Mover primero"
-        '
-        'BindingNavigatorMovePreviousItem
-        '
-        Me.BindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMovePreviousItem.Image = CType(resources.GetObject("BindingNavigatorMovePreviousItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorMovePreviousItem.Name = "BindingNavigatorMovePreviousItem"
-        Me.BindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorMovePreviousItem.Size = New System.Drawing.Size(23, 22)
-        Me.BindingNavigatorMovePreviousItem.Text = "Mover anterior"
-        '
-        'BindingNavigatorSeparator
-        '
-        Me.BindingNavigatorSeparator.Name = "BindingNavigatorSeparator"
-        Me.BindingNavigatorSeparator.Size = New System.Drawing.Size(6, 25)
-        '
-        'BindingNavigatorPositionItem
-        '
-        Me.BindingNavigatorPositionItem.AccessibleName = "Posición"
-        Me.BindingNavigatorPositionItem.AutoSize = False
-        Me.BindingNavigatorPositionItem.Name = "BindingNavigatorPositionItem"
-        Me.BindingNavigatorPositionItem.Size = New System.Drawing.Size(50, 21)
-        Me.BindingNavigatorPositionItem.Text = "0"
-        Me.BindingNavigatorPositionItem.ToolTipText = "Posición actual"
-        '
-        'BindingNavigatorSeparator1
-        '
-        Me.BindingNavigatorSeparator1.Name = "BindingNavigatorSeparator1"
-        Me.BindingNavigatorSeparator1.Size = New System.Drawing.Size(6, 25)
-        '
-        'BindingNavigatorMoveNextItem
-        '
-        Me.BindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMoveNextItem.Image = CType(resources.GetObject("BindingNavigatorMoveNextItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorMoveNextItem.Name = "BindingNavigatorMoveNextItem"
-        Me.BindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorMoveNextItem.Size = New System.Drawing.Size(23, 22)
-        Me.BindingNavigatorMoveNextItem.Text = "Mover siguiente"
-        '
-        'BindingNavigatorMoveLastItem
-        '
-        Me.BindingNavigatorMoveLastItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.BindingNavigatorMoveLastItem.Image = CType(resources.GetObject("BindingNavigatorMoveLastItem.Image"), System.Drawing.Image)
-        Me.BindingNavigatorMoveLastItem.Name = "BindingNavigatorMoveLastItem"
-        Me.BindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = True
-        Me.BindingNavigatorMoveLastItem.Size = New System.Drawing.Size(23, 22)
-        Me.BindingNavigatorMoveLastItem.Text = "Mover último"
-        '
-        'BindingNavigatorSeparator2
-        '
-        Me.BindingNavigatorSeparator2.Name = "BindingNavigatorSeparator2"
-        Me.BindingNavigatorSeparator2.Size = New System.Drawing.Size(6, 25)
-        '
-        'UsuariosBindingNavigatorSaveItem
-        '
-        Me.UsuariosBindingNavigatorSaveItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.UsuariosBindingNavigatorSaveItem.Image = CType(resources.GetObject("UsuariosBindingNavigatorSaveItem.Image"), System.Drawing.Image)
-        Me.UsuariosBindingNavigatorSaveItem.Name = "UsuariosBindingNavigatorSaveItem"
-        Me.UsuariosBindingNavigatorSaveItem.Size = New System.Drawing.Size(23, 22)
-        Me.UsuariosBindingNavigatorSaveItem.Text = "Guardar datos"
-        '
-        'UsuariosDataGridView
-        '
-        Me.UsuariosDataGridView.AllowUserToOrderColumns = True
-        Me.UsuariosDataGridView.AutoGenerateColumns = False
-        Me.UsuariosDataGridView.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn1, Me.DataGridViewTextBoxColumn2, Me.DataGridViewTextBoxColumn3, Me.DataGridViewCheckBoxColumn1, Me.DataGridViewTextBoxColumn4})
-        Me.UsuariosDataGridView.DataSource = Me.UsuariosBindingSource
-        Me.UsuariosDataGridView.Location = New System.Drawing.Point(12, 28)
-        Me.UsuariosDataGridView.Name = "UsuariosDataGridView"
-        Me.UsuariosDataGridView.Size = New System.Drawing.Size(649, 92)
-        Me.UsuariosDataGridView.TabIndex = 1
-        '
-        'DataGridViewTextBoxColumn1
-        '
-        Me.DataGridViewTextBoxColumn1.DataPropertyName = "USR_ID"
-        Me.DataGridViewTextBoxColumn1.HeaderText = "ID"
-        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
-        '
-        'DataGridViewTextBoxColumn2
-        '
-        Me.DataGridViewTextBoxColumn2.DataPropertyName = "USR_Nombre"
-        Me.DataGridViewTextBoxColumn2.HeaderText = "USR_Nombre"
-        Me.DataGridViewTextBoxColumn2.Name = "DataGridViewTextBoxColumn2"
-        '
-        'DataGridViewTextBoxColumn3
-        '
-        Me.DataGridViewTextBoxColumn3.DataPropertyName = "USR_Pass"
-        Me.DataGridViewTextBoxColumn3.HeaderText = "USR_Pass"
-        Me.DataGridViewTextBoxColumn3.Name = "DataGridViewTextBoxColumn3"
-        '
-        'DataGridViewCheckBoxColumn1
-        '
-        Me.DataGridViewCheckBoxColumn1.DataPropertyName = "USR_MustChangePass"
-        Me.DataGridViewCheckBoxColumn1.HeaderText = "USR_MustChangePass"
-        Me.DataGridViewCheckBoxColumn1.Name = "DataGridViewCheckBoxColumn1"
-        '
-        'DataGridViewTextBoxColumn4
-        '
-        Me.DataGridViewTextBoxColumn4.DataPropertyName = "USR_LastAcceess"
-        Me.DataGridViewTextBoxColumn4.HeaderText = "USR_LastAcceess"
-        Me.DataGridViewTextBoxColumn4.Name = "DataGridViewTextBoxColumn4"
-        '
         'UsuariosTableAdapter
         '
         Me.UsuariosTableAdapter.ClearBeforeFill = True
+        '
+        'UsuariosBindingSource1
+        '
+        Me.UsuariosBindingSource1.DataMember = "Usuarios"
+        Me.UsuariosBindingSource1.DataSource = Me.UsuariosDataSet
+        '
+        'USR_IDLabel
+        '
+        USR_IDLabel.AutoSize = True
+        USR_IDLabel.Location = New System.Drawing.Point(220, 69)
+        USR_IDLabel.Name = "USR_IDLabel"
+        USR_IDLabel.Size = New System.Drawing.Size(21, 13)
+        USR_IDLabel.TabIndex = 0
+        USR_IDLabel.Text = "ID:"
+        AddHandler USR_IDLabel.Click, AddressOf Me.USR_IDLabel_Click
+        '
+        'USR_IDTextBox
+        '
+        Me.USR_IDTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.UsuariosBindingSource, "USR_ID", True))
+        Me.USR_IDTextBox.Location = New System.Drawing.Point(351, 66)
+        Me.USR_IDTextBox.Name = "USR_IDTextBox"
+        Me.USR_IDTextBox.Size = New System.Drawing.Size(200, 20)
+        Me.USR_IDTextBox.TabIndex = 1
+        '
+        'USR_NombreLabel
+        '
+        USR_NombreLabel.AutoSize = True
+        USR_NombreLabel.Location = New System.Drawing.Point(220, 95)
+        USR_NombreLabel.Name = "USR_NombreLabel"
+        USR_NombreLabel.Size = New System.Drawing.Size(47, 13)
+        USR_NombreLabel.TabIndex = 2
+        USR_NombreLabel.Text = "Nombre:"
+        AddHandler USR_NombreLabel.Click, AddressOf Me.USR_NombreLabel_Click
+        '
+        'USR_NombreTextBox
+        '
+        Me.USR_NombreTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.UsuariosBindingSource, "USR_Nombre", True))
+        Me.USR_NombreTextBox.Location = New System.Drawing.Point(351, 92)
+        Me.USR_NombreTextBox.Name = "USR_NombreTextBox"
+        Me.USR_NombreTextBox.Size = New System.Drawing.Size(200, 20)
+        Me.USR_NombreTextBox.TabIndex = 3
+        '
+        'USR_PassLabel
+        '
+        USR_PassLabel.AutoSize = True
+        USR_PassLabel.Location = New System.Drawing.Point(220, 121)
+        USR_PassLabel.Name = "USR_PassLabel"
+        USR_PassLabel.Size = New System.Drawing.Size(56, 13)
+        USR_PassLabel.TabIndex = 4
+        USR_PassLabel.Text = "Password:"
+        AddHandler USR_PassLabel.Click, AddressOf Me.USR_PassLabel_Click
+        '
+        'USR_PassTextBox
+        '
+        Me.USR_PassTextBox.DataBindings.Add(New System.Windows.Forms.Binding("Text", Me.UsuariosBindingSource, "USR_Pass", True))
+        Me.USR_PassTextBox.Location = New System.Drawing.Point(351, 118)
+        Me.USR_PassTextBox.Name = "USR_PassTextBox"
+        Me.USR_PassTextBox.Size = New System.Drawing.Size(200, 20)
+        Me.USR_PassTextBox.TabIndex = 5
+        '
+        'USR_MustChangePassLabel
+        '
+        USR_MustChangePassLabel.AutoSize = True
+        USR_MustChangePassLabel.Location = New System.Drawing.Point(220, 149)
+        USR_MustChangePassLabel.Name = "USR_MustChangePassLabel"
+        USR_MustChangePassLabel.Size = New System.Drawing.Size(94, 13)
+        USR_MustChangePassLabel.TabIndex = 6
+        USR_MustChangePassLabel.Text = "Cambiar Password"
+        AddHandler USR_MustChangePassLabel.Click, AddressOf Me.USR_MustChangePassLabel_Click
+        '
+        'USR_MustChangePassCheckBox
+        '
+        Me.USR_MustChangePassCheckBox.DataBindings.Add(New System.Windows.Forms.Binding("CheckState", Me.UsuariosBindingSource, "USR_MustChangePass", True))
+        Me.USR_MustChangePassCheckBox.Location = New System.Drawing.Point(351, 144)
+        Me.USR_MustChangePassCheckBox.Name = "USR_MustChangePassCheckBox"
+        Me.USR_MustChangePassCheckBox.Size = New System.Drawing.Size(200, 24)
+        Me.USR_MustChangePassCheckBox.TabIndex = 7
+        '
+        'USR_LastAcceessLabel
+        '
+        USR_LastAcceessLabel.AutoSize = True
+        USR_LastAcceessLabel.Location = New System.Drawing.Point(220, 178)
+        USR_LastAcceessLabel.Name = "USR_LastAcceessLabel"
+        USR_LastAcceessLabel.Size = New System.Drawing.Size(78, 13)
+        USR_LastAcceessLabel.TabIndex = 8
+        USR_LastAcceessLabel.Text = "Ultimo Acceso:"
+        AddHandler USR_LastAcceessLabel.Click, AddressOf Me.USR_LastAcceessLabel_Click
+        '
+        'USR_LastAcceessDateTimePicker
+        '
+        Me.USR_LastAcceessDateTimePicker.DataBindings.Add(New System.Windows.Forms.Binding("Value", Me.UsuariosBindingSource, "USR_LastAcceess", True))
+        Me.USR_LastAcceessDateTimePicker.Location = New System.Drawing.Point(351, 174)
+        Me.USR_LastAcceessDateTimePicker.Name = "USR_LastAcceessDateTimePicker"
+        Me.USR_LastAcceessDateTimePicker.Size = New System.Drawing.Size(200, 20)
+        Me.USR_LastAcceessDateTimePicker.TabIndex = 9
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(673, 197)
-        Me.Controls.Add(Me.UsuariosDataGridView)
-        Me.Controls.Add(Me.UsuariosBindingNavigator)
+        Me.ClientSize = New System.Drawing.Size(730, 335)
+        Me.Controls.Add(USR_IDLabel)
+        Me.Controls.Add(Me.USR_IDTextBox)
+        Me.Controls.Add(USR_NombreLabel)
+        Me.Controls.Add(Me.USR_NombreTextBox)
+        Me.Controls.Add(USR_PassLabel)
+        Me.Controls.Add(Me.USR_PassTextBox)
+        Me.Controls.Add(USR_MustChangePassLabel)
+        Me.Controls.Add(Me.USR_MustChangePassCheckBox)
+        Me.Controls.Add(USR_LastAcceessLabel)
+        Me.Controls.Add(Me.USR_LastAcceessDateTimePicker)
         Me.Name = "Form1"
         Me.Text = "Form1"
-        CType(Me.UsuariosBindingNavigator, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.UsuariosBindingNavigator.ResumeLayout(False)
-        Me.UsuariosBindingNavigator.PerformLayout()
         CType(Me.UsuariosBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.UsuariosDataSet, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.UsuariosDataGridView, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.UsuariosBindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -246,25 +186,12 @@ Partial Class Form1
     Friend WithEvents UsuariosDataSet As ACCESSDATASOURCE.UsuariosDataSet
     Friend WithEvents UsuariosBindingSource As System.Windows.Forms.BindingSource
     Friend WithEvents UsuariosTableAdapter As ACCESSDATASOURCE.UsuariosDataSetTableAdapters.UsuariosTableAdapter
-    Friend WithEvents UsuariosBindingNavigator As System.Windows.Forms.BindingNavigator
-    Friend WithEvents BindingNavigatorAddNewItem As System.Windows.Forms.ToolStripButton
-    Friend WithEvents BindingNavigatorCountItem As System.Windows.Forms.ToolStripLabel
-    Friend WithEvents BindingNavigatorDeleteItem As System.Windows.Forms.ToolStripButton
-    Friend WithEvents BindingNavigatorMoveFirstItem As System.Windows.Forms.ToolStripButton
-    Friend WithEvents BindingNavigatorMovePreviousItem As System.Windows.Forms.ToolStripButton
-    Friend WithEvents BindingNavigatorSeparator As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents BindingNavigatorPositionItem As System.Windows.Forms.ToolStripTextBox
-    Friend WithEvents BindingNavigatorSeparator1 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents BindingNavigatorMoveNextItem As System.Windows.Forms.ToolStripButton
-    Friend WithEvents BindingNavigatorMoveLastItem As System.Windows.Forms.ToolStripButton
-    Friend WithEvents BindingNavigatorSeparator2 As System.Windows.Forms.ToolStripSeparator
-    Friend WithEvents UsuariosBindingNavigatorSaveItem As System.Windows.Forms.ToolStripButton
-    Friend WithEvents UsuariosDataGridView As System.Windows.Forms.DataGridView
-    Friend WithEvents DataGridViewTextBoxColumn1 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn2 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn3 As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents DataGridViewCheckBoxColumn1 As System.Windows.Forms.DataGridViewCheckBoxColumn
-    Friend WithEvents DataGridViewTextBoxColumn4 As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents BindingSource1 As System.Windows.Forms.BindingSource
+    Friend WithEvents UsuariosBindingSource1 As System.Windows.Forms.BindingSource
+    Friend WithEvents USR_IDTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents USR_NombreTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents USR_PassTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents USR_MustChangePassCheckBox As System.Windows.Forms.CheckBox
+    Friend WithEvents USR_LastAcceessDateTimePicker As System.Windows.Forms.DateTimePicker
 
 End Class
