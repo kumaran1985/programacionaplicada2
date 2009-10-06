@@ -19,7 +19,4 @@ Public Class EntProvincias
             _PROV_Nombre = value
         End Set
     End Property
-
-
-
 End Class
