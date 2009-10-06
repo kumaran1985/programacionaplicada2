@@ -171,7 +171,7 @@ Public Class EntMedicos
         Get
             Return _Med_Matricula1
         End Get
-        Set(ByVal value As String)
+        Set(ByVal value As Integer)
             _Med_Matricula1 = value
         End Set
     End Property
