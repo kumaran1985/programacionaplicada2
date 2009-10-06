@@ -43,9 +43,13 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< .mine
+    <Compile Include="EntLocalidades.vb" />
+=======
     <Compile Include="EntPacientes.vb" />
     <Compile Include="EntPracticasMedicas.vb" />
     <Compile Include="EntPracticasMedicasxPlan.vb" />
+>>>>>>> .r52
     <Compile Include="EntProvincias.vb" />
     <Compile Include="EntSys_Roles.vb" />
     <Compile Include="EntTurnos.vb" />
