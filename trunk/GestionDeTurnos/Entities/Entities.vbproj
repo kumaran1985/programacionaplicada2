@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="EntProvincias.vb" />
     <Compile Include="EntSys_Roles.vb" />
+    <Compile Include="EntTurnos.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
