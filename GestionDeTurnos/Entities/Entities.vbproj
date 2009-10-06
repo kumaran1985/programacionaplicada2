@@ -48,6 +48,8 @@
     <Compile Include="EntMedicos.vb" />
     <Compile Include="EntMotivoVisita.vb" />
     <Compile Include="EntPacientes.vb" />
+    <Compile Include="EntPacientexPlan.vb" />
+    <Compile Include="EntPlanes.vb" />
     <Compile Include="EntPracticasMedicas.vb" />
     <Compile Include="EntPracticasMedicasxPlan.vb" />
     <Compile Include="EntProvincias.vb" />
