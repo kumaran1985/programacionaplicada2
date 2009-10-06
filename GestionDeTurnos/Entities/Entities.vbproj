@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="EntConsultorios.vb" />
     <Compile Include="EntDisponibilidadHoraria.vb" />
+    <Compile Include="EntMedicos.vb" />
     <Compile Include="EntMotivoVisita.vb" />
     <Compile Include="EntPacientes.vb" />
     <Compile Include="EntPracticasMedicas.vb" />
