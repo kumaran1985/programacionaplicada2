@@ -60,6 +60,7 @@
     <Compile Include="EntSys_Roles.vb" />
     <Compile Include="EntTiposDocumento.vb" />
     <Compile Include="EntTurnos.vb" />
+    <Compile Include="EntUsuarios.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
