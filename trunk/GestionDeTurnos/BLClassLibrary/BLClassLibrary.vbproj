@@ -79,14 +79,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MBFrameWork\MBFrameWork.BussinesLogic\MBFrameWork.BussinesLogic.vbproj">
-      <Project>{D99422A5-8885-458A-89C0-C1AEE89EBA31}</Project>
-      <Name>MBFrameWork.BussinesLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MBFrameWork\MBFrameWork.DataAccess\MBFrameWork.DataAccess.vbproj">
-      <Project>{D109FD1A-1521-4DE5-BCED-1688F625AB3F}</Project>
-      <Name>MBFrameWork.DataAccess</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataAccessCL\DataAccessCL.vbproj">
       <Project>{11B12AA0-DA22-48E4-9C87-C20383523F50}</Project>
       <Name>DataAccessCL</Name>

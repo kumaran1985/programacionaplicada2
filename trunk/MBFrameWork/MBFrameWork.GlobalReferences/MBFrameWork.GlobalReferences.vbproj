@@ -28,7 +28,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\GestionDeTurnos\BinAll\</OutputPath>
     <DocumentationFile>MBFrameWork.GlobalReferences.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
