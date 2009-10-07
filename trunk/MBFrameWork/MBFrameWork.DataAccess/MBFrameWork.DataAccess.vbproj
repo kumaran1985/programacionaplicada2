@@ -100,6 +100,12 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MBFrameWork.GlobalReferences\MBFrameWork.GlobalReferences.vbproj">
+      <Project>{1F5D4B48-E291-48A2-92C8-75EEEE4228C4}</Project>
+      <Name>MBFrameWork.GlobalReferences</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
