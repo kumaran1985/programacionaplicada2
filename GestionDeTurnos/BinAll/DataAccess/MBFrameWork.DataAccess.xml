@@ -1,0 +1,20 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+MBFrameWork.DataAccess
+</name>
+</assembly>
+<members>
+<member name="M:MBFrameWork.DataAccess.DABase.ExecuteNonQuery(System.Collections.Generic.List{System.String},System.Data.IDbConnection)">
+	<summary>
+   ejecuta la lista de sentencias, retorna la conexión actual 
+ requiere que se implemente el Bgin trans y el commit
+ </summary>
+	<param name="strSql">cadena de conexion</param>
+	<param name="oCon">conexion activa</param>
+	<returns></returns>
+	<remarks></remarks>
+</member>
+</members>
+</doc>
