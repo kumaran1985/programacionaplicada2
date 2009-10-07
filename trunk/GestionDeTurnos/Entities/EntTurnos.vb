@@ -16,15 +16,12 @@ Public Class EntTurnos
         End Get
         Set(ByVal value As Date)
             _turno_fecha = value
-
-
         End Set
     End Property
 
     Public Property turno_hora() As String
         Get
             Return _turno_hora
-
 
         End Get
         Set(ByVal value As String)
