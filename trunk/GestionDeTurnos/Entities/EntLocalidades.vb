@@ -5,8 +5,8 @@ Public Class EntLocalidades
     Private _LOCA_Nombre As String
     Private _LOCA_Codpos As String
 
-
     Property LOCA_Key() As Integer
+
         Get
             Return _LOCA_Key
         End Get
@@ -45,4 +45,5 @@ Public Class EntLocalidades
             _LOCA_Codpos = value
         End Set
     End Property
+
 End Class
