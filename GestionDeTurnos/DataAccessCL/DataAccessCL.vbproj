@@ -80,12 +80,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MBFrameWork\MBFrameWork.DataAccess\MBFrameWork.DataAccess.vbproj">
-      <Project>{D109FD1A-1521-4DE5-BCED-1688F625AB3F}</Project>
-      <Name>MBFrameWork.DataAccess</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Medico\" />
     <Folder Include="ObraSocial\" />
     <Folder Include="Paciente\" />
