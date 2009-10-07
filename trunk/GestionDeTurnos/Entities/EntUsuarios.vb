@@ -122,3 +122,4 @@ Public Class EntUsuarios
             _SYS_User_Celular = value
         End Set
     End Property
+End Class
