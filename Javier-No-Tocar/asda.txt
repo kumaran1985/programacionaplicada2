@@ -3,5 +3,5 @@ Dim listEnt As New List(Of Entities.EntSys_Roles)
             Dim ent As New Entities.EntSys_Roles
             ent = GenerarEntidad(mDataRow)
             listEnt.Add(ent)
-        Next
+        Next 
 
