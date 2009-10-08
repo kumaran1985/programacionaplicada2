@@ -20,11 +20,8 @@ Public Class DAUsuarios
         miEntity.User_Telefono = mDataTable("User_Telefono")
         miEntity.User_DNI = mDataTable("User_DNI")
 
+        Return miEntity
 
-
-    End Function
-
-    Public Function GetLista(ByVal mDataSet As System.Data.DataSet) As System.Collections.Generic.List(Of Object) Implements MBFrameWork.DataAccess.IEntityzable.GetLista
 
     End Function
 
