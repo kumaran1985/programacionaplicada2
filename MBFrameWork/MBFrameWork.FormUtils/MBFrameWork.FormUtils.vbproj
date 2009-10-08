@@ -28,7 +28,7 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\GestionDeTurnos\BinAll\</OutputPath>
+    <OutputPath>..\..\GestionDeTurnos\BinAll\FormUtils\</OutputPath>
     <DocumentationFile>MBFrameWork.FormUtils.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
