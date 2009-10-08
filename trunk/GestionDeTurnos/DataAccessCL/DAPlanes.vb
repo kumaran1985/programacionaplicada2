@@ -10,11 +10,14 @@ Public Class DAPlanes
         miEntity.Plan_FechaAlta = mDataTable("Plan_FechaAlta")
         miEntity.Plan_FechaCancelacion = mDataTable("Plan_FechaCancelacion")
         miEntity.Plan_FechaFinConvenio = mDataTable("Plan_FinConvenio")
-        'miEntity
+        miEntity.Plan_Key = mDataTable("Plan_key")
+        miEntity.Plan_Nombre = mDataTable("Plan_Nombre")
+        Return miEntity
+
 
     End Function
 
-    Public Function GetLista(ByVal mDataSet As System.Data.DataSet) As System.Collections.Generic.List(Of Object) Implements MBFrameWork.DataAccess.IEntityzable.GetLista
 
-    End Function
+
+
 End Class
