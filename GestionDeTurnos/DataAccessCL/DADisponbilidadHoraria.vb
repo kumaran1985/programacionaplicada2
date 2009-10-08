@@ -21,7 +21,5 @@ Public Class DADisponbilidadHoraria
 
     End Function
 
-    Public Function GetLista(ByVal mDataSet As System.Data.DataSet) As System.Collections.Generic.List(Of Object) Implements MBFrameWork.DataAccess.IEntityzable.GetLista
-
-    End Function
+    
 End Class
