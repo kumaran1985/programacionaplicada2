@@ -34,6 +34,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\BinAll\DataAccess\MBFrameWork.DataAccess.dll</HintPath>
     </Reference>
+    <Reference Include="MBFrameWork.Entities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BinAll\Entities\MBFrameWork.Entities.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -47,8 +51,21 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CLLogin.vb" />
+    <Compile Include="DADisponbilidadHoraria.vb" />
+    <Compile Include="DAEntConsultorios.vb" />
+    <Compile Include="DAEntMotivoVisita.vb" />
+    <Compile Include="DAEntTiposDocumento.vb" />
+    <Compile Include="dafacturas.vb" />
+    <Compile Include="DALocalidades.vb" />
+    <Compile Include="DAMedicos.vb" />
+    <Compile Include="DAPacientes.vb" />
+    <Compile Include="DAPacientes1.vb" />
+    <Compile Include="DAPracticasMedicas.vb" />
+    <Compile Include="DAPracticasMedicasxPlan.vb" />
+    <Compile Include="DAProvincias.vb" />
     <Compile Include="DASysRoles.vb" />
+    <Compile Include="DATurnos.vb" />
+    <Compile Include="DAUsuarios.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

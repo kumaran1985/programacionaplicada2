@@ -14,8 +14,16 @@ Public Class DASysRoles
 
     End Function
 
-    Public Function GetLista(ByVal mDataSet As System.Data.DataSet) As System.Collections.Generic.List(Of Object) Implements MBFrameWork.DataAccess.IEntityzable.GetLista
-        
+    'Public Function GetLista(ByVal mDataSet As System.Data.DataSet) As System.Collections.Generic.List(Of MBFrameWork.Entities.EntityBase) Implements MBFrameWork.DataAccess.IEntityzable.GetLista
 
-    End Function
+    '    Dim miEntity As New List(Of Entities.EntSys_Roles)
+
+    '    Dim miEntity2 As New List(Of MBFrameWork.Entities.EntityBase)
+
+
+    '    Return miEntity2
+
+
+
+    'End Function
 End Class
