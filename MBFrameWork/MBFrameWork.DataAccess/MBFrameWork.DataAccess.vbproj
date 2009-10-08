@@ -54,6 +54,7 @@
     <Compile Include="Constants.vb" />
     <Compile Include="DABase.vb" />
     <Compile Include="DAOledb.vb" />
+    <Compile Include="DAOledb_.vb" />
     <Compile Include="Entities\Fields.vb" />
     <Compile Include="Entities\StoredProcedureFields.vb" />
     <Compile Include="Entities\TableFields.vb" />

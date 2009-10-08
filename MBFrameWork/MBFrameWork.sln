@@ -11,6 +11,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MBFrameWork.FormUtils", "MB
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "FrmConceptTest", "FrmConceptTest\FrmConceptTest.vbproj", "{2509E163-C21F-4034-9437-BD5C7E95F33C}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "MBFrameWork.Entities", "MBFrameWork.Entities\MBFrameWork.Entities.vbproj", "{C769602F-5AB8-4290-BA52-CF9510EB86DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{2509E163-C21F-4034-9437-BD5C7E95F33C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2509E163-C21F-4034-9437-BD5C7E95F33C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2509E163-C21F-4034-9437-BD5C7E95F33C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C769602F-5AB8-4290-BA52-CF9510EB86DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C769602F-5AB8-4290-BA52-CF9510EB86DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C769602F-5AB8-4290-BA52-CF9510EB86DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C769602F-5AB8-4290-BA52-CF9510EB86DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
