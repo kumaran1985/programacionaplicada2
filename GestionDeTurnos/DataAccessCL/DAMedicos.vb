@@ -25,7 +25,7 @@ Public Class DAMedicos
         mientity.Med_Telefonos = mDataTable("Med_Telefonos")
         mientity.TDOC_Key = mDataTable("TDOC_Key")
 
-
+        Return mientity
 
 
     End Function
