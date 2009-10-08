@@ -122,4 +122,16 @@ Public Class EntUsuarios
             _SYS_User_Celular = value
         End Set
     End Property
+
+
+    ' Dni _SYS_User_DNI
+    Public Property User_DNI() As String
+        Get
+            Return _SYS_User_DNI
+        End Get
+        Set(ByVal value As String)
+            _SYS_User_DNI = value
+        End Set
+    End Property
+
 End Class
