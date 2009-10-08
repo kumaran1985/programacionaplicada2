@@ -48,16 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLLogin.vb" />
-<<<<<<< .mine
-    <Compile Include="DAEntConsultorios.vb" />
-    <Compile Include="DAEntMotivoVisita.vb" />
-    <Compile Include="DAEntTiposDocumento.vb" />
-=======
-    <Compile Include="DAPracticasMedicas.vb" />
-    <Compile Include="DAPracticasMedicasxPlan.vb" />
->>>>>>> .r83
     <Compile Include="DASysRoles.vb" />
-    <Compile Include="DATurnos.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
