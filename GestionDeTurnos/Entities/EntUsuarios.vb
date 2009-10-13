@@ -1,11 +1,11 @@
 Public Class EntUsuarios
     Private _SYS_User_Login As String
-    Private _SYS_ROLE_KEY As Integer
+    Private _SYS_ROLE_KEY As Nullable(Of Integer)
     Private _SYS_User_Pass As String
-    Private _SYS_User_Autorizacion As Integer
+    Private _SYS_User_Autorizacion As Nullable(Of Integer)
     Private _SYS_User_Nombre As String
     Private _SYS_User_Apellido As String
-    Private _TDOC_Key As Integer
+    Private _TDOC_Key As Nullable(Of Integer)
     Private _SYS_User_DNI As String
     Private _SYS_User_Telefono As String
     Private _SYS_User_email As String
@@ -24,11 +24,11 @@ Public Class EntUsuarios
     End Property
 
     'Key
-    Public Property ROLE_KEY() As Integer
+    Public Property ROLE_KEY() As Nullable(Of Integer)
         Get
             Return _SYS_ROLE_KEY
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _SYS_ROLE_KEY = value
         End Set
     End Property
@@ -43,11 +43,11 @@ Public Class EntUsuarios
     End Property
     'Autorizacion
 
-    Public Property User_Autorizacion() As Integer
+    Public Property User_Autorizacion() As Nullable(Of Integer)
         Get
             Return _SYS_User_Autorizacion
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _SYS_User_Autorizacion = value
         End Set
     End Property

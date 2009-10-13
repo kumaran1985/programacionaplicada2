@@ -1,14 +1,14 @@
 Public Class EntMotivoVisita
 
-    Private _MOVI_Key As Integer
+    Private _MOVI_Key As Nullable(Of Integer)
     Private _MOVI_Motivo As String
     Private _MOVI_Descripcion As String
 
-    Public Property MOVI_Key() As Integer
+    Public Property MOVI_Key() As Nullable(Of Integer)
         Get
             Return _MOVI_Key
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _MOVI_Key = value
         End Set
     End Property

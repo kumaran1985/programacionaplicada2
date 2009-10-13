@@ -1,27 +1,27 @@
 Public Class EntLocalidades
 
-    Private _LOCA_Key As Integer
-    Private _PROV_Key As Integer
+    Private _LOCA_Key As Nullable(Of Integer)
+    Private _PROV_Key As Nullable(Of Integer)
     Private _LOCA_Nombre As String
     Private _LOCA_Codpos As String
 
-    Property LOCA_Key() As Integer
+    Property LOCA_Key() As Nullable(Of Integer)
 
         Get
             Return _LOCA_Key
         End Get
 
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _LOCA_Key = value
         End Set
     End Property
 
-    Property PROV_Key() As Integer
+    Property PROV_Key() As Nullable(Of Integer)
 
         Get
             Return _PROV_Key
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _PROV_Key = value
         End Set
     End Property

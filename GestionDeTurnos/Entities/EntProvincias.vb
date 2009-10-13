@@ -1,12 +1,12 @@
 Public Class EntProvincias
-    Private _PROV_Key As Integer
+    Private _PROV_Key As Nullable(Of Integer)
     Private _PROV_Nombre As String
 
-    Property PROV_Key() As Integer
+    Property PROV_Key() As Nullable(Of Integer)
         Get
             Return _PROV_Key
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _PROV_Key = value
         End Set
     End Property

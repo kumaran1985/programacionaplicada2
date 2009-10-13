@@ -16,7 +16,7 @@ Public Class DAOledb
 
     End Property
 
-    Friend Shared Sub NewConnection()
+    Public Shared Sub NewConnection()
         Try
             _Ocon.Close()
         Catch ex As Exception
@@ -26,25 +26,27 @@ Public Class DAOledb
         _Ocon.ConnectionString = GetConnectionString
 
     End Sub
-    Friend Shared ReadOnly Property GetOpenConnection() As IDbConnection
+    Public Shared ReadOnly Property GetOpenConnection() As IDbConnection
         Get
-            If _Ocon.State = ConnectionState.Open Then
+            If (Not _Ocon Is Nothing) AndAlso _Ocon.State = ConnectionState.Open Then
                 Return _Ocon
             Else
-                Try
-                    _Ocon.Close()
-                Catch ex As Exception
-                    _Ocon = Nothing
-                End Try
-
+                If Not _Ocon Is Nothing Then
+                    Try
+                        _Ocon.Close()
+                    Catch ex As Exception
+                        _Ocon = Nothing
+                    End Try
+                End If
+                _Ocon = New OleDb.OleDbConnection
                 _Ocon.ConnectionString = GetConnectionString
-
+                _Ocon.Open()
                 Return _Ocon
-            End If
+                End If
         End Get
     End Property
 
-    Friend Shared Sub CloseConnection()
+    Public Shared Sub CloseConnection()
         Try
             _Ocon.Close()
         Catch ex As Exception
@@ -55,23 +57,23 @@ Public Class DAOledb
     Private Shared Function GetCommand() As System.Data.IDbCommand
         Return New OleDb.OleDbCommand()
     End Function
-    Friend Shared Function GetCommandForStoredProcedure() As System.Data.IDbCommand
+    Public Shared Function GetCommandForStoredProcedure() As System.Data.IDbCommand
         GetCommandForStoredProcedure = GetCommand()
         GetCommandForStoredProcedure.CommandType = CommandType.StoredProcedure
     End Function
 
-    Friend Shared Function GetCommandForText() As System.Data.IDbCommand
+    Public Shared Function GetCommandForText() As System.Data.IDbCommand
         GetCommandForText = GetCommand()
         GetCommandForText.CommandType = CommandType.Text
     End Function
 
-    Friend Shared Function GetCommandForTableDirect() As System.Data.IDbCommand
+    Public Shared Function GetCommandForTableDirect() As System.Data.IDbCommand
         GetCommandForTableDirect = GetCommand()
         GetCommandForTableDirect.CommandType = CommandType.TableDirect
 
     End Function
 
-    Friend Shared Function GetDataSet(ByVal strSql As String, ByVal pcType As CommandType, ByRef cn As IDbConnection) As System.Data.DataSet
+    Public Shared Function GetDataSet(ByVal strSql As String, ByVal pcType As CommandType, ByRef cn As IDbConnection) As System.Data.DataSet
         Dim oCommand As System.Data.IDbCommand = Nothing
         Dim ds As DataSet = Nothing
 
@@ -89,7 +91,7 @@ Public Class DAOledb
 
     End Function
 
-    Friend Shared Function GetDataSet(ByVal pCommand As System.Data.IDbCommand) As System.Data.DataSet
+    Public Shared Function GetDataSet(ByVal pCommand As System.Data.IDbCommand) As System.Data.DataSet
         Dim ds As DataSet = Nothing
         Dim NotHadConnection As Boolean = False
         Try
@@ -113,11 +115,11 @@ Public Class DAOledb
         Return ValidatedDataSet(ds)
     End Function
 
-    Friend Shared Function GetDataSet(ByVal strSql As String, ByVal pcType As CommandType) As System.Data.DataSet
+    Public Shared Function GetDataSet(ByVal strSql As String, ByVal pcType As CommandType) As System.Data.DataSet
         Return GetDataSet(strSql, pcType, GetOpenConnection())
     End Function
 
-    Friend Shared Function GetDataView(ByVal strSql As String, ByVal pcType As CommandType) As System.Data.DataView
+    Public Shared Function GetDataView(ByVal strSql As String, ByVal pcType As CommandType) As System.Data.DataView
         Dim ds As DataSet = Nothing
         ds = GetDataSet(strSql, pcType)
         If ds Is Nothing Then
@@ -127,7 +129,7 @@ Public Class DAOledb
         End If
     End Function
 
-    Friend Shared Function GetDataView(ByVal pCommand As System.Data.IDbCommand) As System.Data.DataView
+    Public Shared Function GetDataView(ByVal pCommand As System.Data.IDbCommand) As System.Data.DataView
         Dim ds As DataSet = Nothing
         ds = GetDataSet(pCommand)
         If ds Is Nothing Then
@@ -138,18 +140,28 @@ Public Class DAOledb
     End Function
 
 
-    Friend Shared Function GetNewDataAdapter(ByRef pCommand As System.Data.IDbCommand) As IDataAdapter
+    Public Shared Function GetNewDataAdapter(ByRef pCommand As System.Data.IDbCommand) As IDataAdapter
 
         Dim oCommand As OleDbCommand = CType(pCommand, OleDbCommand)
         Return New OleDb.OleDbDataAdapter(oCommand)
 
     End Function
 
-    Friend Shared Function GetDataSet(ByVal strSql As String) As DataSet
+    Public Shared Function GetDataSet(ByVal strSql As String) As DataSet
         Return GetDataSet(strSql, CommandType.Text)
     End Function
 
-    Friend Shared Function GetAllFromTable(ByVal TableName As String) As DataTable
+
+    Public Shared Function GetDataTable(ByVal strSql As String) As DataTable
+        Dim ds As New Data.DataSet()
+        ds = GetDataSet(strSql)
+
+        If Not ds Is Nothing Then
+            Return ds.Tables(0)
+        End If
+        Return Nothing
+    End Function
+    Public Shared Function GetAllFromTable(ByVal TableName As String) As DataTable
         Dim strSql As String = "Select * From [" & TableName & "]"
         Dim ds As New Data.DataSet()
         ds = GetDataSet(strSql)
@@ -160,9 +172,51 @@ Public Class DAOledb
         Return Nothing
     End Function
 
+    Public Shared Function DeleteFromTable(ByVal TableName As String, _
+                                           ByVal pKeyName As String, _
+                                           ByVal keyValue As String, _
+                                           Optional ByVal KeySeparator As String = "'") As Boolean
+        Try
+            Dim strSql As String = "Delete From " & TableName & " Where " & pKeyName & " = " & KeySeparator & keyValue & KeySeparator
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
+    End Function
+
+    Public Shared Function ExecuteSQLNonQuery(ByVal strSQL As String) As Boolean
+        Try
+            Dim cmd As System.Data.IDbCommand
+            cmd = GetCommandForText()
+            cmd.CommandText = strSQL
+            cmd.ExecuteNonQuery()
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
+   
+
+    End Function
+
+    Public Shared Function ExecuteInsertQuery(ByVal strSQL As String) As Object
+        Try
+            Dim cmd As System.Data.IDbCommand
+            cmd = GetCommandForText()
+            cmd.CommandText = strSQL
+            cmd.ExecuteNonQuery()
+            cmd.CommandText = "SELECT @@IDENTITY"
+            ExecuteInsertQuery = cmd.ExecuteScalar()
+            Return True
+        Catch ex As Exception
+            Return False
+        End Try
 
 
-    Friend Shared Function ValidatedDataSet(ByVal ds As Data.DataSet) As DataSet
+    End Function
+
+
+
+    Public Shared Function ValidatedDataSet(ByVal ds As Data.DataSet) As DataSet
         If ds Is Nothing OrElse ds.Tables.Count < 1 Then
             Return Nothing
         Else

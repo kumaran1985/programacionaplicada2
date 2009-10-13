@@ -1,31 +1,31 @@
 Public Class EntFacturas
-    Private _Fact_Key As Integer
-    Private _Pac_Key As Integer
+    Private _Fact_Key As Nullable(Of Integer)
+    Private _Pac_Key As Nullable(Of Integer)
     Private _Fact_FechaFactura As Date
     Private _Fact_Tipo As String
-    Private _Fact_Monto As Integer
-    Private _Fact_TipoDoc As Integer
+    Private _Fact_Monto As Nullable(Of Integer)
+    Private _Fact_TipoDoc As Nullable(Of Integer)
     Private _Fact_NumeroDoc As String
-    Private _Fact_Cantidad As Integer
-    Private _PM_Key As Integer
+    Private _Fact_Cantidad As Nullable(Of Integer)
+    Private _PM_Key As Nullable(Of Integer)
     Private _Fact_Observacion As String
     Private _Fact_FechaAlta As Date
     Private _Fact_FechaCancelacion As Date
 
-    Public Property Fact_Key() As Integer
+    Public Property Fact_Key() As Nullable(Of Integer)
         Get
             Return _Fact_Key
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _Fact_Key = value
         End Set
     End Property
 
-    Public Property Pac_key() As Integer
+    Public Property Pac_key() As Nullable(Of Integer)
         Get
             Return _Pac_Key
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _Pac_Key = value
         End Set
     End Property
@@ -48,20 +48,20 @@ Public Class EntFacturas
         End Set
     End Property
 
-    Public Property Fact_Monto() As Integer
+    Public Property Fact_Monto() As Nullable(Of Integer)
         Get
             Return _Fact_Monto
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _Fact_Monto = value
         End Set
     End Property
 
-    Public Property Fact_TipoDoc() As Integer
+    Public Property Fact_TipoDoc() As Nullable(Of Integer)
         Get
             Return _Fact_TipoDoc
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _Fact_TipoDoc = value
         End Set
     End Property
@@ -75,20 +75,20 @@ Public Class EntFacturas
         End Set
     End Property
 
-    Public Property Fact_Cantidad() As Integer
+    Public Property Fact_Cantidad() As Nullable(Of Integer)
         Get
             Return _Fact_Cantidad
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _Fact_Cantidad = value
         End Set
     End Property
 
-    Public Property PM_Key() As Integer
+    Public Property PM_Key() As Nullable(Of Integer)
         Get
             Return _PM_Key
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _PM_Key = value
         End Set
     End Property

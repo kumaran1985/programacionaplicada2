@@ -3,6 +3,8 @@ Public Class DAMedicos
     Implements MBFrameWork.DataAccess.IEntityzable
 
 
+
+
     Public Function GenerarEntidad(ByVal mDataTable As System.Data.DataRow) As Object Implements MBFrameWork.DataAccess.IEntityzable.GenerarEntidad
         Dim mientity As New Entities.EntMedicos
         mientity.Med_key = mDataTable("Med_Key")
@@ -29,5 +31,8 @@ Public Class DAMedicos
 
 
     End Function
+ 
+    Public Function GetLista(ByVal mDataSet As System.Data.DataSet) As System.Collections.IList Implements MBFrameWork.DataAccess.IEntityzable.GetLista
 
+    End Function
 End Class

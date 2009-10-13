@@ -1,14 +1,14 @@
 Public Class EntConsultorios
 
-    Private _Cons_key As Integer
+    Private _Cons_key As Nullable(Of Integer)
     Private _Cons_Ubicacion As String
     Private _Cons_Descripcion As String
 
-    Public Property Cons_Key() As Integer
+    Public Property Cons_Key() As Nullable(Of Integer)
         Get
             Return _Cons_key
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _Cons_key = value
         End Set
     End Property
