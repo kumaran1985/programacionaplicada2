@@ -1,6 +1,6 @@
 Public Class EntPlanes
-    Private _Plan_Key As Integer
-    Private _OS_Key As Integer
+    Private _Plan_Key As Nullable(Of Integer)
+    Private _OS_Key As Nullable(Of Integer)
     Private _Plan_Nombre As String
     Private _Plan_Descripcion As String
     Private _Plan_FechaFinConvenio As Date
@@ -8,20 +8,20 @@ Public Class EntPlanes
     Private _Plan_FechaCancelacion As Date
 
 
-    Public Property Plan_Key() As Integer
+    Public Property Plan_Key() As Nullable(Of Integer)
         Get
             Return _Plan_Key
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _Plan_Key = value
 
         End Set
     End Property
-    Public Property OS_Key() As Integer
+    Public Property OS_Key() As Nullable(Of Integer)
         Get
             Return _OS_Key
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _OS_Key = value
 
         End Set

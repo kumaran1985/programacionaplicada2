@@ -61,6 +61,7 @@
     <Compile Include="Entities\TableInfo.vb" />
     <Compile Include="IEntityzable.vb" />
     <Compile Include="ISPParams.vb" />
+    <Compile Include="IStandardDataAccessQuerys.vb" />
     <Compile Include="IStandarQuerys.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">

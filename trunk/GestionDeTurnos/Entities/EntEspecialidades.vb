@@ -1,13 +1,13 @@
 Public Class EntEspecialidades
-    Private _iEspecialidad As Integer
+    Private _iEspecialidad As Nullable(Of Integer)
     Private _cDescripcion As String
-    Private _iConsultorio As Integer
+    Private _iConsultorio As Nullable(Of Integer)
 
-    Public Property iEspecialidad() As Integer
+    Public Property iEspecialidad() As Nullable(Of Integer)
         Get
             Return _iEspecialidad
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _iEspecialidad = value
 
         End Set
@@ -21,11 +21,11 @@ Public Class EntEspecialidades
 
         End Set
     End Property
-    Public Property iConsultorio() As Integer
+    Public Property iConsultorio() As Nullable(Of Integer)
         Get
             Return _iConsultorio
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _iConsultorio = value
 
         End Set

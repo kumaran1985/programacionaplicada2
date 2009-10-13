@@ -1,14 +1,14 @@
 Public Class EntTiposDocumento
 
-    Private _TDOC_Key As Integer
+    Private _TDOC_Key As Nullable(Of Integer)
     Private _TDOC_Descripcion As String
 
 
-    Public Property TDOC_Key() As Integer
+    Public Property TDOC_Key() As Nullable(Of Integer)
         Get
             Return _TDOC_Key
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _TDOC_Key = value
         End Set
     End Property

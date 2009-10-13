@@ -1,14 +1,14 @@
 Public Class EntMedicos
-    Private _Med_key As Integer
-    Private _TDOC_Key As Integer
+    Private _Med_key As Nullable(Of Integer)
+    Private _TDOC_Key As Nullable(Of Integer)
     Private _Med_NumeroDoc As String
     Private _Med_Nombres As String
     Private _Med_Apellidos As String
     Private _Med_Calle As String
     Private _Med_NumeroExt As String
     Private _Med_NumeroInt As String
-    Private _LOCA_Key As Integer
-    Private _Med_Especialidad As Integer
+    Private _LOCA_Key As Nullable(Of Integer)
+    Private _Med_Especialidad As Nullable(Of Integer)
     Private _Med_Matricula As String
     Private _Med_FechaNacimiento As Date
     Private _Med_Telefonos As String
@@ -17,22 +17,22 @@ Public Class EntMedicos
     Private _Med_EstadoCivil As String
     Private _Med_Sexo As String
     Private _Med_FechaIngreso As String
-    Private _Med_Matricula1 As Integer
+    Private _Med_Matricula1 As Nullable(Of Integer)
 
 
-    Public Property Med_key() As Integer
+    Public Property Med_key() As Nullable(Of Integer)
         Get
             Return _Med_key
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _Med_key = value
         End Set
     End Property
-    Public Property TDOC_Key() As Integer
+    Public Property TDOC_Key() As Nullable(Of Integer)
         Get
             Return _TDOC_Key
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _TDOC_Key = value
         End Set
     End Property
@@ -84,11 +84,11 @@ Public Class EntMedicos
             _Med_NumeroInt = value
         End Set
     End Property
-    Public Property LOCA_Key() As Integer
+    Public Property LOCA_Key() As Nullable(Of Integer)
         Get
             Return _LOCA_Key
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _LOCA_Key = value
         End Set
     End Property
@@ -167,11 +167,11 @@ Public Class EntMedicos
             _Med_FechaIngreso = value
         End Set
     End Property
-    Public Property Med_Matricula1() As Integer
+    Public Property Med_Matricula1() As Nullable(Of Integer)
         Get
             Return _Med_Matricula1
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _Med_Matricula1 = value
         End Set
     End Property

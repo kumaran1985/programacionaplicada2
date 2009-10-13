@@ -1,8 +1,8 @@
 Public Class EntDisponibilidadHoraria
-    Private _DSPH_Key As Integer
-    Private _Med_Key As Integer
+    Private _DSPH_Key As Nullable(Of Integer)
+    Private _Med_Key As Nullable(Of Integer)
     Private _DSPH_DiaSemana As String
-    Private _DSPH_Duracion As Integer
+    Private _DSPH_Duracion As Nullable(Of Integer)
     Private _DSPH_HoraInicio As DateTime
     Private _DSPH_HoraFin As DateTime
     Private _DSPH_FechaIni As DateTime
@@ -10,20 +10,20 @@ Public Class EntDisponibilidadHoraria
     Private _DSPH_Novedades As String
 
 
-    Public Property DSPH_Key() As Integer
+    Public Property DSPH_Key() As Nullable(Of Integer)
         Get
             Return _DSPH_Key
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _DSPH_Key = value
         End Set
     End Property
 
-    Public Property Med_Key() As Integer
+    Public Property Med_Key() As Nullable(Of Integer)
         Get
             Return _Med_Key
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _Med_Key = value
         End Set
     End Property
@@ -37,11 +37,11 @@ Public Class EntDisponibilidadHoraria
         End Set
     End Property
 
-    Public Property DSPH_Duracion() As Integer
+    Public Property DSPH_Duracion() As Nullable(Of Integer)
         Get
             Return _DSPH_Duracion
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _DSPH_Duracion = value
         End Set
     End Property

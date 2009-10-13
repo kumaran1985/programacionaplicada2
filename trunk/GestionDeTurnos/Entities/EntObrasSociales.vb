@@ -1,22 +1,22 @@
 Public Class EntObrasSociales
-    Private _OS_Key As Integer
+    Private _OS_Key As Nullable(Of Integer)
     Private _OS_Nombre As String
     Private _OS_Descripcion As String
     Private _OS_Calle As String
     Private _OS_NumeroExt As String
     Private _OS_NumeroInt As String
-    Private _LOCA_Key As Integer
+    Private _LOCA_Key As Nullable(Of Integer)
     Private _OS_Telefonos As String
     Private _OS_FechaFinConvenio As Date
     Private _OS_FechaAlta As Date
     Private _OS_FechaCancelacion As Date
 
-    Public Property OS_Key() As Integer
+    Public Property OS_Key() As Nullable(Of Integer)
         Get
             Return _OS_Key
 
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _OS_Key = value
         End Set
     End Property
@@ -71,12 +71,12 @@ Public Class EntObrasSociales
         End Set
     End Property
 
-    Public Property LOCA_Key() As Integer
+    Public Property LOCA_Key() As Nullable(Of Integer)
         Get
             Return _LOCA_Key
 
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _LOCA_Key = value
         End Set
     End Property

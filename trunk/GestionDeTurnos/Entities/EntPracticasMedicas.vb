@@ -1,14 +1,14 @@
 Public Class EntPracticasMedicas
-    Private _PM_Key As Integer
+    Private _PM_Key As Nullable(Of Integer)
     Private _PM_Descripcion As String
     Private _PM_PrecioUnitario As Decimal
 
-    Public Property PM_Key() As Integer
+    Public Property PM_Key() As Nullable(Of Integer)
         Get
             Return _PM_Key
 
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As Nullable(Of Integer))
             _PM_Key = value
         End Set
     End Property

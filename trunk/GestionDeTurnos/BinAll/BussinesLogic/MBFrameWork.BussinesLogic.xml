@@ -6,6 +6,20 @@ MBFrameWork.BussinesLogic
 </name>
 </assembly>
 <members>
-
+<member name="M:MBFrameWork.BussinesLogic.IStandardQuerys.DeleteEntity(System.String)">
+	<summary>
+ Elimina la entidad 
+ </summary>
+	<param name="mKey">clave primaria correspondiente a la entidad</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:MBFrameWork.BussinesLogic.IStandardQuerys.DeleteEntity(System.Object)">
+	<summary>
+ Elimina la entidad
+ </summary>
+	<param name="mEntityObject">Entidad que contiene los valores que corresponden al filtrado</param>
+	<returns></returns>
+	<remarks></remarks>
+</member>
 </members>
 </doc>
