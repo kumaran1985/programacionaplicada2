@@ -55,12 +55,15 @@
     <Compile Include="DAEntConsultorios.vb" />
     <Compile Include="DAEntMotivoVisita.vb" />
     <Compile Include="DAEntTiposDocumento.vb" />
+    <Compile Include="DAEspecialidades.vb" />
     <Compile Include="dafacturas.vb" />
     <Compile Include="DALocalidades.vb" />
     <Compile Include="DAMedicos.vb" />
     <Compile Include="DAObrasSociales.vb" />
     <Compile Include="DAPacientes.vb" />
     <Compile Include="DAPacientes1.vb" />
+    <Compile Include="DAPacientexPlan.vb" />
+    <Compile Include="DAPlanes.vb" />
     <Compile Include="DAPracticasMedicas.vb" />
     <Compile Include="DAPracticasMedicasxPlan.vb" />
     <Compile Include="DAProvincias.vb" />
