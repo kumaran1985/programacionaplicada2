@@ -1,7 +1,7 @@
 Public Class frmABMConceptTest
-
+    Private WithEvents bindingSource1 As New BindingSource()
     Private Sub btnBuscar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnBuscar.Click
-        Dim bindingSource1 As New BindingSource()
+
 
         Dim bl As New BLClassLibrary.BLSysRoles
         Dim ent As New Entities.EntSys_Roles
@@ -34,4 +34,15 @@ Public Class frmABMConceptTest
     End Sub
 
     
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
+        'Me.bindingSource1.g()
+    End Sub
+
+    Private Sub BindingSource2_AddingNew(ByVal sender As System.Object, ByVal e As System.ComponentModel.AddingNewEventArgs) Handles bindingSource1.AddingNew
+
+    End Sub
+
+    Private Sub BindingSource2_CurrentItemChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles bindingSource1.CurrentItemChanged
+
+    End Sub
 End Class
