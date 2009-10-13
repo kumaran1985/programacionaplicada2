@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2509E163-C21F-4034-9437-BD5C7E95F33C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>FrmConceptTest.Form1</StartupObject>
+    <StartupObject>FrmConceptTest.frmABMConceptTest</StartupObject>
     <RootNamespace>FrmConceptTest</RootNamespace>
     <AssemblyName>FrmConceptTest</AssemblyName>
     <MyType>WindowsFormsWithCustomSubMain</MyType>
@@ -49,13 +49,10 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.vb" />
-    <Compile Include="Class2.vb" />
-    <Compile Include="Form1.vb">
-      <SubType>Form</SubType>
+    <Compile Include="frmABMConceptTest.Designer.vb">
+      <DependentUpon>frmABMConceptTest.vb</DependentUpon>
     </Compile>
-    <Compile Include="Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <Compile Include="frmABMConceptTest.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -75,9 +72,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="frmABMConceptTest.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>Form1.vb</DependentUpon>
+      <DependentUpon>frmABMConceptTest.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -92,8 +89,6 @@
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
-    <None Include="My Project\DataSources\Class1.datasource" />
-    <None Include="My Project\DataSources\Class2.datasource" />
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <CustomToolNamespace>My</CustomToolNamespace>
@@ -101,22 +96,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MBFrameWork.BussinesLogic\MBFrameWork.BussinesLogic.vbproj">
-      <Project>{D99422A5-8885-458A-89C0-C1AEE89EBA31}</Project>
-      <Name>MBFrameWork.BussinesLogic</Name>
+    <ProjectReference Include="..\..\GestionDeTurnos\BLClassLibrary\BLClassLibrary.vbproj">
+      <Project>{34E5F710-F5C2-4BE5-AB1E-FC975352B2B8}</Project>
+      <Name>BLClassLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MBFrameWork.DataAccess\MBFrameWork.DataAccess.vbproj">
-      <Project>{D109FD1A-1521-4DE5-BCED-1688F625AB3F}</Project>
-      <Name>MBFrameWork.DataAccess</Name>
+    <ProjectReference Include="..\..\GestionDeTurnos\Entities\Entities.vbproj">
+      <Project>{6106E4D7-64D7-4FBA-8D8E-B64508110430}</Project>
+      <Name>Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MBFrameWork.FormUtils\MBFrameWork.FormUtils.vbproj">
-      <Project>{09773DCB-5CB7-4562-A92B-BD4D7F03340B}</Project>
-      <Name>MBFrameWork.FormUtils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MBFrameWork.GlobalReferences\MBFrameWork.GlobalReferences.vbproj">
-      <Project>{1F5D4B48-E291-48A2-92C8-75EEEE4228C4}</Project>
-      <Name>MBFrameWork.GlobalReferences</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="My Project\DataSources\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -15,6 +15,8 @@ Public Class BLSysRoles
     End Function
 
     Public Function GetEntity(ByVal mKey As Object) As Object Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetEntity
+        Dim da As New DataAccessCL.DASysRoles
+        Return da.GetListOfEntity
 
     End Function
 
@@ -23,7 +25,9 @@ Public Class BLSysRoles
     End Function
 
     Public Function GetListOfEntity(ByVal mEntityObject As Object) As System.Collections.IList Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetListOfEntity
+        Dim da As New DataAccessCL.DASysRoles
 
+        Return da.GetListOfEntity(mEntityObject)
     End Function
 
     Public Function GetTable() As System.Data.DataTable Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetTable

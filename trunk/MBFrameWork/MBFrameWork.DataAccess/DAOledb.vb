@@ -5,6 +5,37 @@ Public Class DAOledb
     Private Shared _Ocon As System.Data.IDbConnection
     Private Shared _GetConnectionString As String = Nothing
 
+    ''' <summary>
+    ''' returna nothing si el valor es nulo
+    ''' </summary>
+    ''' <param name="o"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Shared Function DBVal(ByRef o As Object) As Object
+        If o Is DBNull.Value Then
+            Return Nothing
+        Else
+            Return o
+        End If
+
+    End Function
+
+    ''' <summary>
+    ''' retorna el valor pasado por parametro si el objeto es nulo
+    ''' </summary>
+    ''' <param name="o"></param>
+    ''' <param name="defaultValue"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Shared Function DBVal(ByRef o As Object, ByVal defaultValue As Object) As Object
+        If o Is DBNull.Value Then
+            Return defaultValue
+        Else
+            Return o
+        End If
+
+    End Function
+
     Private Shared ReadOnly Property GetConnectionString() As String
         Get
             If Not _GetConnectionString Is Nothing Then

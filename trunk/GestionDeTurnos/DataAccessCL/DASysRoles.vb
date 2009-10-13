@@ -8,9 +8,9 @@ Public Class DASysRoles
     Public Function GenerarEntidad(ByVal mDataTable As System.Data.DataRow) As Object Implements MBFrameWork.DataAccess.IEntityzable.GenerarEntidad
         Dim miEntity As New Entities.EntSys_Roles
 
-        miEntity.SYS_ROLE_Descripcion = mDataTable("SYS_ROLE_Description")
-        miEntity.SYS_ROLE_Enabled = mDataTable("SYS_ROLE_Enabled")
-        miEntity.SYS_ROLE_KEY = mDataTable("SYS_ROLE_KEY")
+        miEntity.SYS_ROLE_Descripcion = DBVal(mDataTable("SYS_ROLE_Descripcion"))
+        miEntity.SYS_ROLE_Enabled = DBVal(mDataTable("SYS_ROLE_Enabled"))
+        miEntity.SYS_ROLE_KEY = DBVal(mDataTable("SYS_ROLE_KEY"))
 
         Return miEntity
 
@@ -21,7 +21,7 @@ Public Class DASysRoles
         Dim ListOfEntity As New List(Of Entities.EntSys_Roles)
 
         'valida si existen los elementos del DataSet
-        If Not ValidatedDataSet(mDataSet) Is Nothing Then
+        If ValidatedDataSet(mDataSet) Is Nothing Then
             Return Nothing
         End If
 
@@ -30,7 +30,7 @@ Public Class DASysRoles
             ListOfEntity.Add(Me.GenerarEntidad(dr))
         Next
 
-        Return New List(Of String)
+        Return ListOfEntity
     End Function
 
 
@@ -124,10 +124,10 @@ Public Class DASysRoles
 
         If strWhere <> "" Then
             'Elimino la palabra "AND" del where
-            strWhere = strWhere.Remove(0, 3)
+            strWhere = " Where " & strWhere.Remove(0, 3)
         End If
 
-        strSql = strSql & " Where " & strWhere
+        strSql = strSql & strWhere
 
         Dim ds As New DataSet("DS_SYS_ROLES")
 
