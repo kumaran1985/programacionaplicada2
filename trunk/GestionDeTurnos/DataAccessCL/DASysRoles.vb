@@ -78,12 +78,12 @@ Public Class DASysRoles
 
 
         Dim dt As DataTable
-        dt = GetDataTable("Select * SYS_Roles Where SYS_ROLE_KEY = " & mKey)
+        dt = GetDataTable("Select * From SYS_Roles Where SYS_ROLE_KEY = " & mKey)
         If dt Is Nothing Then
             Return Nothing
         End If
 
-        Return GenerarEntidad(dt.Rows(0)(0))
+        Return GenerarEntidad(dt.Rows(0))
 
 
     End Function
@@ -109,7 +109,7 @@ Public Class DASysRoles
         strSql = "Select * From SYS_Roles "
 
         If String.IsNullOrEmpty(miEntity.SYS_ROLE_Descripcion) = False Then
-            strWhere = "AND Sys_ROLE_Description = '" & miEntity.SYS_ROLE_Descripcion & "' "
+            strWhere = "AND Sys_ROLE_Descripcion = '" & miEntity.SYS_ROLE_Descripcion & "' "
         End If
 
         If miEntity.SYS_ROLE_Enabled.HasValue Then
