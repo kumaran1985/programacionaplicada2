@@ -2,6 +2,8 @@
 Public Class DADisponbilidadHoraria
     Inherits MBFrameWork.DataAccess.DAOledb
     Implements MBFrameWork.DataAccess.IEntityzable
+    Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys
+
 
 
 
@@ -23,9 +25,58 @@ Public Class DADisponbilidadHoraria
 
     End Function
 
- 
+
 
     Public Function GetLista(ByVal mDataSet As System.Data.DataSet) As System.Collections.IList Implements MBFrameWork.DataAccess.IEntityzable.GetLista
+        Dim ListOfEntity As New List(Of Entities.EntDisponibilidadHoraria)
+
+        'valida si existen los elementos del DataSet
+        If ValidatedDataSet(mDataSet) Is Nothing Then
+            Return Nothing
+        End If
+
+        For Each dr As DataRow In mDataSet.Tables(0).Rows
+            'agrego la entidad a la lista con el método GenerarEntidad
+            ListOfEntity.Add(Me.GenerarEntidad(dr))
+        Next
+
+    End Function
+
+
+
+    Public Function DeleteEntity(ByVal mEntityObject As Object) As Boolean Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.DeleteEntity
+
+    End Function
+
+    Public Function DeleteEntity(ByVal mKey As String) As Boolean Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.DeleteEntity
+
+    End Function
+
+    Public Function GetEntity(ByVal mKey As Object) As Object Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetEntity
+
+    End Function
+
+    Public Function GetListOfEntity() As System.Collections.IList Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetListOfEntity
+
+    End Function
+
+    Public Function GetListOfEntity(ByVal mEntityObject As Object) As System.Collections.IList Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetListOfEntity
+
+    End Function
+
+    Public Function GetTable() As System.Data.DataTable Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetTable
+
+    End Function
+
+    Public Function GetTable(ByVal mKey As String) As System.Data.DataTable Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetTable
+
+    End Function
+
+    Public Function InsertEntity(ByVal mEntityObject As Object) As Object Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.InsertEntity
+
+    End Function
+
+    Public Function UpdateEntity(ByVal mEntityObject As Object) As Boolean Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.UpdateEntity
 
     End Function
 End Class
