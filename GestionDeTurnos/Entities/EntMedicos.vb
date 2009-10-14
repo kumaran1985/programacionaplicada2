@@ -92,11 +92,11 @@ Public Class EntMedicos
             _LOCA_Key = value
         End Set
     End Property
-    Public Property Med_Especialidad() As String
+    Public Property Med_Especialidad() As Nullable(Of Integer)
         Get
             Return _Med_Especialidad
         End Get
-        Set(ByVal value As String)
+        Set(ByVal value As Nullable(Of Integer))
             _Med_Especialidad = value
         End Set
     End Property
