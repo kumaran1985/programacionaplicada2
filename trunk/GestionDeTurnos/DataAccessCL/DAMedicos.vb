@@ -45,7 +45,7 @@ Public Class DAMedicos
             Return Nothing
         End If
 
-        For Each dr As DataRow In mDataSet.Tables(0).Rows
+        For Each dr As DataRow In mDataSet.Tables(0).Rows 'le estoy pasando una sola tabla
             'agrego la entidad a la lista con el metodo generar entidad
             ListOfEntity.Add(Me.GenerarEntidad(dr))
         Next
@@ -118,8 +118,8 @@ Public Class DAMedicos
             strwhere = strwhere & "AND Med_Matricula = '" & mientity.Med_Matricula & "' "
         End If
 
-        'CONSULTAR CON JAVIER
-        If String.IsNullOrEmpty(mientity.Med_FechaNacimiento.ToString) = False Then
+
+        If Not mientity.Med_FechaNacimiento = Date.MinValue Then
             strwhere = strwhere & "AND Med_FechaNacimiento = '" & mientity.Med_FechaNacimiento.ToString & "' "
         End If
         If String.IsNullOrEmpty(mientity.Med_EstadoCivil) = False Then
@@ -244,7 +244,7 @@ Public Class DAMedicos
             strwhere = strwhere & "AND Med_Matricula = '" & mientity.Med_Matricula & "' "
         End If
 
-        If String.IsNullOrEmpty(mientity.Med_FechaNacimiento.ToString) = False Then
+        If Not mientity.Med_FechaNacimiento = Date.MinValue Then
             strwhere = strwhere & "AND Med_FechaNacimiento = '" & mientity.Med_FechaNacimiento.ToString & "' "
         End If
         If String.IsNullOrEmpty(mientity.Med_EstadoCivil) = False Then
@@ -371,7 +371,7 @@ Public Class DAMedicos
             strsql = strsql & ",Med_Matricula = '" & mientity.Med_Matricula & "' "
         End If
 
-        If String.IsNullOrEmpty(mientity.Med_FechaNacimiento.ToString) = False Then
+        If Not mientity.Med_FechaNacimiento = Date.MinValue Then
             strsql = strsql & ",Med_FechaNacimiento = '" & mientity.Med_FechaNacimiento.ToString & "' "
         End If
         If String.IsNullOrEmpty(mientity.Med_EstadoCivil) = False Then
