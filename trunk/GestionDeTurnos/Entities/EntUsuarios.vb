@@ -73,11 +73,11 @@ Public Class EntUsuarios
     End Property
 
     ' Key DOC
-    Public Property TDOC_Key() As String
+    Public Property TDOC_Key() As Integer
         Get
             Return _TDOC_Key
         End Get
-        Set(ByVal value As String)
+        Set(ByVal value As Integer)
             _TDOC_Key = value
         End Set
     End Property
