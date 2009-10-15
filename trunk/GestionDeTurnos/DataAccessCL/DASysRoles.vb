@@ -141,14 +141,14 @@ Public Class DASysRoles
 
     Public Function GetTable() As System.Data.DataTable Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetTable
         Dim dt As DataTable
-        dt = GetDataTable("Select * SYS_Roles")
+        dt = GetDataTable("Select * From SYS_Roles")
         Return dt
 
     End Function
 
     Public Function GetTable(ByVal mKey As String) As System.Data.DataTable Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetTable
         Dim dt As DataTable
-        dt = GetDataTable("Select * SYS_Roles Where SYS_ROLE_KEY = " & mKey)
+        dt = GetDataTable("Select * From SYS_Roles Where SYS_ROLE_KEY = " & mKey)
         Return dt
     End Function
 
