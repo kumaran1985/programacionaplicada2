@@ -1,19 +1,19 @@
 Public Class EntDetalleHistoriaClinica
-    Private _Pac_key As Nullable(Of Integer)
-    Private _Deta_FechaConsulta As Date
-    Private _Deta_Especialidad As Nullable(Of Integer)
-    Private _Deta_NombresMedico As String
-    Private _Deta_ApellidosMedico As String
-    Private _Deta_Descripcion As String
-    Private _Deta_Observacion As String
-    Private _Deta_Diagnostico As String
-    Private _Deta_Medicacion As String
-    Private _Deta_Tratamiento As String
-    Private _Deta_DuracionTratamiento As String
+    Private _Pac_key As Nullable(Of Integer) = Nothing
+    Private _Deta_FechaConsulta As Date = Nothing
+    Private _Deta_Especialidad As Nullable(Of Integer) = Nothing
+    Private _Deta_NombresMedico As String = Nothing
+    Private _Deta_ApellidosMedico As String = Nothing
+    Private _Deta_Descripcion As String = Nothing
+    Private _Deta_Observacion As String = Nothing
+    Private _Deta_Diagnostico As String = Nothing
+    Private _Deta_Medicacion As String = Nothing
+    Private _Deta_Tratamiento As String = Nothing
+    Private _Deta_DuracionTratamiento As String = Nothing
 
 
 
-    Public Property _Pac_key() As Nullable(Of Integer)
+    Public Property Pac_key() As Nullable(Of Integer)
         Get
             Return _Pac_key
 
@@ -23,7 +23,7 @@ Public Class EntDetalleHistoriaClinica
         End Set
     End Property
 
-    Public Property _Deta_FechaConsulta() As Date
+    Public Property Deta_FechaConsulta() As Date
         Get
             Return _Deta_FechaConsulta
         End Get
@@ -32,7 +32,7 @@ Public Class EntDetalleHistoriaClinica
         End Set
     End Property
 
-    Public Property _Deta_Especialidad() As Nullable(Of Integer)
+    Public Property Deta_Especialidad() As Nullable(Of Integer)
         Get
             Return _Deta_Especialidad
         End Get
@@ -41,7 +41,7 @@ Public Class EntDetalleHistoriaClinica
         End Set
     End Property
 
-    Public Property _Deta_NombresMedico() As String
+    Public Property Deta_NombresMedico() As String
         Get
             Return _Deta_NombresMedico
         End Get
@@ -50,16 +50,16 @@ Public Class EntDetalleHistoriaClinica
         End Set
     End Property
 
-    Public Property _Deta_NombresMedico() As String
+    Public Property Deta_ApellidosMedico() As String
         Get
-            Return _Deta_NombresMedico
+            Return _Deta_ApellidosMedico
         End Get
         Set(ByVal value As String)
-            _Deta_NombresMedico = value
+            _Deta_ApellidosMedico = value
         End Set
     End Property
 
-    Public Property _Deta_Descripcion() As String
+    Public Property Deta_Descripcion() As String
         Get
             Return _Deta_Descripcion
         End Get
@@ -68,7 +68,7 @@ Public Class EntDetalleHistoriaClinica
         End Set
     End Property
 
-    Public Property _Deta_Observacion() As String
+    Public Property Deta_Observacion() As String
         Get
             Return _Deta_Observacion
         End Get
@@ -78,7 +78,7 @@ Public Class EntDetalleHistoriaClinica
     End Property
 
 
-    Public Property _Deta_Diagnostico() As String
+    Public Property Deta_Diagnostico() As String
         Get
             Return _Deta_Diagnostico
         End Get
@@ -87,7 +87,7 @@ Public Class EntDetalleHistoriaClinica
         End Set
     End Property
 
-    Public Property _Deta_Medicacion() As String
+    Public Property Deta_Medicacion() As String
         Get
             Return _Deta_Medicacion
         End Get
@@ -96,7 +96,7 @@ Public Class EntDetalleHistoriaClinica
         End Set
     End Property
 
-    Public Property _Deta_Tratamiento() As String
+    Public Property Deta_Tratamiento() As String
         Get
             Return _Deta_Tratamiento
         End Get
@@ -105,7 +105,7 @@ Public Class EntDetalleHistoriaClinica
         End Set
     End Property
 
-    Public Property _Deta_DuracionTratamiento() As String
+    Public Property Deta_DuracionTratamiento() As String
         Get
             Return _Deta_DuracionTratamiento
         End Get
