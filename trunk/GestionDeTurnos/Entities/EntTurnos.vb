@@ -7,6 +7,21 @@ Public Class EntTurnos
     Private _Turno_FechaAlta As Date
     Private _Turno_FechaCancelacion As Date
     Private _MOVI_Key As Nullable(Of Integer)
+    Private _turno_key As Nullable(Of Integer)
+
+    Public Property turno_key() As Nullable(Of Integer)
+        Get
+            Return _turno_key
+
+
+        End Get
+        Set(ByVal value As Nullable(Of Integer))
+            _turno_key = value
+
+
+        End Set
+    End Property
+
 
     Public Property turno_fecha() As Date
         Get
