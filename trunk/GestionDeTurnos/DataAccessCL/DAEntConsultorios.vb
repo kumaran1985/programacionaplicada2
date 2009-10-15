@@ -35,7 +35,7 @@ Public Class DAEntConsultorios
         miEntity = CType(mEntityObject, Entities.EntConsultorios)
         Dim strSql As String = ""
         Dim strWhere As String = ""
-        strSql = "Delete From Cons_Roles "
+        strSql = "Delete From Consultorios "
 
         If String.IsNullOrEmpty(miEntity.Cons_Descripcion) = False Then
             strWhere = "AND Cons_Description = '" & miEntity.Cons_Descripcion & "' "
