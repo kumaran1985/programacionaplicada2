@@ -5,9 +5,6 @@ Public Class DAMedicos
     Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys
 
 
-
-
-
     Public Function GenerarEntidad(ByVal mDataTable As System.Data.DataRow) As Object Implements MBFrameWork.DataAccess.IEntityzable.GenerarEntidad
         Dim mientity As New Entities.EntMedicos
         mientity.Med_key = DBVal(mDataTable("Med_Key"))
@@ -295,12 +292,13 @@ Public Class DAMedicos
         mientity = CType(mEntityObject, Entities.EntMedicos)
         Dim strsql As String = ""
 
-        strsql = " Insert into Medicos (LOCA_Key,Med_Apellidos,Med_Nombres,Med_Calle,Med_Celular,Med_Email,Med_Especialidad,Med_EstadoCivil,Med_FechaIngreso," & _
-        " Med_FechaNacimiento,Med_Matricula,Med_Matricula1,Med_NumeroDoc,Med_NumeroExt,Med_NumeroInt,Med_Sexo,Med_Telefonos,TDOC_Key)" & _
-        " values('" & mientity.Med_Apellidos & "', '" & mientity.Med_Nombres & "','" & mientity.Med_Calle & "','" & mientity.Med_Celular & "','" & mientity.Med_Email & "'," & _
-        "'" & mientity.Med_Especialidad & "','" & mientity.Med_EstadoCivil & "','" & mientity.Med_FechaIngreso & "','" & mientity.Med_FechaNacimiento & "','" & mientity.Med_Matricula & "'," & _
-        "'" & mientity.Med_Matricula1 & "','" & mientity.Med_NumeroDoc & "','" & mientity.Med_NumeroExt & "'," & _
-        "'" & mientity.Med_NumeroInt & " ','" & mientity.Med_Sexo & "','" & mientity.Med_Telefonos & "','" & mientity.TDOC_Key & "')"
+
+        strsql = "Insert into Medicos (LOCA_Key,Med_Apellidos,Med_Nombres,Med_Calle,Med_Celular,Med_Email,Med_Especialidad,Med_EstadoCivil,Med_FechaIngreso," _
+        "Med_FechaNacimiento,Med_Matricula,Med_Matricula1,Med_NumeroDoc,Med_NumeroExt,Med_NumeroInt,Med_Sexo,Med_Telefonos,TDOC_Key)" _
+        "values ('" & mientity.Med_Apellidos & "','" & mientity.Med_Nombres & "','" & mientity.Med_Calle & "','" & mientity.Med_Celular & "','" & mientity.Med_Email & "', '" _
+        & mientity.Med_Especialidad & "','" & mientity.Med_EstadoCivil & "','" & mientity.Med_FechaIngreso & "','" & mientity.Med_FechaNacimiento & "','" & mientity.Med_Matricula & "', '" _
+        & "'" & mientity.Med_Matricula1 & "','" & mientity.Med_NumeroDoc & "','" & mientity.Med_NumeroExt & "'," _
+        & mientity.Med_NumeroInt & " ','" & mientity.Med_Sexo & "','" & mientity.Med_Telefonos & "','" & mientity.TDOC_Key & "')"
 
         Return ExecuteInsertQuery(strsql)
 
