@@ -43,5 +43,5 @@ Public Class BLMedicos
         Return da.UpdateEntity(mEntityObject)
     End Function
 
-    'preguntar a javier porque no hacer el insert
+
 End Class
