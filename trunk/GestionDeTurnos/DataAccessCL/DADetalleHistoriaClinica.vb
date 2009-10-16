@@ -1,4 +1,4 @@
-Option Explicit On
+<<<<<<< .mine
 Public Class DADetalleHistoriaClinica
     Inherits MBFrameWork.DataAccess.DAOledb
     Implements MBFrameWork.DataAccess.IEntityzable
@@ -55,7 +55,7 @@ Public Class DADetalleHistoriaClinica
         End If
 
         If Not miEntity.Deta_FechaConsulta = Date.MinValue Then
-            strWhere = "AND Deta_FechaConsulta = '" & miEntity.Deta_FechaConsulta.ToString & "' "
+            strWhere = "AND Deta_FechaConsulta = '" & miEntity.Deta_FechaConsulta & "' "
         End If
 
 
@@ -95,7 +95,7 @@ Public Class DADetalleHistoriaClinica
         If String.IsNullOrEmpty(miEntity.Deta_DuracionTratamiento) = False Then
             strWhere = "AND Deta_DuracionTratamiento = '" & miEntity.Deta_DuracionTratamiento & "' "
         End If
-
+        
 
         'valido si la exprsion del where tiene contenido
 
@@ -103,7 +103,7 @@ Public Class DADetalleHistoriaClinica
             Throw New Exception("No se puede ejecutar la actualizacion porque no se han especificado todos los valores")
         Else
             'Elimino la palabra "AND" del where
-            strWhere = strWhere.Remove(0, 3)
+            strWhere = strWhere.Remove(0, 11)
         End If
 
         strSql = strSql & " Where " & strWhere
@@ -122,7 +122,7 @@ Public Class DADetalleHistoriaClinica
     Public Function GetEntity(ByVal mKey As Object) As Object Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetEntity
 
         Dim dt As DataTable
-        dt = GetDataTable("Select * From DetalleHistoriaClinica Where Pac_key = " & mKey)
+        dt = GetDataTable("Select * From DetalleHistoriaClinica Where SYS_ROLE_KEY = " & mKey)
         If dt Is Nothing Then
             Return Nothing
         End If
@@ -155,8 +155,8 @@ Public Class DADetalleHistoriaClinica
             strWhere = strWhere & "AND Pac_key = " & miEntity.Pac_key.ToString & " "
         End If
 
-        If String.IsNullOrEmpty(miEntity.Deta_FechaConsulta) = False Then
-            strWhere = "AND Deta_FechaConsulta = '" & miEntity.Deta_FechaConsulta & "' "
+        If Not miEntity.Deta_FechaConsulta = Date.MinValue Then
+            strWhere = "AND Deta_FechaConsulta = '" & miEntity.Deta_FechaConsulta.ToString & "' "
         End If
 
 
@@ -239,9 +239,7 @@ Public Class DADetalleHistoriaClinica
         Dim miEntity As Entities.EntDetalleHistoriaClinica = Nothing
         miEntity = CType(mEntityObject, Entities.EntDetalleHistoriaClinica)
         Dim strSql As String = ""
-        strSql = "Insert Into DetalleHistoriaClinica (Deta_FechaConsulta, Deta_Especialidad, Deta_NombresMedico, Deta_ApellidosMedico, Deta_Descripcion, Deta_Observacion, Deta_Diagnostico, Deta_Medicacion, Deta_Tratamiento, Deta_DuracionTratamiento) Values ('" & miEntity.Deta_FechaConsulta & "', " & miEntity.Deta_Especialidad.ToString & miEntity.Deta_NombresMedico.ToString & miEntity.Deta_ApellidosMedico.ToString & miEntity.")"
-
-
+        strSql = "Insert Into DetalleHistoriaClinica (Deta_FechaConsulta, Deta_Especialidad, Deta_NombresMedico, Deta_ApellidosMedico, Deta_Descripcion, Deta_Observacion, Deta_Diagnostico, Deta_Medicacion, Deta_Tratamiento, Deta_DuracionTratamiento) Values ('" & miEntity.Deta_FechaConsulta & "', " & miEntity.Deta_Especialidad.ToString & "," & miEntity.Deta_NombresMedico.ToString & "," & miEntity.Deta_ApellidosMedico.ToString & "," & miEntity.Deta_Descripcion & "," & miEntity.Deta_Observacion & " , " & miEntity.Deta_Diagnostico & " , " & miEntity.Deta_Medicacion & " , " & miEntity.Deta_Tratamiento & "  , " & miEntity.Deta_DuracionTratamiento & ")"
 
 
         Return ExecuteInsertQuery(strSql)
@@ -251,7 +249,9 @@ Public Class DADetalleHistoriaClinica
 
     Public Function UpdateEntity(ByVal mEntityObject As Object) As Boolean Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.UpdateEntity
 
-
+        Dim strSql As String = ""
+        Dim miEntity As Entities.EntDetalleHistoriaClinica = Nothing
+        miEntity = CType(mEntityObject, Entities.EntDetalleHistoriaClinica)
 
     End Function
 End Class
