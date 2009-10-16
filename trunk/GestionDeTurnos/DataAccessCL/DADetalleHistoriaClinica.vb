@@ -1,4 +1,4 @@
-<<<<<<< .mine
+
 Public Class DADetalleHistoriaClinica
     Inherits MBFrameWork.DataAccess.DAOledb
     Implements MBFrameWork.DataAccess.IEntityzable
@@ -252,6 +252,62 @@ Public Class DADetalleHistoriaClinica
         Dim strSql As String = ""
         Dim miEntity As Entities.EntDetalleHistoriaClinica = Nothing
         miEntity = CType(mEntityObject, Entities.EntDetalleHistoriaClinica)
+
+        If miEntity.Pac_key.HasValue = False Then
+            Throw New Exception("No se puede ejecutar la accion debido a que no se ha declarado la clave principal")
+        End If
+
+        If String.IsNullOrEmpty(miEntity.Deta_FechaConsulta) = False Then
+            strSql = ", Deta_FechaConsulta = '" & miEntity.Deta_FechaConsulta & "' "
+        End If
+
+        If miEntity.Deta_Especialidad.HasValue Then
+            strSql = strSql & ", Deta_Especialidad = " & miEntity.Deta_Especialidad.ToString & " "
+        End If
+
+
+
+        If String.IsNullOrEmpty(miEntity.Deta_NombresMedico) = False Then
+            strSql = ", Deta_NombresMedico = '" & miEntity.Deta_NombresMedico & "' "
+        End If
+
+        If String.IsNullOrEmpty(miEntity.Deta_ApellidosMedico) = False Then
+            strSql = ", Deta_ApellidosMedico = '" & miEntity.Deta_ApellidosMedico & "' "
+        End If
+
+        If String.IsNullOrEmpty(miEntity.Deta_Descripcion) = False Then
+            strSql = ", Deta_Descripcion = '" & miEntity.Deta_Descripcion & "' "
+        End If
+
+        If String.IsNullOrEmpty(miEntity.Deta_Observacion) = False Then
+            strSql = ", Deta_Observacion = '" & miEntity.Deta_Observacion & "' "
+        End If
+
+        If String.IsNullOrEmpty(miEntity.Deta_Diagnostico) = False Then
+            strSql = ", Deta_Diagnostico = '" & miEntity.Deta_Diagnostico & "' "
+        End If
+
+        If String.IsNullOrEmpty(miEntity.Deta_Medicacion) = False Then
+            strSql = ", Deta_Medicacion = '" & miEntity.Deta_Tratamiento & "' "
+        End If
+
+        If String.IsNullOrEmpty(miEntity.Deta_Tratamiento) = False Then
+            strSql = ", Deta_Tratamiento = '" & miEntity.Deta_Tratamiento & "' "
+        End If
+
+        If String.IsNullOrEmpty(miEntity.Deta_DuracionTratamiento) = False Then
+            strSql = ", Deta_DuracionTratamiento = '" & miEntity.Deta_DuracionTratamiento & "' "
+        End If
+
+
+
+        strSql = strSql.Remove(0, 1)
+
+        strSql = "Update  Set " & strSql & " Where Pac_KEY = " & miEntity.Pac_key.ToString
+
+        Return ExecuteSQLNonQuery(strSql)
+
+
 
     End Function
 End Class
