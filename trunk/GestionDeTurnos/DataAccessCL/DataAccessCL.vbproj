@@ -51,6 +51,7 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DADetalleHistoriaClinica.vb" />
     <Compile Include="DADisponbilidadHoraria.vb" />
     <Compile Include="DAEntConsultorios.vb" />
     <Compile Include="DAEntMotivoVisita.vb" />
