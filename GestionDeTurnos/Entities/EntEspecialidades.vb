@@ -1,7 +1,7 @@
 Public Class EntEspecialidades
-    Private _iEspecialidad As Nullable(Of Integer)
-    Private _cDescripcion As String
-    Private _iConsultorio As Nullable(Of Integer)
+    Private _iEspecialidad As Nullable(Of Integer) = Nothing
+    Private _cDescripcion As String = Nothing
+    Private _iConsultorio As Nullable(Of Integer) = Nothing
 
     Public Property iEspecialidad() As Nullable(Of Integer)
         Get
