@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLConsultorios.vb" />
+    <Compile Include="BLDetalleHistoriaClinica.vb" />
     <Compile Include="BLMedicos.vb" />
     <Compile Include="BLMotivoVisita.vb" />
     <Compile Include="BLPacientes.vb" />
