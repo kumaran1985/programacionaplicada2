@@ -7,10 +7,10 @@ Public Class DADisponbilidadHoraria
     Public Function GenerarEntidad(ByVal mDataTable As System.Data.DataRow) As Object Implements MBFrameWork.DataAccess.IEntityzable.GenerarEntidad
         Dim miEntity As New Entities.EntDisponibilidadHoraria
 
-
-        miEntity.DSPH_Key = mDataTable("DSPH_KEY _Description")
-        miEntity.Med_Key = mDataTable("DSPH_KEY_Enabled")
-        miEntity.DSPH_DiaSemana = mDataTable("DSPH_DIASEMANA_KEY")
+        'Paso cada columna del datarow a una propiedad de la entity creada
+        miEntity.DSPH_Key = mDataTable("DSPH_KEY")
+        miEntity.Med_Key = mDataTable("MED_KEY")
+        miEntity.DSPH_DiaSemana = mDataTable("DSPH_DIASEMANA")
         miEntity.DSPH_Duracion = ("DSPH_DURACION")
         miEntity.DSPH_HoraInicio = ("DSPH_HORAINICIO")
         miEntity.DSPH_HoraFin = ("DSPH_HORAFIN")
@@ -46,6 +46,8 @@ Public Class DADisponbilidadHoraria
         miEntity = CType(mEntityObject, Entities.EntDisponibilidadHoraria)
         Dim strSql As String = ""
         Dim strWhere As String = ""
+
+        'Seteo la variable strSQL con la consulta SQL que quiero realizar
         strSql = "DELETE FROM DisponibilidadHoraria "
 
         If Not IsNothing(miEntity.Med_Key) Then
@@ -88,11 +90,13 @@ Public Class DADisponbilidadHoraria
 
         strSql = strSql & strWhere
 
+        'Ejecuto la sentencia SQL especificada en la variable strSQL
         Return ExecuteSQLNonQuery(strSql)
     End Function
 
     Public Function DeleteEntity(ByVal mKey As String) As Boolean Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.DeleteEntity
         Dim strSQL As String
+        'Seteo la variable strSQL con la consulta SQL que quiero realizar
         strSQL = "DELETE FROM DisponibilidadHoraria WHERE DSPH_Key = " & mKey
 
         Return ExecuteSQLNonQuery(strSQL)
@@ -100,6 +104,8 @@ Public Class DADisponbilidadHoraria
 
     Public Function GetEntity(ByVal mKey As Object) As Object Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetEntity
         Dim dt As DataTable
+
+        'Obtengo el registro de la BD mediante la consulta SQL especificada
         dt = GetDataTable("SELECT * FROM DisponibilidadHoraria WHERE DSPH_Key = " & mKey)
         If dt Is Nothing Then
             Return Nothing
@@ -109,6 +115,7 @@ Public Class DADisponbilidadHoraria
     End Function
 
     Public Function GetListOfEntity() As System.Collections.IList Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetListOfEntity
+        'Obtengo TODOS los registros de la tabla especificada
         Dim dt As DataTable = GetAllFromTable("DisponibilidadHoraria")
         If dt Is Nothing Then
             Return Nothing
@@ -175,6 +182,7 @@ Public Class DADisponbilidadHoraria
     End Function
 
     Public Function GetTable() As System.Data.DataTable Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetTable
+        'Obtiene una lista de TODOS los registros de la tabla y los devuelve como un objeto DataTable
         Dim dt As DataTable
         dt = GetDataTable("SELECT * FROM DisponibilidadHoraria")
         Return dt
@@ -182,6 +190,8 @@ Public Class DADisponbilidadHoraria
 
     Public Function GetTable(ByVal mKey As String) As System.Data.DataTable Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetTable
         Dim dt As DataTable
+
+        'Obtiene una lista de registros de la tabla filtrados por clave principal y los devuelve como un objeto DataTable
         dt = GetDataTable("SELECT * FROM DisponibilidadHoraria WHERE DSPH_Key = " & mKey)
         Return dt
     End Function
@@ -190,6 +200,7 @@ Public Class DADisponbilidadHoraria
         Dim miEntity As Entities.EntDisponibilidadHoraria = Nothing
         miEntity = CType(mEntityObject, Entities.EntDisponibilidadHoraria)
 
+        'Creo una variable strSQL a la cual le asigno la consulta SQL que quiero ejecutar
         Dim strSql As String = ""
         strSql = "INSERT INTO DisponibilidadHoraria (Med_Key, DSPH_DiaSemana, DSPH_Duracion, DSPH_HoraInicio, DSPH_HoraFin, DSPH_FechaIni, DSPH_FechaFin, DSPH_Novedades) VALUES " & _
             "(" & miEntity.Med_Key.GetValueOrDefault().ToString() & ", '" & miEntity.DSPH_DiaSemana & "', " & miEntity.DSPH_Duracion.GetValueOrDefault().ToString() & ", #" & miEntity.DSPH_HoraInicio & _
