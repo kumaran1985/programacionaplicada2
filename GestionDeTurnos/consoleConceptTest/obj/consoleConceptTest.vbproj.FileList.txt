@@ -1,0 +1,4 @@
+bin\Debug\consoleConceptTest.exe.config
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\consoleConceptTest.Resources.resources
+obj\Debug\consoleConceptTest.vbproj.GenerateResource.Cache
