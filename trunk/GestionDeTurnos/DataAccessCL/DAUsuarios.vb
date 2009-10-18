@@ -252,6 +252,63 @@ Public Class DAUsuarios
     End Function
 
     Public Function UpdateEntity(ByVal mEntityObject As Object) As Boolean Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.UpdateEntity
+        Dim strSql As String = ""
+        Dim miEntity As Entities.EntUsuarios = Nothing
+        miEntity = CType(mEntityObject, Entities.EntUsuarios)
+
+        If String.IsNullOrEmpty(miEntity.Login) = False Then
+            Throw New Exception("No se puede ejecutar la accion debido a que no se ha declarado la clave principal")
+        End If
+
+        If miEntity.ROLE_KEY.HasValue Then
+            strSql = ", SYS_ROLE_Key = '" & miEntity.ROLE_KEY.ToString & "' "
+        End If
+
+        If miEntity.TDOC_Key.ToString Then
+            strSql = ", TDOC_Key = '" & miEntity.TDOC_Key & "' "
+        End If
+
+        If String.IsNullOrEmpty(miEntity.User_Apellido) Then
+            strSql = ", SYS_User_Apellido = '" & miEntity.User_Apellido & "' "
+        End If
+
+        If String.IsNullOrEmpty(miEntity.User_Celular) Then
+            strSql = ", SYS_User_Celular = '" & miEntity.User_Celular & "' "
+        End If
+
+        If miEntity.User_Autorizacion.ToString Then
+            strSql = ", SYS_User_Autorizacion = '" & miEntity.User_Autorizacion.ToString & "' "
+        End If
+
+        If String.IsNullOrEmpty(miEntity.User_Direccion) Then
+            strSql = ", SYS_User_Direccion = '" & miEntity.User_Direccion & "' "
+        End If
+
+        If String.IsNullOrEmpty(miEntity.User_Email) Then
+            strSql = ", SYS_User_Email = '" & miEntity.User_Email & "' "
+        End If
+
+        If String.IsNullOrEmpty(miEntity.User_Nombre) Then
+            strSql = ", SYS_User_Nombre = '" & miEntity.User_Nombre & "' "
+        End If
+
+        If String.IsNullOrEmpty(miEntity.User_Pass) Then
+            strSql = ", SYS_User_Pass = '" & miEntity.User_Pass & "' "
+        End If
+
+        If String.IsNullOrEmpty(miEntity.User_Telefono) Then
+            strSql = ", SYS_User_Telefono = '" & miEntity.User_Telefono & "' "
+        End If
+
+        If String.IsNullOrEmpty(miEntity.User_DNI) Then
+            strSql = ", SYS_User_DNI = '" & miEntity.User_DNI & "' "
+        End If
+
+        strSql = strSql.Remove(0, 1)
+
+        strSql = "Update SYS_Usuarios Set " & strSql & " Where SYS_User_Login = " & miEntity.Login.ToString
+
+        Return ExecuteSQLNonQuery(strSql)
 
     End Function
 End Class
