@@ -124,7 +124,7 @@ Public Class DAPacientes
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Telefonos) = False Then
-            strWhere = "AND Pac_key = '" & miEntity.Pac_Telefonos & "' "
+            strWhere = "AND Pac_Telefono = '" & miEntity.Pac_Telefonos & "' "
         End If
 
         If miEntity.TDOC_Key.HasValue Then
@@ -255,7 +255,7 @@ Public Class DAPacientes
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Telefonos) = False Then
-            strWhere = "AND Pac_key = '" & miEntity.Pac_Telefonos & "' "
+            strWhere = "AND Pac_Telefono = '" & miEntity.Pac_Telefonos & "' "
         End If
 
         If miEntity.TDOC_Key.HasValue Then
@@ -315,75 +315,75 @@ Public Class DAPacientes
 
 
         If miEntity.LOCA_Key.HasValue Then
-            strSql = strSql & "AND LOCA_Key = " & miEntity.LOCA_Key.ToString & ""
+            strSql = strSql & ", LOCA_Key = " & miEntity.LOCA_Key.ToString & ""
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Apellidos) = False Then
-            strSql = "AND Pac_Apellidos = '" & miEntity.Pac_Apellidos & "' "
+            strSql = ", Pac_Apellidos = '" & miEntity.Pac_Apellidos & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Calle) = False Then
-            strSql = "AND Pac_Calle = '" & miEntity.Pac_Calle & "' "
+            strSql = ", Pac_Calle = '" & miEntity.Pac_Calle & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Celular) = False Then
-            strSql = "AND Pac_Celular = '" & miEntity.Pac_Celular & "' "
+            strSql = ", Pac_Celular = '" & miEntity.Pac_Celular & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Email) = False Then
-            strSql = "AND Pac_Email = '" & miEntity.Pac_Email & "' "
+            strSql = ", Pac_Email = '" & miEntity.Pac_Email & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_EstadoCivil) = False Then
-            strSql = "AND Pac_EstadoCivil = '" & miEntity.Pac_EstadoCivil & "' "
+            strSql = ", Pac_EstadoCivil = '" & miEntity.Pac_EstadoCivil & "' "
         End If
 
         If Not miEntity.Pac_FechaAlta = Date.MinValue Then
-            strSql = "AND Pac_FechaAlta = '" & miEntity.Pac_FechaAlta & "' "
+            strSql = ", Pac_FechaAlta = '" & miEntity.Pac_FechaAlta & "' "
         End If
 
         If Not miEntity.Pac_FechaCancelacion = Date.MinValue Then
-            strSql = "AND Pac_FechaCancelacion = '" & miEntity.Pac_FechaCancelacion & "' "
+            strSql = ", Pac_FechaCancelacion = '" & miEntity.Pac_FechaCancelacion & "' "
         End If
 
         If Not miEntity.Pac_FechaNacimiento = Date.MinValue Then
-            strSql = "AND Pac_FechaNacimiento = '" & miEntity.Pac_FechaNacimiento & "' "
+            strSql = ", Pac_FechaNacimiento = '" & miEntity.Pac_FechaNacimiento & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Nacionalidad) = False Then
-            strSql = "AND Pac_Nacionalidad = '" & miEntity.Pac_Nacionalidad & "' "
+            strSql = ", Pac_Nacionalidad = '" & miEntity.Pac_Nacionalidad & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Nombres) = False Then
-            strSql = "AND Pac_Nombres = '" & miEntity.Pac_Nombres & "' "
+            strSql = ", Pac_Nombres = '" & miEntity.Pac_Nombres & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_NumeroDoc) = False Then
-            strSql = "AND Pac_NumeroDoc = '" & miEntity.Pac_NumeroDoc & "' "
+            strSql = ", Pac_NumeroDoc = '" & miEntity.Pac_NumeroDoc & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_NumeroExt) = False Then
-            strSql = "AND Pac_NumeroExt = '" & miEntity.Pac_NumeroExt & "' "
+            strSql = ", Pac_NumeroExt = '" & miEntity.Pac_NumeroExt & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_NumeroInt) = False Then
-            strSql = "AND Pac_NumeroInt = '" & miEntity.Pac_NumeroInt & "' "
+            strSql = ", Pac_NumeroInt = '" & miEntity.Pac_NumeroInt & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Ocupacion) = False Then
-            strSql = "AND Pac_Ocupacion = '" & miEntity.Pac_Ocupacion & "' "
+            strSql = ", Pac_Ocupacion = '" & miEntity.Pac_Ocupacion & "' "
         End If
 
         If miEntity.Pac_Sexo.HasValue Then
-            strSql = strSql & "AND Pac_Sexo = " & miEntity.Pac_Sexo.ToString & ""
+            strSql = strSql & ", Pac_Sexo = " & miEntity.Pac_Sexo.ToString & ""
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Telefonos) = False Then
-            strSql = "AND Pac_key = '" & miEntity.Pac_Telefonos & "' "
+            strSql = ", Pac_Telefono = '" & miEntity.Pac_Telefonos & "' "
         End If
 
         If miEntity.TDOC_Key.HasValue Then
-            strSql = strSql & "AND TDOC_Key = " & miEntity.TDOC_Key.ToString & ""
+            strSql = strSql & ", TDOC_Key = " & miEntity.TDOC_Key.ToString & ""
         End If
 
         strSql = strSql.Remove(0, 1)
