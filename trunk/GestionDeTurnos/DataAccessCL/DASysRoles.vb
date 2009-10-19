@@ -4,7 +4,6 @@ Public Class DASysRoles
     Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys
 
 
-
     Public Function GenerarEntidad(ByVal mDataTable As System.Data.DataRow) As Object Implements MBFrameWork.DataAccess.IEntityzable.GenerarEntidad
         Dim miEntity As New Entities.EntSys_Roles
 
