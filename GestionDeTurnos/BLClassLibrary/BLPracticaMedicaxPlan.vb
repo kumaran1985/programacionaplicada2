@@ -1,4 +1,4 @@
-Public Class BLPracticasMedicas
+Public Class BLPracticaMedicaxPlan
 
     Inherits MBFrameWork.BussinesLogic.BLBase
     Implements MBFrameWork.BussinesLogic.IStandardQuerys
@@ -6,7 +6,7 @@ Public Class BLPracticasMedicas
 
     Public Function DeleteEntity(ByVal mEntityObject As Object) As Boolean Implements MBFrameWork.BussinesLogic.IStandardQuerys.DeleteEntity
 
-        Dim da As New DataAccessCL.DAPracticasMedicas
+        Dim da As New DataAccessCL.DAPracticasMedicasxPlan
         Return da.DeleteEntity(mEntityObject)
 
     End Function
@@ -16,7 +16,7 @@ Public Class BLPracticasMedicas
     End Function
 
     Public Function GetEntity(ByVal mKey As Object) As Object Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetEntity
-        Dim da As New DataAccessCL.DAPracticasMedicas
+        Dim da As New DataAccessCL.DAPracticasMedicasxPlan
         Return da.GetListOfEntity
 
     End Function
@@ -26,7 +26,7 @@ Public Class BLPracticasMedicas
     End Function
 
     Public Function GetListOfEntity(ByVal mEntityObject As Object) As System.Collections.IList Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetListOfEntity
-        Dim da As New DataAccessCL.DAPracticasMedicas
+        Dim da As New DataAccessCL.DAPracticasMedicasxPlan
 
         Return da.GetListOfEntity(mEntityObject)
     End Function
@@ -42,4 +42,5 @@ Public Class BLPracticasMedicas
     Public Function UpdateEntity(ByVal mEntityObject As Object) As Boolean Implements MBFrameWork.BussinesLogic.IStandardQuerys.UpdateEntity
 
     End Function
+
 End Class
