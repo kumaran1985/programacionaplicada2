@@ -51,6 +51,7 @@
     <Compile Include="BLDetalleHistoriaClinica.vb" />
     <Compile Include="BLDisponibilidadHoraria.vb" />
     <Compile Include="BLEspecialidades.vb" />
+    <Compile Include="BLLocalidades.vb" />
     <Compile Include="BLMedicos.vb" />
     <Compile Include="BLMotivoVisita.vb" />
     <Compile Include="BLPacientes.vb" />
@@ -58,6 +59,7 @@
     <Compile Include="BLPlanes.vb" />
     <Compile Include="BLPracticaMedicaxPlan.vb" />
     <Compile Include="BLPracticasMedicas.vb" />
+    <Compile Include="BLProvincias.vb" />
     <Compile Include="BLSysRoles.vb" />
     <Compile Include="BLTiposDocumento.vb" />
     <Compile Include="BLUsuarios.vb" />
