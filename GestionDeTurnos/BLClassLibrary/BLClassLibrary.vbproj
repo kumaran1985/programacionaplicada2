@@ -56,8 +56,8 @@
     <Compile Include="BLPracticaMedicaxPlan.vb" />
     <Compile Include="BLPracticasMedicas.vb" />
     <Compile Include="BLSysRoles.vb" />
-    <Compile Include="BLSysUsuarios.vb" />
     <Compile Include="BLTiposDocumento.vb" />
+    <Compile Include="BLUsuarios.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
