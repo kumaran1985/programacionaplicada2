@@ -7,17 +7,18 @@ Public Class DADetalleHistoriaClinica
 
     Public Function GenerarEntidad(ByVal mDataTable As System.Data.DataRow) As Object Implements MBFrameWork.DataAccess.IEntityzable.GenerarEntidad
         Dim miEntity As New Entities.EntDetalleHistoriaClinica
-        miEntity.Pac_key = DBVal(mDataTable("_Pac_key"))
-        miEntity.Deta_FechaConsulta = DBVal(mDataTable("_Deta_FechaConsulta"))
-        miEntity.Deta_Especialidad = DBVal(mDataTable("_Deta_Especialidad"))
-        miEntity.Deta_NombresMedico = DBVal(mDataTable("_Deta_NombresMedico"))
-        miEntity.Deta_ApellidosMedico = DBVal(mDataTable("_Deta_ApellidosMedico"))
-        miEntity.Deta_Descripcion = DBVal(mDataTable("_Deta_Descripcion"))
-        miEntity.Deta_Observacion = DBVal(mDataTable("_Deta_Observacion"))
-        miEntity.Deta_Diagnostico = DBVal(mDataTable("_Deta_Diagnostico"))
-        miEntity.Deta_Medicacion = DBVal(mDataTable("_Deta_Medicacion"))
-        miEntity.Deta_Tratamiento = DBVal(mDataTable("_Deta_Tratamiento"))
-        miEntity.Deta_DuracionTratamiento = DBVal(mDataTable("_Deta_DuracionTratamiento"))
+        miEntity.Deta_key = DBVal(mDataTable("Deta_Key"))
+        miEntity.Pac_key = DBVal(mDataTable("Pac_key"))
+        miEntity.Deta_FechaConsulta = DBVal(mDataTable("Deta_FechaConsulta"))
+        miEntity.Deta_Especialidad = DBVal(mDataTable("Deta_Especialidad"))
+        miEntity.Deta_NombresMedico = DBVal(mDataTable("Deta_NombresMedico"))
+        miEntity.Deta_ApellidosMedico = DBVal(mDataTable("Deta_ApellidosMedico"))
+        miEntity.Deta_Descripcion = DBVal(mDataTable("Deta_Descripcion"))
+        miEntity.Deta_Observacion = DBVal(mDataTable("Deta_Observacion"))
+        miEntity.Deta_Diagnostico = DBVal(mDataTable("Deta_Diagnostico"))
+        miEntity.Deta_Medicacion = DBVal(mDataTable("Deta_Medicacion"))
+        miEntity.Deta_Tratamiento = DBVal(mDataTable("Deta_Tratamiento"))
+        miEntity.Deta_DuracionTratamiento = DBVal(mDataTable("Deta_DuracionTratamiento"))
 
 
         Return miEntity
@@ -49,6 +50,10 @@ Public Class DADetalleHistoriaClinica
         Dim strSql As String = ""
         Dim strWhere As String = ""
         strSql = "Delete From EntDetalleHistoriaClinica"
+
+        If miEntity.Deta_key.HasValue Then
+            strWhere = strWhere & "AND Deta_Key" & miEntity.Deta_key.ToString & " "
+        End If
 
         If miEntity.Pac_key.HasValue Then
             strWhere = strWhere & "AND Pac_key = " & miEntity.Pac_key.ToString & " "
@@ -103,7 +108,7 @@ Public Class DADetalleHistoriaClinica
             Throw New Exception("No se puede ejecutar la actualizacion porque no se han especificado todos los valores")
         Else
             'Elimino la palabra "AND" del where
-            strWhere = strWhere.Remove(0, 11)
+            strWhere = strWhere.Remove(0, 3)
         End If
 
         strSql = strSql & " Where " & strWhere
@@ -113,7 +118,7 @@ Public Class DADetalleHistoriaClinica
 
     Public Function DeleteEntity(ByVal mKey As String) As Boolean Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.DeleteEntity
         Dim strSQL As String = ""
-        strSQL = "Delete from DetalleHistoriaClinica Where  Pac_key= " & mKey
+        strSQL = "Delete from DetalleHistoriaClinica Where  Deta_key= " & mKey
         Return ExecuteSQLNonQuery(strSQL)
     End Function
 
@@ -122,7 +127,7 @@ Public Class DADetalleHistoriaClinica
     Public Function GetEntity(ByVal mKey As Object) As Object Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetEntity
 
         Dim dt As DataTable
-        dt = GetDataTable("Select * From DetalleHistoriaClinica Where SYS_ROLE_KEY = " & mKey)
+        dt = GetDataTable("Select * From DetalleHistoriaClinica Where Deta_key = " & mKey)
         If dt Is Nothing Then
             Return Nothing
         End If
@@ -150,6 +155,10 @@ Public Class DADetalleHistoriaClinica
         Dim strSql As String = ""
         Dim strWhere As String = ""
         strSql = "Select * From DetalleHistoriaClinica "
+
+        If miEntity.Deta_key.HasValue Then
+            strWhere = strWhere & "AND Deta_key = " & miEntity.Deta_key.ToString & " "
+        End If
 
         If miEntity.Pac_key.HasValue Then
             strWhere = strWhere & "AND Pac_key = " & miEntity.Pac_key.ToString & " "
@@ -229,7 +238,7 @@ Public Class DADetalleHistoriaClinica
     Public Function GetTable(ByVal mKey As String) As System.Data.DataTable Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetTable
 
         Dim dt As DataTable
-        dt = GetDataTable("Select * DetalleHistoriaClinica Where Pac_key = " & mKey)
+        dt = GetDataTable("Select * DetalleHistoriaClinica Where Deta_key = " & mKey)
         Return dt
 
     End Function
@@ -239,7 +248,7 @@ Public Class DADetalleHistoriaClinica
         Dim miEntity As Entities.EntDetalleHistoriaClinica = Nothing
         miEntity = CType(mEntityObject, Entities.EntDetalleHistoriaClinica)
         Dim strSql As String = ""
-        strSql = "Insert Into DetalleHistoriaClinica (Deta_FechaConsulta, Deta_Especialidad, Deta_NombresMedico, Deta_ApellidosMedico, Deta_Descripcion, Deta_Observacion, Deta_Diagnostico, Deta_Medicacion, Deta_Tratamiento, Deta_DuracionTratamiento) Values ('" & miEntity.Deta_FechaConsulta & "', " & miEntity.Deta_Especialidad.ToString & "," & miEntity.Deta_NombresMedico.ToString & "," & miEntity.Deta_ApellidosMedico.ToString & "," & miEntity.Deta_Descripcion & "," & miEntity.Deta_Observacion & " , " & miEntity.Deta_Diagnostico & " , " & miEntity.Deta_Medicacion & " , " & miEntity.Deta_Tratamiento & "  , " & miEntity.Deta_DuracionTratamiento & ")"
+        strSql = "Insert Into DetalleHistoriaClinica (Pac_key, Deta_FechaConsulta, Deta_Especialidad, Deta_NombresMedico, Deta_ApellidosMedico, Deta_Descripcion, Deta_Observacion, Deta_Diagnostico, Deta_Medicacion, Deta_Tratamiento, Deta_DuracionTratamiento) Values ('" & miEntity.Pac_key.ToString & "', " & miEntity.Deta_FechaConsulta.ToString & " " & miEntity.Deta_Especialidad.ToString & "," & miEntity.Deta_NombresMedico.ToString & "," & miEntity.Deta_ApellidosMedico & "," & miEntity.Deta_Descripcion & "," & miEntity.Deta_Observacion & " , " & miEntity.Deta_Diagnostico & " , " & miEntity.Deta_Medicacion & " , " & miEntity.Deta_Tratamiento & "  , " & miEntity.Deta_DuracionTratamiento & ")"
 
 
         Return ExecuteInsertQuery(strSql)
@@ -253,8 +262,12 @@ Public Class DADetalleHistoriaClinica
         Dim miEntity As Entities.EntDetalleHistoriaClinica = Nothing
         miEntity = CType(mEntityObject, Entities.EntDetalleHistoriaClinica)
 
-        If miEntity.Pac_key.HasValue = False Then
+        If miEntity.Deta_key.HasValue = False Then
             Throw New Exception("No se puede ejecutar la accion debido a que no se ha declarado la clave principal")
+        End If
+
+        If miEntity.Pac_key.HasValue Then
+            strSql = strSql & ", Deta_Especialidad = " & miEntity.Deta_Especialidad.ToString & " "
         End If
 
         If String.IsNullOrEmpty(miEntity.Deta_FechaConsulta) = False Then
@@ -264,8 +277,6 @@ Public Class DADetalleHistoriaClinica
         If miEntity.Deta_Especialidad.HasValue Then
             strSql = strSql & ", Deta_Especialidad = " & miEntity.Deta_Especialidad.ToString & " "
         End If
-
-
 
         If String.IsNullOrEmpty(miEntity.Deta_NombresMedico) = False Then
             strSql = ", Deta_NombresMedico = '" & miEntity.Deta_NombresMedico & "' "
