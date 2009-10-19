@@ -1,4 +1,5 @@
 Public Class EntDetalleHistoriaClinica
+    Private _Deta_key As Nullable(Of Integer) = Nothing
     Private _Pac_key As Nullable(Of Integer) = Nothing
     Private _Deta_FechaConsulta As Date = Nothing
     Private _Deta_Especialidad As Nullable(Of Integer) = Nothing
@@ -11,7 +12,15 @@ Public Class EntDetalleHistoriaClinica
     Private _Deta_Tratamiento As String = Nothing
     Private _Deta_DuracionTratamiento As String = Nothing
 
+    Public Property Deta_key() As Nullable(Of Integer)
+        Get
+            Return _Deta_key
 
+        End Get
+        Set(ByVal value As Nullable(Of Integer))
+            _Deta_key = value
+        End Set
+    End Property
 
     Public Property Pac_key() As Nullable(Of Integer)
         Get
