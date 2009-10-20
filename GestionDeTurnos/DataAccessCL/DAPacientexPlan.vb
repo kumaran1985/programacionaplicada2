@@ -58,11 +58,11 @@ Public Class DAPacientexPlan
 
         End If
         If miEntity.tFechaInicio = Date.MinValue Then 'quiere decir que la fecha está vacía
-            strWhere = strWhere & "AND _tFechaInicio = " & miEntity.tFechaInicio.Date & ""
+            strWhere = strWhere & "AND _tFechaInicio = #" & miEntity.tFechaInicio.Date & "#"
 
         End If
         If miEntity.tFechaFin = Date.MinValue Then
-            strWhere = strWhere & "AND _tFechaFin = " & miEntity.tFechaFin.Date & ""
+            strWhere = strWhere & "AND _tFechaFin = #" & miEntity.tFechaFin.Date & "#"
         End If
 
 
@@ -130,11 +130,11 @@ Public Class DAPacientexPlan
 
         End If
         If miEntity.tFechaInicio = Date.MinValue Then
-            strWhere = strWhere & "AND _tFechaInicio = " & miEntity.tFechaInicio.Date & ""
+            strWhere = strWhere & "AND _tFechaInicio = #" & miEntity.tFechaInicio.Date & "#"
 
         End If
         If miEntity.tFechaFin = Date.MinValue Then
-            strWhere = strWhere & "AND _tFechaFin = " & miEntity.tFechaFin.Date & ""
+            strWhere = strWhere & "AND _tFechaFin = #" & miEntity.tFechaFin.Date & "#"
         End If
 
         
@@ -196,11 +196,11 @@ Public Class DAPacientexPlan
         End If
 
         If miEntity.tFechaInicio.ToString Then
-            strSql = strSql & ", tFechaInicio = " & miEntity.tFechaInicio.ToString & " "
+            strSql = strSql & ", tFechaInicio = #" & miEntity.tFechaInicio.ToString & "#"
         End If
 
         If miEntity.tFechaFin.ToString Then
-            strSql = strSql & ", tFechaFin = " & miEntity.tFechaFin.ToString & " "
+            strSql = strSql & ", tFechaFin = #" & miEntity.tFechaFin.ToString & "#"
         End If
 
         strSql = strSql.Remove(0, 1)
