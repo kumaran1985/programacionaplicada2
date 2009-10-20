@@ -96,18 +96,18 @@ Public Class DAObrasSociales
         End If
 
         If String.IsNullOrEmpty(MiEntity.OS_FechaFinConvenio) = False Then
-            strwhere = strwhere & "AND OS_FechaFinConvenio = '" & MiEntity.OS_FechaFinConvenio &
-        "'"
+            strwhere = strwhere & "AND OS_FechaFinConvenio = #" & MiEntity.OS_FechaFinConvenio &
+        "#"
         End If
 
         If String.IsNullOrEmpty(MiEntity.OS_FechaAlta) = False Then
-            strwhere = strwhere & "AND OS_FechaAlta = '" & MiEntity.OS_FechaAlta &
-        "'"
+            strwhere = strwhere & "AND OS_FechaAlta = #" & MiEntity.OS_FechaAlta &
+        "#"
         End If
 
         If String.IsNullOrEmpty(MiEntity.OS_FechaCancelacion) = False Then
-            strwhere = strwhere & "AND OS_FechaCancelacion = '" & MiEntity.OS_FechaCancelacion &
-        "'"
+            strwhere = strwhere & "AND OS_FechaCancelacion = #" & MiEntity.OS_FechaCancelacion &
+        "#"
         End If
 
         If strwhere = "" Then
@@ -201,13 +201,13 @@ Public Class DAObrasSociales
             strwhere = strwhere & "AND OS_Telefonos= '" & mientity.OS_Telefonos & "' "
         End If
         If String.IsNullOrEmpty(mientity.OS_FechaFinConvenio) = False Then
-            strwhere = strwhere & "AND OS_FechaFinConvenio = '" & mientity.OS_FechaFinConvenio & "' "
+            strwhere = strwhere & "AND OS_FechaFinConvenio = #" & miEntity.OS_FechaFinConvenio & "# "
         End If
         If String.IsNullOrEmpty(mientity.OS_FechaAlta) = False Then
-            strwhere = strwhere & "AND OS_FechaAlta = '" & mientity.OS_FechaAlta & "' "
+            strwhere = strwhere & "AND OS_FechaAlta = #" & miEntity.OS_FechaAlta & "# "
         End If
         If String.IsNullOrEmpty(mientity.OS_FechaCancelacion) = False Then
-            strwhere = strwhere & "AND OS_FechaCancelacion = '" & mientity.OS_FechaCancelacion & "' "
+            strwhere = strwhere & "AND OS_FechaCancelacion = #" & miEntity.OS_FechaCancelacion & "# "
         End If
 
         'valido si la expresion del where tiene contenido
