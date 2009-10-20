@@ -212,7 +212,7 @@ Public Class DAPlanes
         Dim miEntity As Entities.EntPlanes = Nothing
         miEntity = CType(mEntityObject, Entities.EntPlanes)
 
-        If miEntity.Plan_Key.HasValue Then
+        If miEntity.Plan_Key.HasValue = False Then
             Throw New Exception("No se puede ejecutar la accion debido a que no se ha declarado la clave principal")
         End If
 
