@@ -104,8 +104,8 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DetalleHistoriaClinica.resx">
-      <DependentUpon>DetalleHistoriaClinica.vb</DependentUpon>
       <SubType>Designer</SubType>
+      <DependentUpon>DetalleHistoriaClinica.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Especialidades.resx">
       <SubType>Designer</SubType>
