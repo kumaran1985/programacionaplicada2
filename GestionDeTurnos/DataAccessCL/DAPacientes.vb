@@ -80,15 +80,15 @@ Public Class DAPacientes
         End If
 
         If Not miEntity.Pac_FechaAlta = Date.MinValue Then
-            strWhere = "AND Pac_FechaAlta = '" & miEntity.Pac_FechaAlta & "' "
+            strWhere = "AND Pac_FechaAlta = #" & miEntity.Pac_FechaAlta & "# "
         End If
 
         If Not miEntity.Pac_FechaCancelacion = Date.MinValue Then
-            strWhere = "AND Pac_FechaCancelacion = '" & miEntity.Pac_FechaCancelacion & "' "
+            strWhere = "AND Pac_FechaCancelacion = #" & miEntity.Pac_FechaCancelacion & "# "
         End If
 
         If Not miEntity.Pac_FechaNacimiento = Date.MinValue Then
-            strWhere = "AND Pac_FechaNacimiento = '" & miEntity.Pac_FechaNacimiento & "' "
+            strWhere = "AND Pac_FechaNacimiento = #" & miEntity.Pac_FechaNacimiento & "# "
         End If
 
         If miEntity.Pac_key.HasValue Then
@@ -211,15 +211,15 @@ Public Class DAPacientes
         End If
 
         If Not miEntity.Pac_FechaAlta = Date.MinValue Then
-            strWhere = "AND Pac_FechaAlta = '" & miEntity.Pac_FechaAlta & "' "
+            strWhere = "AND Pac_FechaAlta = #" & miEntity.Pac_FechaAlta & "# "
         End If
 
         If Not miEntity.Pac_FechaCancelacion = Date.MinValue Then
-            strWhere = "AND Pac_FechaCancelacion = '" & miEntity.Pac_FechaCancelacion & "' "
+            strWhere = "AND Pac_FechaCancelacion = #" & miEntity.Pac_FechaCancelacion & "# "
         End If
 
         If Not miEntity.Pac_FechaNacimiento = Date.MinValue Then
-            strWhere = "AND Pac_FechaNacimiento = '" & miEntity.Pac_FechaNacimiento & "' "
+            strWhere = "AND Pac_FechaNacimiento = #" & miEntity.Pac_FechaNacimiento & "# "
         End If
 
         If miEntity.Pac_key.HasValue Then
@@ -297,7 +297,7 @@ Public Class DAPacientes
         Dim miEntity As Entities.EntPacientes = Nothing
         miEntity = CType(mEntityObject, Entities.EntPacientes)
         Dim strSql As String = ""
-        strSql = "Insert Into Pacientes (TDOC_Key,Pac_NumeroDoc,Pac_Nombres,Pac_Apellidos,Pac_Calle,Pac_NumeroExt,Pac_NumeroInt,LOCA_Key,Pac_Telefonos,Pac_Celular,Pac_Email,Pac_FechaNacimiento,Pac_FechaAlta,Pac_FechaCancelacion,Pac_Sexo,Pac_EstadoCivil,Pac_Ocupacion,Pac_Nacionalidad) Values (" & miEntity.TDOC_Key.ToString & ", '" & miEntity.Pac_NumeroDoc & "', '" & miEntity.Pac_Nombres & "', '" & miEntity.Pac_Apellidos & "', '" & miEntity.Pac_Calle & "', '" & miEntity.Pac_NumeroExt & "', '" & miEntity.Pac_NumeroInt & "', " & miEntity.LOCA_Key.ToString & ", '" & miEntity.Pac_Telefonos & "', '" & miEntity.Pac_Celular & "', '" & miEntity.Pac_Email & "', '" & miEntity.Pac_FechaNacimiento & "', '" & miEntity.Pac_FechaAlta & "', '" & miEntity.Pac_FechaCancelacion & "', " & miEntity.Pac_Sexo.ToString & ", '" & miEntity.Pac_EstadoCivil & "', '" & miEntity.Pac_Ocupacion & "', '" & miEntity.Pac_Nacionalidad & "')"
+        strSql = "Insert Into Pacientes (TDOC_Key,Pac_NumeroDoc,Pac_Nombres,Pac_Apellidos,Pac_Calle,Pac_NumeroExt,Pac_NumeroInt,LOCA_Key,Pac_Telefonos,Pac_Celular,Pac_Email,Pac_FechaNacimiento,Pac_FechaAlta,Pac_FechaCancelacion,Pac_Sexo,Pac_EstadoCivil,Pac_Ocupacion,Pac_Nacionalidad) Values (" & miEntity.TDOC_Key.ToString & ", '" & miEntity.Pac_NumeroDoc & "', '" & miEntity.Pac_Nombres & "', '" & miEntity.Pac_Apellidos & "', '" & miEntity.Pac_Calle & "', '" & miEntity.Pac_NumeroExt & "', '" & miEntity.Pac_NumeroInt & "', " & miEntity.LOCA_Key.ToString & ", '" & miEntity.Pac_Telefonos & "', '" & miEntity.Pac_Celular & "', '" & miEntity.Pac_Email & "', #" & miEntity.Pac_FechaNacimiento & "#, #" & miEntity.Pac_FechaAlta & "#, #" & miEntity.Pac_FechaCancelacion & "#, " & miEntity.Pac_Sexo.ToString & ", '" & miEntity.Pac_EstadoCivil & "', '" & miEntity.Pac_Ocupacion & "', '" & miEntity.Pac_Nacionalidad & "')"
 
         Return ExecuteInsertQuery(strSql)
 
@@ -343,11 +343,11 @@ Public Class DAPacientes
         End If
 
         If Not miEntity.Pac_FechaCancelacion = Date.MinValue Then
-            strSql = ", Pac_FechaCancelacion = '" & miEntity.Pac_FechaCancelacion & "' "
+            strSql = ", Pac_FechaCancelacion = #" & miEntity.Pac_FechaCancelacion & "# "
         End If
 
         If Not miEntity.Pac_FechaNacimiento = Date.MinValue Then
-            strSql = ", Pac_FechaNacimiento = '" & miEntity.Pac_FechaNacimiento & "' "
+            strSql = ", Pac_FechaNacimiento = #" & miEntity.Pac_FechaNacimiento & "# "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Nacionalidad) = False Then
