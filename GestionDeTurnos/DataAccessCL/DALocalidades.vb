@@ -146,21 +146,7 @@ Public Class DALocalidades
         Dim mientity As Entities.EntLocalidades = Nothing
         
         mientity = CType(mEntityObject, Entities.EntLocalidades)
-        Dim strsql As String = ""
-
-        Dim sb As New Text.StringBuilder
-
-        strsql = sb.ToString
-
-        sb.AppendLine("Insert into Localidades ")
-        sb.AppendLine("(LOCA_Key,LOCA_Nombre,")
-        sb.AppendLine(" LOCA_Codpos,PROV_Key")
-        sb.AppendLine("values ('" & mientity.LOCA_Key & "','" & mientity.LOCA_Nombre & "')")
-        sb.AppendLine(",'" & mientity.LOCA_Codpos & "','" & mientity.PROV_Key & "'")
-
-        strsql = sb.ToString
-
-
+        Dim strsql As String = "Insert into Localidades(PROV_Key,LOCA_Nombre,LOCA_Key,LOCA_Codpos)values('" & mientity.PROV_Key.ToString() & "','" & mientity.LOCA_Nombre.ToString() & "','" & mientity.LOCA_Key.ToString() & "','" & mientity.LOCA_Codpos.ToString() & "')"
 
         Return ExecuteInsertQuery(strsql)
 
