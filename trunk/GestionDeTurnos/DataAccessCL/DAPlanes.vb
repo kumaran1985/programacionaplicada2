@@ -63,15 +63,15 @@ Public Class DAPlanes
         End If
 
         If miEntity.Plan_FechaFinConvenio = Date.MinValue Then
-            strWhere = strWhere & "AND Plan_FechaFinConvenio = " & miEntity.Plan_FechaFinConvenio.Date & ""
+            strWhere = strWhere & "AND Plan_FechaFinConvenio = #" & miEntity.Plan_FechaFinConvenio.Date & "#"
         End If
 
         If miEntity.Plan_FechaAlta = Date.MinValue Then
-            strWhere = strWhere & "AND Plan_FechaAlta = " & miEntity.Plan_FechaAlta.Date & ""
+            strWhere = strWhere & "AND Plan_FechaAlta = #" & miEntity.Plan_FechaAlta.Date & "#"
         End If
 
         If miEntity.Plan_FechaCancelacion = Date.MinValue Then
-            strWhere = strWhere & "AND Plan_FechaCancelacion = " & miEntity.Plan_FechaCancelacion.Date & ""
+            strWhere = strWhere & "AND Plan_FechaCancelacion = #" & miEntity.Plan_FechaCancelacion.Date & "#"
         End If
 
 
@@ -147,15 +147,15 @@ Public Class DAPlanes
         End If
 
         If miEntity.Plan_FechaFinConvenio = Date.MinValue Then
-            strWhere = strWhere & "AND Plan_FechaFinConvenio = " & miEntity.Plan_FechaFinConvenio.Date & ""
+            strWhere = strWhere & "AND Plan_FechaFinConvenio = #" & miEntity.Plan_FechaFinConvenio.Date & "#"
         End If
 
         If miEntity.Plan_FechaAlta = Date.MinValue Then
-            strWhere = strWhere & "AND Plan_FechaAlta = " & miEntity.Plan_FechaAlta.Date & ""
+            strWhere = strWhere & "AND Plan_FechaAlta = #" & miEntity.Plan_FechaAlta.Date & "#"
         End If
 
         If miEntity.Plan_FechaCancelacion = Date.MinValue Then
-            strWhere = strWhere & "AND Plan_FechaCancelacion = " & miEntity.Plan_FechaCancelacion.Date & ""
+            strWhere = strWhere & "AND Plan_FechaCancelacion = #" & miEntity.Plan_FechaCancelacion.Date & "#"
 
         End If
 
@@ -230,15 +230,15 @@ Public Class DAPlanes
         End If
 
         If miEntity.Plan_FechaFinConvenio = Date.MinValue Then
-            strSql = strSql & ", Plan_FechaFinConvenio = " & miEntity.Plan_FechaFinConvenio.ToString & " "
+            strSql = strSql & ", Plan_FechaFinConvenio = #" & miEntity.Plan_FechaFinConvenio.ToString & "#"
         End If
 
         If miEntity.Plan_FechaAlta = Date.MinValue Then
-            strSql = strSql & ", Plan_FechaAlta = " & miEntity.Plan_FechaAlta.ToString & " "
+            strSql = strSql & ", Plan_FechaAlta = #" & miEntity.Plan_FechaAlta.ToString & "#"
         End If
 
         If miEntity.Plan_FechaCancelacion = Date.MinValue Then
-            strSql = strSql & ", Plan_FechaCancelacion = " & miEntity.Plan_FechaCancelacion.ToString & " "
+            strSql = strSql & ", Plan_FechaCancelacion = #" & miEntity.Plan_FechaCancelacion.ToString & "#"
         End If
 
         strSql = strSql.Remove(0, 1)
