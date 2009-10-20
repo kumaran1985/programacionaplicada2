@@ -60,7 +60,7 @@ Public Class DADetalleHistoriaClinica
         End If
 
         If Not miEntity.Deta_FechaConsulta = Date.MinValue Then
-            strWhere = "AND Deta_FechaConsulta = '" & miEntity.Deta_FechaConsulta & "' "
+            strWhere = "AND Deta_FechaConsulta = # " & miEntity.Deta_FechaConsulta & "#"
         End If
 
 
@@ -165,7 +165,7 @@ Public Class DADetalleHistoriaClinica
         End If
 
         If Not miEntity.Deta_FechaConsulta = Date.MinValue Then
-            strWhere = "AND Deta_FechaConsulta = '" & miEntity.Deta_FechaConsulta.ToString & "' "
+            strWhere = "AND Deta_FechaConsulta = # " & miEntity.Deta_FechaConsulta.ToString & "# "
         End If
 
 
@@ -271,7 +271,7 @@ Public Class DADetalleHistoriaClinica
         End If
 
         If String.IsNullOrEmpty(miEntity.Deta_FechaConsulta) = False Then
-            strSql = ", Deta_FechaConsulta = '" & miEntity.Deta_FechaConsulta & "' "
+            strSql = ", Deta_FechaConsulta = #" & miEntity.Deta_FechaConsulta & "# "
         End If
 
         If miEntity.Deta_Especialidad.HasValue Then
@@ -314,7 +314,7 @@ Public Class DADetalleHistoriaClinica
 
         strSql = strSql.Remove(0, 1)
 
-        strSql = "Update  Set " & strSql & " Where Pac_KEY = " & miEntity.Pac_key.ToString
+        strSql = "Update  Set " & strSql & " Where Deta_KEY = " & miEntity.Deta_key.ToString
 
         Return ExecuteSQLNonQuery(strSql)
 
