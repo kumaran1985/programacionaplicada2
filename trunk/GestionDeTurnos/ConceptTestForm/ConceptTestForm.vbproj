@@ -105,7 +105,6 @@
       <DependentUpon>Provincias.vb</DependentUpon>
     </Compile>
     <Compile Include="Provincias.vb">
-      <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
