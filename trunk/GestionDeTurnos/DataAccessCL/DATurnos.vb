@@ -47,7 +47,7 @@ Public Class DATurnos
         strSql = "Delete From turnos "
 
         If String.IsNullOrEmpty(miEntity.turno_fecha) = False Then
-            strWhere = "AND turno_fecha = '" & miEntity.turno_fecha & "' "
+            strWhere = "AND turno_fecha =#" & miEntity.turno_fecha & "# "
         End If
 
         If miEntity.turno_hora.ToString Then
@@ -71,11 +71,11 @@ Public Class DATurnos
         End If
 
         If miEntity.Turno_FechaAlta.ToString Then
-            strWhere = strWhere & "AND Turno_FechaAlta = " & miEntity.Turno_FechaAlta.ToString & " "
+            strWhere = strWhere & "AND Turno_FechaAlta = #" & miEntity.Turno_FechaAlta.ToString & " #"
         End If
 
         If miEntity.Turno_FechaCancelacion.ToString Then
-            strWhere = strWhere & "AND Turno_FechaCancelacion = " & miEntity.Turno_FechaCancelacion.ToString & " "
+            strWhere = strWhere & "AND Turno_FechaCancelacion = #" & miEntity.Turno_FechaCancelacion.ToString & "# "
         End If
 
         If miEntity.MOVI_Key.ToString Then
@@ -148,7 +148,7 @@ Public Class DATurnos
         Dim strWhere As String = ""
         strSql = "Select * From turnos "
 
-        If String.IsNullOrEmpty(miEntity.turno_key) = False Then
+        If String.IsNullOrEmpty(miEntity.turno_key) = True Then
             strWhere = strWhere & " AND turno_key  = " & miEntity.turno_key.ToString & " "
         End If
 
@@ -282,7 +282,7 @@ Public Class DATurnos
 
 
         If miEntity.turno_fecha.ToString Then
-            strSql = strSql & ", Sys_Role_Enabled = " & miEntity.turno_fecha.ToString & " "
+            strSql = strSql & ", turno_fecha = " & miEntity.turno_fecha.ToString & " "
         End If
 
         If miEntity.turno_hora.ToString Then
