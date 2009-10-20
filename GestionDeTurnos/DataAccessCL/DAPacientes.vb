@@ -339,7 +339,7 @@ Public Class DAPacientes
         End If
 
         If Not miEntity.Pac_FechaAlta = Date.MinValue Then
-            strSql = ", Pac_FechaAlta = '" & miEntity.Pac_FechaAlta & "' "
+            strSql = ", Pac_FechaAlta = #" & miEntity.Pac_FechaAlta & "# "
         End If
 
         If Not miEntity.Pac_FechaCancelacion = Date.MinValue Then
