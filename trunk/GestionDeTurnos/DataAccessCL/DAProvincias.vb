@@ -130,16 +130,12 @@ Public Class DAProvincias
         Dim mientity As Entities.EntProvincias = Nothing
 
         mientity = CType(mEntityObject, Entities.EntProvincias)
-        Dim strsql As String = ""
-
-        Dim sb As New Text.StringBuilder
-
-        strsql = sb.ToString
-
-        sb.AppendLine("Insert into Provincias(PROV_Key,PROV_Nombre)values('" & mientity.PROV_Key & "','" & mientity.PROV_Nombre & "')")
+        Dim strsql As String = "Insert into Provincias(PROV_Key,PROV_Nombre)values('" & mientity.PROV_Key.ToString() & "','" & mientity.PROV_Nombre & "')"
 
 
-        strsql = sb.ToString
+
+
+
 
 
 
