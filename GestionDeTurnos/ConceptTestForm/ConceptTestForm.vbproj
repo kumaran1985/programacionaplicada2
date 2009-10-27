@@ -49,6 +49,24 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABM_Consultorios.Designer.vb">
+      <DependentUpon>ABM_Consultorios.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_Consultorios.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM_MotivoVisita.Designer.vb">
+      <DependentUpon>ABM_MotivoVisita.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_MotivoVisita.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM_TiposDocumento.Designer.vb">
+      <DependentUpon>ABM_TiposDocumento.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_TiposDocumento.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="DetalleHistoriaClinica.Designer.vb">
       <DependentUpon>DetalleHistoriaClinica.vb</DependentUpon>
     </Compile>
@@ -109,6 +127,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ABM_Consultorios.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ABM_Consultorios.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM_MotivoVisita.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ABM_MotivoVisita.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM_TiposDocumento.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ABM_TiposDocumento.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DetalleHistoriaClinica.resx">
       <SubType>Designer</SubType>
       <DependentUpon>DetalleHistoriaClinica.vb</DependentUpon>
