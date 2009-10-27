@@ -27,11 +27,11 @@ Partial Class Form1
         Me.txtSRC_SYS_ROLE_DESCRIPTION = New System.Windows.Forms.TextBox
         Me.cmdBuscar = New System.Windows.Forms.Button
         Me.dgvBusqueda = New System.Windows.Forms.DataGridView
+        Me.SYS_ROLE_KEY = New System.Windows.Forms.DataGridViewTextBoxColumn
+        Me.SYS_ROLE_DESCRIPCION = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.txtSRC_SYS_ROL_KEY = New System.Windows.Forms.TextBox
         Me.Label2 = New System.Windows.Forms.Label
-        Me.SYS_ROLE_KEY = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.SYS_ROLE_DESCRIPCION = New System.Windows.Forms.DataGridViewTextBoxColumn
         CType(Me.dgvBusqueda, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -70,6 +70,18 @@ Partial Class Form1
         Me.dgvBusqueda.Size = New System.Drawing.Size(442, 150)
         Me.dgvBusqueda.TabIndex = 3
         '
+        'SYS_ROLE_KEY
+        '
+        Me.SYS_ROLE_KEY.DataPropertyName = "SYS_ROLE_KEY"
+        Me.SYS_ROLE_KEY.HeaderText = "ID de Rol"
+        Me.SYS_ROLE_KEY.Name = "SYS_ROLE_KEY"
+        '
+        'SYS_ROLE_DESCRIPCION
+        '
+        Me.SYS_ROLE_DESCRIPCION.DataPropertyName = "SYS_ROLE_DESCRIPCION"
+        Me.SYS_ROLE_DESCRIPCION.HeaderText = "Descripcion"
+        Me.SYS_ROLE_DESCRIPCION.Name = "SYS_ROLE_DESCRIPCION"
+        '
         'BindingSource1
         '
         '
@@ -88,18 +100,6 @@ Partial Class Form1
         Me.Label2.Size = New System.Drawing.Size(34, 13)
         Me.Label2.TabIndex = 4
         Me.Label2.Text = "Clave"
-        '
-        'SYS_ROLE_KEY
-        '
-        Me.SYS_ROLE_KEY.DataPropertyName = "SYS_ROLE_KEY"
-        Me.SYS_ROLE_KEY.HeaderText = "ID de Rol"
-        Me.SYS_ROLE_KEY.Name = "SYS_ROLE_KEY"
-        '
-        'SYS_ROLE_DESCRIPCION
-        '
-        Me.SYS_ROLE_DESCRIPCION.DataPropertyName = "SYS_ROLE_DESCRIPCION"
-        Me.SYS_ROLE_DESCRIPCION.HeaderText = "Descripcion"
-        Me.SYS_ROLE_DESCRIPCION.Name = "SYS_ROLE_DESCRIPCION"
         '
         'Form1
         '
