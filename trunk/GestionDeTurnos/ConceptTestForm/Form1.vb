@@ -9,7 +9,7 @@ Public Class Form1
 
 
         instanciaDeLaEntidad.SYS_ROLE_Descripcion = Me.txtSRC_SYS_ROLE_DESCRIPTION.Text
-        instanciaDeLaEntidad.SYS_ROLE_KEY = Me.txtSRC_SYS_ROL_KEY.Text
+        'instanciaDeLaEntidad.SYS_ROLE_KEY = Me.txtSRC_SYS_ROL_KEY.Text
 
 
 
@@ -17,7 +17,7 @@ Public Class Form1
         Me.BindingSource1.DataSource = instanciaDeBussinesLogic.GetListOfEntity(instanciaDeLaEntidad)
 
 
-        dgvBusqueda.AutoGenerateColumns = True
+        dgvBusqueda.AutoGenerateColumns = False
         dgvBusqueda.DataSource = Me.BindingSource1
 
 

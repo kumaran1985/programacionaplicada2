@@ -30,6 +30,8 @@ Partial Class Form1
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.txtSRC_SYS_ROL_KEY = New System.Windows.Forms.TextBox
         Me.Label2 = New System.Windows.Forms.Label
+        Me.SYS_ROLE_KEY = New System.Windows.Forms.DataGridViewTextBoxColumn
+        Me.SYS_ROLE_DESCRIPCION = New System.Windows.Forms.DataGridViewTextBoxColumn
         CType(Me.dgvBusqueda, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -62,6 +64,7 @@ Partial Class Form1
         'dgvBusqueda
         '
         Me.dgvBusqueda.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvBusqueda.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.SYS_ROLE_KEY, Me.SYS_ROLE_DESCRIPCION})
         Me.dgvBusqueda.Location = New System.Drawing.Point(12, 71)
         Me.dgvBusqueda.Name = "dgvBusqueda"
         Me.dgvBusqueda.Size = New System.Drawing.Size(442, 150)
@@ -85,6 +88,18 @@ Partial Class Form1
         Me.Label2.Size = New System.Drawing.Size(34, 13)
         Me.Label2.TabIndex = 4
         Me.Label2.Text = "Clave"
+        '
+        'SYS_ROLE_KEY
+        '
+        Me.SYS_ROLE_KEY.DataPropertyName = "SYS_ROLE_KEY"
+        Me.SYS_ROLE_KEY.HeaderText = "ID de Rol"
+        Me.SYS_ROLE_KEY.Name = "SYS_ROLE_KEY"
+        '
+        'SYS_ROLE_DESCRIPCION
+        '
+        Me.SYS_ROLE_DESCRIPCION.DataPropertyName = "SYS_ROLE_DESCRIPCION"
+        Me.SYS_ROLE_DESCRIPCION.HeaderText = "Descripcion"
+        Me.SYS_ROLE_DESCRIPCION.Name = "SYS_ROLE_DESCRIPCION"
         '
         'Form1
         '
@@ -112,5 +127,7 @@ Partial Class Form1
     Friend WithEvents BindingSource1 As System.Windows.Forms.BindingSource
     Friend WithEvents txtSRC_SYS_ROL_KEY As System.Windows.Forms.TextBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents SYS_ROLE_KEY As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents SYS_ROLE_DESCRIPCION As System.Windows.Forms.DataGridViewTextBoxColumn
 
 End Class
