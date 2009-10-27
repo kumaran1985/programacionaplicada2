@@ -9,6 +9,9 @@ Public Class Form1
 
 
         instanciaDeLaEntidad.SYS_ROLE_Descripcion = Me.txtSRC_SYS_ROLE_DESCRIPTION.Text
+        instanciaDeLaEntidad.SYS_ROLE_KEY = Me.txtSRC_SYS_ROL_KEY.Text
+
+
 
 
         Me.BindingSource1.DataSource = instanciaDeBussinesLogic.GetListOfEntity(instanciaDeLaEntidad)

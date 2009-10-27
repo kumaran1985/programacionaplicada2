@@ -101,11 +101,6 @@
     <Compile Include="Planes.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Provincias.Designer.vb">
-      <DependentUpon>Provincias.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Provincias.vb">
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DetalleHistoriaClinica.resx">
@@ -137,10 +132,6 @@
     <EmbeddedResource Include="Planes.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Planes.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Provincias.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Provincias.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
