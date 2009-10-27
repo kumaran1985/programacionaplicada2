@@ -55,12 +55,14 @@
     <Compile Include="BLMedicos.vb" />
     <Compile Include="BLMotivoVisita.vb" />
     <Compile Include="BLPacientes.vb" />
+    <Compile Include="BLPacientes1.vb" />
     <Compile Include="BLPacientesxPlan.vb" />
     <Compile Include="BLPlanes.vb" />
     <Compile Include="BLPracticaMedicaxPlan.vb" />
     <Compile Include="BLPracticasMedicas.vb" />
     <Compile Include="BLProvincias.vb" />
     <Compile Include="BLSysRoles.vb" />
+    <Compile Include="BLSysTurnos.vb" />
     <Compile Include="BLTiposDocumento.vb" />
     <Compile Include="BLUsuarios.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />

@@ -6,7 +6,22 @@ MBFrameWork.DataAccess
 </name>
 </assembly>
 <members>
-<member name="M:MBFrameWork.DataAccess.DABase.ExecuteNonQuery(System.Collections.Generic.List{System.String},System.Data.IDbConnection)">
+<member name="M:MBFrameWork.DataAccess.DAOledb.DBVal(System.Object@)">
+	<summary>
+ returna nothing si el valor es nulo
+ </summary>
+	<param name="o"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:MBFrameWork.DataAccess.DAOledb.DBVal(System.Object@,System.Object)">
+	<summary>
+ retorna el valor pasado por parametro si el objeto es nulo
+ </summary>
+	<param name="o"></param>
+	<param name="defaultValue"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:MBFrameWork.DataAccess.DABase.ExecuteNonQuery(System.Collections.Generic.List{System.String},System.Data.IDbConnection)">
 	<summary>
    ejecuta la lista de sentencias, retorna la conexión actual 
  requiere que se implemente el Bgin trans y el commit

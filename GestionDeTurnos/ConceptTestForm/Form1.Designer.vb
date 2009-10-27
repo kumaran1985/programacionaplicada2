@@ -28,6 +28,8 @@ Partial Class Form1
         Me.cmdBuscar = New System.Windows.Forms.Button
         Me.dgvBusqueda = New System.Windows.Forms.DataGridView
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
+        Me.txtSRC_SYS_ROL_KEY = New System.Windows.Forms.TextBox
+        Me.Label2 = New System.Windows.Forms.Label
         CType(Me.dgvBusqueda, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -52,9 +54,9 @@ Partial Class Form1
         '
         Me.cmdBuscar.Location = New System.Drawing.Point(280, 16)
         Me.cmdBuscar.Name = "cmdBuscar"
-        Me.cmdBuscar.Size = New System.Drawing.Size(160, 23)
+        Me.cmdBuscar.Size = New System.Drawing.Size(160, 49)
         Me.cmdBuscar.TabIndex = 2
-        Me.cmdBuscar.Text = "Buscar Rol por descripcion"
+        Me.cmdBuscar.Text = "Buscar Rol"
         Me.cmdBuscar.UseVisualStyleBackColor = True
         '
         'dgvBusqueda
@@ -68,11 +70,29 @@ Partial Class Form1
         'BindingSource1
         '
         '
+        'txtSRC_SYS_ROL_KEY
+        '
+        Me.txtSRC_SYS_ROL_KEY.Location = New System.Drawing.Point(71, 45)
+        Me.txtSRC_SYS_ROL_KEY.Name = "txtSRC_SYS_ROL_KEY"
+        Me.txtSRC_SYS_ROL_KEY.Size = New System.Drawing.Size(196, 20)
+        Me.txtSRC_SYS_ROL_KEY.TabIndex = 5
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(2, 48)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(34, 13)
+        Me.Label2.TabIndex = 4
+        Me.Label2.Text = "Clave"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(479, 269)
+        Me.Controls.Add(Me.txtSRC_SYS_ROL_KEY)
+        Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.dgvBusqueda)
         Me.Controls.Add(Me.cmdBuscar)
         Me.Controls.Add(Me.txtSRC_SYS_ROLE_DESCRIPTION)
@@ -90,5 +110,7 @@ Partial Class Form1
     Friend WithEvents cmdBuscar As System.Windows.Forms.Button
     Friend WithEvents dgvBusqueda As System.Windows.Forms.DataGridView
     Friend WithEvents BindingSource1 As System.Windows.Forms.BindingSource
+    Friend WithEvents txtSRC_SYS_ROL_KEY As System.Windows.Forms.TextBox
+    Friend WithEvents Label2 As System.Windows.Forms.Label
 
 End Class
