@@ -55,6 +55,12 @@
     <Compile Include="DetalleHistoriaClinica.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Ent_Usuarios.Designer.vb">
+      <DependentUpon>Ent_Usuarios.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Ent_Usuarios.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Especialidades.Designer.vb">
       <DependentUpon>Especialidades.vb</DependentUpon>
     </Compile>
@@ -106,6 +112,10 @@
     <EmbeddedResource Include="DetalleHistoriaClinica.resx">
       <SubType>Designer</SubType>
       <DependentUpon>DetalleHistoriaClinica.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ent_Usuarios.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Ent_Usuarios.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Especialidades.resx">
       <SubType>Designer</SubType>
