@@ -61,6 +61,12 @@
     <Compile Include="ABM_MotivoVisita.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ABM_Pacientes.Designer.vb">
+      <DependentUpon>ABM_Pacientes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_Pacientes.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ABM_TiposDocumento.Designer.vb">
       <DependentUpon>ABM_TiposDocumento.vb</DependentUpon>
     </Compile>
@@ -77,7 +83,6 @@
       <DependentUpon>Ent_Usuarios.vb</DependentUpon>
     </Compile>
     <Compile Include="Ent_Usuarios.vb">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Especialidades.Designer.vb">
       <DependentUpon>Especialidades.vb</DependentUpon>
@@ -134,6 +139,10 @@
     <EmbeddedResource Include="ABM_MotivoVisita.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ABM_MotivoVisita.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM_Pacientes.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ABM_Pacientes.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM_TiposDocumento.resx">
       <SubType>Designer</SubType>
