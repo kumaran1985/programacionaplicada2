@@ -25,16 +25,23 @@ Partial Class Medicos
         Me.txt_Med_Apellidos = New System.Windows.Forms.TextBox
         Me.Apellido1 = New System.Windows.Forms.Label
         Me.btnbuscarapellido = New System.Windows.Forms.Button
+        Me.Med_NumeroDoc = New System.Windows.Forms.DataGridViewTextBoxColumn
+        Me.Med_Nombres = New System.Windows.Forms.DataGridViewTextBoxColumn
+        Me.Med_Apellidos = New System.Windows.Forms.DataGridViewTextBoxColumn
+        Me.Med_Matricula1 = New System.Windows.Forms.DataGridViewTextBoxColumn
         CType(Me.dgvMedicos, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'dgvMedicos
         '
+        Me.dgvMedicos.AutoGenerateColumns = False
         Me.dgvMedicos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgvMedicos.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Med_NumeroDoc, Me.Med_Nombres, Me.Med_Apellidos, Me.Med_Matricula1})
+        Me.dgvMedicos.DataSource = Me.BindingSource1
         Me.dgvMedicos.Location = New System.Drawing.Point(29, 62)
         Me.dgvMedicos.Name = "dgvMedicos"
-        Me.dgvMedicos.Size = New System.Drawing.Size(342, 150)
+        Me.dgvMedicos.Size = New System.Drawing.Size(444, 150)
         Me.dgvMedicos.TabIndex = 0
         '
         'txt_Med_Apellidos
@@ -62,6 +69,30 @@ Partial Class Medicos
         Me.btnbuscarapellido.Text = "Buscar Por Apellido"
         Me.btnbuscarapellido.UseVisualStyleBackColor = True
         '
+        'Med_NumeroDoc
+        '
+        Me.Med_NumeroDoc.DataPropertyName = "Med_NumeroDoc"
+        Me.Med_NumeroDoc.HeaderText = "Documento"
+        Me.Med_NumeroDoc.Name = "Med_NumeroDoc"
+        '
+        'Med_Nombres
+        '
+        Me.Med_Nombres.DataPropertyName = "Med_Nombres"
+        Me.Med_Nombres.HeaderText = "Nombres"
+        Me.Med_Nombres.Name = "Med_Nombres"
+        '
+        'Med_Apellidos
+        '
+        Me.Med_Apellidos.DataPropertyName = "Med_Apellidos"
+        Me.Med_Apellidos.HeaderText = "Apellidos"
+        Me.Med_Apellidos.Name = "Med_Apellidos"
+        '
+        'Med_Matricula1
+        '
+        Me.Med_Matricula1.DataPropertyName = "Med_Matricula1"
+        Me.Med_Matricula1.HeaderText = "Matricula"
+        Me.Med_Matricula1.Name = "Med_Matricula1"
+        '
         'Medicos
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -84,4 +115,8 @@ Partial Class Medicos
     Friend WithEvents txt_Med_Apellidos As System.Windows.Forms.TextBox
     Friend WithEvents Apellido1 As System.Windows.Forms.Label
     Friend WithEvents btnbuscarapellido As System.Windows.Forms.Button
+    Friend WithEvents Med_NumeroDoc As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Med_Nombres As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Med_Apellidos As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Med_Matricula1 As System.Windows.Forms.DataGridViewTextBoxColumn
 End Class
