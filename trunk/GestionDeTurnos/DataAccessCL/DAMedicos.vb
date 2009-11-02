@@ -184,13 +184,13 @@ Public Class DAMedicos
         mientity = CType(mEntityObject, Entities.EntMedicos)
         Dim strsql As String = ""
         Dim strwhere As String = ""
-        strsql = "Select * From Medicos"
+        strsql = "Select * From Medicos "
 
         'verifico que la cadena correspondiente a Med_Apellidos tenga un valor para comparar
         'es decir que en el filtro que voy a usar para traer la entidad voy a usar el campo en cuestión
 
         If String.IsNullOrEmpty(mientity.Med_Apellidos) = False Then
-            strwhere = "AND Med_Apellidos = '" & mientity.Med_Apellidos & "'"
+            strwhere = "AND Med_Apellidos = '" & mientity.Med_Apellidos & " '"
         End If
         If mientity.Med_key.HasValue Then
             strwhere = strwhere & "AND Med_Key = '" & mientity.Med_key.ToString & " '"
