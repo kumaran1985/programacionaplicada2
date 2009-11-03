@@ -32,6 +32,15 @@ Public Interface IStandardQuerys
     ''' <remarks></remarks>
     Function DeleteEntity(ByVal mEntityObject As Object) As Boolean
 
+    ''' <summary>
+    ''' Agrega un nuevo elemento a la tabla
+    ''' </summary>
+    ''' <param name="mEntityObject"></param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Function InsertEntity(ByVal mEntityObject As Object) As Object
+
+
 
 
 
