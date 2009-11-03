@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DADetalleHistoriaClinica.vb" />
-    <Compile Include="DADisponbilidadHoraria.vb" />
+    <Compile Include="Turno\DADisponbilidadHoraria.vb" />
     <Compile Include="DAEntConsultorios.vb" />
     <Compile Include="DAEntMotivoVisita.vb" />
     <Compile Include="DAEntTiposDocumento.vb" />
@@ -115,7 +115,6 @@
     <Folder Include="Medico\" />
     <Folder Include="ObraSocial\" />
     <Folder Include="Paciente\" />
-    <Folder Include="Turno\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

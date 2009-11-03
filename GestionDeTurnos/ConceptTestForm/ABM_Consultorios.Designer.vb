@@ -25,13 +25,13 @@ Partial Class ABM_Consultorios
         Me.txtSRC_CONS_KEY = New System.Windows.Forms.TextBox
         Me.Label2 = New System.Windows.Forms.Label
         Me.dgvBusqueda = New System.Windows.Forms.DataGridView
+        Me.Cons_KEY = New System.Windows.Forms.DataGridViewTextBoxColumn
+        Me.Cons_DESCRIPCION = New System.Windows.Forms.DataGridViewTextBoxColumn
+        Me.CONS_UBICACION = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.cmdBuscar = New System.Windows.Forms.Button
         Me.txtSRC_CONS_Descripcion = New System.Windows.Forms.TextBox
         Me.Label1 = New System.Windows.Forms.Label
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
-        Me.Cons_KEY = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.Cons_DESCRIPCION = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.CONS_UBICACION = New System.Windows.Forms.DataGridViewTextBoxColumn
         CType(Me.dgvBusqueda, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -41,7 +41,7 @@ Partial Class ABM_Consultorios
         Me.txtSRC_CONS_UBICACION.Location = New System.Drawing.Point(119, 82)
         Me.txtSRC_CONS_UBICACION.Name = "txtSRC_CONS_UBICACION"
         Me.txtSRC_CONS_UBICACION.Size = New System.Drawing.Size(196, 20)
-        Me.txtSRC_CONS_UBICACION.TabIndex = 27
+        Me.txtSRC_CONS_UBICACION.TabIndex = 3
         '
         'Label3
         '
@@ -54,15 +54,15 @@ Partial Class ABM_Consultorios
         '
         'txtSRC_CONS_KEY
         '
-        Me.txtSRC_CONS_KEY.Location = New System.Drawing.Point(119, 56)
+        Me.txtSRC_CONS_KEY.Location = New System.Drawing.Point(119, 27)
         Me.txtSRC_CONS_KEY.Name = "txtSRC_CONS_KEY"
         Me.txtSRC_CONS_KEY.Size = New System.Drawing.Size(196, 20)
-        Me.txtSRC_CONS_KEY.TabIndex = 25
+        Me.txtSRC_CONS_KEY.TabIndex = 1
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(50, 56)
+        Me.Label2.Location = New System.Drawing.Point(50, 27)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(34, 13)
         Me.Label2.TabIndex = 24
@@ -76,31 +76,6 @@ Partial Class ABM_Consultorios
         Me.dgvBusqueda.Name = "dgvBusqueda"
         Me.dgvBusqueda.Size = New System.Drawing.Size(442, 151)
         Me.dgvBusqueda.TabIndex = 23
-        '
-        'cmdBuscar
-        '
-        Me.cmdBuscar.Location = New System.Drawing.Point(335, 27)
-        Me.cmdBuscar.Name = "cmdBuscar"
-        Me.cmdBuscar.Size = New System.Drawing.Size(160, 76)
-        Me.cmdBuscar.TabIndex = 22
-        Me.cmdBuscar.Text = "Buscar Consultorios"
-        Me.cmdBuscar.UseVisualStyleBackColor = True
-        '
-        'txtSRC_CONS_Descripcion
-        '
-        Me.txtSRC_CONS_Descripcion.Location = New System.Drawing.Point(119, 30)
-        Me.txtSRC_CONS_Descripcion.Name = "txtSRC_CONS_Descripcion"
-        Me.txtSRC_CONS_Descripcion.Size = New System.Drawing.Size(196, 20)
-        Me.txtSRC_CONS_Descripcion.TabIndex = 21
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(50, 33)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(63, 13)
-        Me.Label1.TabIndex = 20
-        Me.Label1.Text = "Descripcion"
         '
         'Cons_KEY
         '
@@ -119,6 +94,31 @@ Partial Class ABM_Consultorios
         Me.CONS_UBICACION.DataPropertyName = "CONS_UBICACION"
         Me.CONS_UBICACION.HeaderText = "Ubicacion"
         Me.CONS_UBICACION.Name = "CONS_UBICACION"
+        '
+        'cmdBuscar
+        '
+        Me.cmdBuscar.Location = New System.Drawing.Point(335, 27)
+        Me.cmdBuscar.Name = "cmdBuscar"
+        Me.cmdBuscar.Size = New System.Drawing.Size(160, 76)
+        Me.cmdBuscar.TabIndex = 4
+        Me.cmdBuscar.Text = "Buscar Consultorios"
+        Me.cmdBuscar.UseVisualStyleBackColor = True
+        '
+        'txtSRC_CONS_Descripcion
+        '
+        Me.txtSRC_CONS_Descripcion.Location = New System.Drawing.Point(119, 56)
+        Me.txtSRC_CONS_Descripcion.Name = "txtSRC_CONS_Descripcion"
+        Me.txtSRC_CONS_Descripcion.Size = New System.Drawing.Size(196, 20)
+        Me.txtSRC_CONS_Descripcion.TabIndex = 2
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(50, 59)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(63, 13)
+        Me.Label1.TabIndex = 20
+        Me.Label1.Text = "Descripcion"
         '
         'ABM_Consultorios
         '

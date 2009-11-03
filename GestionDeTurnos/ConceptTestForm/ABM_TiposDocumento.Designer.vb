@@ -35,15 +35,15 @@ Partial Class ABM_TiposDocumento
         '
         'txtSRC_TDOC_KEY
         '
-        Me.txtSRC_TDOC_KEY.Location = New System.Drawing.Point(103, 53)
+        Me.txtSRC_TDOC_KEY.Location = New System.Drawing.Point(110, 24)
         Me.txtSRC_TDOC_KEY.Name = "txtSRC_TDOC_KEY"
         Me.txtSRC_TDOC_KEY.Size = New System.Drawing.Size(196, 20)
-        Me.txtSRC_TDOC_KEY.TabIndex = 11
+        Me.txtSRC_TDOC_KEY.TabIndex = 1
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(34, 53)
+        Me.Label2.Location = New System.Drawing.Point(41, 24)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(34, 13)
         Me.Label2.TabIndex = 10
@@ -53,7 +53,7 @@ Partial Class ABM_TiposDocumento
         '
         Me.dgvBusqueda.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvBusqueda.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.TDoc_KEY, Me.TDOC_DESCRIPCION})
-        Me.dgvBusqueda.Location = New System.Drawing.Point(44, 79)
+        Me.dgvBusqueda.Location = New System.Drawing.Point(44, 93)
         Me.dgvBusqueda.Name = "dgvBusqueda"
         Me.dgvBusqueda.Size = New System.Drawing.Size(442, 150)
         Me.dgvBusqueda.TabIndex = 9
@@ -75,21 +75,21 @@ Partial Class ABM_TiposDocumento
         Me.cmdBuscar.Location = New System.Drawing.Point(312, 24)
         Me.cmdBuscar.Name = "cmdBuscar"
         Me.cmdBuscar.Size = New System.Drawing.Size(160, 49)
-        Me.cmdBuscar.TabIndex = 8
+        Me.cmdBuscar.TabIndex = 3
         Me.cmdBuscar.Text = "Buscar Tipo de Documento"
         Me.cmdBuscar.UseVisualStyleBackColor = True
         '
         'txtSRC_TDOC_Descripcion
         '
-        Me.txtSRC_TDOC_Descripcion.Location = New System.Drawing.Point(103, 27)
+        Me.txtSRC_TDOC_Descripcion.Location = New System.Drawing.Point(110, 53)
         Me.txtSRC_TDOC_Descripcion.Name = "txtSRC_TDOC_Descripcion"
         Me.txtSRC_TDOC_Descripcion.Size = New System.Drawing.Size(196, 20)
-        Me.txtSRC_TDOC_Descripcion.TabIndex = 7
+        Me.txtSRC_TDOC_Descripcion.TabIndex = 2
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(34, 30)
+        Me.Label1.Location = New System.Drawing.Point(41, 56)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(63, 13)
         Me.Label1.TabIndex = 6
@@ -99,7 +99,7 @@ Partial Class ABM_TiposDocumento
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(542, 266)
+        Me.ClientSize = New System.Drawing.Size(542, 281)
         Me.Controls.Add(Me.txtSRC_TDOC_KEY)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.dgvBusqueda)
