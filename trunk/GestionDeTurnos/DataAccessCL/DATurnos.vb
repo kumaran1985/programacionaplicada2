@@ -46,15 +46,17 @@ Public Class DATurnos
         Dim strWhere As String = ""
         strSql = "Delete From turnos "
 
-        If String.IsNullOrEmpty(miEntity.turno_fecha) = False Then
+        If Not miEntity.turno_fecha = Date.MinValue Then
             strWhere = "AND turno_fecha =#" & miEntity.turno_fecha & "# "
+
         End If
+
 
         If miEntity.turno_hora.ToString Then
             strWhere = strWhere & "AND turno_hora = " & miEntity.turno_hora.ToString & " "
         End If
 
-        If miEntity.turno_fecha.ToString Then
+        If Not miEntity.turno_fecha = Date.MinValue Then
             strWhere = strWhere & "AND Pac_Key = " & miEntity.turno_fecha.ToString & " "
         End If
 
@@ -70,11 +72,11 @@ Public Class DATurnos
             strWhere = strWhere & "AND Turno_Estado = " & miEntity.Turno_Estado.ToString & " "
         End If
 
-        If miEntity.Turno_FechaAlta.ToString Then
+        If Not miEntity.Turno_FechaAlta = Date.MinValue Then
             strWhere = strWhere & "AND Turno_FechaAlta = #" & miEntity.Turno_FechaAlta.ToString & " #"
         End If
 
-        If miEntity.Turno_FechaCancelacion.ToString Then
+        If Not miEntity.Turno_FechaCancelacion = Date.MinValue Then
             strWhere = strWhere & "AND Turno_FechaCancelacion = #" & miEntity.Turno_FechaCancelacion.ToString & "# "
         End If
 
@@ -148,24 +150,24 @@ Public Class DATurnos
         Dim strWhere As String = ""
         strSql = "Select * From turnos "
 
-        If String.IsNullOrEmpty(miEntity.turno_key) = True Then
+        If miEntity.turno_key.HasValue Then
             strWhere = strWhere & " AND turno_key  = " & miEntity.turno_key.ToString & " "
         End If
 
-        If miEntity.turno_hora Then
+        If String.IsNullOrEmpty(miEntity.turno_hora) = False Then
             strWhere = strWhere & "AND turno_hora = " & miEntity.turno_hora.ToString & " "
         End If
 
-        If miEntity.Pac_Key Then
+        If miEntity.Pac_Key.HasValue Then
             strWhere = strWhere & "AND Pac_Key = " & miEntity.Pac_Key.ToString & " "
         End If
 
 
-        If miEntity.Med_Key Then
+        If miEntity.Med_Key.HasValue Then
             strWhere = strWhere & "AND Med_Key = " & miEntity.Med_Key.ToString & " "
         End If
 
-        If miEntity.Turno_Estado Then
+        If miEntity.Turno_Estado.HasValue Then
             strWhere = strWhere & "AND Turno_Estado = " & miEntity.Turno_Estado.ToString & " "
         End If
 
@@ -178,7 +180,7 @@ Public Class DATurnos
             strWhere = strWhere & "AND turno_FechaCancelacion = " & miEntity.Turno_FechaCancelacion.ToString & " "
         End If
 
-        If miEntity.MOVI_Key Then
+        If miEntity.MOVI_Key.HasValue Then
             strWhere = strWhere & "AND MOVI_Key = " & miEntity.MOVI_Key.ToString & " "
         End If
 
