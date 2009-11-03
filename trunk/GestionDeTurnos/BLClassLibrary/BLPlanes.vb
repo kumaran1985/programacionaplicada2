@@ -7,6 +7,7 @@ Public Class BLPlanes
 
         Dim da As New DataAccessCL.DAPlanes
         Return da.DeleteEntity(mEntityObject)
+
     End Function
 
     Public Function DeleteEntity(ByVal mKey As String) As Boolean Implements MBFrameWork.BussinesLogic.IStandardQuerys.DeleteEntity
@@ -17,6 +18,7 @@ Public Class BLPlanes
     Public Function GetEntity(ByVal mKey As Object) As Object Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetEntity
         Dim da As New DataAccessCL.DAPlanes
         Return da.GetListOfEntity
+
     End Function
 
     Public Function GetListOfEntity() As System.Collections.IList Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetListOfEntity
@@ -31,7 +33,6 @@ Public Class BLPlanes
     End Function
 
     Public Function GetTable() As System.Data.DataTable Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetTable
-
         Dim da As New DataAccessCL.DAPlanes
         Return da.GetTable
     End Function
@@ -44,5 +45,10 @@ Public Class BLPlanes
     Public Function UpdateEntity(ByVal mEntityObject As Object) As Boolean Implements MBFrameWork.BussinesLogic.IStandardQuerys.UpdateEntity
         Dim da As New DataAccessCL.DAPlanes
         Return da.UpdateEntity(mEntityObject)
+    End Function
+
+    Public Function InsertEntity(ByVal mEntityObject As Object) As Object Implements MBFrameWork.BussinesLogic.IStandardQuerys.InsertEntity
+        Dim da As New DataAccessCL.DAPlanes
+        Return da.InsertEntity(mEntityObject)
     End Function
 End Class

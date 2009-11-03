@@ -90,9 +90,6 @@ Partial Class frmABMConceptTest
         Me.Button1.Text = "Button1"
         Me.Button1.UseVisualStyleBackColor = True
         '
-        'BindingSource2
-        '
-        '
         'frmABMConceptTest
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)

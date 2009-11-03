@@ -18,6 +18,7 @@ Public Class BLEspecialidades
     Public Function GetEntity(ByVal mKey As Object) As Object Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetEntity
         Dim da As New DataAccessCL.DAEspecialidades
         Return da.GetListOfEntity
+
     End Function
 
     Public Function GetListOfEntity() As System.Collections.IList Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetListOfEntity
@@ -44,5 +45,10 @@ Public Class BLEspecialidades
     Public Function UpdateEntity(ByVal mEntityObject As Object) As Boolean Implements MBFrameWork.BussinesLogic.IStandardQuerys.UpdateEntity
         Dim da As New DataAccessCL.DAEspecialidades
         Return da.UpdateEntity(mEntityObject)
+    End Function
+
+    Public Function InsertEntity(ByVal mEntityObject As Object) As Object Implements MBFrameWork.BussinesLogic.IStandardQuerys.InsertEntity
+        Dim da As New DataAccessCL.DAEspecialidades
+        Return da.InsertEntity(mEntityObject)
     End Function
 End Class

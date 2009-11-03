@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\GestionDeTurnos\BinAll\GlobalReferences\</OutputPath>
     <DocumentationFile>MBFrameWork.GlobalReferences.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>
@@ -52,6 +52,7 @@
     <Compile Include="Configuration.vb" />
     <Compile Include="Crypto.vb" />
     <Compile Include="ErrorManager.vb" />
+    <Compile Include="Helpers\Collections.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

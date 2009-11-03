@@ -4,8 +4,10 @@ Public Class BLLocalidades
 
 
     Public Function DeleteEntity(ByVal mEntityObject As Object) As Boolean Implements MBFrameWork.BussinesLogic.IStandardQuerys.DeleteEntity
+
         Dim da As New DataAccessCL.DALocalidades
         Return da.DeleteEntity(mEntityObject)
+
     End Function
 
     Public Function DeleteEntity(ByVal mKey As String) As Boolean Implements MBFrameWork.BussinesLogic.IStandardQuerys.DeleteEntity
@@ -15,7 +17,8 @@ Public Class BLLocalidades
 
     Public Function GetEntity(ByVal mKey As Object) As Object Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetEntity
         Dim da As New DataAccessCL.DALocalidades
-        Return da.GetEntity(mKey)
+        Return da.GetListOfEntity
+
     End Function
 
     Public Function GetListOfEntity() As System.Collections.IList Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetListOfEntity
@@ -25,6 +28,7 @@ Public Class BLLocalidades
 
     Public Function GetListOfEntity(ByVal mEntityObject As Object) As System.Collections.IList Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetListOfEntity
         Dim da As New DataAccessCL.DALocalidades
+
         Return da.GetListOfEntity(mEntityObject)
     End Function
 
@@ -41,6 +45,11 @@ Public Class BLLocalidades
     Public Function UpdateEntity(ByVal mEntityObject As Object) As Boolean Implements MBFrameWork.BussinesLogic.IStandardQuerys.UpdateEntity
         Dim da As New DataAccessCL.DALocalidades
         Return da.UpdateEntity(mEntityObject)
+    End Function
+
+    Public Function InsertEntity(ByVal mEntityObject As Object) As Object Implements MBFrameWork.BussinesLogic.IStandardQuerys.InsertEntity
+        Dim da As New DataAccessCL.DALocalidades
+        Return da.InsertEntity(mEntityObject)
     End Function
 
 

@@ -6,6 +6,24 @@ MBFrameWork.FormUtils
 </name>
 </assembly>
 <members>
-
+<member name="M:MBFrameWork.FormUtils.Elements.LoadCombo(System.Windows.Forms.ComboBox@,System.Data.DataTable,System.String,System.String)">
+	<summary>
+ Carga un combo box
+ </summary>
+	<param name="Combo">por referencia el control del combo</param>
+	<param name="dt">la datatable que contiene la informacion</param>
+	<param name="CampoDescripcion">campo que se va a mostrar</param>
+	<param name="CampoValor">valor que se recupera</param>
+	<remarks></remarks>
+</member><member name="M:MBFrameWork.FormUtils.Elements.LoadComboConSeleccione(System.Windows.Forms.ComboBox@,System.Data.DataTable,System.String,System.String)">
+	<summary>
+ Carga un combo box con la opcion "seleccione"
+ </summary>
+	<param name="Combo">por referencia el control del combo</param>
+	<param name="dt">la datatable que contiene la informacion</param>
+	<param name="CampoDescripcion">campo que se va a mostrar</param>
+	<param name="CampoValor">valor que se recupera</param>
+	<remarks></remarks>
+</member>
 </members>
 </doc>
