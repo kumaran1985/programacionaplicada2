@@ -89,6 +89,12 @@
     <Compile Include="ABM_Turnos.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ALTA_SysRoles.Designer.vb">
+      <DependentUpon>ALTA_SysRoles.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ALTA_SysRoles.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Especialidades.Designer.vb">
       <DependentUpon>Especialidades.vb</DependentUpon>
     </Compile>
@@ -166,6 +172,10 @@
     <EmbeddedResource Include="ABM_Turnos.resx">
       <DependentUpon>ABM_Turnos.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ALTA_SysRoles.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ALTA_SysRoles.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Especialidades.resx">
       <SubType>Designer</SubType>

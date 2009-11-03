@@ -125,4 +125,23 @@ Public Class MDI_Principal
     Private Sub ListadoToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem.Click
         Planes.Show()
     End Sub
+
+    Private Sub ListadoToolStripMenuItem11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem11.Click
+        'Form1.IsMdiChild = True
+        Form1.Show()
+
+
+    End Sub
+
+    Private Sub RolesToolStripMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RolesToolStripMenuItem2.Click
+
+    End Sub
+
+    Private Sub AltaToolStripMenuItem10_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AltaToolStripMenuItem10.Click
+        ALTA_SysRoles.Show()
+    End Sub
+
+    Private Sub ListadoToolStripMenuItem12_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem12.Click
+        Form1.Show()
+    End Sub
 End Class
