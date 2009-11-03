@@ -2,6 +2,11 @@ Public Class BLUsuarios
     Inherits MBFrameWork.BussinesLogic.BLBase
     Implements MBFrameWork.BussinesLogic.IStandardQuerys
 
+    Public Function InsertEntity(ByVal mEntity As Entities.EntUsuarios) As Object
+        Dim da As New DataAccessCL.DAUsuarios
+        Return da.InsertEntity(mEntity)
+    End Function
+
     Public Function DeleteEntity(ByVal mEntityObject As Object) As Boolean Implements MBFrameWork.BussinesLogic.IStandardQuerys.DeleteEntity
         Dim da As New DataAccessCL.DAUsuarios
         Return da.DeleteEntity(mEntityObject)
