@@ -54,7 +54,7 @@ Public Class dafacturas
         miEntity = CType(mEntityObject, Entities.EntFacturas)
         Dim strSql As String = ""
         Dim strWhere As String = ""
-        strSql = "Delete From EntFacturas "
+        strSql = "Delete From Facturas "
 
         If miEntity.Fact_Key.HasValue Then
             strWhere = strWhere & "AND Fact.Key = '" & miEntity.Fact_Key.ToString & "' "
@@ -130,13 +130,13 @@ Public Class dafacturas
 
     Public Function DeleteEntity(ByVal mKey As String) As Boolean Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.DeleteEntity
         Dim strSQL As String = ""
-        strSQL = "Delete from EntFacturas Where Fact_Key  = " & mKey
+        strSQL = "Delete from Facturas Where Fact_Key  = " & mKey
         Return ExecuteSQLNonQuery(strSQL)
     End Function
 
     Public Function GetEntity(ByVal mKey As Object) As Object Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetEntity
         Dim dt As DataTable
-        dt = GetDataTable("Select * From EntFacturas Where Fact_Key = " & mKey)
+        dt = GetDataTable("Select * From Facturas Where Fact_Key = " & mKey)
         If dt Is Nothing Then
             Return Nothing
         End If
@@ -145,11 +145,11 @@ Public Class dafacturas
     End Function
 
     Public Function GetListOfEntity() As System.Collections.IList Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetListOfEntity
-        Dim dt As DataTable = GetAllFromTable("EntFacturas")
+        Dim dt As DataTable = GetAllFromTable("Facturas")
         If dt Is Nothing Then
             Return Nothing
         End If
-        Dim ds As New DataSet("EntFacturas")
+        Dim ds As New DataSet("Facturas")
         ds.Tables.Add(dt)
 
         Return GetLista(ds)
@@ -160,7 +160,7 @@ Public Class dafacturas
         miEntity = CType(mEntityObject, Entities.EntFacturas)
         Dim strSql As String = ""
         Dim strWhere As String = ""
-        strSql = "Delete From EntFacturas "
+        strSql = "delete From Facturas"
 
         If miEntity.Fact_Key.HasValue Then
             strWhere = strWhere & "AND Fact.Key = '" & miEntity.Fact_Key.ToString & "' "
@@ -190,7 +190,7 @@ Public Class dafacturas
 
         End If
 
-        If String.IsNullOrEmpty(miEntity.Fact_TipoDoc) = False Then
+        If miEntity.Fact_TipoDoc.HasValue Then
             strWhere = "AND Fact_TipoDoc = '" & miEntity.Fact_TipoDoc.ToString & "' "
 
         End If
@@ -229,7 +229,7 @@ Public Class dafacturas
 
         strSql = strSql & strWhere
 
-        Dim ds As New DataSet("DS_EntFacturas")
+        Dim ds As New DataSet("DS_Facturas")
 
         ds = GetDataSet(strSql)
 
@@ -240,13 +240,13 @@ Public Class dafacturas
 
     Public Function GetTable() As System.Data.DataTable Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetTable
         Dim dt As DataTable
-        dt = GetDataTable("Select * EntFacturas")
+        dt = GetDataTable("Select * from Facturas")
         Return dt
     End Function
 
     Public Function GetTable(ByVal mKey As String) As System.Data.DataTable Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetTable
         Dim dt As DataTable
-        dt = GetDataTable("Select * EntFacturas Where Fact_Key = " & mKey)
+        dt = GetDataTable("Select * from Facturas Where Fact_Key = " & mKey)
         Return dt
     End Function
 
@@ -254,7 +254,7 @@ Public Class dafacturas
         Dim miEntity As Entities.EntFacturas = Nothing
         miEntity = CType(mEntityObject, Entities.EntFacturas)
         Dim strSql As String = ""
-        strSql = "Insert Into EntFacturas (Fact_Key,Pac_Key,Fact_FechaFactura,Fact_Tipo,Fact_Monto,Fact_TipoDoc,Fact_NumeroDoc,Fact_Cantidad,PM_Key,Fact_Observacion,Fact_FechaAlta,Fact_FechaCancelacion) Values (" & miEntity.Fact_Key.ToString & ", " & miEntity.Pac_key.ToString & ", '" & miEntity.fact_fechafactura & "', '" & miEntity.Fact_Tipo & "', " & miEntity.Fact_Monto.ToString & ", " & miEntity.Fact_TipoDoc.ToString & ", '" & miEntity.Fact_NumeroDoc & "', '" & miEntity.Fact_Cantidad.ToString & "', " & miEntity.PM_Key.ToString & ", '" & miEntity.Fact_Observacion & "', '" & miEntity.Fact_FechaAlta & "', '" & miEntity.Fact_FechaCancelacion & "')"
+        strSql = "Insert Into Facturas (Fact_Key,Pac_Key,Fact_FechaFactura,Fact_Tipo,Fact_Monto,Fact_TipoDoc,Fact_NumeroDoc,Fact_Cantidad,PM_Key,Fact_Observacion,Fact_FechaAlta,Fact_FechaCancelacion) Values (" & miEntity.Fact_Key.ToString & ", " & miEntity.Pac_key.ToString & ", '" & miEntity.fact_fechafactura & "', '" & miEntity.Fact_Tipo & "', " & miEntity.Fact_Monto.ToString & ", " & miEntity.Fact_TipoDoc.ToString & ", '" & miEntity.Fact_NumeroDoc & "', '" & miEntity.Fact_Cantidad.ToString & "', " & miEntity.PM_Key.ToString & ", '" & miEntity.Fact_Observacion & "', '" & miEntity.Fact_FechaAlta & "', '" & miEntity.Fact_FechaCancelacion & "')"
 
         Return ExecuteInsertQuery(strSql)
     End Function
@@ -323,7 +323,7 @@ Public Class dafacturas
         End If
         strSql = strSql.Remove(0, 1)
 
-        strSql = "Update EntFacturas Set " & strSql & " Where Fact_Key = " & miEntity.Fact_Key.ToString
+        strSql = "Update Facturas Set " & strSql & " Where Fact_Key = " & miEntity.Fact_Key.ToString
 
         Return ExecuteSQLNonQuery(strSql)
 
