@@ -182,7 +182,7 @@ Public Class DASysRoles
         Dim miEntity As Entities.EntSys_Roles = Nothing
         miEntity = CType(mEntityObject, Entities.EntSys_Roles)
         Dim strSql As String = ""
-        strSql = "Insert Into SYS_ROLES (Sys_ROLE_Description,Sys_Role_Enabled) Values ('" & miEntity.SYS_ROLE_Descripcion & "', " & miEntity.SYS_ROLE_Enabled.ToString & ")"
+        strSql = "Insert Into SYS_ROLES (Sys_ROLE_Descripcion,Sys_Role_Enabled) Values ('" & miEntity.SYS_ROLE_Descripcion & "', " & miEntity.SYS_ROLE_Enabled.ToString & ")"
 
         Return ExecuteInsertQuery(strSql)
 

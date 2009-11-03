@@ -87,47 +87,57 @@ Public Class MDI_Principal
 
      
     Private Sub ListadoToolStripMenuItem6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem6.Click
+        ABM_Consultorios.MdiParent = Me
         ABM_Consultorios.Show()
     End Sub
 
     Private Sub ListadoToolStripMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem3.Click
+        ABM_HistoriaClinica.MdiParent = Me
         ABM_HistoriaClinica.Show()
     End Sub
 
     Private Sub MotivoVisitaToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MotivoVisitaToolStripMenuItem.Click
+        ABM_MotivoVisita.MdiParent = Me
         ABM_MotivoVisita.Show()
     End Sub
 
     Private Sub ListadoToolStripMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem2.Click
+        ABM_Pacientes.MdiParent = Me
         ABM_Pacientes.Show()
     End Sub
 
     Private Sub ListadoToolStripMenuItem7_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem7.Click
+        ABM_TiposDocumento.MdiParent = Me
         ABM_TiposDocumento.Show()
     End Sub
 
     Private Sub ListadoToolStripMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem4.Click
+        ABM_Turnos.MdiParent = Me
         ABM_Turnos.Show()
     End Sub
 
     Private Sub ListadoToolStripMenuItem8_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem8.Click
+        Especialidades.MdiParent = Me
         Especialidades.Show()
     End Sub
 
     Private Sub ListadoDeMédicosToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoDeMédicosToolStripMenuItem.Click
+        Medicos.MdiParent = Me
         Medicos.Show()
     End Sub
 
     Private Sub ListadoToolStripMenuItem9_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem9.Click
+        PacientesxPlan.MdiParent = Me
         PacientesxPlan.Show()
     End Sub
 
     Private Sub ListadoToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem.Click
+        Planes.MdiParent = Me
         Planes.Show()
     End Sub
 
     Private Sub ListadoToolStripMenuItem11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem11.Click
-        'Form1.IsMdiChild = True
+        Form1.MdiParent = Me
         Form1.Show()
 
 
@@ -138,6 +148,7 @@ Public Class MDI_Principal
     End Sub
 
     Private Sub AltaToolStripMenuItem10_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AltaToolStripMenuItem10.Click
+        ALTA_SysRoles.MdiParent = Me
         ALTA_SysRoles.Show()
     End Sub
 
