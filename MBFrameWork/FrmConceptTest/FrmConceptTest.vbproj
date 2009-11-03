@@ -104,6 +104,10 @@
       <Project>{6106E4D7-64D7-4FBA-8D8E-B64508110430}</Project>
       <Name>Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MBFrameWork.GlobalReferences\MBFrameWork.GlobalReferences.vbproj">
+      <Project>{1F5D4B48-E291-48A2-92C8-75EEEE4228C4}</Project>
+      <Name>MBFrameWork.GlobalReferences</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="My Project\DataSources\" />

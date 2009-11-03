@@ -4,8 +4,10 @@ Public Class BLMedicos
 
 
     Public Function DeleteEntity(ByVal mEntityObject As Object) As Boolean Implements MBFrameWork.BussinesLogic.IStandardQuerys.DeleteEntity
+
         Dim da As New DataAccessCL.DAMedicos
         Return da.DeleteEntity(mEntityObject)
+
     End Function
 
     Public Function DeleteEntity(ByVal mKey As String) As Boolean Implements MBFrameWork.BussinesLogic.IStandardQuerys.DeleteEntity
@@ -15,7 +17,8 @@ Public Class BLMedicos
 
     Public Function GetEntity(ByVal mKey As Object) As Object Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetEntity
         Dim da As New DataAccessCL.DAMedicos
-        Return da.GetEntity(mKey)
+        Return da.GetListOfEntity
+
     End Function
 
     Public Function GetListOfEntity() As System.Collections.IList Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetListOfEntity
@@ -25,6 +28,7 @@ Public Class BLMedicos
 
     Public Function GetListOfEntity(ByVal mEntityObject As Object) As System.Collections.IList Implements MBFrameWork.BussinesLogic.IStandardQuerys.GetListOfEntity
         Dim da As New DataAccessCL.DAMedicos
+
         Return da.GetListOfEntity(mEntityObject)
     End Function
 
@@ -41,6 +45,11 @@ Public Class BLMedicos
     Public Function UpdateEntity(ByVal mEntityObject As Object) As Boolean Implements MBFrameWork.BussinesLogic.IStandardQuerys.UpdateEntity
         Dim da As New DataAccessCL.DAMedicos
         Return da.UpdateEntity(mEntityObject)
+    End Function
+
+    Public Function InsertEntity(ByVal mEntityObject As Object) As Object Implements MBFrameWork.BussinesLogic.IStandardQuerys.InsertEntity
+        Dim da As New DataAccessCL.DAMedicos
+        Return da.InsertEntity(mEntityObject)
     End Function
 
 

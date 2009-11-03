@@ -20,6 +20,13 @@ MBFrameWork.BussinesLogic
 	<param name="mEntityObject">Entidad que contiene los valores que corresponden al filtrado</param>
 	<returns></returns>
 	<remarks></remarks>
+</member><member name="M:MBFrameWork.BussinesLogic.IStandardQuerys.InsertEntity(System.Object)">
+	<summary>
+ Agrega un nuevo elemento a la tabla
+ </summary>
+	<param name="mEntityObject"></param>
+	<returns></returns>
+	<remarks></remarks>
 </member>
 </members>
 </doc>

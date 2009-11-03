@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\GestionDeTurnos\BinAll\BussinesLogic\</OutputPath>
     <DocumentationFile>MBFrameWork.BussinesLogic.xml</DocumentationFile>
     <NoWarn>
     </NoWarn>

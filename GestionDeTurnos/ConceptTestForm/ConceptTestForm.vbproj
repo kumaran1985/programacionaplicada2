@@ -31,6 +31,10 @@
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MBFrameWork.FormUtils, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\BinAll\FormUtils\MBFrameWork.FormUtils.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -96,6 +100,12 @@
     </Compile>
     <Compile Include="Form1.Designer.vb">
       <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MDI_Principal.Designer.vb">
+      <DependentUpon>MDI_Principal.vb</DependentUpon>
+    </Compile>
+    <Compile Include="MDI_Principal.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Medicos.Designer.vb">
@@ -164,6 +174,10 @@
     <EmbeddedResource Include="Form1.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MDI_Principal.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MDI_Principal.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Medicos.resx">
       <DependentUpon>Medicos.vb</DependentUpon>

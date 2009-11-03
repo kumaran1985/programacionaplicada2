@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="BLConsultorios.vb" />
     <Compile Include="BLDetalleHistoriaClinica.vb" />
-    <Compile Include="BLDisponibilidadHoraria.vb" />
     <Compile Include="BLEspecialidades.vb" />
     <Compile Include="BLLocalidades.vb" />
     <Compile Include="BLMedicos.vb" />
