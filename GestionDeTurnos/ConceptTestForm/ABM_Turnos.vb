@@ -15,7 +15,7 @@ Public Class ABM_Turnos
 
 
 
-        Me.BindingSource1 = instanciaDeBussinesLogic.GetListOfEntity(instanciaDeLaEntidad)
+        Me.BindingSource1.DataSource = instanciaDeBussinesLogic.GetListOfEntity(instanciaDeLaEntidad)
 
 
         dgvBusqueda.AutoGenerateColumns = False
@@ -25,4 +25,11 @@ Public Class ABM_Turnos
     End Sub
 
     
+    Private Sub txtSRC_SYS_ROL_KEY_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSRC_SYS_ROL_KEY.TextChanged
+
+    End Sub
+
+    Private Sub turno_fecha_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles turno_fecha.ValueChanged
+
+    End Sub
 End Class
