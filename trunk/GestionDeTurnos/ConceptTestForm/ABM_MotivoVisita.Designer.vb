@@ -38,15 +38,15 @@ Partial Class ABM_MotivoVisita
         '
         'txtSRC_MOVI_KEY
         '
-        Me.txtSRC_MOVI_KEY.Location = New System.Drawing.Point(144, 47)
+        Me.txtSRC_MOVI_KEY.Location = New System.Drawing.Point(144, 18)
         Me.txtSRC_MOVI_KEY.Name = "txtSRC_MOVI_KEY"
         Me.txtSRC_MOVI_KEY.Size = New System.Drawing.Size(196, 20)
-        Me.txtSRC_MOVI_KEY.TabIndex = 17
+        Me.txtSRC_MOVI_KEY.TabIndex = 1
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(75, 47)
+        Me.Label2.Location = New System.Drawing.Point(75, 18)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(34, 13)
         Me.Label2.TabIndex = 16
@@ -56,9 +56,9 @@ Partial Class ABM_MotivoVisita
         '
         Me.dgvBusqueda.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvBusqueda.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.MOVI_KEY, Me.MOVI_DESCRIPCION, Me.MOVI_MOTIVO})
-        Me.dgvBusqueda.Location = New System.Drawing.Point(78, 131)
+        Me.dgvBusqueda.Location = New System.Drawing.Point(78, 110)
         Me.dgvBusqueda.Name = "dgvBusqueda"
-        Me.dgvBusqueda.Size = New System.Drawing.Size(442, 150)
+        Me.dgvBusqueda.Size = New System.Drawing.Size(442, 171)
         Me.dgvBusqueda.TabIndex = 15
         '
         'MOVI_KEY
@@ -84,21 +84,21 @@ Partial Class ABM_MotivoVisita
         Me.cmdBuscar.Location = New System.Drawing.Point(360, 18)
         Me.cmdBuscar.Name = "cmdBuscar"
         Me.cmdBuscar.Size = New System.Drawing.Size(160, 75)
-        Me.cmdBuscar.TabIndex = 14
+        Me.cmdBuscar.TabIndex = 4
         Me.cmdBuscar.Text = "Buscar Motivo Visita"
         Me.cmdBuscar.UseVisualStyleBackColor = True
         '
         'txtSRC_MOVI_Descripcion
         '
-        Me.txtSRC_MOVI_Descripcion.Location = New System.Drawing.Point(144, 21)
+        Me.txtSRC_MOVI_Descripcion.Location = New System.Drawing.Point(144, 46)
         Me.txtSRC_MOVI_Descripcion.Name = "txtSRC_MOVI_Descripcion"
         Me.txtSRC_MOVI_Descripcion.Size = New System.Drawing.Size(196, 20)
-        Me.txtSRC_MOVI_Descripcion.TabIndex = 13
+        Me.txtSRC_MOVI_Descripcion.TabIndex = 2
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(75, 24)
+        Me.Label1.Location = New System.Drawing.Point(75, 49)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(63, 13)
         Me.Label1.TabIndex = 12
@@ -109,7 +109,7 @@ Partial Class ABM_MotivoVisita
         Me.txtSRC_MOVI_MOTIVO.Location = New System.Drawing.Point(144, 73)
         Me.txtSRC_MOVI_MOTIVO.Name = "txtSRC_MOVI_MOTIVO"
         Me.txtSRC_MOVI_MOTIVO.Size = New System.Drawing.Size(196, 20)
-        Me.txtSRC_MOVI_MOTIVO.TabIndex = 19
+        Me.txtSRC_MOVI_MOTIVO.TabIndex = 3
         '
         'Label3
         '
