@@ -7,27 +7,32 @@ Public Class ABM_Pacientes
         instanciaDeBussinesLogic = New BLClassLibrary.BLPacientes
         instanciaDeLaEntidad = New Entities.EntPacientes
 
-        If Me.txtSRC_Pac_Key.Text <> "" Then
-            instanciaDeLaEntidad.Pac_key = Me.txtSRC_Pac_Key.Text
+        If Me.txtSRC_Pac_Key.Text = "" And Me.txtSRC_Pac_Nombres.Text = "" And Me.txtSRC_Pac_Apellidos.Text = "" And Me.txtSRC_Pac_Calle.Text = "" And Me.txtSRC_Pac_NumeroExt.Text = "" And Me.txtSRC_TDOC_Key.Text = "" And Me.txtSRC_Pac_NumeroDoc.Text = "" And Me.DTP_Pac_FechaAlta.Checked = False Then
+            MsgBox("Debe ingresar al menos un dato para ejecutar la busqueda")
+        Else
+            If Me.txtSRC_Pac_Key.Text <> "" Then
+                instanciaDeLaEntidad.Pac_key = Me.txtSRC_Pac_Key.Text
+            End If
+            instanciaDeLaEntidad.Pac_Nombres = Me.txtSRC_Pac_Nombres.Text
+            instanciaDeLaEntidad.Pac_Apellidos = Me.txtSRC_Pac_Apellidos.Text
+            instanciaDeLaEntidad.Pac_Calle = Me.txtSRC_Pac_Calle.Text
+            instanciaDeLaEntidad.Pac_NumeroExt = Me.txtSRC_Pac_NumeroExt.Text
+            If Me.txtSRC_TDOC_Key.Text <> "" Then
+                instanciaDeLaEntidad.TDOC_Key = Me.txtSRC_TDOC_Key.Text
+            End If
+            instanciaDeLaEntidad.Pac_NumeroDoc = Me.txtSRC_Pac_NumeroDoc.Text
+            If Me.DTP_Pac_FechaAlta.Checked = True Then
+                instanciaDeLaEntidad.Pac_FechaAlta = Me.DTP_Pac_FechaAlta.Text
+            End If
+
+
+
+
+
+
+
+            Me.BindingSource1.DataSource = instanciaDeBussinesLogic.GetListOfEntity(instanciaDeLaEntidad)
         End If
-        instanciaDeLaEntidad.Pac_Nombres = Me.txtSRC_Pac_Nombres.Text
-        instanciaDeLaEntidad.Pac_Apellidos = Me.txtSRC_Pac_Apellidos.Text
-        instanciaDeLaEntidad.Pac_Calle = Me.txtSRC_Pac_Calle.Text
-        instanciaDeLaEntidad.Pac_NumeroExt = Me.txtSRC_Pac_NumeroExt.Text
-        If Me.txtSRC_TDOC_Key.Text <> "" Then
-            instanciaDeLaEntidad.TDOC_Key = Me.txtSRC_TDOC_Key.Text
-        End If
-        instanciaDeLaEntidad.Pac_NumeroDoc = Me.txtSRC_Pac_NumeroDoc.Text
-        If Me.DTP_Pac_FechaAlta.Checked = True Then
-            instanciaDeLaEntidad.Pac_FechaAlta = Me.DTP_Pac_FechaAlta.Text
-        End If
-
-
-
-
-
-
-        Me.BindingSource1.DataSource = instanciaDeBussinesLogic.GetListOfEntity(instanciaDeLaEntidad)
 
 
         dgvBusqueda.AutoGenerateColumns = False
