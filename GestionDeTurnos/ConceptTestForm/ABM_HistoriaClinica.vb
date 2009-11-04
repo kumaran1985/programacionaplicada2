@@ -8,7 +8,6 @@ Public Class ABM_HistoriaClinica
         instanciaDeBussinesLogic = New BLClassLibrary.BLDetalleHistoriaClinica
         instanciaDeLaEntidad = New Entities.EntDetalleHistoriaClinica
 
-
         instanciaDeLaEntidad.Deta_key = Me.TextBox1.Text()
         'instanciaDeLaEntidad.SYS_ROLE_KEY = Me.txtSRC_SYS_ROL_KEY.Text
 
@@ -19,6 +18,8 @@ Public Class ABM_HistoriaClinica
 
 
         DataGridView1.AutoGenerateColumns = False
+
+
         DataGridView1.DataSource = Me.BindingSource1
 
 
@@ -30,6 +31,11 @@ Public Class ABM_HistoriaClinica
     End Sub
 
     Private Sub DataGridView1_CellContentClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
+
+    End Sub
+
+    Private Sub TextBox1_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TextBox1.TextChanged
+        
 
     End Sub
 End Class
