@@ -74,8 +74,5 @@ Public Class ABM_Pacientes
             End If
         End If
     End Sub
-
-    Private Sub txtSRC_Pac_NumeroDoc_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSRC_Pac_NumeroDoc.TextChanged
-
-    End Sub
 End Class
+

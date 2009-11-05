@@ -22,7 +22,7 @@ Public Class DAPacientes
         miEntity.Pac_FechaNacimiento = DBVal(mDataTable("Pac_FechaNacimiento"))
         miEntity.Pac_FechaAlta = DBVal(mDataTable("Pac_FechaAlta"))
         miEntity.Pac_FechaCancelacion = DBVal(mDataTable("Pac_FechaCancelacion"))
-        miEntity.Pac_Sexo = CInt(DBVal(mDataTable("Pac_Sexo")))
+        miEntity.Pac_Sexo = DBVal(mDataTable("Pac_Sexo"))
         miEntity.Pac_EstadoCivil = DBVal(mDataTable("Pac_EstadoCivil"))
         miEntity.Pac_Ocupacion = DBVal(mDataTable("Pac_Ocupacion"))
         miEntity.Pac_Nacionalidad = DBVal(mDataTable("Pac_Nacionalidad"))
@@ -119,8 +119,8 @@ Public Class DAPacientes
             strWhere = "AND Pac_Ocupacion = '" & miEntity.Pac_Ocupacion & "' "
         End If
 
-        If miEntity.Pac_Sexo.HasValue Then
-            strWhere = strWhere & "AND Pac_Sexo = " & miEntity.Pac_Sexo.ToString & ""
+        If String.IsNullOrEmpty(miEntity.Pac_Sexo) Then
+            strWhere = strWhere & "AND Pac_Sexo = '" & miEntity.Pac_Sexo & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Telefonos) = False Then
@@ -250,8 +250,8 @@ Public Class DAPacientes
             strWhere = "AND Pac_Ocupacion = '" & miEntity.Pac_Ocupacion & "' "
         End If
 
-        If miEntity.Pac_Sexo.HasValue Then
-            strWhere = strWhere & "AND Pac_Sexo = " & miEntity.Pac_Sexo.ToString & ""
+        If String.IsNullOrEmpty(miEntity.Pac_Sexo) = False Then
+            strWhere = strWhere & "AND Pac_Sexo = '" & miEntity.Pac_Sexo & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Telefonos) = False Then
@@ -297,7 +297,7 @@ Public Class DAPacientes
         Dim miEntity As Entities.EntPacientes = Nothing
         miEntity = CType(mEntityObject, Entities.EntPacientes)
         Dim strSql As String = ""
-        strSql = "Insert Into Pacientes (TDOC_Key,Pac_NumeroDoc,Pac_Nombres,Pac_Apellidos,Pac_Calle,Pac_NumeroExt,Pac_NumeroInt,LOCA_Key,Pac_Telefonos,Pac_Celular,Pac_Email,Pac_FechaNacimiento,Pac_FechaAlta,Pac_FechaCancelacion,Pac_Sexo,Pac_EstadoCivil,Pac_Ocupacion,Pac_Nacionalidad) Values (" & miEntity.TDOC_Key.ToString & ", '" & miEntity.Pac_NumeroDoc & "', '" & miEntity.Pac_Nombres & "', '" & miEntity.Pac_Apellidos & "', '" & miEntity.Pac_Calle & "', '" & miEntity.Pac_NumeroExt & "', '" & miEntity.Pac_NumeroInt & "', " & miEntity.LOCA_Key.ToString & ", '" & miEntity.Pac_Telefonos & "', '" & miEntity.Pac_Celular & "', '" & miEntity.Pac_Email & "', #" & miEntity.Pac_FechaNacimiento & "#, #" & miEntity.Pac_FechaAlta & "#, #" & miEntity.Pac_FechaCancelacion & "#, " & miEntity.Pac_Sexo.ToString & ", '" & miEntity.Pac_EstadoCivil & "', '" & miEntity.Pac_Ocupacion & "', '" & miEntity.Pac_Nacionalidad & "')"
+        strSql = "Insert Into Pacientes (TDOC_Key,Pac_NumeroDoc,Pac_Nombres,Pac_Apellidos,Pac_Calle,Pac_NumeroExt,Pac_NumeroInt,LOCA_Key,Pac_Telefonos,Pac_Celular,Pac_Email,Pac_FechaNacimiento,Pac_FechaAlta,Pac_FechaCancelacion,Pac_Sexo,Pac_EstadoCivil,Pac_Ocupacion,Pac_Nacionalidad) Values (" & miEntity.TDOC_Key.ToString & ", '" & miEntity.Pac_NumeroDoc & "', '" & miEntity.Pac_Nombres & "', '" & miEntity.Pac_Apellidos & "', '" & miEntity.Pac_Calle & "', '" & miEntity.Pac_NumeroExt & "', '" & miEntity.Pac_NumeroInt & "', " & miEntity.LOCA_Key.ToString & ", '" & miEntity.Pac_Telefonos & "', '" & miEntity.Pac_Celular & "', '" & miEntity.Pac_Email & "', #" & miEntity.Pac_FechaNacimiento & "#, #" & miEntity.Pac_FechaAlta & "#, #" & miEntity.Pac_FechaCancelacion & "#, '" & miEntity.Pac_Sexo & "', '" & miEntity.Pac_EstadoCivil & "', '" & miEntity.Pac_Ocupacion & "', '" & miEntity.Pac_Nacionalidad & "')"
 
         Return ExecuteInsertQuery(strSql)
 
@@ -374,8 +374,8 @@ Public Class DAPacientes
             strSql = ", Pac_Ocupacion = '" & miEntity.Pac_Ocupacion & "' "
         End If
 
-        If miEntity.Pac_Sexo.HasValue Then
-            strSql = strSql & ", Pac_Sexo = " & miEntity.Pac_Sexo.ToString & ""
+        If String.IsNullOrEmpty(miEntity.Pac_Sexo) = False Then
+            strSql = strSql & ", Pac_Sexo = '" & miEntity.Pac_Sexo.ToString & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Telefonos) = False Then

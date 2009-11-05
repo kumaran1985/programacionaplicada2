@@ -20,7 +20,6 @@ Partial Class ABM_Pacientes
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.Label1 = New System.Windows.Forms.Label
         Me.Label2 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
@@ -39,10 +38,13 @@ Partial Class ABM_Pacientes
         Me.txtSRC_Pac_Nombres = New System.Windows.Forms.TextBox
         Me.txtSRC_Pac_Key = New System.Windows.Forms.TextBox
         Me.dgvBusqueda = New System.Windows.Forms.DataGridView
+        Me.cmdBuscar = New System.Windows.Forms.Button
+        Me.DTP_Pac_FechaAlta = New System.Windows.Forms.DateTimePicker
+        Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.Pac_Key = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.TDOC_Key = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.Pac_NumeroDoc = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.Pac_Nomnres = New System.Windows.Forms.DataGridViewTextBoxColumn
+        Me.Pac_Nombres = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.Pac_Apellidos = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.Pac_Calle = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.Pac_NumeroExt = New System.Windows.Forms.DataGridViewTextBoxColumn
@@ -58,10 +60,8 @@ Partial Class ABM_Pacientes
         Me.Pac_EstadoCivil = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.Pac_Ocupacion = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.Pac_Nacionalidad = New System.Windows.Forms.DataGridViewTextBoxColumn
-        Me.cmdBuscar = New System.Windows.Forms.Button
-        Me.DTP_Pac_FechaAlta = New System.Windows.Forms.DateTimePicker
-        CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvBusqueda, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label1
@@ -206,107 +206,11 @@ Partial Class ABM_Pacientes
         'dgvBusqueda
         '
         Me.dgvBusqueda.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgvBusqueda.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Pac_Key, Me.TDOC_Key, Me.Pac_NumeroDoc, Me.Pac_Nomnres, Me.Pac_Apellidos, Me.Pac_Calle, Me.Pac_NumeroExt, Me.Pac_NumeroInt, Me.LOCA_Key, Me.Pac_Telefono, Me.Pac_Celular, Me.Pac_Email, Me.Pac_FechaNacimiento, Me.Pac_FechaAlta, Me.Pac_FechaCancelacion, Me.Pac_Sexo, Me.Pac_EstadoCivil, Me.Pac_Ocupacion, Me.Pac_Nacionalidad})
+        Me.dgvBusqueda.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Pac_Key, Me.TDOC_Key, Me.Pac_NumeroDoc, Me.Pac_Nombres, Me.Pac_Apellidos, Me.Pac_Calle, Me.Pac_NumeroExt, Me.Pac_NumeroInt, Me.LOCA_Key, Me.Pac_Telefono, Me.Pac_Celular, Me.Pac_Email, Me.Pac_FechaNacimiento, Me.Pac_FechaAlta, Me.Pac_FechaCancelacion, Me.Pac_Sexo, Me.Pac_EstadoCivil, Me.Pac_Ocupacion, Me.Pac_Nacionalidad})
         Me.dgvBusqueda.Location = New System.Drawing.Point(214, 5)
         Me.dgvBusqueda.Name = "dgvBusqueda"
         Me.dgvBusqueda.Size = New System.Drawing.Size(623, 272)
         Me.dgvBusqueda.TabIndex = 19
-        '
-        'Pac_Key
-        '
-        Me.Pac_Key.DataPropertyName = "Pac_Key"
-        Me.Pac_Key.HeaderText = "ID de Paciente"
-        Me.Pac_Key.Name = "Pac_Key"
-        '
-        'TDOC_Key
-        '
-        Me.TDOC_Key.HeaderText = "ID de Tipo de Documento"
-        Me.TDOC_Key.Name = "TDOC_Key"
-        '
-        'Pac_NumeroDoc
-        '
-        Me.Pac_NumeroDoc.HeaderText = "Nº de Documento"
-        Me.Pac_NumeroDoc.Name = "Pac_NumeroDoc"
-        '
-        'Pac_Nomnres
-        '
-        Me.Pac_Nomnres.HeaderText = "Nobres"
-        Me.Pac_Nomnres.Name = "Pac_Nomnres"
-        '
-        'Pac_Apellidos
-        '
-        Me.Pac_Apellidos.HeaderText = "Apellidos"
-        Me.Pac_Apellidos.Name = "Pac_Apellidos"
-        '
-        'Pac_Calle
-        '
-        Me.Pac_Calle.HeaderText = "Calle"
-        Me.Pac_Calle.Name = "Pac_Calle"
-        '
-        'Pac_NumeroExt
-        '
-        Me.Pac_NumeroExt.HeaderText = "Numero"
-        Me.Pac_NumeroExt.Name = "Pac_NumeroExt"
-        '
-        'Pac_NumeroInt
-        '
-        Me.Pac_NumeroInt.HeaderText = "Dpto."
-        Me.Pac_NumeroInt.Name = "Pac_NumeroInt"
-        '
-        'LOCA_Key
-        '
-        Me.LOCA_Key.HeaderText = "ID de Localidad"
-        Me.LOCA_Key.Name = "LOCA_Key"
-        '
-        'Pac_Telefono
-        '
-        Me.Pac_Telefono.HeaderText = "Telefono"
-        Me.Pac_Telefono.Name = "Pac_Telefono"
-        '
-        'Pac_Celular
-        '
-        Me.Pac_Celular.HeaderText = "Celular"
-        Me.Pac_Celular.Name = "Pac_Celular"
-        '
-        'Pac_Email
-        '
-        Me.Pac_Email.HeaderText = "e-mail"
-        Me.Pac_Email.Name = "Pac_Email"
-        '
-        'Pac_FechaNacimiento
-        '
-        Me.Pac_FechaNacimiento.HeaderText = "Fecha de Nacimiento"
-        Me.Pac_FechaNacimiento.Name = "Pac_FechaNacimiento"
-        '
-        'Pac_FechaAlta
-        '
-        Me.Pac_FechaAlta.HeaderText = "Fecha de Alta"
-        Me.Pac_FechaAlta.Name = "Pac_FechaAlta"
-        '
-        'Pac_FechaCancelacion
-        '
-        Me.Pac_FechaCancelacion.HeaderText = "Fecha de Cancelación"
-        Me.Pac_FechaCancelacion.Name = "Pac_FechaCancelacion"
-        '
-        'Pac_Sexo
-        '
-        Me.Pac_Sexo.HeaderText = "Sexo"
-        Me.Pac_Sexo.Name = "Pac_Sexo"
-        '
-        'Pac_EstadoCivil
-        '
-        Me.Pac_EstadoCivil.HeaderText = "Estado Civil"
-        Me.Pac_EstadoCivil.Name = "Pac_EstadoCivil"
-        '
-        'Pac_Ocupacion
-        '
-        Me.Pac_Ocupacion.HeaderText = "Ocupación"
-        Me.Pac_Ocupacion.Name = "Pac_Ocupacion"
-        '
-        'Pac_Nacionalidad
-        '
-        Me.Pac_Nacionalidad.HeaderText = "Nacionalidad"
-        Me.Pac_Nacionalidad.Name = "Pac_Nacionalidad"
         '
         'cmdBuscar
         '
@@ -326,6 +230,120 @@ Partial Class ABM_Pacientes
         Me.DTP_Pac_FechaAlta.ShowCheckBox = True
         Me.DTP_Pac_FechaAlta.Size = New System.Drawing.Size(99, 20)
         Me.DTP_Pac_FechaAlta.TabIndex = 22
+        '
+        'Pac_Key
+        '
+        Me.Pac_Key.DataPropertyName = "Pac_Key"
+        Me.Pac_Key.HeaderText = "ID de Paciente"
+        Me.Pac_Key.Name = "Pac_Key"
+        '
+        'TDOC_Key
+        '
+        Me.TDOC_Key.DataPropertyName = "TDOC_Key"
+        Me.TDOC_Key.HeaderText = "ID de Tipo de Documento"
+        Me.TDOC_Key.Name = "TDOC_Key"
+        '
+        'Pac_NumeroDoc
+        '
+        Me.Pac_NumeroDoc.DataPropertyName = "Pac_NumeroDoc"
+        Me.Pac_NumeroDoc.HeaderText = "Nº de Documento"
+        Me.Pac_NumeroDoc.Name = "Pac_NumeroDoc"
+        '
+        'Pac_Nombres
+        '
+        Me.Pac_Nombres.DataPropertyName = "Pac_Nombres"
+        Me.Pac_Nombres.HeaderText = "Nobres"
+        Me.Pac_Nombres.Name = "Pac_Nombres"
+        '
+        'Pac_Apellidos
+        '
+        Me.Pac_Apellidos.DataPropertyName = "Pac_Apellidos"
+        Me.Pac_Apellidos.HeaderText = "Apellidos"
+        Me.Pac_Apellidos.Name = "Pac_Apellidos"
+        '
+        'Pac_Calle
+        '
+        Me.Pac_Calle.DataPropertyName = "Pac_Calle"
+        Me.Pac_Calle.HeaderText = "Calle"
+        Me.Pac_Calle.Name = "Pac_Calle"
+        '
+        'Pac_NumeroExt
+        '
+        Me.Pac_NumeroExt.DataPropertyName = "Pac_NumeroExt"
+        Me.Pac_NumeroExt.HeaderText = "Numero"
+        Me.Pac_NumeroExt.Name = "Pac_NumeroExt"
+        '
+        'Pac_NumeroInt
+        '
+        Me.Pac_NumeroInt.DataPropertyName = "Pac_NumeroInt"
+        Me.Pac_NumeroInt.HeaderText = "Dpto."
+        Me.Pac_NumeroInt.Name = "Pac_NumeroInt"
+        '
+        'LOCA_Key
+        '
+        Me.LOCA_Key.DataPropertyName = "LOCA_Key"
+        Me.LOCA_Key.HeaderText = "ID de Localidad"
+        Me.LOCA_Key.Name = "LOCA_Key"
+        '
+        'Pac_Telefono
+        '
+        Me.Pac_Telefono.DataPropertyName = "Pac_Telefono"
+        Me.Pac_Telefono.HeaderText = "Telefono"
+        Me.Pac_Telefono.Name = "Pac_Telefono"
+        '
+        'Pac_Celular
+        '
+        Me.Pac_Celular.DataPropertyName = "Pac_Celular"
+        Me.Pac_Celular.HeaderText = "Celular"
+        Me.Pac_Celular.Name = "Pac_Celular"
+        '
+        'Pac_Email
+        '
+        Me.Pac_Email.DataPropertyName = "Pac_Email"
+        Me.Pac_Email.HeaderText = "e-mail"
+        Me.Pac_Email.Name = "Pac_Email"
+        '
+        'Pac_FechaNacimiento
+        '
+        Me.Pac_FechaNacimiento.DataPropertyName = "Pac_FechaNacimiento"
+        Me.Pac_FechaNacimiento.HeaderText = "Fecha de Nacimiento"
+        Me.Pac_FechaNacimiento.Name = "Pac_FechaNacimiento"
+        '
+        'Pac_FechaAlta
+        '
+        Me.Pac_FechaAlta.DataPropertyName = "Pac_FechaAlta"
+        Me.Pac_FechaAlta.HeaderText = "Fecha de Alta"
+        Me.Pac_FechaAlta.Name = "Pac_FechaAlta"
+        '
+        'Pac_FechaCancelacion
+        '
+        Me.Pac_FechaCancelacion.DataPropertyName = "Pac_FechaCancelacion"
+        Me.Pac_FechaCancelacion.HeaderText = "Fecha de Cancelación"
+        Me.Pac_FechaCancelacion.Name = "Pac_FechaCancelacion"
+        '
+        'Pac_Sexo
+        '
+        Me.Pac_Sexo.DataPropertyName = "Pac_Sexo"
+        Me.Pac_Sexo.HeaderText = "Sexo"
+        Me.Pac_Sexo.Name = "Pac_Sexo"
+        '
+        'Pac_EstadoCivil
+        '
+        Me.Pac_EstadoCivil.DataPropertyName = "Pac_EstadoCivil"
+        Me.Pac_EstadoCivil.HeaderText = "Estado Civil"
+        Me.Pac_EstadoCivil.Name = "Pac_EstadoCivil"
+        '
+        'Pac_Ocupacion
+        '
+        Me.Pac_Ocupacion.DataPropertyName = "Pac_Ocupacion"
+        Me.Pac_Ocupacion.HeaderText = "Ocupación"
+        Me.Pac_Ocupacion.Name = "Pac_Ocupacion"
+        '
+        'Pac_Nacionalidad
+        '
+        Me.Pac_Nacionalidad.DataPropertyName = "Pac_Nacionalidad"
+        Me.Pac_Nacionalidad.HeaderText = "Nacionalidad"
+        Me.Pac_Nacionalidad.Name = "Pac_Nacionalidad"
         '
         'ABM_Pacientes
         '
@@ -353,9 +371,9 @@ Partial Class ABM_Pacientes
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Name = "ABM_Pacientes"
-        Me.Text = "ABM_Pacientes"
-        CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Text = "Listado Pacientes"
         CType(Me.dgvBusqueda, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -384,7 +402,7 @@ Partial Class ABM_Pacientes
     Friend WithEvents Pac_Key As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents TDOC_Key As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Pac_NumeroDoc As System.Windows.Forms.DataGridViewTextBoxColumn
-    Friend WithEvents Pac_Nomnres As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Pac_Nombres As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Pac_Apellidos As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Pac_Calle As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Pac_NumeroExt As System.Windows.Forms.DataGridViewTextBoxColumn
