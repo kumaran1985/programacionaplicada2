@@ -10,25 +10,25 @@ Public Class DAPacientes1
     Public Function GenerarEntidad(ByVal mDataTable As System.Data.DataRow) As Object Implements MBFrameWork.DataAccess.IEntityzable.GenerarEntidad
         Dim miEntity As New Entities.EntPacientes
 
-        miEntity.LOCA_Key = mDataTable("LOCA_Key")
-        miEntity.Pac_Apellidos = mDataTable("Pac_Apellidos")
-        miEntity.Pac_Calle = mDataTable("Pac_Calle")
-        miEntity.Pac_Celular = mDataTable("Pac_Celular")
-        miEntity.Pac_Email = mDataTable("Pac_Email")
-        miEntity.Pac_EstadoCivil = mDataTable("Pac_EstadoCivil")
-        miEntity.Pac_FechaAlta = mDataTable("Pac_FechaAlta")
-        miEntity.Pac_FechaCancelacion = mDataTable("Pac_FechaCancelacion")
-        miEntity.Pac_FechaNacimiento = mDataTable("Pac_FechaNacimiento")
-        miEntity.Pac_key = mDataTable("Pac_key")
-        miEntity.Pac_Nacionalidad = mDataTable("Pac_Nacionalidad")
-        miEntity.Pac_Nombres = mDataTable("Pac_Nombres")
-        miEntity.Pac_NumeroDoc = mDataTable("Pac_NumeroDoc")
-        miEntity.Pac_NumeroExt = mDataTable("Pac_NumeroExt")
-        miEntity.Pac_NumeroInt = mDataTable("Pac_NumeroInt")
-        miEntity.Pac_Ocupacion = mDataTable("Pac_Ocupacion")
-        miEntity.Pac_Sexo = mDataTable("Pac_Sexo")
-        miEntity.Pac_Telefonos = mDataTable("Pac_Telefonos")
-        miEntity.TDOC_Key = mDataTable("TDOC_Key")
+        miEntity.LOCA_Key = DBVal(mDataTable("LOCA_Key"))
+        miEntity.Pac_Apellidos = DBVal(mDataTable("Pac_Apellidos"))
+        miEntity.Pac_Calle = DBVal(mDataTable("Pac_Calle"))
+        miEntity.Pac_Celular = DBVal(mDataTable("Pac_Celular"))
+        miEntity.Pac_Email = DBVal(mDataTable("Pac_Email"))
+        miEntity.Pac_EstadoCivil = DBVal(mDataTable("Pac_EstadoCivil"))
+        miEntity.Pac_FechaAlta = DBVal(mDataTable("Pac_FechaAlta"))
+        miEntity.Pac_FechaCancelacion = DBVal(mDataTable("Pac_FechaCancelacion"))
+        miEntity.Pac_FechaNacimiento = DBVal(mDataTable("Pac_FechaNacimiento"))
+        miEntity.Pac_key = DBVal(mDataTable("Pac_key"))
+        miEntity.Pac_Nacionalidad = DBVal(mDataTable("Pac_Nacionalidad"))
+        miEntity.Pac_Nombres = DBVal(mDataTable("Pac_Nombres"))
+        miEntity.Pac_NumeroDoc = DBVal(mDataTable("Pac_NumeroDoc"))
+        miEntity.Pac_NumeroExt = DBVal(mDataTable("Pac_NumeroExt"))
+        miEntity.Pac_NumeroInt = DBVal(mDataTable("Pac_NumeroInt"))
+        miEntity.Pac_Ocupacion = DBVal(mDataTable("Pac_Ocupacion"))
+        miEntity.Pac_Sexo = DBVal(mDataTable("Pac_Sexo"))
+        miEntity.Pac_Telefonos = DBVal(mDataTable("Pac_Telefonos"))
+        miEntity.TDOC_Key = DBVal(mDataTable("TDOC_Key"))
 
         Return miEntity
 
@@ -128,8 +128,8 @@ Public Class DAPacientes1
             strWhere = "AND Pac_Ocupacion = '" & miEntity.Pac_Ocupacion & "' "
         End If
 
-        If miEntity.Pac_Sexo.HasValue Then
-            strWhere = strWhere & "AND Pac_Sexo = " & miEntity.Pac_Sexo.ToString & " "
+        If String.IsNullOrEmpty(miEntity.Pac_Sexo) = False Then
+            strWhere = strWhere & "AND Pac_Sexo = '" & miEntity.Pac_Sexo.ToString & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Telefonos) = False Then
@@ -260,8 +260,8 @@ Public Class DAPacientes1
             strWhere = "AND Pac_Ocupacion = '" & miEntity.Pac_Ocupacion & "' "
         End If
 
-        If miEntity.Pac_Sexo.HasValue Then
-            strWhere = strWhere & "AND Pac_Sexo = " & miEntity.Pac_Sexo.ToString & " "
+        If String.IsNullOrEmpty(miEntity.Pac_Sexo) = False Then
+            strWhere = strWhere & "AND Pac_Sexo = '" & miEntity.Pac_Sexo.ToString & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Telefonos) = False Then
@@ -383,8 +383,8 @@ Public Class DAPacientes1
             strWhere = "AND Pac_Ocupacion = '" & miEntity.Pac_Ocupacion & "' "
         End If
 
-        If miEntity.Pac_Sexo.HasValue Then
-            strWhere = strWhere & "AND Pac_Sexo = " & miEntity.Pac_Sexo.ToString & " "
+        If String.IsNullOrEmpty(miEntity.Pac_Sexo) = False Then
+            strWhere = strWhere & "AND Pac_Sexo = '" & miEntity.Pac_Sexo.ToString & "' "
         End If
 
         If String.IsNullOrEmpty(miEntity.Pac_Telefonos) = False Then
@@ -407,7 +407,7 @@ Public Class DAPacientes1
         Dim miEntity As Entities.EntPacientes = Nothing
         miEntity = CType(mEntityObject, Entities.EntPacientes)
         Dim strSql As String = ""
-        strSql = "Insert Into Pacientes (TDOC_Key,Pac_NumeroDoc,Pac_Nombres,Pac_Apellidos,Pac_Calle,Pac_NumeroExt,Pac_NumeroInt,LOCA_Key,Pac_Telefonos,Pac_Celular,Pac_Email,Pac_FechaNacimiento,Pac_FechaAlta,Pac_FechaCancelacion,Pac_Sexo,Pac_EstadoCivil,Pac_Ocupacion,Pac_Nacionalidad) Values (" & miEntity.TDOC_Key.ToString & ", '" & miEntity.Pac_NumeroDoc & "', '" & miEntity.Pac_Nombres & "', '" & miEntity.Pac_Apellidos & "', '" & miEntity.Pac_Calle & "', '" & miEntity.Pac_NumeroExt & "', '" & miEntity.Pac_NumeroInt & "', " & miEntity.LOCA_Key.ToString & ", '" & miEntity.Pac_Telefonos & "', '" & miEntity.Pac_Celular & "', '" & miEntity.Pac_Email & "', '" & miEntity.Pac_FechaNacimiento & "', '" & miEntity.Pac_FechaAlta & "', '" & miEntity.Pac_FechaCancelacion & "', " & miEntity.Pac_Sexo.ToString & ", '" & miEntity.Pac_EstadoCivil & "', '" & miEntity.Pac_Ocupacion & "', '" & miEntity.Pac_Nacionalidad & "')"
+        strSql = "Insert Into Pacientes (TDOC_Key,Pac_NumeroDoc,Pac_Nombres,Pac_Apellidos,Pac_Calle,Pac_NumeroExt,Pac_NumeroInt,LOCA_Key,Pac_Telefonos,Pac_Celular,Pac_Email,Pac_FechaNacimiento,Pac_FechaAlta,Pac_FechaCancelacion,Pac_Sexo,Pac_EstadoCivil,Pac_Ocupacion,Pac_Nacionalidad) Values (" & miEntity.TDOC_Key.ToString & ", '" & miEntity.Pac_NumeroDoc & "', '" & miEntity.Pac_Nombres & "', '" & miEntity.Pac_Apellidos & "', '" & miEntity.Pac_Calle & "', '" & miEntity.Pac_NumeroExt & "', '" & miEntity.Pac_NumeroInt & "', " & miEntity.LOCA_Key.ToString & ", '" & miEntity.Pac_Telefonos & "', '" & miEntity.Pac_Celular & "', '" & miEntity.Pac_Email & "', '" & miEntity.Pac_FechaNacimiento & "', '" & miEntity.Pac_FechaAlta & "', '" & miEntity.Pac_FechaCancelacion & "', '" & miEntity.Pac_Sexo & "', '" & miEntity.Pac_EstadoCivil & "', '" & miEntity.Pac_Ocupacion & "', '" & miEntity.Pac_Nacionalidad & "')"
 
         Return ExecuteInsertQuery(strSql)
     End Function

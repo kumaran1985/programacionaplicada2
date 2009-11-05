@@ -155,4 +155,9 @@ Public Class MDI_Principal
     Private Sub ListadoToolStripMenuItem12_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem12.Click
         Form1.Show()
     End Sub
+
+    Private Sub AToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AToolStripMenuItem.Click
+        ALTA_Pacientes.MdiParent = Me
+        ALTA_Pacientes.Show()
+    End Sub
 End Class

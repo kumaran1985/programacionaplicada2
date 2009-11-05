@@ -14,7 +14,7 @@ Public Class EntPacientes
     Private _Pac_FechaNacimiento As Date
     Private _Pac_FechaAlta As Date
     Private _Pac_FechaCancelacion As Date
-    Private _Pac_Sexo As Nullable(Of Integer)
+    Private _Pac_Sexo As String
     Private _Pac_EstadoCivil As String
     Private _Pac_Ocupacion As String
     Private _Pac_Nacionalidad As String
@@ -139,11 +139,11 @@ Public Class EntPacientes
             _Pac_FechaCancelacion = value
         End Set
     End Property
-    Public Property Pac_Sexo() As Nullable(Of Integer)
+    Public Property Pac_Sexo() As String
         Get
             Return _Pac_Sexo
         End Get
-        Set(ByVal value As Nullable(Of Integer))
+        Set(ByVal value As String)
             _Pac_Sexo = value
         End Set
     End Property
