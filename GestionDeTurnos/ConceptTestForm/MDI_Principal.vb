@@ -160,4 +160,9 @@ Public Class MDI_Principal
         ALTA_Pacientes.MdiParent = Me
         ALTA_Pacientes.Show()
     End Sub
+
+    Private Sub AltaToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AltaToolStripMenuItem.Click
+        Alta_Medicos.MdiParent = Me
+        Alta_Medicos.Show()
+    End Sub
 End Class
