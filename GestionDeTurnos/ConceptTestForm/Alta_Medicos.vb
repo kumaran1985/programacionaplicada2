@@ -2,24 +2,6 @@ Imports System.Text.RegularExpressions
 
 Public Class Alta_Medicos
 
-    Private Sub Label2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label2.Click
-
-    End Sub
-
-    Private Sub Label10_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label10.Click
-
-    End Sub
-
-    Private Sub Label12_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label12.Click
-
-    End Sub
-
-    Private Sub ComboBox1_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmb_Med_EstadoCivil.SelectedIndexChanged
-
-    End Sub
-
-
-
     Private Sub txt_Med_Nombres_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_Med_Nombres.KeyPress
         'valido que solo se ingresen letras, se pueda presiona el backspace o se pueda usar la barra espaciadora
         If Not (Char.IsLetter(e.KeyChar) Or e.KeyChar = Microsoft.VisualBasic.ChrW(8) Or e.KeyChar = Microsoft.VisualBasic.ChrW(32)) Then
@@ -96,6 +78,8 @@ Public Class Alta_Medicos
         Me.cmb_Med_Especialidad.ValueMember = tabla2.Columns(0).ToString 'permite que cuando selecciona una especialidad, el valor que guarde sea el valor de la clave primaria de la tabala especialidades
         Me.cmb_Med_Especialidad.Text = ""
 
+        Me.txt_Med_Nombres.Focus() 'hago que cuando inice el formulario el foco este en el primer campo que es el campo nombre
+
 
     End Sub
 
@@ -137,31 +121,39 @@ Public Class Alta_Medicos
         End If
 
 
-        instanciaentidad.Med_Matricula = Me.cmb_Med_Matricula.SelectedValue
         instanciaentidad.Med_Apellidos = Me.txt_Med_Apellidos.Text
+        instanciaentidad.Med_Nombres = Me.txt_Med_Nombres.Text
         instanciaentidad.TDOC_Key = tipo_doc
-        instanciaentidad.LOCA_Key = Me.cmb_LOCA_key.SelectedValue
+        instanciaentidad.Med_NumeroDoc = Me.txt_Med_NumeroDoc.Text
+        instanciaentidad.Med_FechaNacimiento = CDate(Me.txt_Med_FechaNac.Text)
+        instanciaentidad.Med_Sexo = Me.cmb_Med_sexo.SelectedItem
+        instanciaentidad.Med_EstadoCivil = Me.cmb_Med_EstadoCivil.SelectedItem
         instanciaentidad.Med_Calle = Me.txt_Med_Calle.Text
+        instanciaentidad.LOCA_Key = Me.cmb_LOCA_key.SelectedValue
+        instanciaentidad.Med_Matricula = Me.cmb_Med_Matricula.SelectedValue
+        instanciaentidad.Med_Telefonos = Me.txt_Med_telefono.Text
         instanciaentidad.Med_Celular = Me.txt_Med_celular.Text
         instanciaentidad.Med_Email = Me.txt_Med_Email.Text
+        instanciaentidad.Med_NumeroExt = Me.txt_Med_NumeroExt.Text
+        instanciaentidad.Med_NumeroInt = Me.txt_Med_NumeroInt.Text
         instanciaentidad.Med_Especialidad = Me.cmb_Med_Especialidad.SelectedValue
-        instanciaentidad.Med_EstadoCivil = Me.cmb_Med_EstadoCivil.SelectedItem
-        instanciaentidad.Med_FechaIngreso = Me.txt_Med_FechaIngreso.Text
-        instanciaentidad.Med_FechaNacimiento = CDate(Me.txt_Med_FechaNac.Text)
+        instanciaentidad.Med_Matricula = Me.cmb_Med_Matricula.SelectedItem
         instanciaentidad.Med_Matricula1 = CInt(Me.txt_Med_Matricula1.Text)
-        instanciaentidad.Med_NumeroDoc = Me.txt_Med_NumeroDoc.Text
-
-
+        instanciaentidad.Med_FechaIngreso = Me.txt_Med_FechaIngreso.Text
 
 
         instanciaBLMedicos.InsertEntity(instanciaentidad)
 
-        MsgBox("Guardado")
+        MsgBox("Guardado Satisfactoriamente")
 
 
     End Sub
 
     Private Sub MaskedTextBox1_MaskInputRejected(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MaskInputRejectedEventArgs)
+
+    End Sub
+
+    Private Sub cmb_TDoc_key_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmb_TDoc_key.SelectedIndexChanged
 
     End Sub
 End Class
