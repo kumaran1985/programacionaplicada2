@@ -79,7 +79,7 @@ Partial Class Alta_Medicos
         Me.txt_Med_Apellidos.Location = New System.Drawing.Point(372, 12)
         Me.txt_Med_Apellidos.Name = "txt_Med_Apellidos"
         Me.txt_Med_Apellidos.Size = New System.Drawing.Size(204, 20)
-        Me.txt_Med_Apellidos.TabIndex = 4
+        Me.txt_Med_Apellidos.TabIndex = 2
         '
         'Apellidos
         '
@@ -106,7 +106,7 @@ Partial Class Alta_Medicos
         Me.cmb_TDoc_key.Location = New System.Drawing.Point(84, 54)
         Me.cmb_TDoc_key.Name = "cmb_TDoc_key"
         Me.cmb_TDoc_key.Size = New System.Drawing.Size(79, 21)
-        Me.cmb_TDoc_key.TabIndex = 7
+        Me.cmb_TDoc_key.TabIndex = 3
         '
         'Label4
         '
@@ -140,7 +140,7 @@ Partial Class Alta_Medicos
         Me.txt_Med_Calle.Location = New System.Drawing.Point(84, 189)
         Me.txt_Med_Calle.Name = "txt_Med_Calle"
         Me.txt_Med_Calle.Size = New System.Drawing.Size(255, 20)
-        Me.txt_Med_Calle.TabIndex = 13
+        Me.txt_Med_Calle.TabIndex = 8
         '
         'Label7
         '
@@ -174,7 +174,7 @@ Partial Class Alta_Medicos
         Me.txt_Med_Email.Location = New System.Drawing.Point(84, 264)
         Me.txt_Med_Email.Name = "txt_Med_Email"
         Me.txt_Med_Email.Size = New System.Drawing.Size(220, 20)
-        Me.txt_Med_Email.TabIndex = 19
+        Me.txt_Med_Email.TabIndex = 12
         '
         'Label10
         '
@@ -210,7 +210,7 @@ Partial Class Alta_Medicos
         Me.cmb_Med_sexo.Location = New System.Drawing.Point(84, 123)
         Me.cmb_Med_sexo.Name = "cmb_Med_sexo"
         Me.cmb_Med_sexo.Size = New System.Drawing.Size(106, 21)
-        Me.cmb_Med_sexo.TabIndex = 25
+        Me.cmb_Med_sexo.TabIndex = 6
         '
         'Label13
         '
@@ -228,7 +228,7 @@ Partial Class Alta_Medicos
         Me.cmb_Med_EstadoCivil.Location = New System.Drawing.Point(107, 156)
         Me.cmb_Med_EstadoCivil.Name = "cmb_Med_EstadoCivil"
         Me.cmb_Med_EstadoCivil.Size = New System.Drawing.Size(121, 21)
-        Me.cmb_Med_EstadoCivil.TabIndex = 27
+        Me.cmb_Med_EstadoCivil.TabIndex = 7
         '
         'Label1
         '
@@ -245,7 +245,7 @@ Partial Class Alta_Medicos
         Me.cmb_LOCA_key.Location = New System.Drawing.Point(421, 189)
         Me.cmb_LOCA_key.Name = "cmb_LOCA_key"
         Me.cmb_LOCA_key.Size = New System.Drawing.Size(121, 21)
-        Me.cmb_LOCA_key.TabIndex = 30
+        Me.cmb_LOCA_key.TabIndex = 9
         '
         'Label14
         '
@@ -263,7 +263,7 @@ Partial Class Alta_Medicos
         Me.cmb_Med_Especialidad.Location = New System.Drawing.Point(107, 342)
         Me.cmb_Med_Especialidad.Name = "cmb_Med_Especialidad"
         Me.cmb_Med_Especialidad.Size = New System.Drawing.Size(232, 21)
-        Me.cmb_Med_Especialidad.TabIndex = 32
+        Me.cmb_Med_Especialidad.TabIndex = 15
         '
         'Label15
         '
@@ -281,7 +281,7 @@ Partial Class Alta_Medicos
         Me.cmb_Med_Matricula.Location = New System.Drawing.Point(122, 370)
         Me.cmb_Med_Matricula.Name = "cmb_Med_Matricula"
         Me.cmb_Med_Matricula.Size = New System.Drawing.Size(121, 21)
-        Me.cmb_Med_Matricula.TabIndex = 34
+        Me.cmb_Med_Matricula.TabIndex = 16
         '
         'Label16
         '
@@ -345,7 +345,7 @@ Partial Class Alta_Medicos
         Me.txt_Med_NumeroDoc.Mask = "99999999"
         Me.txt_Med_NumeroDoc.Name = "txt_Med_NumeroDoc"
         Me.txt_Med_NumeroDoc.Size = New System.Drawing.Size(115, 20)
-        Me.txt_Med_NumeroDoc.TabIndex = 42
+        Me.txt_Med_NumeroDoc.TabIndex = 4
         '
         'txt_Med_FechaNac
         '
@@ -353,7 +353,7 @@ Partial Class Alta_Medicos
         Me.txt_Med_FechaNac.Mask = "00/00/0000"
         Me.txt_Med_FechaNac.Name = "txt_Med_FechaNac"
         Me.txt_Med_FechaNac.Size = New System.Drawing.Size(100, 20)
-        Me.txt_Med_FechaNac.TabIndex = 43
+        Me.txt_Med_FechaNac.TabIndex = 5
         Me.txt_Med_FechaNac.ValidatingType = GetType(Date)
         '
         'txt_Med_NumeroExt
@@ -362,7 +362,7 @@ Partial Class Alta_Medicos
         Me.txt_Med_NumeroExt.Mask = "99999"
         Me.txt_Med_NumeroExt.Name = "txt_Med_NumeroExt"
         Me.txt_Med_NumeroExt.Size = New System.Drawing.Size(100, 20)
-        Me.txt_Med_NumeroExt.TabIndex = 44
+        Me.txt_Med_NumeroExt.TabIndex = 13
         Me.txt_Med_NumeroExt.ValidatingType = GetType(Integer)
         '
         'txt_Med_NumeroInt
@@ -371,7 +371,7 @@ Partial Class Alta_Medicos
         Me.txt_Med_NumeroInt.Mask = "999"
         Me.txt_Med_NumeroInt.Name = "txt_Med_NumeroInt"
         Me.txt_Med_NumeroInt.Size = New System.Drawing.Size(120, 20)
-        Me.txt_Med_NumeroInt.TabIndex = 45
+        Me.txt_Med_NumeroInt.TabIndex = 14
         '
         'txt_Med_telefono
         '
@@ -379,7 +379,7 @@ Partial Class Alta_Medicos
         Me.txt_Med_telefono.Mask = "0000000"
         Me.txt_Med_telefono.Name = "txt_Med_telefono"
         Me.txt_Med_telefono.Size = New System.Drawing.Size(130, 20)
-        Me.txt_Med_telefono.TabIndex = 46
+        Me.txt_Med_telefono.TabIndex = 10
         '
         'txt_Med_celular
         '
@@ -387,7 +387,7 @@ Partial Class Alta_Medicos
         Me.txt_Med_celular.Mask = "000-000000000"
         Me.txt_Med_celular.Name = "txt_Med_celular"
         Me.txt_Med_celular.Size = New System.Drawing.Size(133, 20)
-        Me.txt_Med_celular.TabIndex = 47
+        Me.txt_Med_celular.TabIndex = 11
         '
         'txt_Med_FechaIngreso
         '
@@ -395,7 +395,7 @@ Partial Class Alta_Medicos
         Me.txt_Med_FechaIngreso.Mask = "00/00/0000"
         Me.txt_Med_FechaIngreso.Name = "txt_Med_FechaIngreso"
         Me.txt_Med_FechaIngreso.Size = New System.Drawing.Size(121, 20)
-        Me.txt_Med_FechaIngreso.TabIndex = 48
+        Me.txt_Med_FechaIngreso.TabIndex = 18
         Me.txt_Med_FechaIngreso.ValidatingType = GetType(Date)
         '
         'txt_Med_Matricula1
@@ -404,7 +404,7 @@ Partial Class Alta_Medicos
         Me.txt_Med_Matricula1.Mask = "99999"
         Me.txt_Med_Matricula1.Name = "txt_Med_Matricula1"
         Me.txt_Med_Matricula1.Size = New System.Drawing.Size(117, 20)
-        Me.txt_Med_Matricula1.TabIndex = 49
+        Me.txt_Med_Matricula1.TabIndex = 17
         Me.txt_Med_Matricula1.ValidatingType = GetType(Integer)
         '
         'Alta_Medicos
