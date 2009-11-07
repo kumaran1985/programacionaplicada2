@@ -53,6 +53,18 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABM_PracticasMedicas.Designer.vb">
+      <DependentUpon>ABM_PracticasMedicas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_PracticasMedicas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM_PracticasMedicasxPlan.Designer.vb">
+      <DependentUpon>ABM_PracticasMedicasxPlan.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_PracticasMedicasxPlan.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Alta_Medicos.designer.vb">
       <DependentUpon>Alta_Medicos.vb</DependentUpon>
     </Compile>
@@ -117,6 +129,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Base2006DataSet1.xsd</DependentUpon>
     </Compile>
+    <Compile Include="BuscarXDescripcion.Designer.vb">
+      <DependentUpon>BuscarXDescripcion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BuscarXDescripcion.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Especialidades.Designer.vb">
       <DependentUpon>Especialidades.vb</DependentUpon>
     </Compile>
@@ -171,6 +189,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ABM_PracticasMedicas.resx">
+      <DependentUpon>ABM_PracticasMedicas.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM_PracticasMedicasxPlan.resx">
+      <DependentUpon>ABM_PracticasMedicasxPlan.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Alta_Medicos.resx">
       <DependentUpon>Alta_Medicos.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -206,6 +232,10 @@
     <EmbeddedResource Include="ALTA_SysRoles.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ALTA_SysRoles.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BuscarXDescripcion.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>BuscarXDescripcion.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Especialidades.resx">
       <SubType>Designer</SubType>
