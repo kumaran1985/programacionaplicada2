@@ -292,27 +292,30 @@ Public Class DAMedicos
         mientity = CType(mEntityObject, Entities.EntMedicos)
         Dim strsql As String = ""
 
-        Dim sb As New Text.StringBuilder
+        'Dim sb As New Text.StringBuilder
 
-        strsql = sb.ToString
+        'strsql = sb.ToString
 
-        sb.AppendLine("Insert into Medicos ")
-        sb.AppendLine("(LOCA_Key,Med_Apellidos,")
-        sb.AppendLine(" Med_Nombres,Med_Calle,Med_Celular,Med_Email,")
-        sb.AppendLine("Med_Especialidad,Med_EstadoCivil,Med_FechaIngreso,")
-        sb.AppendLine("Med_FechaNacimiento,")
-        sb.AppendLine(" Med_Matricula,Med_Matricula1,Med_NumeroDoc,Med_NumeroExt,Med_NumeroInt")
-        sb.AppendLine(" ,Med_Sexo,Med_Telefonos,TDOC_Key)")
-        sb.AppendLine("values ('" & mientity.Med_Apellidos & "','" & mientity.Med_Nombres & "')")
-        sb.AppendLine(",'" & mientity.Med_Calle & "','" & mientity.Med_Celular & "' ,'" & mientity.Med_EstadoCivil & "','" & mientity.Med_Email & "','")
-        sb.AppendLine(mientity.Med_Especialidad)
-        sb.AppendLine("' , '" & mientity.Med_FechaIngreso & "','" & mientity.Med_FechaNacimiento & "','" & mientity.Med_Matricula & "', '")
-        sb.AppendLine(mientity.Med_Matricula1)
-        sb.AppendLine("','" & mientity.Med_NumeroDoc & "','" & mientity.Med_NumeroExt & "','")
-        sb.AppendLine(mientity.Med_NumeroInt & " ','" & mientity.Med_Sexo & "','" & mientity.Med_Telefonos & "','")
-        sb.AppendLine(mientity.TDOC_Key)
-        sb.AppendLine("')")
-        strsql = sb.ToString
+        'sb.AppendLine("Insert into Medicos ")
+        'sb.AppendLine("(LOCA_Key,Med_Apellidos,")
+        'sb.AppendLine("Med_Nombres,Med_Calle,Med_Celular,Med_Email,")
+        'sb.AppendLine("Med_Especialidad,Med_EstadoCivil,Med_FechaIngreso,")
+        'sb.AppendLine("Med_FechaNacimiento,")
+        'sb.AppendLine("Med_Matricula,Med_Matricula1,Med_NumeroDoc,Med_NumeroExt,Med_NumeroInt")
+        'sb.AppendLine(",Med_Sexo,Med_Telefonos,TDOC_Key)")
+        'sb.AppendLine("values ('" & mientity.Med_Apellidos & "','" & mientity.Med_Nombres & "')")
+        'sb.AppendLine(",'" & mientity.Med_Calle & "','" & mientity.Med_Celular & "' ,'" & mientity.Med_EstadoCivil & "','" & mientity.Med_Email & "',")
+        'sb.AppendLine(mientity.Med_Especialidad.ToString)
+        'sb.AppendLine(",'" & mientity.Med_FechaIngreso & "','" & mientity.Med_FechaNacimiento & "','" & mientity.Med_Matricula & "',")
+        'sb.AppendLine(mientity.Med_Matricula1.ToString)
+        'sb.AppendLine(",'" & mientity.Med_NumeroDoc & "','" & mientity.Med_NumeroExt & "','")
+        'sb.AppendLine(mientity.Med_NumeroInt & " ','" & mientity.Med_Sexo & "','" & mientity.Med_Telefonos & "',")
+        'sb.AppendLine(mientity.TDOC_Key.ToString)
+        'sb.AppendLine(")")
+        'strsql = sb.ToString
+        'strsql = "select max(med_key) from medicos"
+
+        strsql = "Insert into Medicos (LOCA_Key,Med_Especialidad,Med_Matricula1,TDOC_key) values (" & mientity.LOCA_Key.ToString & "," & mientity.Med_Especialidad.ToString & "," & mientity.Med_Matricula1.ToString & "," & mientity.TDOC_Key.ToString & ")"
 
 
        
