@@ -166,8 +166,4 @@ Public Class MDI_Principal
         Alta_Medicos.Show()
     End Sub
 
-    Private Sub ListadoToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem1.Click
-        ABM_PracticasMedicas.MdiParent = Me
-        ABM_PracticasMedicas.Show()
-    End Sub
 End Class
