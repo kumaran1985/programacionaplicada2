@@ -315,7 +315,7 @@ Public Class DAMedicos
         'strsql = sb.ToString
         'strsql = "select max(med_key) from medicos"
 
-        strsql = "Insert into Medicos (LOCA_Key,Med_Especialidad,Med_Matricula1,TDOC_key) values (" & mientity.LOCA_Key.ToString & "," & mientity.Med_Especialidad.ToString & "," & mientity.Med_Matricula1.ToString & "," & mientity.TDOC_Key.ToString & ")"
+        strsql = "Insert into Medicos (LOCA_Key,Med_Especialidad,Med_Matricula1,TDOC_key,Med_Apellidos,Med_Calle,Med_Celular,Med_Email,Med_EstadoCivil,Med_FechaIngreso,Med_FechaNacimiento,Med_Matricula,Med_Nombres,Med_NumeroDoc,Med_NumeroExt,Med_NumeroInt,Med_Sexo,Med_Telefonos) values (" & mientity.LOCA_Key.ToString & "," & mientity.Med_Especialidad.ToString & "," & mientity.Med_Matricula1.ToString & "," & mientity.TDOC_Key.ToString & ",'" & mientity.Med_Apellidos & "','" & mientity.Med_Calle & "','" & mientity.Med_Celular & "','" & mientity.Med_Email & "','" & mientity.Med_EstadoCivil & "','" & mientity.Med_FechaIngreso & "','" & mientity.Med_FechaNacimiento & "','" & mientity.Med_Matricula & "','" & mientity.Med_Nombres & "','" & mientity.Med_NumeroDoc & "','" & mientity.Med_NumeroExt & "','" & mientity.Med_NumeroInt & "','" & mientity.Med_Sexo & "','" & mientity.Med_Telefonos & "')"
 
 
        
