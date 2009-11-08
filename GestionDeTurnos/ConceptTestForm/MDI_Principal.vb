@@ -166,4 +166,25 @@ Public Class MDI_Principal
         Alta_Medicos.Show()
     End Sub
 
+
+    Private Sub ListadoToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem1.Click
+        ABM_PracticasMedicas.MdiParent = Me
+        ABM_PracticasMedicas.Show()
+    End Sub
+
+    Private Sub ListadoToolStripMenuItem13_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem13.Click
+        ABM_PracticasMedicasxPlan.MdiParent = Me
+        ABM_PracticasMedicasxPlan.Show()
+    End Sub
+
+    Private Sub AltaToolStripMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AltaToolStripMenuItem2.Click
+        ALTA_PracticasMedicas.MdiParent = Me
+        ALTA_PracticasMedicas.Show()
+    End Sub
+
+    Private Sub AltaToolStripMenuItem11_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AltaToolStripMenuItem11.Click
+        ALTA_PracticasMedicasxPlan.MdiParent = Me
+        ALTA_PracticasMedicasxPlan.Show()
+    End Sub
+
 End Class

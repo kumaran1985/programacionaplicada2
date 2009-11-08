@@ -25,12 +25,6 @@ Public Class ABM_Pacientes
                 instanciaDeLaEntidad.Pac_FechaAlta = Me.DTP_Pac_FechaAlta.Text
             End If
 
-
-
-
-
-
-
             Me.BindingSource1.DataSource = instanciaDeBussinesLogic.GetListOfEntity(instanciaDeLaEntidad)
         End If
 

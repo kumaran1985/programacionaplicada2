@@ -64,7 +64,7 @@ Public Class DAPracticasMedicasxPlan
             strWhere = strWhere.Remove(0, 3)
         End If
 
-        strSql = strSql & " Where " & strWhere
+        strSql = strSql & "Where" & strWhere
 
         Return ExecuteSQLNonQuery(strSql)
 
@@ -105,7 +105,7 @@ Public Class DAPracticasMedicasxPlan
         miEntity = CType(mEntityObject, Entities.EntPracticasMedicasxPlan)
         Dim strSql As String = ""
         Dim strWhere As String = ""
-        strSql = "Select * From PracticaMedicaxPlan "
+        strSql = "Select * From PracticaMedicaxPlan"
 
         If miEntity.PMxP_Key.HasValue Then
             strWhere = strWhere & "AND PMxP_Key = " & miEntity.PMxP_Key.ToString & " "
@@ -127,7 +127,7 @@ Public Class DAPracticasMedicasxPlan
 
         If strWhere <> "" Then
             'Elimino la palabra "AND" del where
-            strWhere = " Where " & strWhere.Remove(0, 3)
+            strWhere = " Where" & strWhere.Remove(0, 3)
         End If
 
         strSql = strSql & strWhere

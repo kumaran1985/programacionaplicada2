@@ -42,7 +42,7 @@ Public Class DAPracticasMedicas
         strSql = "Delete From PracticasMedicas "
 
         If String.IsNullOrEmpty(miEntity.PM_Descripcion) = False Then
-            strWhere = "AND PM_descripcion = '" & miEntity.PM_Descripcion & "' "
+            strWhere = "AND PM_Descripcion = '" & miEntity.PM_Descripcion & "' "
         End If
 
         If miEntity.PM_Key.HasValue Then
@@ -106,7 +106,7 @@ Public Class DAPracticasMedicas
         End If
 
         If miEntity.PM_Key.HasValue Then
-            strWhere = strWhere & "AND SYS_ROLE_KEY = " & miEntity.PM_Key.ToString & " "
+            strWhere = strWhere & "AND PM_Key = " & miEntity.PM_Key.ToString & " "
         End If
 
         'valido si la expresion del where tiene contenido
@@ -151,7 +151,7 @@ Public Class DAPracticasMedicas
 
 
         If String.IsNullOrEmpty(miEntity.PM_Descripcion) = False Then
-            strSql = ", PM_Description = '" & miEntity.PM_Descripcion & "' "
+            strSql = ", PM_Descripcion = '" & miEntity.PM_Descripcion & "' "
         End If
 
         If miEntity.PM_PrecioUnitario.ToString Then
@@ -173,7 +173,7 @@ Public Class DAPracticasMedicas
         miEntity = CType(mEntityObject, Entities.EntPracticasMedicas)
 
         Dim strSql As String = ""
-        strSql = "Insert Into PracticasMedicas (PM_Description,PM_PrecioUnitario) Values ('" & miEntity.PM_Descripcion & "', " & miEntity.PM_PrecioUnitario.ToString & ")"
+        strSql = "Insert Into PracticasMedicas (PM_Descripcion,PM_PrecioUnitario) Values ('" & miEntity.PM_Descripcion & "', " & miEntity.PM_PrecioUnitario.ToString & ")"
 
         Return ExecuteInsertQuery(strSql)
 
