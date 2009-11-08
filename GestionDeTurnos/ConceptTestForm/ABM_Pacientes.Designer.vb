@@ -38,9 +38,6 @@ Partial Class ABM_Pacientes
         Me.txtSRC_Pac_Nombres = New System.Windows.Forms.TextBox
         Me.txtSRC_Pac_Key = New System.Windows.Forms.TextBox
         Me.dgvBusqueda = New System.Windows.Forms.DataGridView
-        Me.cmdBuscar = New System.Windows.Forms.Button
-        Me.DTP_Pac_FechaAlta = New System.Windows.Forms.DateTimePicker
-        Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.Pac_Key = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.TDOC_Key = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.Pac_NumeroDoc = New System.Windows.Forms.DataGridViewTextBoxColumn
@@ -60,6 +57,9 @@ Partial Class ABM_Pacientes
         Me.Pac_EstadoCivil = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.Pac_Ocupacion = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.Pac_Nacionalidad = New System.Windows.Forms.DataGridViewTextBoxColumn
+        Me.cmdBuscar = New System.Windows.Forms.Button
+        Me.DTP_Pac_FechaAlta = New System.Windows.Forms.DateTimePicker
+        Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         CType(Me.dgvBusqueda, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -212,25 +212,6 @@ Partial Class ABM_Pacientes
         Me.dgvBusqueda.Size = New System.Drawing.Size(623, 272)
         Me.dgvBusqueda.TabIndex = 19
         '
-        'cmdBuscar
-        '
-        Me.cmdBuscar.Location = New System.Drawing.Point(62, 280)
-        Me.cmdBuscar.Name = "cmdBuscar"
-        Me.cmdBuscar.Size = New System.Drawing.Size(136, 23)
-        Me.cmdBuscar.TabIndex = 21
-        Me.cmdBuscar.Text = "Buscar"
-        Me.cmdBuscar.UseVisualStyleBackColor = True
-        '
-        'DTP_Pac_FechaAlta
-        '
-        Me.DTP_Pac_FechaAlta.Checked = False
-        Me.DTP_Pac_FechaAlta.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.DTP_Pac_FechaAlta.Location = New System.Drawing.Point(99, 233)
-        Me.DTP_Pac_FechaAlta.Name = "DTP_Pac_FechaAlta"
-        Me.DTP_Pac_FechaAlta.ShowCheckBox = True
-        Me.DTP_Pac_FechaAlta.Size = New System.Drawing.Size(99, 20)
-        Me.DTP_Pac_FechaAlta.TabIndex = 22
-        '
         'Pac_Key
         '
         Me.Pac_Key.DataPropertyName = "Pac_Key"
@@ -345,11 +326,30 @@ Partial Class ABM_Pacientes
         Me.Pac_Nacionalidad.HeaderText = "Nacionalidad"
         Me.Pac_Nacionalidad.Name = "Pac_Nacionalidad"
         '
+        'cmdBuscar
+        '
+        Me.cmdBuscar.Location = New System.Drawing.Point(62, 280)
+        Me.cmdBuscar.Name = "cmdBuscar"
+        Me.cmdBuscar.Size = New System.Drawing.Size(136, 23)
+        Me.cmdBuscar.TabIndex = 21
+        Me.cmdBuscar.Text = "Buscar"
+        Me.cmdBuscar.UseVisualStyleBackColor = True
+        '
+        'DTP_Pac_FechaAlta
+        '
+        Me.DTP_Pac_FechaAlta.Checked = False
+        Me.DTP_Pac_FechaAlta.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.DTP_Pac_FechaAlta.Location = New System.Drawing.Point(99, 233)
+        Me.DTP_Pac_FechaAlta.Name = "DTP_Pac_FechaAlta"
+        Me.DTP_Pac_FechaAlta.ShowCheckBox = True
+        Me.DTP_Pac_FechaAlta.Size = New System.Drawing.Size(99, 20)
+        Me.DTP_Pac_FechaAlta.TabIndex = 22
+        '
         'ABM_Pacientes
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(849, 315)
+        Me.ClientSize = New System.Drawing.Size(893, 315)
         Me.Controls.Add(Me.DTP_Pac_FechaAlta)
         Me.Controls.Add(Me.cmdBuscar)
         Me.Controls.Add(Me.dgvBusqueda)

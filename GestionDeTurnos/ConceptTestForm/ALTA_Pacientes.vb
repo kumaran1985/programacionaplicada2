@@ -60,14 +60,20 @@ Public Class ALTA_Pacientes
             If Me.TB_Pac_Email.Text <> "" Then
                 instanciaDeLaEntidad.Pac_Email = Me.TB_Pac_Email.Text
             End If
-            If Me.MTB_Pac_FechaNacimiento.Text <> "  /  /" Then
+            If Me.MTB_Pac_FechaNacimiento.MaskCompleted = True Then
                 instanciaDeLaEntidad.Pac_FechaNacimiento = Me.MTB_Pac_FechaNacimiento.Text
+            Else
+                instanciaDeLaEntidad.Pac_FechaNacimiento = Date.MinValue
             End If
-            If Me.MTB_Pac_FechaAlta.Text <> "  /  /" Then
+            If Me.MTB_Pac_FechaAlta.MaskCompleted = True Then
                 instanciaDeLaEntidad.Pac_FechaAlta = Me.MTB_Pac_FechaAlta.Text
+            Else
+                instanciaDeLaEntidad.Pac_FechaAlta = Date.MinValue
             End If
-            If Me.MTB_Pac_FechaCancelacion.Text <> "  /  /" Then
+            If Me.MTB_Pac_FechaCancelacion.MaskCompleted = True Then
                 instanciaDeLaEntidad.Pac_FechaCancelacion = Me.MTB_Pac_FechaCancelacion.Text
+            Else
+                instanciaDeLaEntidad.Pac_FechaCancelacion =Date.MinValue
             End If
             If Me.CB_Pac_EstadoCivil.Text <> "" Then
                 instanciaDeLaEntidad.Pac_EstadoCivil = Me.CB_Pac_EstadoCivil.Text

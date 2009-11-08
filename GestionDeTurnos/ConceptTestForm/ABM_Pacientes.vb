@@ -68,5 +68,13 @@ Public Class ABM_Pacientes
             End If
         End If
     End Sub
+
+    Private Sub ABM_Pacientes_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+    End Sub
+
+    Private Sub dgvBusqueda_CellContentClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvBusqueda.CellContentClick
+
+    End Sub
 End Class
 

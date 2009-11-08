@@ -11,9 +11,9 @@ Public Class EntPacientes
     Private _Pac_Telefonos As String
     Private _Pac_Celular As String
     Private _Pac_Email As String
-    Private _Pac_FechaNacimiento As Date
-    Private _Pac_FechaAlta As Date
-    Private _Pac_FechaCancelacion As Date
+    Private _Pac_FechaNacimiento As Nullable(Of Date)
+    Private _Pac_FechaAlta As Nullable(Of Date)
+    Private _Pac_FechaCancelacion As Nullable(Of Date)
     Private _Pac_Sexo As String
     Private _Pac_EstadoCivil As String
     Private _Pac_Ocupacion As String

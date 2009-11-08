@@ -59,18 +59,18 @@ Partial Class ALTA_Pacientes
         Me.Label20 = New System.Windows.Forms.Label
         Me.TiposDocumentoTableAdapter = New ConceptTestForm.Base2006DataSetTableAdapters.TiposDocumentoTableAdapter
         Me.CB_LOCA_Key = New System.Windows.Forms.ComboBox
-        Me.Base2006DataSetBindingSource = New System.Windows.Forms.BindingSource(Me.components)
-        Me.Base2006DataSet1 = New ConceptTestForm.Base2006DataSet1
         Me.LocalidadesBindingSource = New System.Windows.Forms.BindingSource(Me.components)
+        Me.Base2006DataSet1 = New ConceptTestForm.Base2006DataSet1
+        Me.Base2006DataSetBindingSource = New System.Windows.Forms.BindingSource(Me.components)
         Me.LocalidadesTableAdapter = New ConceptTestForm.Base2006DataSet1TableAdapters.LocalidadesTableAdapter
         Me.MTB_Pac_FechaNacimiento = New System.Windows.Forms.MaskedTextBox
         Me.MTB_Pac_FechaAlta = New System.Windows.Forms.MaskedTextBox
         Me.MTB_Pac_FechaCancelacion = New System.Windows.Forms.MaskedTextBox
         CType(Me.TiposDocumentoBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Base2006DataSet, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Base2006DataSetBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Base2006DataSet1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LocalidadesBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Base2006DataSet1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Base2006DataSetBindingSource, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label1
@@ -237,7 +237,7 @@ Partial Class ALTA_Pacientes
         Me.Button1.Location = New System.Drawing.Point(212, 280)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(104, 29)
-        Me.Button1.TabIndex = 17
+        Me.Button1.TabIndex = 36
         Me.Button1.Text = "Agregar"
         Me.Button1.UseVisualStyleBackColor = True
         '
@@ -260,7 +260,7 @@ Partial Class ALTA_Pacientes
         Me.TB_Pac_Calle.Location = New System.Drawing.Point(81, 78)
         Me.TB_Pac_Calle.Name = "TB_Pac_Calle"
         Me.TB_Pac_Calle.Size = New System.Drawing.Size(117, 20)
-        Me.TB_Pac_Calle.TabIndex = 20
+        Me.TB_Pac_Calle.TabIndex = 22
         '
         'MTB_Pac_NumeroExt
         '
@@ -268,7 +268,7 @@ Partial Class ALTA_Pacientes
         Me.MTB_Pac_NumeroExt.Mask = "99999"
         Me.MTB_Pac_NumeroExt.Name = "MTB_Pac_NumeroExt"
         Me.MTB_Pac_NumeroExt.Size = New System.Drawing.Size(46, 20)
-        Me.MTB_Pac_NumeroExt.TabIndex = 21
+        Me.MTB_Pac_NumeroExt.TabIndex = 23
         Me.MTB_Pac_NumeroExt.ValidatingType = GetType(Integer)
         '
         'TB_Pac_NumeroInt
@@ -276,7 +276,7 @@ Partial Class ALTA_Pacientes
         Me.TB_Pac_NumeroInt.Location = New System.Drawing.Point(358, 77)
         Me.TB_Pac_NumeroInt.Name = "TB_Pac_NumeroInt"
         Me.TB_Pac_NumeroInt.Size = New System.Drawing.Size(55, 20)
-        Me.TB_Pac_NumeroInt.TabIndex = 22
+        Me.TB_Pac_NumeroInt.TabIndex = 24
         '
         'MTB_Pac_Telefono
         '
@@ -284,7 +284,7 @@ Partial Class ALTA_Pacientes
         Me.MTB_Pac_Telefono.Mask = "00000000000"
         Me.MTB_Pac_Telefono.Name = "MTB_Pac_Telefono"
         Me.MTB_Pac_Telefono.Size = New System.Drawing.Size(75, 20)
-        Me.MTB_Pac_Telefono.TabIndex = 24
+        Me.MTB_Pac_Telefono.TabIndex = 26
         '
         'MTB_Pac_Celular
         '
@@ -292,14 +292,14 @@ Partial Class ALTA_Pacientes
         Me.MTB_Pac_Celular.Mask = "0000000000"
         Me.MTB_Pac_Celular.Name = "MTB_Pac_Celular"
         Me.MTB_Pac_Celular.Size = New System.Drawing.Size(75, 20)
-        Me.MTB_Pac_Celular.TabIndex = 25
+        Me.MTB_Pac_Celular.TabIndex = 27
         '
         'TB_Pac_Email
         '
         Me.TB_Pac_Email.Location = New System.Drawing.Point(425, 103)
         Me.TB_Pac_Email.Name = "TB_Pac_Email"
         Me.TB_Pac_Email.Size = New System.Drawing.Size(117, 20)
-        Me.TB_Pac_Email.TabIndex = 26
+        Me.TB_Pac_Email.TabIndex = 28
         '
         'CB_Pac_Sexo
         '
@@ -308,7 +308,7 @@ Partial Class ALTA_Pacientes
         Me.CB_Pac_Sexo.Location = New System.Drawing.Point(68, 207)
         Me.CB_Pac_Sexo.Name = "CB_Pac_Sexo"
         Me.CB_Pac_Sexo.Size = New System.Drawing.Size(101, 21)
-        Me.CB_Pac_Sexo.TabIndex = 30
+        Me.CB_Pac_Sexo.TabIndex = 32
         '
         'CB_Pac_EstadoCivil
         '
@@ -317,21 +317,21 @@ Partial Class ALTA_Pacientes
         Me.CB_Pac_EstadoCivil.Location = New System.Drawing.Point(247, 207)
         Me.CB_Pac_EstadoCivil.Name = "CB_Pac_EstadoCivil"
         Me.CB_Pac_EstadoCivil.Size = New System.Drawing.Size(109, 21)
-        Me.CB_Pac_EstadoCivil.TabIndex = 31
+        Me.CB_Pac_EstadoCivil.TabIndex = 33
         '
         'TB_Pac_Ocupacion
         '
         Me.TB_Pac_Ocupacion.Location = New System.Drawing.Point(435, 204)
         Me.TB_Pac_Ocupacion.Name = "TB_Pac_Ocupacion"
         Me.TB_Pac_Ocupacion.Size = New System.Drawing.Size(101, 20)
-        Me.TB_Pac_Ocupacion.TabIndex = 32
+        Me.TB_Pac_Ocupacion.TabIndex = 34
         '
         'TB_Pac_Nacionalidad
         '
         Me.TB_Pac_Nacionalidad.Location = New System.Drawing.Point(100, 232)
         Me.TB_Pac_Nacionalidad.Name = "TB_Pac_Nacionalidad"
         Me.TB_Pac_Nacionalidad.Size = New System.Drawing.Size(100, 20)
-        Me.TB_Pac_Nacionalidad.TabIndex = 33
+        Me.TB_Pac_Nacionalidad.TabIndex = 35
         '
         'Label18
         '
@@ -348,11 +348,11 @@ Partial Class ALTA_Pacientes
         Me.CB_TDOC_Key.DataSource = Me.TiposDocumentoBindingSource
         Me.CB_TDOC_Key.DisplayMember = "TDOC_Key"
         Me.CB_TDOC_Key.FormattingEnabled = True
+        Me.CB_TDOC_Key.IntegralHeight = False
         Me.CB_TDOC_Key.Location = New System.Drawing.Point(150, 32)
         Me.CB_TDOC_Key.Name = "CB_TDOC_Key"
         Me.CB_TDOC_Key.Size = New System.Drawing.Size(121, 21)
-        Me.CB_TDOC_Key.TabIndex = 35
-        Me.CB_TDOC_Key.ValueMember = "TDOC_Key"
+        Me.CB_TDOC_Key.TabIndex = 20
         '
         'TiposDocumentoBindingSource
         '
@@ -379,7 +379,7 @@ Partial Class ALTA_Pacientes
         Me.TB_Pac_NumeroDoc.Location = New System.Drawing.Point(385, 31)
         Me.TB_Pac_NumeroDoc.Name = "TB_Pac_NumeroDoc"
         Me.TB_Pac_NumeroDoc.Size = New System.Drawing.Size(100, 20)
-        Me.TB_Pac_NumeroDoc.TabIndex = 37
+        Me.TB_Pac_NumeroDoc.TabIndex = 21
         '
         'Label20
         '
@@ -403,22 +403,22 @@ Partial Class ALTA_Pacientes
         Me.CB_LOCA_Key.Location = New System.Drawing.Point(509, 76)
         Me.CB_LOCA_Key.Name = "CB_LOCA_Key"
         Me.CB_LOCA_Key.Size = New System.Drawing.Size(65, 21)
-        Me.CB_LOCA_Key.TabIndex = 39
+        Me.CB_LOCA_Key.TabIndex = 25
         '
-        'Base2006DataSetBindingSource
+        'LocalidadesBindingSource
         '
-        Me.Base2006DataSetBindingSource.DataSource = Me.Base2006DataSet
-        Me.Base2006DataSetBindingSource.Position = 0
+        Me.LocalidadesBindingSource.DataMember = "Localidades"
+        Me.LocalidadesBindingSource.DataSource = Me.Base2006DataSet1
         '
         'Base2006DataSet1
         '
         Me.Base2006DataSet1.DataSetName = "Base2006DataSet1"
         Me.Base2006DataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema
         '
-        'LocalidadesBindingSource
+        'Base2006DataSetBindingSource
         '
-        Me.LocalidadesBindingSource.DataMember = "Localidades"
-        Me.LocalidadesBindingSource.DataSource = Me.Base2006DataSet1
+        Me.Base2006DataSetBindingSource.DataSource = Me.Base2006DataSet
+        Me.Base2006DataSetBindingSource.Position = 0
         '
         'LocalidadesTableAdapter
         '
@@ -431,7 +431,7 @@ Partial Class ALTA_Pacientes
         Me.MTB_Pac_FechaNacimiento.Mask = "00/00/0000"
         Me.MTB_Pac_FechaNacimiento.Name = "MTB_Pac_FechaNacimiento"
         Me.MTB_Pac_FechaNacimiento.Size = New System.Drawing.Size(67, 20)
-        Me.MTB_Pac_FechaNacimiento.TabIndex = 43
+        Me.MTB_Pac_FechaNacimiento.TabIndex = 29
         '
         'MTB_Pac_FechaAlta
         '
@@ -439,7 +439,7 @@ Partial Class ALTA_Pacientes
         Me.MTB_Pac_FechaAlta.Mask = "00/00/0000"
         Me.MTB_Pac_FechaAlta.Name = "MTB_Pac_FechaAlta"
         Me.MTB_Pac_FechaAlta.Size = New System.Drawing.Size(62, 20)
-        Me.MTB_Pac_FechaAlta.TabIndex = 44
+        Me.MTB_Pac_FechaAlta.TabIndex = 30
         '
         'MTB_Pac_FechaCancelacion
         '
@@ -447,7 +447,7 @@ Partial Class ALTA_Pacientes
         Me.MTB_Pac_FechaCancelacion.Mask = "00/00/0000"
         Me.MTB_Pac_FechaCancelacion.Name = "MTB_Pac_FechaCancelacion"
         Me.MTB_Pac_FechaCancelacion.Size = New System.Drawing.Size(69, 20)
-        Me.MTB_Pac_FechaCancelacion.TabIndex = 45
+        Me.MTB_Pac_FechaCancelacion.TabIndex = 31
         Me.MTB_Pac_FechaCancelacion.ValidatingType = GetType(Date)
         '
         'ALTA_Pacientes
@@ -498,9 +498,9 @@ Partial Class ALTA_Pacientes
         Me.Text = "Alta Pacientes"
         CType(Me.TiposDocumentoBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Base2006DataSet, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Base2006DataSetBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Base2006DataSet1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LocalidadesBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Base2006DataSet1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Base2006DataSetBindingSource, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
