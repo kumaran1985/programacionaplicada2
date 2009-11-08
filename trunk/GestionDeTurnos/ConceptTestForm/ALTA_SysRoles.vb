@@ -19,4 +19,8 @@ Public Class ALTA_SysRoles
 
 
     End Sub
+
+    Private Sub ALTA_SysRoles_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class

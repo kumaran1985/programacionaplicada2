@@ -83,6 +83,9 @@ Partial Class MDI_Principal
         Me.ABMPracticasMédicasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ListadoToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem
         Me.AltaToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
+        Me.ABMPracticasMedicaXPlanToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ListadoToolStripMenuItem13 = New System.Windows.Forms.ToolStripMenuItem
+        Me.AltaToolStripMenuItem11 = New System.Windows.Forms.ToolStripMenuItem
         Me.PacienteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ABMPacienteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
         Me.ListadoToolStripMenuItem2 = New System.Windows.Forms.ToolStripMenuItem
@@ -491,7 +494,7 @@ Partial Class MDI_Principal
         '
         'ObraSocialToolStripMenuItem
         '
-        Me.ObraSocialToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ABMPlanesToolStripMenuItem, Me.ABMPracticasMédicasToolStripMenuItem})
+        Me.ObraSocialToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ABMPlanesToolStripMenuItem, Me.ABMPracticasMédicasToolStripMenuItem, Me.ABMPracticasMedicaXPlanToolStripMenuItem})
         Me.ObraSocialToolStripMenuItem.Name = "ObraSocialToolStripMenuItem"
         Me.ObraSocialToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.ObraSocialToolStripMenuItem.Text = "Obra Social"
@@ -500,6 +503,7 @@ Partial Class MDI_Principal
         '
         Me.ABMPlanesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ListadoToolStripMenuItem, Me.AltaToolStripMenuItem1})
         Me.ABMPlanesToolStripMenuItem.Name = "ABMPlanesToolStripMenuItem"
+        Me.ABMPlanesToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
         Me.ABMPlanesToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
         Me.ABMPlanesToolStripMenuItem.Text = "ABM Planes"
         '
@@ -519,6 +523,7 @@ Partial Class MDI_Principal
         '
         Me.ABMPracticasMédicasToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ListadoToolStripMenuItem1, Me.AltaToolStripMenuItem2})
         Me.ABMPracticasMédicasToolStripMenuItem.Name = "ABMPracticasMédicasToolStripMenuItem"
+        Me.ABMPracticasMédicasToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
         Me.ABMPracticasMédicasToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
         Me.ABMPracticasMédicasToolStripMenuItem.Text = "ABM Practicas Médicas"
         '
@@ -533,6 +538,25 @@ Partial Class MDI_Principal
         Me.AltaToolStripMenuItem2.Name = "AltaToolStripMenuItem2"
         Me.AltaToolStripMenuItem2.Size = New System.Drawing.Size(152, 22)
         Me.AltaToolStripMenuItem2.Text = "Alta"
+        '
+        'ABMPracticasMedicaXPlanToolStripMenuItem
+        '
+        Me.ABMPracticasMedicaXPlanToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ListadoToolStripMenuItem13, Me.AltaToolStripMenuItem11})
+        Me.ABMPracticasMedicaXPlanToolStripMenuItem.Name = "ABMPracticasMedicaXPlanToolStripMenuItem"
+        Me.ABMPracticasMedicaXPlanToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.ABMPracticasMedicaXPlanToolStripMenuItem.Text = "ABM Practicas Medica x Plan"
+        '
+        'ListadoToolStripMenuItem13
+        '
+        Me.ListadoToolStripMenuItem13.Name = "ListadoToolStripMenuItem13"
+        Me.ListadoToolStripMenuItem13.Size = New System.Drawing.Size(152, 22)
+        Me.ListadoToolStripMenuItem13.Text = "Listado"
+        '
+        'AltaToolStripMenuItem11
+        '
+        Me.AltaToolStripMenuItem11.Name = "AltaToolStripMenuItem11"
+        Me.AltaToolStripMenuItem11.Size = New System.Drawing.Size(152, 22)
+        Me.AltaToolStripMenuItem11.Text = "Alta"
         '
         'PacienteToolStripMenuItem
         '
@@ -952,5 +976,8 @@ Partial Class MDI_Principal
     Friend WithEvents RolesToolStripMenuItem2 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AltaToolStripMenuItem10 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ListadoToolStripMenuItem12 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ABMPracticasMedicaXPlanToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ListadoToolStripMenuItem13 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AltaToolStripMenuItem11 As System.Windows.Forms.ToolStripMenuItem
 
 End Class
