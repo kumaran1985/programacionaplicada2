@@ -44,10 +44,24 @@ Public Class ALTA_Pacientes
             instanciaDeLaEntidad.Pac_Apellidos = Me.TB_Pac_Apellidos.Text
             instanciaDeLaEntidad.Pac_Calle = Me.TB_Pac_Calle.Text
             instanciaDeLaEntidad.Pac_NumeroExt = Me.MTB_Pac_NumeroExt.Text
-            instanciaDeLaEntidad.TDOC_Key = Me.CB_TDOC_Key.Text
             instanciaDeLaEntidad.Pac_NumeroDoc = Me.TB_Pac_NumeroDoc.Text
             instanciaDeLaEntidad.LOCA_Key = Me.CB_TDOC_Key.Text
             instanciaDeLaEntidad.Pac_Sexo = Me.CB_Pac_Sexo.Text
+
+            'Aqui tambien hicimos uso de un recurso ideado por el grupodreamteam, aunque hicimos algunas modificaciones para que no ser tan abusas (usamos If anidados en lugar de Case)
+            If Me.CB_TDOC_Key.Text = "DNI" Then
+                instanciaDeLaEntidad.TDOC_Key = 1
+            Else
+                If Me.CB_TDOC_Key.Text = "LC" Then
+                    instanciaDeLaEntidad.TDOC_Key = 2
+                Else
+                    If Me.CB_TDOC_Key.Text = "LE" Then
+                        instanciaDeLaEntidad.TDOC_Key = 3
+                    Else
+                        instanciaDeLaEntidad.TDOC_Key = 4
+                    End If
+                End If
+            End If
             If Me.TB_Pac_NumeroInt.Text <> "" Then
                 instanciaDeLaEntidad.Pac_NumeroInt = Me.TB_Pac_NumeroInt.Text
             End If
@@ -73,7 +87,7 @@ Public Class ALTA_Pacientes
             If Me.MTB_Pac_FechaCancelacion.MaskCompleted = True Then
                 instanciaDeLaEntidad.Pac_FechaCancelacion = Me.MTB_Pac_FechaCancelacion.Text
             Else
-                instanciaDeLaEntidad.Pac_FechaCancelacion =Date.MinValue
+                instanciaDeLaEntidad.Pac_FechaCancelacion = Date.MinValue
             End If
             If Me.CB_Pac_EstadoCivil.Text <> "" Then
                 instanciaDeLaEntidad.Pac_EstadoCivil = Me.CB_Pac_EstadoCivil.Text
@@ -93,10 +107,21 @@ Public Class ALTA_Pacientes
     End Sub
 
     Private Sub ALTA_Pacientes_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'TODO: esta línea de código carga datos en la tabla 'Base2006DataSet1.Localidades' Puede moverla o quitarla según sea necesario.
-        Me.LocalidadesTableAdapter.Fill(Me.Base2006DataSet1.Localidades)
-        'TODO: esta línea de código carga datos en la tabla 'Base2006DataSet.TiposDocumento' Puede moverla o quitarla según sea necesario.
-        Me.TiposDocumentoTableAdapter.Fill(Me.Base2006DataSet.TiposDocumento)
+        'La verdad estuvimos todo el fin de semana quemandonos los cesos para hacer un ComboBox con acceso a datos que no nos mostrara como valor por defecto el primer valor de la columna de la tabla 
+        'seleccionada, pero por suerte acabo de hacer un Update y el grupodreamteam (que no sabemos quienes son) utilizo este evento para el Alta_Medicos, asi que los citamos para que el robo de 
+        'codigo no sea tan groso jeje muchas gracias!!!
+        Dim instanciabllocalidad As New BLClassLibrary.BLLocalidades
+        Dim dt As New Data.DataTable
+
+        Me.BindingSource1.DataSource = instanciabllocalidad.GetTable()
+
+        dt = Me.BindingSource1.DataSource
+        Me.CB_LOCA_Key.DataSource = Me.BindingSource1
+        Me.CB_LOCA_Key.DisplayMember = dt.Columns(2).ToString
+        Me.CB_LOCA_Key.ValueMember = dt.Columns(0).ToString 
+        Me.CB_LOCA_Key.Text = ""
 
     End Sub
+
+
 End Class
