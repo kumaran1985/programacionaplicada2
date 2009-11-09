@@ -18,7 +18,7 @@ Public Class ALTA_Pacientes
                 StrMsgbox = StrMsgbox & ", Apellidos"
             End If
             If Me.CB_TDOC_Key.Text = "" Then
-                StrMsgbox = StrMsgbox & ", ID Tipo de Documento"
+                StrMsgbox = StrMsgbox & ", Tipo de Documento"
             End If
             If Me.TB_Pac_NumeroDoc.Text = "" Then
                 StrMsgbox = StrMsgbox & ", Nº de Documento"
@@ -30,7 +30,7 @@ Public Class ALTA_Pacientes
                 StrMsgbox = StrMsgbox & ", Número"
             End If
             If Me.CB_LOCA_Key.Text = "" Then
-                StrMsgbox = StrMsgbox & ", ID Localidad"
+                StrMsgbox = StrMsgbox & ", Localidad"
             End If
             If Me.CB_Pac_Sexo.Text = "" Then
                 StrMsgbox = StrMsgbox & ", Sexo"
@@ -45,7 +45,7 @@ Public Class ALTA_Pacientes
             instanciaDeLaEntidad.Pac_Calle = Me.TB_Pac_Calle.Text
             instanciaDeLaEntidad.Pac_NumeroExt = Me.MTB_Pac_NumeroExt.Text
             instanciaDeLaEntidad.Pac_NumeroDoc = Me.TB_Pac_NumeroDoc.Text
-            instanciaDeLaEntidad.LOCA_Key = Me.CB_TDOC_Key.Text
+            instanciaDeLaEntidad.LOCA_Key = Me.CB_LOCA_Key.SelectedValue
             instanciaDeLaEntidad.Pac_Sexo = Me.CB_Pac_Sexo.Text
 
             'Aqui tambien hicimos uso de un recurso ideado por el grupodreamteam, aunque hicimos algunas modificaciones para que no ser tan abusas (usamos If anidados en lugar de Case)
