@@ -7,8 +7,29 @@ Public Class ABM_Turnos
         instanciaDeBussinesLogic = New BLClassLibrary.BLSysTurnos
         instanciaDeLaEntidad = New Entities.EntTurnos
 
+        If Me.turno_fecha.Text = "" And Me.turno_clave.Text = "" Then
 
-        instanciaDeLaEntidad.turno_fecha = CType(Me.turno_fecha.Text.ToString, Date)
+            MessageBox.Show("por favor ingrese algo")
+
+
+        Else
+
+            If Me.turno_clave.Text <> "" Then
+
+                instanciaDeLaEntidad.turno_key = Me.turno_clave.Text
+
+            End If
+
+            If Me.turno_fecha.Text <> "" Then
+
+                instanciaDeLaEntidad.turno_fecha = Me.turno_fecha.Text
+
+            End If
+        End If
+
+
+
+
 
         'instanciaDeLaEntidad.turno_key = Me.turno_key 
 
@@ -18,18 +39,30 @@ Public Class ABM_Turnos
         Me.BindingSource1.DataSource = instanciaDeBussinesLogic.GetListOfEntity(instanciaDeLaEntidad)
 
 
-        dgvBusqueda.AutoGenerateColumns = False
-        dgvBusqueda.DataSource = Me.BindingSource1
 
 
-    End Sub
-
-    
-    Private Sub txtSRC_SYS_ROL_KEY_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtSRC_SYS_ROL_KEY.TextChanged
 
     End Sub
 
-    Private Sub turno_fecha_ValueChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles turno_fecha.ValueChanged
+    Private Sub turno_clave_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles turno_clave.KeyPress
 
+
+
+        If Not Char.IsNumber(e.KeyChar) Then
+            e.Handled = True
+
+        End If
     End Sub
 End Class
+
+
+
+
+
+
+
+
+
+
+
+
