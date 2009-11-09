@@ -32,6 +32,8 @@ Partial Class Medicos
         Me.Documento = New System.Windows.Forms.Label
         Me.txt_Med_NumeroDoc = New System.Windows.Forms.TextBox
         Me.btn_buscardoc = New System.Windows.Forms.Button
+        Me.btn_cancelar = New System.Windows.Forms.Button
+        Me.btn_salir = New System.Windows.Forms.Button
         CType(Me.dgvMedicos, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -121,11 +123,31 @@ Partial Class Medicos
         Me.btn_buscardoc.Text = "Buscar por Documento"
         Me.btn_buscardoc.UseVisualStyleBackColor = True
         '
+        'btn_cancelar
+        '
+        Me.btn_cancelar.Location = New System.Drawing.Point(97, 281)
+        Me.btn_cancelar.Name = "btn_cancelar"
+        Me.btn_cancelar.Size = New System.Drawing.Size(75, 23)
+        Me.btn_cancelar.TabIndex = 7
+        Me.btn_cancelar.Text = "Cancelar"
+        Me.btn_cancelar.UseVisualStyleBackColor = True
+        '
+        'btn_salir
+        '
+        Me.btn_salir.Location = New System.Drawing.Point(246, 281)
+        Me.btn_salir.Name = "btn_salir"
+        Me.btn_salir.Size = New System.Drawing.Size(75, 23)
+        Me.btn_salir.TabIndex = 8
+        Me.btn_salir.Text = "Salir"
+        Me.btn_salir.UseVisualStyleBackColor = True
+        '
         'Medicos
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(498, 266)
+        Me.ClientSize = New System.Drawing.Size(498, 326)
+        Me.Controls.Add(Me.btn_salir)
+        Me.Controls.Add(Me.btn_cancelar)
         Me.Controls.Add(Me.btn_buscardoc)
         Me.Controls.Add(Me.txt_Med_NumeroDoc)
         Me.Controls.Add(Me.Documento)
@@ -153,4 +175,6 @@ Partial Class Medicos
     Friend WithEvents Documento As System.Windows.Forms.Label
     Friend WithEvents txt_Med_NumeroDoc As System.Windows.Forms.TextBox
     Friend WithEvents btn_buscardoc As System.Windows.Forms.Button
+    Friend WithEvents btn_cancelar As System.Windows.Forms.Button
+    Friend WithEvents btn_salir As System.Windows.Forms.Button
 End Class
