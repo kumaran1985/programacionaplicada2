@@ -1,7 +1,7 @@
-Imports System.Text.RegularExpressions
+Imports System.Text.RegularExpressions ' Espacio de nombres con clases para el manejo de expresiones regulares en .NET
 
 Public Class Alta_Medicos
-    Dim respuesta As MsgBoxResult
+    Dim respuesta As MsgBoxResult 'declaro una variable que va a servir para evaluarla y hacer ciertas acciones a partir del botón que se presione en una caja de mensaje
     Private Sub Alta_Medicos_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim instanciabllocalidad As New BLClassLibrary.BLLocalidades 'instancia la bussiness logic de Localidades
         Dim instanciablespecialidades As New BLClassLibrary.BLEspecialidades 'instancia la bussiness logic de Especialidades
@@ -129,7 +129,7 @@ Public Class Alta_Medicos
         strmail = Me.txt_Med_Email.Text
         If strmail.Length > 0 Then
             If validar_email(strmail) = False Then
-                MsgBox("El formato de la dirección no es valido " & strmail & " No tiene el formato algo@dominio.subdominio", MsgBoxStyle.OkOnly, "Error")
+                MsgBox("El formato de la dirección no es valido " & strmail & " No tiene el formato algo@dominio.subdominio", MsgBoxStyle.Exclamation, "Error")
                 txt_Med_Email.Clear()
             End If
         End If
@@ -154,10 +154,87 @@ Public Class Alta_Medicos
         Me.txt_Med_telefono.Clear()
         Me.cmb_Med_EstadoCivil.Text = ""
     End Sub
+    Private Function datos_requeridos() As Boolean
+
+        If txt_Med_Nombres.Text = "" Then
+            MsgBox("Debe ingresar el nombre del médico", MsgBoxStyle.Exclamation, "Error")
+            txt_Med_Nombres.Focus()
+            Return True
+            Exit Function
+        End If
+        If txt_Med_Apellidos.Text = "" Then
+            MsgBox("Debe ingresar el apellido del médico", MsgBoxStyle.Exclamation, "Error")
+            txt_Med_Apellidos.Focus()
+            Return True
+            Exit Function
+        End If
+        If cmb_TDoc_key.Text = "" Then
+            MsgBox("Debe ingresar el tipo de documento del médico", MsgBoxStyle.Exclamation, "Error")
+            cmb_TDoc_key.Focus()
+            Return True
+            Exit Function
+        End If
+        If txt_Med_NumeroDoc.Text = "" Then
+            MsgBox("Debe ingresar el número de documento del médico", MsgBoxStyle.Exclamation, "Error")
+            txt_Med_NumeroDoc.Focus()
+            Return True
+            Exit Function
+        End If
+        If txt_Med_FechaNac.Text = "  /  /" Then
+            MsgBox("Debe ingresar la fecha de nacimiento del médico", MsgBoxStyle.Exclamation, "Error")
+            txt_Med_FechaNac.Focus()
+            Return True
+            Exit Function
+        End If
+        If txt_Med_telefono.Text = "" Then
+            MsgBox("Debe ingresar el teléfono del médico", MsgBoxStyle.Exclamation, "Error")
+            txt_Med_telefono.Focus()
+            Return True
+            Exit Function
+        End If
+        If txt_Med_celular.Text = "   -" Then
+            MsgBox("Debe ingresar el teléfono celular del médico", MsgBoxStyle.Exclamation, "Error")
+            txt_Med_celular.Focus()
+            Return True
+            Exit Function
+        End If
+        If cmb_Med_Especialidad.Text = "" Then
+            MsgBox("Debe ingresar la especialidad del médico", MsgBoxStyle.Exclamation, "Error")
+            cmb_Med_Especialidad.Focus()
+            Return True
+            Exit Function
+        End If
+        If cmb_Med_Matricula.Text = "" Then
+            MsgBox("Debe ingresar el tipo de matrícula del médico", MsgBoxStyle.Exclamation, "Error")
+            cmb_Med_Matricula.Focus()
+            Return True
+            Exit Function
+        End If
+        If txt_Med_Matricula1.Text = "" Then
+            MsgBox("Debe ingresar el número de matrícula del médico", MsgBoxStyle.Exclamation, "Error")
+            txt_Med_Matricula1.Focus()
+            Return True
+            Exit Function
+        End If
+        If txt_Med_FechaIngreso.Text = "  /  /" Then
+            MsgBox("Debe ingresar la fecha de ingreso del médico", MsgBoxStyle.Exclamation, "Error")
+            txt_Med_FechaIngreso.Focus()
+            Return True
+            Exit Function
+        End If
+        Return False
+    End Function
     Private Sub btn_guardar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_guardar.Click
         Dim instanciaBLMedicos As New BLClassLibrary.BLMedicos 'instancio la business logic de Medicos
         Dim instanciaentidad As New Entities.EntMedicos 'instancio la entidad medicos
         Dim tipo_doc As Integer 'contendra el número correspondiente de acuerdo al tipo de documento seleccionado
+        Dim campo_requerido As Boolean ' sirve para trabajar con la funcion que valida el ingreso de campos requeridos
+
+        'llamo a la funcion que valida el ingreso de campos requeridos y luego salgo del procedimiento Sub
+        campo_requerido = datos_requeridos()
+        If campo_requerido = True Then
+            Exit Sub
+        End If
 
         Select Case Me.cmb_TDoc_key.SelectedItem
             Case "DNI"
@@ -197,12 +274,16 @@ Public Class Alta_Medicos
 
     End Sub
     Private Sub btn_cancelar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_cancelar.Click
-        limpiar_todo()
+        respuesta = MsgBox("Esta seguro de que desea cancelar?", MsgBoxStyle.OkCancel, "Atención") 'aparece un mensaje dando la opción de aceptar o cancelar
+        If respuesta = MsgBoxResult.Ok Then
+            limpiar_todo()   'si se presiona aceptar se limpian todos los campos del formulario
+        End If
+
     End Sub
 
     Private Sub btn_salir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_salir.Click
-        respuesta = MsgBox("Esta seguro de que desea salir?", MsgBoxStyle.OkCancel, "Atención")
-        If respuesta = MsgBoxResult.Ok Then
+        respuesta = MsgBox("Esta seguro de que desea salir?", MsgBoxStyle.OkCancel, "Atención") 'aparece un mensaje dando la opción de aceptar o cancelar
+        If respuesta = MsgBoxResult.Ok Then  'si presiona Aceptar se cierra el formulario
             Me.Close()
         End If
 
