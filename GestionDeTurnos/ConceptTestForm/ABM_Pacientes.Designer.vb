@@ -29,7 +29,6 @@ Partial Class ABM_Pacientes
         Me.Label7 = New System.Windows.Forms.Label
         Me.Label8 = New System.Windows.Forms.Label
         Me.Label9 = New System.Windows.Forms.Label
-        Me.Label10 = New System.Windows.Forms.Label
         Me.txtSRC_Pac_NumeroDoc = New System.Windows.Forms.TextBox
         Me.txtSRC_TDOC_Key = New System.Windows.Forms.TextBox
         Me.txtSRC_Pac_NumeroExt = New System.Windows.Forms.TextBox
@@ -58,8 +57,9 @@ Partial Class ABM_Pacientes
         Me.Pac_Ocupacion = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.Pac_Nacionalidad = New System.Windows.Forms.DataGridViewTextBoxColumn
         Me.cmdBuscar = New System.Windows.Forms.Button
-        Me.DTP_Pac_FechaAlta = New System.Windows.Forms.DateTimePicker
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
+        Me.Label10 = New System.Windows.Forms.Label
+        Me.DTP_Pac_FechaAlta = New System.Windows.Forms.DateTimePicker
         CType(Me.dgvBusqueda, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -145,35 +145,26 @@ Partial Class ABM_Pacientes
         Me.Label9.TabIndex = 8
         Me.Label9.Text = "Número"
         '
-        'Label10
-        '
-        Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(19, 241)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(73, 13)
-        Me.Label10.TabIndex = 9
-        Me.Label10.Text = "Fecha de Alta"
-        '
         'txtSRC_Pac_NumeroDoc
         '
-        Me.txtSRC_Pac_NumeroDoc.Location = New System.Drawing.Point(98, 201)
+        Me.txtSRC_Pac_NumeroDoc.Location = New System.Drawing.Point(99, 200)
         Me.txtSRC_Pac_NumeroDoc.Name = "txtSRC_Pac_NumeroDoc"
         Me.txtSRC_Pac_NumeroDoc.Size = New System.Drawing.Size(100, 20)
-        Me.txtSRC_Pac_NumeroDoc.TabIndex = 11
+        Me.txtSRC_Pac_NumeroDoc.TabIndex = 17
         '
         'txtSRC_TDOC_Key
         '
         Me.txtSRC_TDOC_Key.Location = New System.Drawing.Point(98, 174)
         Me.txtSRC_TDOC_Key.Name = "txtSRC_TDOC_Key"
         Me.txtSRC_TDOC_Key.Size = New System.Drawing.Size(100, 20)
-        Me.txtSRC_TDOC_Key.TabIndex = 12
+        Me.txtSRC_TDOC_Key.TabIndex = 16
         '
         'txtSRC_Pac_NumeroExt
         '
         Me.txtSRC_Pac_NumeroExt.Location = New System.Drawing.Point(98, 122)
         Me.txtSRC_Pac_NumeroExt.Name = "txtSRC_Pac_NumeroExt"
         Me.txtSRC_Pac_NumeroExt.Size = New System.Drawing.Size(100, 20)
-        Me.txtSRC_Pac_NumeroExt.TabIndex = 13
+        Me.txtSRC_Pac_NumeroExt.TabIndex = 15
         '
         'txtSRC_Pac_Calle
         '
@@ -187,21 +178,21 @@ Partial Class ABM_Pacientes
         Me.txtSRC_Pac_Apellidos.Location = New System.Drawing.Point(98, 50)
         Me.txtSRC_Pac_Apellidos.Name = "txtSRC_Pac_Apellidos"
         Me.txtSRC_Pac_Apellidos.Size = New System.Drawing.Size(100, 20)
-        Me.txtSRC_Pac_Apellidos.TabIndex = 15
+        Me.txtSRC_Pac_Apellidos.TabIndex = 13
         '
         'txtSRC_Pac_Nombres
         '
         Me.txtSRC_Pac_Nombres.Location = New System.Drawing.Point(98, 27)
         Me.txtSRC_Pac_Nombres.Name = "txtSRC_Pac_Nombres"
         Me.txtSRC_Pac_Nombres.Size = New System.Drawing.Size(100, 20)
-        Me.txtSRC_Pac_Nombres.TabIndex = 16
+        Me.txtSRC_Pac_Nombres.TabIndex = 12
         '
         'txtSRC_Pac_Key
         '
         Me.txtSRC_Pac_Key.Location = New System.Drawing.Point(98, 5)
         Me.txtSRC_Pac_Key.Name = "txtSRC_Pac_Key"
         Me.txtSRC_Pac_Key.Size = New System.Drawing.Size(100, 20)
-        Me.txtSRC_Pac_Key.TabIndex = 17
+        Me.txtSRC_Pac_Key.TabIndex = 11
         '
         'dgvBusqueda
         '
@@ -331,9 +322,18 @@ Partial Class ABM_Pacientes
         Me.cmdBuscar.Location = New System.Drawing.Point(62, 280)
         Me.cmdBuscar.Name = "cmdBuscar"
         Me.cmdBuscar.Size = New System.Drawing.Size(136, 23)
-        Me.cmdBuscar.TabIndex = 21
+        Me.cmdBuscar.TabIndex = 19
         Me.cmdBuscar.Text = "Buscar"
         Me.cmdBuscar.UseVisualStyleBackColor = True
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(19, 241)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(73, 13)
+        Me.Label10.TabIndex = 9
+        Me.Label10.Text = "Fecha de Alta"
         '
         'DTP_Pac_FechaAlta
         '
@@ -343,7 +343,7 @@ Partial Class ABM_Pacientes
         Me.DTP_Pac_FechaAlta.Name = "DTP_Pac_FechaAlta"
         Me.DTP_Pac_FechaAlta.ShowCheckBox = True
         Me.DTP_Pac_FechaAlta.Size = New System.Drawing.Size(99, 20)
-        Me.DTP_Pac_FechaAlta.TabIndex = 22
+        Me.DTP_Pac_FechaAlta.TabIndex = 18
         '
         'ABM_Pacientes
         '
@@ -388,7 +388,6 @@ Partial Class ABM_Pacientes
     Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents Label9 As System.Windows.Forms.Label
-    Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents txtSRC_Pac_NumeroDoc As System.Windows.Forms.TextBox
     Friend WithEvents txtSRC_TDOC_Key As System.Windows.Forms.TextBox
     Friend WithEvents txtSRC_Pac_NumeroExt As System.Windows.Forms.TextBox
@@ -398,7 +397,6 @@ Partial Class ABM_Pacientes
     Friend WithEvents txtSRC_Pac_Key As System.Windows.Forms.TextBox
     Friend WithEvents dgvBusqueda As System.Windows.Forms.DataGridView
     Friend WithEvents cmdBuscar As System.Windows.Forms.Button
-    Friend WithEvents DTP_Pac_FechaAlta As System.Windows.Forms.DateTimePicker
     Friend WithEvents Pac_Key As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents TDOC_Key As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Pac_NumeroDoc As System.Windows.Forms.DataGridViewTextBoxColumn
@@ -418,4 +416,6 @@ Partial Class ABM_Pacientes
     Friend WithEvents Pac_EstadoCivil As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Pac_Ocupacion As System.Windows.Forms.DataGridViewTextBoxColumn
     Friend WithEvents Pac_Nacionalidad As System.Windows.Forms.DataGridViewTextBoxColumn
+    Friend WithEvents Label10 As System.Windows.Forms.Label
+    Friend WithEvents DTP_Pac_FechaAlta As System.Windows.Forms.DateTimePicker
 End Class

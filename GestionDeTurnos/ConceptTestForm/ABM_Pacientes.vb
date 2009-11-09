@@ -23,9 +23,16 @@ Public Class ABM_Pacientes
             instanciaDeLaEntidad.Pac_NumeroDoc = Me.txtSRC_Pac_NumeroDoc.Text
             If Me.DTP_Pac_FechaAlta.Checked = True Then
                 instanciaDeLaEntidad.Pac_FechaAlta = Me.DTP_Pac_FechaAlta.Text
+            Else
+                instanciaDeLaEntidad.Pac_FechaAlta = Date.MinValue
             End If
+            instanciaDeLaEntidad.Pac_FechaCancelacion = Date.MinValue
+            instanciaDeLaEntidad.Pac_FechaNacimiento = Date.MinValue
 
             Me.BindingSource1.DataSource = instanciaDeBussinesLogic.GetListOfEntity(instanciaDeLaEntidad)
+            If Me.BindingSource1.Count = 0 Then
+                MsgBox("No existe ningún Paciente registrado con los datos suministrados")
+            End If
         End If
 
 

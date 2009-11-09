@@ -345,14 +345,17 @@ Partial Class ALTA_Pacientes
         '
         'CB_TDOC_Key
         '
+        Me.CB_TDOC_Key.CausesValidation = False
         Me.CB_TDOC_Key.DataSource = Me.TiposDocumentoBindingSource
         Me.CB_TDOC_Key.DisplayMember = "TDOC_Key"
         Me.CB_TDOC_Key.FormattingEnabled = True
+        Me.CB_TDOC_Key.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.CB_TDOC_Key.IntegralHeight = False
         Me.CB_TDOC_Key.Location = New System.Drawing.Point(150, 32)
         Me.CB_TDOC_Key.Name = "CB_TDOC_Key"
         Me.CB_TDOC_Key.Size = New System.Drawing.Size(121, 21)
         Me.CB_TDOC_Key.TabIndex = 20
+        Me.CB_TDOC_Key.Tag = ""
         '
         'TiposDocumentoBindingSource
         '
