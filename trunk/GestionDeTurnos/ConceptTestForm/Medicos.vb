@@ -1,5 +1,5 @@
 Public Class Medicos
-
+    Dim respuesta As MsgBoxResult 'declaro una variable que va a servir para evaluarla y hacer ciertas acciones a partir del botón que se presione en una caja de mensaje
     Private Sub btnbuscarapellido_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnbuscarapellido.Click
         Dim instanciaDeBussinesLogic As BLClassLibrary.BLMedicos
         Dim instanciaDeLaEntidad As Entities.EntMedicos
@@ -13,8 +13,8 @@ Public Class Medicos
 
         Me.BindingSource1.DataSource = instanciaDeBussinesLogic.GetListOfEntity(instanciaDeLaEntidad)
 
-        If Me.BindingSource1.DataSource = Nothing Then
-            MsgBox("No se econtraron resultados para la busqueda realizada")
+        If Me.BindingSource1.DataSource Is Nothing Then
+            MsgBox("No se econtraron resultados para la busqueda realizada", MsgBoxStyle.Exclamation, "Error")
         End If
 
         dgvMedicos.AutoGenerateColumns = False
@@ -37,8 +37,8 @@ Public Class Medicos
 
         instanciaDeEntidad.Med_NumeroDoc = Me.txt_Med_NumeroDoc.Text
         Me.BindingSource1.DataSource = instanciaDeBussinesLogic.GetListOfEntity(instanciaDeEntidad)
-        If Me.BindingSource1.DataSource = Nothing Then
-            MsgBox("No se econtraron resultados para la busqueda realizada")
+        If Me.BindingSource1.DataSource Is Nothing Then
+            MsgBox("No se econtraron resultados para la busqueda realizada", MsgBoxStyle.Exclamation, "Error")
         End If
         dgvMedicos.DataSource = Me.BindingSource1
 
@@ -49,7 +49,6 @@ Public Class Medicos
     End Sub
 
     Private Sub btn_salir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_salir.Click
-        Dim respuesta As MsgBoxResult
         respuesta = MsgBox("Esta seguro de que desea salir?", MsgBoxStyle.OkCancel, "Atención")
         If respuesta = MsgBoxResult.Ok Then
             Me.Close()
@@ -57,8 +56,12 @@ Public Class Medicos
     End Sub
 
     Private Sub btn_cancelar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_cancelar.Click
-        Me.txt_Med_Apellidos.Clear()
-        Me.txt_Med_NumeroDoc.Clear()
-        Me.dgvMedicos.Rows.Clear()
+        respuesta = MsgBox("Esta seguro de que desea Cancelar?", MsgBoxStyle.OkCancel, "Atención")
+        If respuesta = MsgBoxResult.Ok Then
+            Me.txt_Med_Apellidos.Clear()
+            Me.txt_Med_NumeroDoc.Clear()
+            Me.dgvMedicos.Rows.Clear()
+        End If
+       
     End Sub
 End Class
