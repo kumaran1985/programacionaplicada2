@@ -1,0 +1,56 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+MBFrameWork.DataAccess
+</name>
+</assembly>
+<members>
+<member name="M:MBFrameWork.DataAccess.DAOledb.DBVal(System.Object@)">
+	<summary>
+ returna nothing si el valor es nulo
+ </summary>
+	<param name="o"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:MBFrameWork.DataAccess.DAOledb.DBVal(System.Object@,System.Object)">
+	<summary>
+ retorna el valor pasado por parametro si el objeto es nulo
+ </summary>
+	<param name="o"></param>
+	<param name="defaultValue"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:MBFrameWork.DataAccess.DABase.ExecuteNonQuery(System.Collections.Generic.List{System.String},System.Data.IDbConnection)">
+	<summary>
+   ejecuta la lista de sentencias, retorna la conexión actual 
+ requiere que se implemente el Bgin trans y el commit
+ </summary>
+	<param name="strSql">cadena de conexion</param>
+	<param name="oCon">conexion activa</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:MBFrameWork.DataAccess.IStandardDataAccessQuerys.DeleteEntity(System.String)">
+	<summary>
+ Elimina la entidad 
+ </summary>
+	<param name="mKey">clave primaria correspondiente a la entidad</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:MBFrameWork.DataAccess.IStandardDataAccessQuerys.DeleteEntity(System.Object)">
+	<summary>
+ Elimina la entidad
+ </summary>
+	<param name="mEntityObject">Entidad que contiene los valores que corresponden al filtrado</param>
+	<returns></returns>
+	<remarks></remarks>
+</member><member name="M:MBFrameWork.DataAccess.IStandardDataAccessQuerys.InsertEntity(System.Object)">
+	<summary>
+ Agrega un nuevo elemento a la tabla
+ </summary>
+	<param name="mEntityObject"></param>
+	<returns></returns>
+	<remarks></remarks>
+</member>
+</members>
+</doc>
