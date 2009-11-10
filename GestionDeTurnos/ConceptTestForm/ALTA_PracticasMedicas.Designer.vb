@@ -24,6 +24,7 @@ Partial Class ALTA_PracticasMedicas
         Me.btnAceptar = New System.Windows.Forms.Button
         Me.txtPM_Descripcion = New System.Windows.Forms.TextBox
         Me.txtPM_PrecioPracticaMedica = New System.Windows.Forms.TextBox
+        Me.btnCancelar = New System.Windows.Forms.Button
         Me.SuspendLayout()
         '
         'Label1
@@ -46,7 +47,7 @@ Partial Class ALTA_PracticasMedicas
         '
         'btnAceptar
         '
-        Me.btnAceptar.Location = New System.Drawing.Point(293, 37)
+        Me.btnAceptar.Location = New System.Drawing.Point(293, 30)
         Me.btnAceptar.Name = "btnAceptar"
         Me.btnAceptar.Size = New System.Drawing.Size(98, 29)
         Me.btnAceptar.TabIndex = 2
@@ -67,11 +68,21 @@ Partial Class ALTA_PracticasMedicas
         Me.txtPM_PrecioPracticaMedica.Size = New System.Drawing.Size(100, 20)
         Me.txtPM_PrecioPracticaMedica.TabIndex = 4
         '
+        'btnCancelar
+        '
+        Me.btnCancelar.Location = New System.Drawing.Point(293, 71)
+        Me.btnCancelar.Name = "btnCancelar"
+        Me.btnCancelar.Size = New System.Drawing.Size(98, 28)
+        Me.btnCancelar.TabIndex = 5
+        Me.btnCancelar.Text = "Cancelar"
+        Me.btnCancelar.UseVisualStyleBackColor = True
+        '
         'ALTA_PracticasMedicas
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(414, 127)
+        Me.Controls.Add(Me.btnCancelar)
         Me.Controls.Add(Me.txtPM_PrecioPracticaMedica)
         Me.Controls.Add(Me.txtPM_Descripcion)
         Me.Controls.Add(Me.btnAceptar)
@@ -88,4 +99,5 @@ Partial Class ALTA_PracticasMedicas
     Friend WithEvents btnAceptar As System.Windows.Forms.Button
     Friend WithEvents txtPM_Descripcion As System.Windows.Forms.TextBox
     Friend WithEvents txtPM_PrecioPracticaMedica As System.Windows.Forms.TextBox
+    Friend WithEvents btnCancelar As System.Windows.Forms.Button
 End Class

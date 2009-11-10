@@ -28,6 +28,7 @@ Partial Class ALTA_PracticasMedicasxPlan
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.txt_ID_Plan = New System.Windows.Forms.TextBox
         Me.txt_ID_ObraSocial = New System.Windows.Forms.TextBox
+        Me.btnCancelar = New System.Windows.Forms.Button
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -67,7 +68,7 @@ Partial Class ALTA_PracticasMedicasxPlan
         '
         'btnAceptar
         '
-        Me.btnAceptar.Location = New System.Drawing.Point(317, 19)
+        Me.btnAceptar.Location = New System.Drawing.Point(317, 12)
         Me.btnAceptar.Name = "btnAceptar"
         Me.btnAceptar.Size = New System.Drawing.Size(83, 38)
         Me.btnAceptar.TabIndex = 6
@@ -88,11 +89,21 @@ Partial Class ALTA_PracticasMedicasxPlan
         Me.txt_ID_ObraSocial.Size = New System.Drawing.Size(121, 20)
         Me.txt_ID_ObraSocial.TabIndex = 8
         '
+        'btnCancelar
+        '
+        Me.btnCancelar.Location = New System.Drawing.Point(317, 53)
+        Me.btnCancelar.Name = "btnCancelar"
+        Me.btnCancelar.Size = New System.Drawing.Size(83, 38)
+        Me.btnCancelar.TabIndex = 9
+        Me.btnCancelar.Text = "Cancelar"
+        Me.btnCancelar.UseVisualStyleBackColor = True
+        '
         'ALTA_PracticasMedicasxPlan
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(422, 122)
+        Me.Controls.Add(Me.btnCancelar)
         Me.Controls.Add(Me.txt_ID_ObraSocial)
         Me.Controls.Add(Me.txt_ID_Plan)
         Me.Controls.Add(Me.btnAceptar)
@@ -115,4 +126,5 @@ Partial Class ALTA_PracticasMedicasxPlan
     Friend WithEvents BindingSource1 As System.Windows.Forms.BindingSource
     Friend WithEvents txt_ID_Plan As System.Windows.Forms.TextBox
     Friend WithEvents txt_ID_ObraSocial As System.Windows.Forms.TextBox
+    Friend WithEvents btnCancelar As System.Windows.Forms.Button
 End Class
