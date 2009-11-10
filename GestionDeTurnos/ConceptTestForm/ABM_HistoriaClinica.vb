@@ -7,9 +7,21 @@ Public Class ABM_HistoriaClinica
 
         instanciaDeBussinesLogic = New BLClassLibrary.BLDetalleHistoriaClinica
         instanciaDeLaEntidad = New Entities.EntDetalleHistoriaClinica
+        If Me.TextBox1.Text = "" Then
+            MsgBox("Debe ingresar un numero de historia clinica")
+            Me.TextBox1.Focus()
+        Else
+            instanciaDeLaEntidad.Deta_key = Me.TextBox1.Text()
+            'instanciaDeLaEntidad.SYS_ROLE_KEY = Me.txtSRC_SYS_ROL_KEY.Text
 
-        instanciaDeLaEntidad.Deta_key = Me.TextBox1.Text()
-        'instanciaDeLaEntidad.SYS_ROLE_KEY = Me.txtSRC_SYS_ROL_KEY.Text
+            Me.BindingSource1.DataSource = instanciaDeBussinesLogic.GetListOfEntity(instanciaDeLaEntidad)
+            If Me.BindingSource1.Count = 0 Then
+                MsgBox("No existe ningún Paciente registrado con los datos suministrados")
+
+            End If
+        End If
+
+
 
 
 
