@@ -19,13 +19,16 @@ Partial Class ALTA_PracticasMedicasxPlan
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container
         Me.Label1 = New System.Windows.Forms.Label
         Me.Label2 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
-        Me.txtPlan_Key = New System.Windows.Forms.TextBox
         Me.txtPMxP_PorcentajeDescuento = New System.Windows.Forms.TextBox
-        Me.txtOS_Key = New System.Windows.Forms.TextBox
         Me.btnAceptar = New System.Windows.Forms.Button
+        Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
+        Me.txt_ID_Plan = New System.Windows.Forms.TextBox
+        Me.txt_ID_ObraSocial = New System.Windows.Forms.TextBox
+        CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label1
@@ -55,26 +58,12 @@ Partial Class ALTA_PracticasMedicasxPlan
         Me.Label3.TabIndex = 2
         Me.Label3.Text = "Porcentaje Descuento"
         '
-        'txtPlan_Key
-        '
-        Me.txtPlan_Key.Location = New System.Drawing.Point(181, 19)
-        Me.txtPlan_Key.Name = "txtPlan_Key"
-        Me.txtPlan_Key.Size = New System.Drawing.Size(100, 20)
-        Me.txtPlan_Key.TabIndex = 3
-        '
         'txtPMxP_PorcentajeDescuento
         '
-        Me.txtPMxP_PorcentajeDescuento.Location = New System.Drawing.Point(181, 70)
+        Me.txtPMxP_PorcentajeDescuento.Location = New System.Drawing.Point(160, 71)
         Me.txtPMxP_PorcentajeDescuento.Name = "txtPMxP_PorcentajeDescuento"
-        Me.txtPMxP_PorcentajeDescuento.Size = New System.Drawing.Size(100, 20)
+        Me.txtPMxP_PorcentajeDescuento.Size = New System.Drawing.Size(121, 20)
         Me.txtPMxP_PorcentajeDescuento.TabIndex = 4
-        '
-        'txtOS_Key
-        '
-        Me.txtOS_Key.Location = New System.Drawing.Point(181, 44)
-        Me.txtOS_Key.Name = "txtOS_Key"
-        Me.txtOS_Key.Size = New System.Drawing.Size(100, 20)
-        Me.txtOS_Key.TabIndex = 5
         '
         'btnAceptar
         '
@@ -85,20 +74,35 @@ Partial Class ALTA_PracticasMedicasxPlan
         Me.btnAceptar.Text = "Aceptar"
         Me.btnAceptar.UseVisualStyleBackColor = True
         '
+        'txt_ID_Plan
+        '
+        Me.txt_ID_Plan.Location = New System.Drawing.Point(160, 19)
+        Me.txt_ID_Plan.Name = "txt_ID_Plan"
+        Me.txt_ID_Plan.Size = New System.Drawing.Size(121, 20)
+        Me.txt_ID_Plan.TabIndex = 7
+        '
+        'txt_ID_ObraSocial
+        '
+        Me.txt_ID_ObraSocial.Location = New System.Drawing.Point(160, 44)
+        Me.txt_ID_ObraSocial.Name = "txt_ID_ObraSocial"
+        Me.txt_ID_ObraSocial.Size = New System.Drawing.Size(121, 20)
+        Me.txt_ID_ObraSocial.TabIndex = 8
+        '
         'ALTA_PracticasMedicasxPlan
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(422, 122)
+        Me.Controls.Add(Me.txt_ID_ObraSocial)
+        Me.Controls.Add(Me.txt_ID_Plan)
         Me.Controls.Add(Me.btnAceptar)
-        Me.Controls.Add(Me.txtOS_Key)
         Me.Controls.Add(Me.txtPMxP_PorcentajeDescuento)
-        Me.Controls.Add(Me.txtPlan_Key)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
         Me.Name = "ALTA_PracticasMedicasxPlan"
         Me.Text = "ALTA_PracticasMedicasxPlan"
+        CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -106,8 +110,9 @@ Partial Class ALTA_PracticasMedicasxPlan
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
-    Friend WithEvents txtPlan_Key As System.Windows.Forms.TextBox
     Friend WithEvents txtPMxP_PorcentajeDescuento As System.Windows.Forms.TextBox
-    Friend WithEvents txtOS_Key As System.Windows.Forms.TextBox
     Friend WithEvents btnAceptar As System.Windows.Forms.Button
+    Friend WithEvents BindingSource1 As System.Windows.Forms.BindingSource
+    Friend WithEvents txt_ID_Plan As System.Windows.Forms.TextBox
+    Friend WithEvents txt_ID_ObraSocial As System.Windows.Forms.TextBox
 End Class

@@ -41,7 +41,7 @@ Partial Class ABM_PracticasMedicasxPlan
         '
         Me.dgvBusqueda.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvBusqueda.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.PMxP_Key, Me.Plan_Key, Me.OS_Key, Me.PMxP_PorcentajeDescuento})
-        Me.dgvBusqueda.Location = New System.Drawing.Point(42, 93)
+        Me.dgvBusqueda.Location = New System.Drawing.Point(44, 93)
         Me.dgvBusqueda.Name = "dgvBusqueda"
         Me.dgvBusqueda.Size = New System.Drawing.Size(483, 159)
         Me.dgvBusqueda.TabIndex = 0

@@ -30,7 +30,4 @@ Public Class ABM_PracticasMedicasxPlan
 
     End Sub
 
-    Private Sub ABM_PracticasMedicasxPlan_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-
-    End Sub
 End Class

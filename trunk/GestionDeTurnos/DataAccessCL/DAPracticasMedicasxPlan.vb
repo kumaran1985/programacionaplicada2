@@ -128,16 +128,15 @@ Public Class DAPracticasMedicasxPlan
         If strWhere <> "" Then
             'Elimino la palabra "AND" del where
             strWhere = " Where" & strWhere.Remove(0, 3)
+
+
+            strSql = strSql & strWhere
+
         End If
-
-        strSql = strSql & strWhere
-
         Dim ds As New DataSet("DS_PracticaMedicaxPlan")
 
         ds = GetDataSet(strSql)
-
         Return GetLista(ds)
-
 
     End Function
     Public Function GetTable() As System.Data.DataTable Implements MBFrameWork.DataAccess.IStandardDataAccessQuerys.GetTable
