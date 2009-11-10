@@ -187,4 +187,8 @@ Public Class MDI_Principal
         ALTA_PracticasMedicasxPlan.Show()
     End Sub
 
+    Private Sub AltaToolStripMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AltaToolStripMenuItem3.Click
+        ALTA_HistoriaClinica.Show()
+
+    End Sub
 End Class
