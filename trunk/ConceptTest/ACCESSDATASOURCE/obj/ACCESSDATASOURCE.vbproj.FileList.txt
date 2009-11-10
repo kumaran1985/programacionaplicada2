@@ -1,0 +1,12 @@
+bin\Debug\ACCESSDATASOURCE.exe.config
+bin\Debug\Usuarios.mdb
+bin\Debug\ACCESSDATASOURCE.exe
+bin\Debug\ACCESSDATASOURCE.pdb
+bin\Debug\ACCESSDATASOURCE.xml
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\ACCESSDATASOURCE.Form1.resources
+obj\Debug\ACCESSDATASOURCE.Resources.resources
+obj\Debug\ACCESSDATASOURCE.vbproj.GenerateResource.Cache
+obj\Debug\ACCESSDATASOURCE.exe
+obj\Debug\ACCESSDATASOURCE.xml
+obj\Debug\ACCESSDATASOURCE.pdb
