@@ -20,9 +20,7 @@ Partial Class ALTA_HistoriaClinica
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Me.MaskedTextBox1 = New System.Windows.Forms.MaskedTextBox
         Me.Btn_GUARDAR = New System.Windows.Forms.Button
-        Me.Label1 = New System.Windows.Forms.Label
         Me.Label2 = New System.Windows.Forms.Label
         Me.Label3 = New System.Windows.Forms.Label
         Me.Label4 = New System.Windows.Forms.Label
@@ -34,31 +32,25 @@ Partial Class ALTA_HistoriaClinica
         Me.Label10 = New System.Windows.Forms.Label
         Me.Label11 = New System.Windows.Forms.Label
         Me.Label12 = New System.Windows.Forms.Label
-        Me.MaskedTextBox2 = New System.Windows.Forms.MaskedTextBox
-        Me.MaskedTextBox3 = New System.Windows.Forms.MaskedTextBox
+        Me.MTB_FechaConsulta = New System.Windows.Forms.MaskedTextBox
         Me.Btn_Cancelar = New System.Windows.Forms.Button
-        Me.Button3 = New System.Windows.Forms.Button
-        Me.TextBox2 = New System.Windows.Forms.TextBox
-        Me.TextBox3 = New System.Windows.Forms.TextBox
-        Me.TextBox4 = New System.Windows.Forms.TextBox
-        Me.TextBox5 = New System.Windows.Forms.TextBox
-        Me.TextBox6 = New System.Windows.Forms.TextBox
-        Me.TextBox7 = New System.Windows.Forms.TextBox
-        Me.TextBox8 = New System.Windows.Forms.TextBox
-        Me.TextBox9 = New System.Windows.Forms.TextBox
-        Me.ComboBox1 = New System.Windows.Forms.ComboBox
+        Me.Btn_Cerrar = New System.Windows.Forms.Button
+        Me.TxBx_Diagnostico = New System.Windows.Forms.TextBox
+        Me.TxBx_Medicacion = New System.Windows.Forms.TextBox
+        Me.TxBx_Tratamiento = New System.Windows.Forms.TextBox
+        Me.TxBx_DuracionTratamiento = New System.Windows.Forms.TextBox
+        Me.TxBx_Observacion = New System.Windows.Forms.TextBox
+        Me.TxBx_Descripcion = New System.Windows.Forms.TextBox
+        Me.CmBx_Especialidad = New System.Windows.Forms.ComboBox
+        Me.Label13 = New System.Windows.Forms.Label
+        Me.Cmb_NombresMedico = New System.Windows.Forms.ComboBox
+        Me.Cmbx_Apellido = New System.Windows.Forms.ComboBox
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
+        Me.BindingSource2 = New System.Windows.Forms.BindingSource(Me.components)
+        Me.Cmb_NroPaciente = New System.Windows.Forms.ComboBox
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BindingSource2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'MaskedTextBox1
-        '
-        Me.MaskedTextBox1.Location = New System.Drawing.Point(187, 58)
-        Me.MaskedTextBox1.Mask = "99999"
-        Me.MaskedTextBox1.Name = "MaskedTextBox1"
-        Me.MaskedTextBox1.Size = New System.Drawing.Size(100, 20)
-        Me.MaskedTextBox1.TabIndex = 0
-        Me.MaskedTextBox1.ValidatingType = GetType(Integer)
         '
         'Btn_GUARDAR
         '
@@ -69,95 +61,95 @@ Partial Class ALTA_HistoriaClinica
         Me.Btn_GUARDAR.Text = "GUARDAR"
         Me.Btn_GUARDAR.UseVisualStyleBackColor = True
         '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(49, 65)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(131, 13)
-        Me.Label1.TabIndex = 2
-        Me.Label1.Text = "Número de Historia Clinica"
-        '
         'Label2
         '
         Me.Label2.AutoSize = True
+        Me.Label2.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label2.Location = New System.Drawing.Point(49, 109)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(98, 13)
+        Me.Label2.Size = New System.Drawing.Size(114, 13)
         Me.Label2.TabIndex = 3
-        Me.Label2.Text = "Numero de Pciente"
+        Me.Label2.Text = "Numero de Paciente(*)"
         '
         'Label3
         '
         Me.Label3.AutoSize = True
+        Me.Label3.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label3.Location = New System.Drawing.Point(49, 153)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(96, 13)
+        Me.Label3.Size = New System.Drawing.Size(106, 13)
         Me.Label3.TabIndex = 4
-        Me.Label3.Text = "Fecha de Consulta"
+        Me.Label3.Text = "Fecha de Consulta(*)"
         '
         'Label4
         '
         Me.Label4.AutoSize = True
+        Me.Label4.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label4.Location = New System.Drawing.Point(49, 199)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(67, 13)
+        Me.Label4.Size = New System.Drawing.Size(77, 13)
         Me.Label4.TabIndex = 5
-        Me.Label4.Text = "Especialidad"
+        Me.Label4.Text = "Especialidad(*)"
         '
         'Label5
         '
         Me.Label5.AutoSize = True
+        Me.Label5.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label5.Location = New System.Drawing.Point(49, 257)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(102, 13)
+        Me.Label5.Size = New System.Drawing.Size(112, 13)
         Me.Label5.TabIndex = 6
-        Me.Label5.Text = "Nombres de Medico"
+        Me.Label5.Text = "Nombres de Medico(*)"
         '
         'Label6
         '
         Me.Label6.AutoSize = True
+        Me.Label6.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label6.Location = New System.Drawing.Point(411, 257)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(97, 13)
+        Me.Label6.Size = New System.Drawing.Size(107, 13)
         Me.Label6.TabIndex = 7
-        Me.Label6.Text = "Apellido de Medico"
+        Me.Label6.Text = "Apellido de Medico(*)"
         '
         'Label7
         '
         Me.Label7.AutoSize = True
+        Me.Label7.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label7.Location = New System.Drawing.Point(52, 311)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(63, 13)
+        Me.Label7.Size = New System.Drawing.Size(73, 13)
         Me.Label7.TabIndex = 8
-        Me.Label7.Text = "Diagnóstico"
+        Me.Label7.Text = "Diagnóstico(*)"
         '
         'Label8
         '
         Me.Label8.AutoSize = True
+        Me.Label8.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label8.Location = New System.Drawing.Point(52, 358)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(56, 13)
+        Me.Label8.Size = New System.Drawing.Size(66, 13)
         Me.Label8.TabIndex = 9
-        Me.Label8.Text = "Medicaión"
+        Me.Label8.Text = "Medicaión(*)"
         '
         'Label9
         '
         Me.Label9.AutoSize = True
+        Me.Label9.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label9.Location = New System.Drawing.Point(52, 405)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(69, 13)
+        Me.Label9.Size = New System.Drawing.Size(79, 13)
         Me.Label9.TabIndex = 10
-        Me.Label9.Text = "Trataminento"
+        Me.Label9.Text = "Trataminento(*)"
         '
         'Label10
         '
         Me.Label10.AutoSize = True
+        Me.Label10.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label10.Location = New System.Drawing.Point(52, 456)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(126, 13)
+        Me.Label10.Size = New System.Drawing.Size(136, 13)
         Me.Label10.TabIndex = 11
-        Me.Label10.Text = "Duración del Tratamiento"
+        Me.Label10.Text = "Duración del Tratamiento(*)"
         '
         'Label11
         '
@@ -177,23 +169,14 @@ Partial Class ALTA_HistoriaClinica
         Me.Label12.TabIndex = 13
         Me.Label12.Text = "Descripción"
         '
-        'MaskedTextBox2
+        'MTB_FechaConsulta
         '
-        Me.MaskedTextBox2.Location = New System.Drawing.Point(187, 102)
-        Me.MaskedTextBox2.Mask = "99999"
-        Me.MaskedTextBox2.Name = "MaskedTextBox2"
-        Me.MaskedTextBox2.Size = New System.Drawing.Size(100, 20)
-        Me.MaskedTextBox2.TabIndex = 14
-        Me.MaskedTextBox2.ValidatingType = GetType(Integer)
-        '
-        'MaskedTextBox3
-        '
-        Me.MaskedTextBox3.Location = New System.Drawing.Point(187, 146)
-        Me.MaskedTextBox3.Mask = "00/00/0000"
-        Me.MaskedTextBox3.Name = "MaskedTextBox3"
-        Me.MaskedTextBox3.Size = New System.Drawing.Size(100, 20)
-        Me.MaskedTextBox3.TabIndex = 15
-        Me.MaskedTextBox3.ValidatingType = GetType(Date)
+        Me.MTB_FechaConsulta.Location = New System.Drawing.Point(187, 146)
+        Me.MTB_FechaConsulta.Mask = "00/00/0000"
+        Me.MTB_FechaConsulta.Name = "MTB_FechaConsulta"
+        Me.MTB_FechaConsulta.Size = New System.Drawing.Size(100, 20)
+        Me.MTB_FechaConsulta.TabIndex = 15
+        Me.MTB_FechaConsulta.ValidatingType = GetType(Date)
         '
         'Btn_Cancelar
         '
@@ -204,98 +187,119 @@ Partial Class ALTA_HistoriaClinica
         Me.Btn_Cancelar.Text = "CANCELAR"
         Me.Btn_Cancelar.UseVisualStyleBackColor = True
         '
-        'Button3
+        'Btn_Cerrar
         '
-        Me.Button3.Location = New System.Drawing.Point(666, 554)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(75, 45)
-        Me.Button3.TabIndex = 26
-        Me.Button3.Text = "CERRAR"
-        Me.Button3.UseVisualStyleBackColor = True
+        Me.Btn_Cerrar.Location = New System.Drawing.Point(666, 554)
+        Me.Btn_Cerrar.Name = "Btn_Cerrar"
+        Me.Btn_Cerrar.Size = New System.Drawing.Size(75, 45)
+        Me.Btn_Cerrar.TabIndex = 26
+        Me.Btn_Cerrar.Text = "CERRAR"
+        Me.Btn_Cerrar.UseVisualStyleBackColor = True
         '
-        'TextBox2
+        'TxBx_Diagnostico
         '
-        Me.TextBox2.Location = New System.Drawing.Point(187, 249)
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox2.TabIndex = 28
+        Me.TxBx_Diagnostico.Location = New System.Drawing.Point(187, 304)
+        Me.TxBx_Diagnostico.Name = "TxBx_Diagnostico"
+        Me.TxBx_Diagnostico.Size = New System.Drawing.Size(100, 20)
+        Me.TxBx_Diagnostico.TabIndex = 30
         '
-        'TextBox3
+        'TxBx_Medicacion
         '
-        Me.TextBox3.Location = New System.Drawing.Point(525, 249)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox3.TabIndex = 29
+        Me.TxBx_Medicacion.Location = New System.Drawing.Point(187, 351)
+        Me.TxBx_Medicacion.Name = "TxBx_Medicacion"
+        Me.TxBx_Medicacion.Size = New System.Drawing.Size(100, 20)
+        Me.TxBx_Medicacion.TabIndex = 31
         '
-        'TextBox4
+        'TxBx_Tratamiento
         '
-        Me.TextBox4.Location = New System.Drawing.Point(187, 304)
-        Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox4.TabIndex = 30
+        Me.TxBx_Tratamiento.Location = New System.Drawing.Point(187, 398)
+        Me.TxBx_Tratamiento.Name = "TxBx_Tratamiento"
+        Me.TxBx_Tratamiento.Size = New System.Drawing.Size(100, 20)
+        Me.TxBx_Tratamiento.TabIndex = 32
         '
-        'TextBox5
+        'TxBx_DuracionTratamiento
         '
-        Me.TextBox5.Location = New System.Drawing.Point(187, 351)
-        Me.TextBox5.Name = "TextBox5"
-        Me.TextBox5.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox5.TabIndex = 31
+        Me.TxBx_DuracionTratamiento.Location = New System.Drawing.Point(187, 449)
+        Me.TxBx_DuracionTratamiento.Name = "TxBx_DuracionTratamiento"
+        Me.TxBx_DuracionTratamiento.Size = New System.Drawing.Size(100, 20)
+        Me.TxBx_DuracionTratamiento.TabIndex = 33
         '
-        'TextBox6
+        'TxBx_Observacion
         '
-        Me.TextBox6.Location = New System.Drawing.Point(187, 398)
-        Me.TextBox6.Name = "TextBox6"
-        Me.TextBox6.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox6.TabIndex = 32
+        Me.TxBx_Observacion.Location = New System.Drawing.Point(187, 494)
+        Me.TxBx_Observacion.Name = "TxBx_Observacion"
+        Me.TxBx_Observacion.Size = New System.Drawing.Size(100, 20)
+        Me.TxBx_Observacion.TabIndex = 34
         '
-        'TextBox7
+        'TxBx_Descripcion
         '
-        Me.TextBox7.Location = New System.Drawing.Point(187, 449)
-        Me.TextBox7.Name = "TextBox7"
-        Me.TextBox7.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox7.TabIndex = 33
+        Me.TxBx_Descripcion.Location = New System.Drawing.Point(187, 546)
+        Me.TxBx_Descripcion.Name = "TxBx_Descripcion"
+        Me.TxBx_Descripcion.Size = New System.Drawing.Size(100, 20)
+        Me.TxBx_Descripcion.TabIndex = 35
         '
-        'TextBox8
+        'CmBx_Especialidad
         '
-        Me.TextBox8.Location = New System.Drawing.Point(187, 494)
-        Me.TextBox8.Name = "TextBox8"
-        Me.TextBox8.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox8.TabIndex = 34
+        Me.CmBx_Especialidad.FormattingEnabled = True
+        Me.CmBx_Especialidad.Items.AddRange(New Object() {"1", "2", "3", "4"})
+        Me.CmBx_Especialidad.Location = New System.Drawing.Point(187, 190)
+        Me.CmBx_Especialidad.Name = "CmBx_Especialidad"
+        Me.CmBx_Especialidad.Size = New System.Drawing.Size(121, 21)
+        Me.CmBx_Especialidad.TabIndex = 36
         '
-        'TextBox9
+        'Label13
         '
-        Me.TextBox9.Location = New System.Drawing.Point(187, 546)
-        Me.TextBox9.Name = "TextBox9"
-        Me.TextBox9.Size = New System.Drawing.Size(100, 20)
-        Me.TextBox9.TabIndex = 35
+        Me.Label13.AutoSize = True
+        Me.Label13.ForeColor = System.Drawing.SystemColors.ActiveCaption
+        Me.Label13.Location = New System.Drawing.Point(64, 669)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(116, 13)
+        Me.Label13.TabIndex = 37
+        Me.Label13.Text = "(*)Campos Obligatorios "
         '
-        'ComboBox1
+        'Cmb_NombresMedico
         '
-        Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Items.AddRange(New Object() {"1", "2", "3", "4"})
-        Me.ComboBox1.Location = New System.Drawing.Point(187, 190)
-        Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(121, 21)
-        Me.ComboBox1.TabIndex = 36
+        Me.Cmb_NombresMedico.FormattingEnabled = True
+        Me.Cmb_NombresMedico.Location = New System.Drawing.Point(187, 254)
+        Me.Cmb_NombresMedico.Name = "Cmb_NombresMedico"
+        Me.Cmb_NombresMedico.Size = New System.Drawing.Size(121, 21)
+        Me.Cmb_NombresMedico.TabIndex = 38
+        '
+        'Cmbx_Apellido
+        '
+        Me.Cmbx_Apellido.FormattingEnabled = True
+        Me.Cmbx_Apellido.Location = New System.Drawing.Point(545, 253)
+        Me.Cmbx_Apellido.Name = "Cmbx_Apellido"
+        Me.Cmbx_Apellido.Size = New System.Drawing.Size(121, 21)
+        Me.Cmbx_Apellido.TabIndex = 39
+        '
+        'Cmb_NroPaciente
+        '
+        Me.Cmb_NroPaciente.FormattingEnabled = True
+        Me.Cmb_NroPaciente.Location = New System.Drawing.Point(187, 100)
+        Me.Cmb_NroPaciente.Name = "Cmb_NroPaciente"
+        Me.Cmb_NroPaciente.Size = New System.Drawing.Size(121, 21)
+        Me.Cmb_NroPaciente.TabIndex = 40
         '
         'ALTA_HistoriaClinica
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(788, 633)
-        Me.Controls.Add(Me.ComboBox1)
-        Me.Controls.Add(Me.TextBox9)
-        Me.Controls.Add(Me.TextBox8)
-        Me.Controls.Add(Me.TextBox7)
-        Me.Controls.Add(Me.TextBox6)
-        Me.Controls.Add(Me.TextBox5)
-        Me.Controls.Add(Me.TextBox4)
-        Me.Controls.Add(Me.TextBox3)
-        Me.Controls.Add(Me.TextBox2)
-        Me.Controls.Add(Me.Button3)
+        Me.ClientSize = New System.Drawing.Size(788, 748)
+        Me.Controls.Add(Me.Cmb_NroPaciente)
+        Me.Controls.Add(Me.Cmbx_Apellido)
+        Me.Controls.Add(Me.Cmb_NombresMedico)
+        Me.Controls.Add(Me.Label13)
+        Me.Controls.Add(Me.CmBx_Especialidad)
+        Me.Controls.Add(Me.TxBx_Descripcion)
+        Me.Controls.Add(Me.TxBx_Observacion)
+        Me.Controls.Add(Me.TxBx_DuracionTratamiento)
+        Me.Controls.Add(Me.TxBx_Tratamiento)
+        Me.Controls.Add(Me.TxBx_Medicacion)
+        Me.Controls.Add(Me.TxBx_Diagnostico)
+        Me.Controls.Add(Me.Btn_Cerrar)
         Me.Controls.Add(Me.Btn_Cancelar)
-        Me.Controls.Add(Me.MaskedTextBox3)
-        Me.Controls.Add(Me.MaskedTextBox2)
+        Me.Controls.Add(Me.MTB_FechaConsulta)
         Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Label10)
@@ -307,19 +311,16 @@ Partial Class ALTA_HistoriaClinica
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Btn_GUARDAR)
-        Me.Controls.Add(Me.MaskedTextBox1)
         Me.Name = "ALTA_HistoriaClinica"
         Me.Text = "ALTA HISTORIA CLINICA"
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BindingSource2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents MaskedTextBox1 As System.Windows.Forms.MaskedTextBox
     Friend WithEvents Btn_GUARDAR As System.Windows.Forms.Button
-    Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents Label4 As System.Windows.Forms.Label
@@ -331,18 +332,20 @@ Partial Class ALTA_HistoriaClinica
     Friend WithEvents Label10 As System.Windows.Forms.Label
     Friend WithEvents Label11 As System.Windows.Forms.Label
     Friend WithEvents Label12 As System.Windows.Forms.Label
-    Friend WithEvents MaskedTextBox2 As System.Windows.Forms.MaskedTextBox
-    Friend WithEvents MaskedTextBox3 As System.Windows.Forms.MaskedTextBox
+    Friend WithEvents MTB_FechaConsulta As System.Windows.Forms.MaskedTextBox
     Friend WithEvents Btn_Cancelar As System.Windows.Forms.Button
-    Friend WithEvents Button3 As System.Windows.Forms.Button
-    Friend WithEvents TextBox2 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox3 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox4 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox5 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox6 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox7 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox8 As System.Windows.Forms.TextBox
-    Friend WithEvents TextBox9 As System.Windows.Forms.TextBox
-    Friend WithEvents ComboBox1 As System.Windows.Forms.ComboBox
+    Friend WithEvents Btn_Cerrar As System.Windows.Forms.Button
+    Friend WithEvents TxBx_Diagnostico As System.Windows.Forms.TextBox
+    Friend WithEvents TxBx_Medicacion As System.Windows.Forms.TextBox
+    Friend WithEvents TxBx_Tratamiento As System.Windows.Forms.TextBox
+    Friend WithEvents TxBx_DuracionTratamiento As System.Windows.Forms.TextBox
+    Friend WithEvents TxBx_Observacion As System.Windows.Forms.TextBox
+    Friend WithEvents TxBx_Descripcion As System.Windows.Forms.TextBox
+    Friend WithEvents CmBx_Especialidad As System.Windows.Forms.ComboBox
     Friend WithEvents BindingSource1 As System.Windows.Forms.BindingSource
+    Friend WithEvents Label13 As System.Windows.Forms.Label
+    Friend WithEvents BindingSource2 As System.Windows.Forms.BindingSource
+    Friend WithEvents Cmb_NombresMedico As System.Windows.Forms.ComboBox
+    Friend WithEvents Cmbx_Apellido As System.Windows.Forms.ComboBox
+    Friend WithEvents Cmb_NroPaciente As System.Windows.Forms.ComboBox
 End Class
