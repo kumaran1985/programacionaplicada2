@@ -165,6 +165,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Base2006DataSet2.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Base2006DataSet3.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Base2006DataSet3.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Base2006DataSet3.vb">
+      <DependentUpon>Base2006DataSet3.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Especialidades.Designer.vb">
       <DependentUpon>Especialidades.vb</DependentUpon>
     </Compile>
@@ -341,6 +349,17 @@
     <None Include="Base2006DataSet2.xss">
       <DependentUpon>Base2006DataSet2.xsd</DependentUpon>
     </None>
+    <None Include="Base2006DataSet3.xsc">
+      <DependentUpon>Base2006DataSet3.xsd</DependentUpon>
+    </None>
+    <None Include="Base2006DataSet3.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Base2006DataSet3.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="Base2006DataSet3.xss">
+      <DependentUpon>Base2006DataSet3.xsd</DependentUpon>
+    </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -360,6 +379,11 @@
       <Project>{6106E4D7-64D7-4FBA-8D8E-B64508110430}</Project>
       <Name>Entities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Base2006.mdb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

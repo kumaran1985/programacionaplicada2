@@ -63,11 +63,11 @@ Partial Class Alta_Medicos
         Me.txt_Med_Matricula1 = New System.Windows.Forms.MaskedTextBox
         Me.BindingSource2 = New System.Windows.Forms.BindingSource(Me.components)
         Me.GroupBox1 = New System.Windows.Forms.GroupBox
+        Me.Label18 = New System.Windows.Forms.Label
         Me.GroupBox2 = New System.Windows.Forms.GroupBox
         Me.GroupBox3 = New System.Windows.Forms.GroupBox
-        Me.GroupBox4 = New System.Windows.Forms.GroupBox
-        Me.Label18 = New System.Windows.Forms.Label
         Me.Label19 = New System.Windows.Forms.Label
+        Me.GroupBox4 = New System.Windows.Forms.GroupBox
         Me.Label20 = New System.Windows.Forms.Label
         Me.Label21 = New System.Windows.Forms.Label
         Me.Label22 = New System.Windows.Forms.Label
@@ -481,6 +481,16 @@ Partial Class Alta_Medicos
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Datos Personales"
         '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(162, Byte))
+        Me.Label18.Location = New System.Drawing.Point(204, 181)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(69, 9)
+        Me.Label18.TabIndex = 30
+        Me.Label18.Text = "Día / Mes/ Año"
+        '
         'GroupBox2
         '
         Me.GroupBox2.BackColor = System.Drawing.SystemColors.Highlight
@@ -522,6 +532,16 @@ Partial Class Alta_Medicos
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Datos Profesionales"
         '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(162, Byte))
+        Me.Label19.Location = New System.Drawing.Point(199, 243)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(69, 9)
+        Me.Label19.TabIndex = 38
+        Me.Label19.Text = "Día / Mes/ Año"
+        '
         'GroupBox4
         '
         Me.GroupBox4.BackColor = System.Drawing.SystemColors.Highlight
@@ -535,26 +555,6 @@ Partial Class Alta_Medicos
         Me.GroupBox4.TabIndex = 45
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Opciones"
-        '
-        'Label18
-        '
-        Me.Label18.AutoSize = True
-        Me.Label18.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(162, Byte))
-        Me.Label18.Location = New System.Drawing.Point(204, 181)
-        Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(69, 9)
-        Me.Label18.TabIndex = 30
-        Me.Label18.Text = "Día / Mes/ Año"
-        '
-        'Label19
-        '
-        Me.Label19.AutoSize = True
-        Me.Label19.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(162, Byte))
-        Me.Label19.Location = New System.Drawing.Point(199, 243)
-        Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(69, 9)
-        Me.Label19.TabIndex = 38
-        Me.Label19.Text = "Día / Mes/ Año"
         '
         'Label20
         '

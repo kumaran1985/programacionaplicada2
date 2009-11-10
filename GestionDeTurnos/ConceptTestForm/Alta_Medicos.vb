@@ -15,6 +15,7 @@ Public Class Alta_Medicos
         Me.cmb_LOCA_key.DisplayMember = tabla1.Columns(2).ToString 'muestra todo los nombres de localidades contenidas en la columna LOCA_Nombre en la tabla Localidades
         Me.cmb_LOCA_key.ValueMember = tabla1.Columns(0).ToString 'permite que cuando selecciona una localidad, el valor que guarde sea LOCA_Key, es decir la clave de la taba localidad
         Me.cmb_LOCA_key.Text = ""
+
         Me.BindingSource2.DataSource = instanciablespecialidades.GetTable()
 
         tabla2 = Me.BindingSource2.DataSource
@@ -295,6 +296,10 @@ Public Class Alta_Medicos
     End Sub
 
     Private Sub Label20_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Label20.Click
+
+    End Sub
+
+    Private Sub txt_Med_FechaNac_MaskInputRejected(ByVal sender As System.Object, ByVal e As System.Windows.Forms.MaskInputRejectedEventArgs) Handles txt_Med_FechaNac.MaskInputRejected
 
     End Sub
 End Class
