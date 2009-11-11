@@ -130,6 +130,8 @@ Partial Class MDI_Principal
         Me.StatusStrip = New System.Windows.Forms.StatusStrip
         Me.ToolStripStatusLabel = New System.Windows.Forms.ToolStripStatusLabel
         Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
+        Me.ListadoToolStripMenuItem14 = New System.Windows.Forms.ToolStripMenuItem
+        Me.AltaToolStripMenuItem12 = New System.Windows.Forms.ToolStripMenuItem
         Me.MenuStrip.SuspendLayout()
         Me.ToolStrip.SuspendLayout()
         Me.StatusStrip.SuspendLayout()
@@ -464,13 +466,13 @@ Partial Class MDI_Principal
         'ListadoToolStripMenuItem6
         '
         Me.ListadoToolStripMenuItem6.Name = "ListadoToolStripMenuItem6"
-        Me.ListadoToolStripMenuItem6.Size = New System.Drawing.Size(119, 22)
+        Me.ListadoToolStripMenuItem6.Size = New System.Drawing.Size(152, 22)
         Me.ListadoToolStripMenuItem6.Text = "Listado"
         '
         'AltaToolStripMenuItem6
         '
         Me.AltaToolStripMenuItem6.Name = "AltaToolStripMenuItem6"
-        Me.AltaToolStripMenuItem6.Size = New System.Drawing.Size(119, 22)
+        Me.AltaToolStripMenuItem6.Size = New System.Drawing.Size(152, 22)
         Me.AltaToolStripMenuItem6.Text = "Alta"
         '
         'EspecialidadesToolStripMenuItem
@@ -592,13 +594,13 @@ Partial Class MDI_Principal
         'ListadoToolStripMenuItem3
         '
         Me.ListadoToolStripMenuItem3.Name = "ListadoToolStripMenuItem3"
-        Me.ListadoToolStripMenuItem3.Size = New System.Drawing.Size(152, 22)
+        Me.ListadoToolStripMenuItem3.Size = New System.Drawing.Size(119, 22)
         Me.ListadoToolStripMenuItem3.Text = "Listado"
         '
         'AltaToolStripMenuItem3
         '
         Me.AltaToolStripMenuItem3.Name = "AltaToolStripMenuItem3"
-        Me.AltaToolStripMenuItem3.Size = New System.Drawing.Size(152, 22)
+        Me.AltaToolStripMenuItem3.Size = New System.Drawing.Size(119, 22)
         Me.AltaToolStripMenuItem3.Text = "Alta"
         '
         'TiposDocumentoToolStripMenuItem
@@ -617,7 +619,7 @@ Partial Class MDI_Principal
         'AltaToolStripMenuItem7
         '
         Me.AltaToolStripMenuItem7.Name = "AltaToolStripMenuItem7"
-        Me.AltaToolStripMenuItem7.Size = New System.Drawing.Size(119, 22)
+        Me.AltaToolStripMenuItem7.Size = New System.Drawing.Size(152, 22)
         Me.AltaToolStripMenuItem7.Text = "Alta"
         '
         'PlanesToolStripMenuItem
@@ -667,8 +669,9 @@ Partial Class MDI_Principal
         '
         'MotivoVisitaToolStripMenuItem
         '
+        Me.MotivoVisitaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ListadoToolStripMenuItem14, Me.AltaToolStripMenuItem12})
         Me.MotivoVisitaToolStripMenuItem.Name = "MotivoVisitaToolStripMenuItem"
-        Me.MotivoVisitaToolStripMenuItem.Size = New System.Drawing.Size(145, 22)
+        Me.MotivoVisitaToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
         Me.MotivoVisitaToolStripMenuItem.Text = "Motivo Visita"
         '
         'LocalidadesToolStripMenuItem
@@ -850,6 +853,18 @@ Partial Class MDI_Principal
         Me.ToolStripStatusLabel.Size = New System.Drawing.Size(38, 17)
         Me.ToolStripStatusLabel.Text = "Status"
         '
+        'ListadoToolStripMenuItem14
+        '
+        Me.ListadoToolStripMenuItem14.Name = "ListadoToolStripMenuItem14"
+        Me.ListadoToolStripMenuItem14.Size = New System.Drawing.Size(152, 22)
+        Me.ListadoToolStripMenuItem14.Text = "Listado"
+        '
+        'AltaToolStripMenuItem12
+        '
+        Me.AltaToolStripMenuItem12.Name = "AltaToolStripMenuItem12"
+        Me.AltaToolStripMenuItem12.Size = New System.Drawing.Size(152, 22)
+        Me.AltaToolStripMenuItem12.Text = "Alta"
+        '
         'MDI_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -977,5 +992,7 @@ Partial Class MDI_Principal
     Friend WithEvents ABMPracticasMedicaXPlanToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ListadoToolStripMenuItem13 As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents AltaToolStripMenuItem11 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ListadoToolStripMenuItem14 As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents AltaToolStripMenuItem12 As System.Windows.Forms.ToolStripMenuItem
 
 End Class
