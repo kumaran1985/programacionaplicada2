@@ -191,4 +191,24 @@ Public Class MDI_Principal
         ALTA_HistoriaClinica.Show()
 
     End Sub
+
+    Private Sub AltaToolStripMenuItem6_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AltaToolStripMenuItem6.Click
+        ALTA_Consultorios.MdiParent = Me
+        ALTA_Consultorios.Show()
+    End Sub
+
+    Private Sub AltaToolStripMenuItem7_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AltaToolStripMenuItem7.Click
+        ALTA_TiposDocumento.MdiParent = Me
+        ALTA_TiposDocumento.Show()
+    End Sub
+
+    Private Sub ListadoToolStripMenuItem14_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ListadoToolStripMenuItem14.Click
+        ABM_MotivoVisita.MdiParent = Me
+        ABM_MotivoVisita.Show()
+    End Sub
+
+    Private Sub AltaToolStripMenuItem12_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AltaToolStripMenuItem12.Click
+        ALTA_MotivoVisita.MdiParent = Me
+        ALTA_MotivoVisita.Show()
+    End Sub
 End Class

@@ -78,6 +78,12 @@
     <Compile Include="ABM_PracticasMedicasxPlan.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ALTA_Consultorios.Designer.vb">
+      <DependentUpon>ALTA_Consultorios.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ALTA_Consultorios.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ALTA_HistoriaClinica.Designer.vb">
       <DependentUpon>ALTA_HistoriaClinica.vb</DependentUpon>
     </Compile>
@@ -126,6 +132,12 @@
     <Compile Include="ABM_Turnos.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ALTA_MotivoVisita.Designer.vb">
+      <DependentUpon>ALTA_MotivoVisita.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ALTA_MotivoVisita.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ALTA_Pacientes.Designer.vb">
       <DependentUpon>ALTA_Pacientes.vb</DependentUpon>
     </Compile>
@@ -148,6 +160,12 @@
       <DependentUpon>ALTA_SysRoles.vb</DependentUpon>
     </Compile>
     <Compile Include="ALTA_SysRoles.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ALTA_TiposDocumento.Designer.vb">
+      <DependentUpon>ALTA_TiposDocumento.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ALTA_TiposDocumento.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Base2006DataSet.Designer.vb">
@@ -235,6 +253,10 @@
       <DependentUpon>ABM_PracticasMedicasxPlan.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="ALTA_Consultorios.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ALTA_Consultorios.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ALTA_HistoriaClinica.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ALTA_HistoriaClinica.vb</DependentUpon>
@@ -267,6 +289,10 @@
       <DependentUpon>ABM_Turnos.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="ALTA_MotivoVisita.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ALTA_MotivoVisita.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ALTA_Pacientes.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ALTA_Pacientes.vb</DependentUpon>
@@ -282,6 +308,10 @@
     <EmbeddedResource Include="ALTA_SysRoles.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ALTA_SysRoles.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ALTA_TiposDocumento.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ALTA_TiposDocumento.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Especialidades.resx">
       <SubType>Designer</SubType>
