@@ -55,7 +55,6 @@
     <Compile Include="DBTools.vb" />
     <Compile Include="EnumConnectionType.vb" />
     <Compile Include="EnumFieldType.vb" />
-    <Compile Include="IConnectionManager.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -91,6 +90,16 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BrainWork.IDataAccess\BrainWork.IDataAccess.vbproj">
+      <Project>{B8D3A5FE-A6CA-4FDA-9E11-083259C935CC}</Project>
+      <Name>BrainWork.IDataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BrainWork.Utils\BrainWork.Utils.vbproj">
+      <Project>{578063E6-AFB9-47AA-BD99-C111B8AE2163}</Project>
+      <Name>BrainWork.Utils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
