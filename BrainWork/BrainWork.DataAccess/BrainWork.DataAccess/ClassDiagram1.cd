@@ -2,14 +2,14 @@
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Font Name="Tahoma" Size="8.25" />
   <Class Name="BrainWork.DataAccess.DBParams" Collapsed="true">
-    <Position X="0.5" Y="2" Width="1.5" />
+    <Position X="0.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>DBParams.vb</FileName>
       <HashCode>AAAAAAAAABAgEAAAAAIIAAAMEABAAIAAAAAAAAAQAgA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="BrainWork.DataAccess.AbstractFields" Collapsed="true">
-    <Position X="0.5" Y="1.25" Width="1.5" />
+    <Position X="0.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>AbstractFields.vb</FileName>
       <HashCode>AAAAAABAABABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -23,17 +23,17 @@
     </TypeIdentifier>
   </Class>
   <Class Name="BrainWork.DataAccess.DBTools">
-    <Position X="6.5" Y="0.5" Width="2.75" />
+    <Position X="6.25" Y="0.5" Width="2.75" />
     <TypeIdentifier>
       <FileName>DBTools.vb</FileName>
       <HashCode>AAAAAAAAAAAAAAAACAAAAAAACAAAAAAAAAgAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="BrainWork.DataAccess.DataManager">
-    <Position X="7" Y="2" Width="1.5" />
+    <Position X="6.25" Y="2" Width="2.75" />
     <TypeIdentifier>
       <FileName>DataManager.vb</FileName>
-      <HashCode>AAAIAIAAAAAAAAAABAAAAMAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AAAIAIAAAAAAAAIABAAAAMAAAAAAAAAAACAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Interface Name="BrainWork.DataAccess.IConnectionManager">
@@ -43,15 +43,15 @@
       <HashCode>AADAAAAEEAEAQAAAEAAAAAAYAIEgAACAAAAAAABCAAA=</HashCode>
     </TypeIdentifier>
   </Interface>
-  <Enum Name="BrainWork.DataAccess.EnumConnectionType" Collapsed="true">
-    <Position X="10.75" Y="0.5" Width="1.5" />
+  <Enum Name="BrainWork.DataAccess.EnumConnectionType">
+    <Position X="9.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>EnumConnectionType.vb</FileName>
       <HashCode>AAAAAAAAAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="BrainWork.DataAccess.EnumFieldType" Collapsed="true">
-    <Position X="10.75" Y="1.25" Width="2.5" />
+  <Enum Name="BrainWork.DataAccess.EnumFieldType">
+    <Position X="9.25" Y="2" Width="2.5" />
     <TypeIdentifier>
       <FileName>EnumFieldType.vb</FileName>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAgAA=</HashCode>
