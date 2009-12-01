@@ -10,7 +10,18 @@ Public Class DBParams
     Private _ParamDescription As String
     Private _ParamDirection As ParameterDirection
     Private _ParamName As String
-    Private _ParamValue As DbType
+    Private _ParamValue As Object
+     
+
+    Public Sub New(ByVal Name As String, ByVal dType As DbType, ByVal direction As ParameterDirection, ByVal value As Object, ByVal size As Long)
+        MyBase.new()
+        Me.ParamName = Name
+        Me.FieldType = dType
+        Me.ParamValue = value
+        Me.ParamDirection = direction
+        Me.FieldSize = size
+    End Sub
+
     Public Property ParamName() As String
         Get
 
@@ -19,6 +30,7 @@ Public Class DBParams
 
         End Set
     End Property
+
 
 
 
@@ -64,9 +76,6 @@ Public Class DBParams
 
         End Set
     End Property
-
-
-
 
 
 
