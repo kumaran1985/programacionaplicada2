@@ -11,7 +11,14 @@ Public MustInherit Class AbstractFields
         End Set
     End Property
 
+    Public Property FieldSize() As Long
+        Get
 
+        End Get
+        Set(ByVal value As Long)
+
+        End Set
+    End Property
 
     Public Sub SetNewValue(ByVal Val As Boolean)
 

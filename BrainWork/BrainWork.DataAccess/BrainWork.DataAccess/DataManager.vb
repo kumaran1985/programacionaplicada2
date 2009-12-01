@@ -1,5 +1,7 @@
 Imports BrainWork.IDataAccess
+Imports BrainWork.DataAccessTrunk
 Public Class DataManager
+    Implements IConnectionManager
 
     Private Shared _ConnectionManager As IConnectionManager = Nothing
     Private Shared _GetConnectionType As EnumConnectionType = Nothing
@@ -11,44 +13,13 @@ Public Class DataManager
     Sub New()
 
     End Sub
-    Public Function Connect() As Boolean
-
-    End Function
-
-    Public Function Disconect() As Boolean
-
-    End Function
-
-    Public Function GetOpenConnection() As IConnectionManager
-
-    End Function
-    Function ExecuteNonQuery(ByVal strSql As String) As Object
-
-    End Function
-
-    Function ExecuteNonQuery(ByVal StoredProcedureName As String, ByVal ParamArray DBParameters() As BrainWork.DataAccess.DBParams) As Object
-
-    End Function
-
-    Function GetDataTable(ByVal strSQL As String) As DataTable
-
-    End Function
-
-    Function GetDataTable(ByVal StoredProcedureName As String, ByVal ParamArray DBParameters As BrainWork.DataAccess.DBParams()) As DataTable
-
-    End Function
-
-    Function GetDataSet(ByVal strSQL As String) As DataSet
-
-    End Function
-
-    Function GetDataSet(ByVal StoredProcedureName As String, ByVal ParamArray DBParameters As BrainWork.DataAccess.DBParams()) As DataSet
-
-    End Function
 
     Protected Overrides Sub Finalize()
 
     End Sub
+
+
+
     Public ReadOnly Property ConnectionString() As String
         Get
             If _ConnectionString Is Nothing Then
@@ -65,7 +36,7 @@ Public Class DataManager
             End If
             Return _ConnectionManager
         End Get
-        
+
     End Property
 
     Public ReadOnly Property GetConnectionType() As EnumConnectionType
@@ -80,4 +51,93 @@ Public Class DataManager
     End Property
 
 
+    Public Event AfterExecuteStatement(ByVal sender As Object, ByVal e As System.EventArgs) Implements IDataAccess.IConnectionManager.AfterExecuteStatement
+
+    Public Event BeforeExecuteStatement(ByVal sender As Object, ByVal e As System.EventArgs) Implements IDataAccess.IConnectionManager.BeforeExecuteStatement
+
+    Public Event Connected(ByVal sender As Object, ByVal e As System.EventArgs) Implements IDataAccess.IConnectionManager.Connected
+
+     
+    Public Event Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Implements IDataAccess.IConnectionManager.Disposed
+
+    Public Function GetCommand() As System.Data.IDbCommand Implements IDataAccess.IConnectionManager.GetCommand
+        Return _ConnectionManager.GetCommand
+    End Function
+
+    Public Function GetCommandForStoredProcedure() As System.Data.IDbCommand Implements IDataAccess.IConnectionManager.GetCommandForStoredProcedure
+        Return _ConnectionManager.GetCommandForStoredProcedure
+    End Function
+
+    Public Function GetCommandForTableDirect() As System.Data.IDbCommand Implements IDataAccess.IConnectionManager.GetCommandForTableDirect
+        Return _ConnectionManager.GetCommandForTableDirect
+    End Function
+
+    Public Function GetCommandForText() As System.Data.IDbCommand Implements IDataAccess.IConnectionManager.GetCommandForText
+        Return _ConnectionManager.GetCommandForText
+    End Function
+
+    
+    Public Sub TransactionCommit() Implements IDataAccess.IConnectionManager.TransactionCommit
+        _ConnectionManager.TransactionCommit()
+    End Sub
+
+    Public Function TransactionConnect() As System.Data.IDbConnection Implements IDataAccess.IConnectionManager.TransactionConnect
+        Return _ConnectionManager.TransactionConnect()
+    End Function
+
+    Public Sub TransactionRollBack() Implements IDataAccess.IConnectionManager.TransactionRollBack
+        _ConnectionManager.TransactionRollBack()
+    End Sub
+
+    Public Function Connect() As Boolean Implements IDataAccess.IConnectionManager.Connect
+        Return _ConnectionManager.Connect
+    End Function
+
+     
+
+    Public Function Disconect() As Boolean Implements IDataAccess.IConnectionManager.Disconect
+        Return _ConnectionManager.Disconect
+    End Function
+
+    Public Function ExecuteNonQuery(ByVal strSql As String) As Object Implements IDataAccess.IConnectionManager.ExecuteNonQuery
+        Return _ConnectionManager.ExecuteNonQuery(strSql)
+    End Function
+
+    Public Function GetCurrentTransactionConnection() As System.Data.IDbConnection Implements IDataAccess.IConnectionManager.GetCurrentTransactionConnection
+        Return _ConnectionManager.GetCurrentTransactionConnection()
+    End Function
+
+    Public Function GetDataSet(ByVal strSQL As String) As System.Data.DataSet Implements IDataAccess.IConnectionManager.GetDataSet
+        Return _ConnectionManager.GetDataSet(strSQL)
+    End Function
+
+    Public Function GetDataTable(ByVal strSQL As String) As System.Data.DataTable Implements IDataAccess.IConnectionManager.GetDataTable
+        Return _ConnectionManager.GetDataTable(strSQL)
+    End Function
+
+
+
+    Public Function NewArrayFromStored(ByVal StoredName As String) As System.Collections.Generic.Dictionary(Of String, DataAccessTrunk.DBParams) Implements IDataAccess.IConnectionManager.NewArrayFromStored
+        Return _ConnectionManager.NewArrayFromStored(StoredName)
+    End Function
+
+    Public Function NewArrayFromTable(ByVal StoredName As String) As System.Collections.Generic.Dictionary(Of String, DataAccessTrunk.DBFields) Implements IDataAccess.IConnectionManager.NewArrayFromTable
+        Return _ConnectionManager.NewArrayFromTable(StoredName)
+    End Function
+
+    
+
+    Public Function GetOpenConnection() As IDataAccess.IConnectionManager Implements IDataAccess.IConnectionManager.GetOpenConnection
+        Return _ConnectionManager.GetOpenConnection()
+    End Function
+
+    Public ReadOnly Property CurrentConnection() As System.Data.IDbConnection Implements IDataAccess.IConnectionManager.CurrentConnection
+        Get
+            Return _ConnectionManager.CurrentConnection
+        End Get
+    End Property
+
+    Public Function GetBlankCommand() As System.Data.IDbCommand Implements IDataAccess.IConnectionManager.GetBlankCommand
+        Return _ConnectionManager.GetBlankCommand
+    End Function
 End Class
