@@ -5,10 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B8D3A5FE-A6CA-4FDA-9E11-083259C935CC}</ProjectGuid>
+    <ProjectGuid>{72B3C9B3-15AE-4268-B679-9C9004E73CF6}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>BrainWork.IDataAccess</RootNamespace>
-    <AssemblyName>BrainWork.IDataAccess</AssemblyName>
+    <RootNamespace>BrainWork.Entity</RootNamespace>
+    <AssemblyName>BrainWork.Entity</AssemblyName>
     <MyType>Windows</MyType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -17,7 +17,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>BrainWork.IDataAccess.xml</DocumentationFile>
+    <DocumentationFile>BrainWork.Entity.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -26,7 +26,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>BrainWork.IDataAccess.xml</DocumentationFile>
+    <DocumentationFile>BrainWork.Entity.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <ItemGroup>
@@ -43,7 +43,7 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IConnectionManager.vb" />
+    <Compile Include="IEntity.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -78,16 +78,6 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BrainWork.DataAccess\BrainWork.DataAccessTrunk\BrainWork.DataAccessTrunk.vbproj">
-      <Project>{2C89BF55-F359-4A36-B87D-85CC36310964}</Project>
-      <Name>BrainWork.DataAccessTrunk</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BrainWork.Entity\BrainWork.Entity.vbproj">
-      <Project>{72B3C9B3-15AE-4268-B679-9C9004E73CF6}</Project>
-      <Name>BrainWork.Entity</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,11 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B8D3A5FE-A6CA-4FDA-9E11-083259C935CC}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>BrainWork.IDataAccess</RootNamespace>
-    <AssemblyName>BrainWork.IDataAccess</AssemblyName>
-    <MyType>Windows</MyType>
+    <ProjectGuid>{416686BA-F997-4489-BB3B-AB5B7F2FAEE2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>BrainWork.FormConceptTest.My.MyApplication</StartupObject>
+    <RootNamespace>BrainWork.FormConceptTest</RootNamespace>
+    <AssemblyName>BrainWork.FormConceptTest</AssemblyName>
+    <MyType>WindowsForms</MyType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -17,7 +18,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>BrainWork.IDataAccess.xml</DocumentationFile>
+    <DocumentationFile>BrainWork.FormConceptTest.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -26,12 +27,15 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>BrainWork.IDataAccess.xml</DocumentationFile>
+    <DocumentationFile>BrainWork.FormConceptTest.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -40,10 +44,18 @@
     <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
     <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IConnectionManager.vb" />
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -61,6 +73,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Form1.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -78,16 +94,6 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BrainWork.DataAccess\BrainWork.DataAccessTrunk\BrainWork.DataAccessTrunk.vbproj">
-      <Project>{2C89BF55-F359-4A36-B87D-85CC36310964}</Project>
-      <Name>BrainWork.DataAccessTrunk</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BrainWork.Entity\BrainWork.Entity.vbproj">
-      <Project>{72B3C9B3-15AE-4268-B679-9C9004E73CF6}</Project>
-      <Name>BrainWork.Entity</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
