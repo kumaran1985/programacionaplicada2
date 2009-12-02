@@ -85,6 +85,24 @@ Public Interface IConnectionManager
 
     Function ParamObjectArrayToDBParam(ByVal param As DataAccessTrunk.DBParams()) As IDataParameterCollection
 
+    Function GetEntity(ByVal entity As BrainWork.Entity.IEntity) As Object
+
+    Function GetEntityList(ByVal entity As BrainWork.Entity.IEntity) As System.Collections.IList
+
+
+    Function GetEntity(ByVal StoredProcedure As String, ByVal entity As BrainWork.Entity.IEntity) As Object
+
+    Function GetEntityList(ByVal StoredProcedure As String, ByVal entity As BrainWork.Entity.IEntity) As System.Collections.IList
+
+
+    Function GetEntityList(ByVal StoredProcedure As String, ByVal entity As BrainWork.Entity.IEntity, ByVal SpecialFilter As String) As System.Collections.IList
+
+
+    Function GetEntityList(ByVal StoredProcedure As String, ByVal entity As BrainWork.Entity.IEntity, ByVal OrJoin As Boolean) As System.Collections.IList
+
+    Function GetEntityList(ByVal entity As BrainWork.Entity.IEntity, ByVal OrJoin As Boolean) As System.Collections.IList
+
+
 
 
 
