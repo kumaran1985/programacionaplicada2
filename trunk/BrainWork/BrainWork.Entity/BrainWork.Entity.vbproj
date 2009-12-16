@@ -79,6 +79,12 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BrainWork.DataAccess\BrainWork.DataAccessTrunk\BrainWork.DataAccessTrunk.vbproj">
+      <Project>{2C89BF55-F359-4A36-B87D-85CC36310964}</Project>
+      <Name>BrainWork.DataAccessTrunk</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

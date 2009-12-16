@@ -48,6 +48,7 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccessBase.vb" />
     <Compile Include="DataManager.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -86,6 +87,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BrainWork.Entity\BrainWork.Entity.vbproj">
+      <Project>{72B3C9B3-15AE-4268-B679-9C9004E73CF6}</Project>
+      <Name>BrainWork.Entity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\BrainWork.IDataAccess\BrainWork.IDataAccess.vbproj">
       <Project>{B8D3A5FE-A6CA-4FDA-9E11-083259C935CC}</Project>
       <Name>BrainWork.IDataAccess</Name>
