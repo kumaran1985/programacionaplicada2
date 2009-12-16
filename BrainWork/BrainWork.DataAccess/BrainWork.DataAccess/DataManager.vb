@@ -57,7 +57,7 @@ Public Class DataManager
 
     Public Event Connected(ByVal sender As Object, ByVal e As System.EventArgs) Implements IDataAccess.IConnectionManager.Connected
 
-     
+
     Public Event Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Implements IDataAccess.IConnectionManager.Disposed
 
     Public Function GetCommand() As System.Data.IDbCommand Implements IDataAccess.IConnectionManager.GetCommand
@@ -76,7 +76,7 @@ Public Class DataManager
         Return _ConnectionManager.GetCommandForText
     End Function
 
-    
+
     Public Sub TransactionCommit() Implements IDataAccess.IConnectionManager.TransactionCommit
         _ConnectionManager.TransactionCommit()
     End Sub
@@ -93,13 +93,17 @@ Public Class DataManager
         Return _ConnectionManager.Connect
     End Function
 
-     
+
 
     Public Function Disconect() As Boolean Implements IDataAccess.IConnectionManager.Disconect
         Return _ConnectionManager.Disconect
     End Function
 
     Public Function ExecuteNonQuery(ByVal strSql As String) As Object Implements IDataAccess.IConnectionManager.ExecuteNonQuery
+        Return _ConnectionManager.ExecuteNonQuery(strSql)
+    End Function
+
+    Public Function ExecuteInsert(ByVal strSql As String) As Object
         Return _ConnectionManager.ExecuteNonQuery(strSql)
     End Function
 
@@ -125,7 +129,7 @@ Public Class DataManager
         Return _ConnectionManager.NewArrayFromTable(StoredName)
     End Function
 
-    
+
 
     Public Function GetOpenConnection() As IDataAccess.IConnectionManager Implements IDataAccess.IConnectionManager.GetOpenConnection
         Return _ConnectionManager.GetOpenConnection()
@@ -139,5 +143,105 @@ Public Class DataManager
 
     Public Function GetBlankCommand() As System.Data.IDbCommand Implements IDataAccess.IConnectionManager.GetBlankCommand
         Return _ConnectionManager.GetBlankCommand
+    End Function
+
+    Public Function ExecuteNonQuery1(ByVal StoredProcedureName As String, ByVal ParamArray DBParameters() As DataAccessTrunk.DBParams) As Object Implements IDataAccess.IConnectionManager.ExecuteNonQuery
+
+    End Function
+
+    Public Function GetDataSet1(ByVal oEntity As Object) As System.Data.DataSet Implements IDataAccess.IConnectionManager.GetDataSet
+
+    End Function
+
+    Public Function GetDataSet1(ByVal StoredProcedureName As String, ByVal ParamArray DBParameters() As DataAccessTrunk.DBParams) As System.Data.DataSet Implements IDataAccess.IConnectionManager.GetDataSet
+
+    End Function
+
+    Public Function GetDataSet1(ByVal StoredProcedureName As String, ByVal oEntity As Object, ByVal EntityType As System.Type) As System.Data.DataSet Implements IDataAccess.IConnectionManager.GetDataSet
+
+    End Function
+
+    Public Function GetDataTable1(ByVal oEntity As Object) As System.Data.DataTable Implements IDataAccess.IConnectionManager.GetDataTable
+
+    End Function
+
+    Public Function GetDataTable1(ByVal StoredProcedureName As String, ByVal ParamArray DBParameters() As DataAccessTrunk.DBParams) As System.Data.DataTable Implements IDataAccess.IConnectionManager.GetDataTable
+
+    End Function
+
+    Public Function GetDataTable1(ByVal StoredProcedureName As String, ByVal oEntity As Object, ByVal EntityType As System.Type) As System.Data.DataTable Implements IDataAccess.IConnectionManager.GetDataTable
+
+    End Function
+
+    Public Function GetEntity(ByVal entity As Entity.IEntity) As Object Implements IDataAccess.IConnectionManager.GetEntity
+
+    End Function
+
+    Public Function GetEntity(ByVal StoredProcedure As String, ByVal entity As Entity.IEntity) As Object Implements IDataAccess.IConnectionManager.GetEntity
+
+    End Function
+
+    Public Function GetEntityList(ByVal entity As Entity.IEntity) As System.Collections.IList Implements IDataAccess.IConnectionManager.GetEntityList
+
+    End Function
+
+    Public Function GetEntityList(ByVal entity As Entity.IEntity, ByVal OrJoin As Boolean) As System.Collections.IList Implements IDataAccess.IConnectionManager.GetEntityList
+
+    End Function
+
+    Public Function GetEntityList(ByVal StoredProcedure As String, ByVal entity As Entity.IEntity) As System.Collections.IList Implements IDataAccess.IConnectionManager.GetEntityList
+
+    End Function
+
+    Public Function GetEntityList(ByVal StoredProcedure As String, ByVal entity As Entity.IEntity, ByVal OrJoin As Boolean) As System.Collections.IList Implements IDataAccess.IConnectionManager.GetEntityList
+
+    End Function
+
+    Public Function GetEntityList(ByVal StoredProcedure As String, ByVal entity As Entity.IEntity, ByVal SpecialFilter As String) As System.Collections.IList Implements IDataAccess.IConnectionManager.GetEntityList
+
+    End Function
+
+    Public Function GetObject(ByVal StoredProcedureName As String, ByVal ParamArray DBParameters() As DataAccessTrunk.DBParams) As Object Implements IDataAccess.IConnectionManager.GetObject
+
+    End Function
+
+    Public Function GetObjectList(ByVal StoredProcedureName As String, ByVal ParamArray DBParameters() As DataAccessTrunk.DBParams) As System.Collections.IList Implements IDataAccess.IConnectionManager.GetObjectList
+
+    End Function
+
+    Public Function ParamObjectArrayToDBParam(ByVal param() As DataAccessTrunk.DBParams) As System.Data.IDataParameterCollection Implements IDataAccess.IConnectionManager.ParamObjectArrayToDBParam
+
+    End Function
+
+    Public Function ParamObjectToDBParam(ByVal param As DataAccessTrunk.DBParams) As System.Data.IDataParameter Implements IDataAccess.IConnectionManager.ParamObjectToDBParam
+
+    End Function
+
+    Public Function GetEntity(ByVal entity As Entity.IEntity) As Object Implements IDataAccess.IConnectionManager.GetEntity
+
+    End Function
+
+    Public Function GetEntity(ByVal StoredProcedure As String, ByVal entity As Entity.IEntity) As Object Implements IDataAccess.IConnectionManager.GetEntity
+
+    End Function
+
+    Public Function GetEntityList(ByVal entity As Entity.IEntity) As System.Collections.IList Implements IDataAccess.IConnectionManager.GetEntityList
+
+    End Function
+
+    Public Function GetEntityList(ByVal entity As Entity.IEntity, ByVal OrJoin As Boolean) As System.Collections.IList Implements IDataAccess.IConnectionManager.GetEntityList
+
+    End Function
+
+    Public Function GetEntityList(ByVal StoredProcedure As String, ByVal entity As Entity.IEntity) As System.Collections.IList Implements IDataAccess.IConnectionManager.GetEntityList
+
+    End Function
+
+    Public Function GetEntityList(ByVal StoredProcedure As String, ByVal entity As Entity.IEntity, ByVal OrJoin As Boolean) As System.Collections.IList Implements IDataAccess.IConnectionManager.GetEntityList
+
+    End Function
+
+    Public Function GetEntityList(ByVal StoredProcedure As String, ByVal entity As Entity.IEntity, ByVal SpecialFilter As String) As System.Collections.IList Implements IDataAccess.IConnectionManager.GetEntityList
+
     End Function
 End Class
