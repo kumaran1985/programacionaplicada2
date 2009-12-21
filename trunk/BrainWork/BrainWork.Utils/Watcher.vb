@@ -1,5 +1,4 @@
-Public Class Watcher
-
+Public Class Watcher 
     Public Shared Sub Main()
         Dim args() As String = System.Environment.GetCommandLineArgs()
         ' If a directory is not specified, exit the program.
