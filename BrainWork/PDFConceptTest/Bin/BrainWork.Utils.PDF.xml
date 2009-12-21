@@ -1,0 +1,20 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+BrainWork.Utils.PDF
+</name>
+</assembly>
+<members>
+<member name="M:BrainWork.Utils.PDF.PDFDocument.GetTable(System.Int32,System.Int32,System.Int32[])">
+	<summary>
+ retorna una clase para armar la tabla
+ </summary>
+	<param name="rows">cantidad de filas</param>
+	<param name="cols">cantidad de columnas</param>
+	<param name="widths">arrays de los anchos de cada una de las columnas</param>
+	<returns></returns>
+	<remarks></remarks>
+</member>
+</members>
+</doc>
