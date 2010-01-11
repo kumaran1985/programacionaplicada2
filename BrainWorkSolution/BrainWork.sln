@@ -29,6 +29,10 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ConsoleConceptTes", "Consol
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.vbproj", "{76D8637F-71FE-4C03-B4D5-DBCF86547C25}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BrainWork.Connections.SQLConnection", "BrainWork.Connections.SQLConnection\BrainWork.Connections.SQLConnection.vbproj", "{5BE8A0A4-770C-4F2C-B7E1-503D1DA1128D}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BrainWork.Connections", "BrainWork.Connections\BrainWork.Connections.vbproj", "{9E74306D-2CF5-4FEC-981E-11E182CFC30D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +95,14 @@ Global
 		{76D8637F-71FE-4C03-B4D5-DBCF86547C25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76D8637F-71FE-4C03-B4D5-DBCF86547C25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76D8637F-71FE-4C03-B4D5-DBCF86547C25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BE8A0A4-770C-4F2C-B7E1-503D1DA1128D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BE8A0A4-770C-4F2C-B7E1-503D1DA1128D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BE8A0A4-770C-4F2C-B7E1-503D1DA1128D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BE8A0A4-770C-4F2C-B7E1-503D1DA1128D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E74306D-2CF5-4FEC-981E-11E182CFC30D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E74306D-2CF5-4FEC-981E-11E182CFC30D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E74306D-2CF5-4FEC-981E-11E182CFC30D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E74306D-2CF5-4FEC-981E-11E182CFC30D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

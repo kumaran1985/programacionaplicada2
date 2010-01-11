@@ -1,31 +1,57 @@
 Imports System.Reflection
 Module Module12
-
+    Public WithEvents ess As New eventsample
     Sub Main()
 
-        Dim s As New EntitiClassTest
-        s.CampoDeLaBase = "ssdfsdfs"
+
+
+        ess.prueba()
+
+
+        'Dim s As New EntitiClassTest
+        's.CampoDeLaBase = "ssdfsdfs"
 
 
 
-        Dim fp As BrainWork.Entities.EntityFieldExtendsAttribute = s.GetFieldProperties("CampoDeLaBase")
+        'Dim fp As BrainWork.Entities.EntityFieldExtendsAttribute = s.GetFieldProperties("CampoDeLaBase")
 
-        Dim o As BrainWork.Entities.EntityClassExtendsAttribute = s.ExtendedClassAttributes
-        Console.WriteLine(fp.FieldDescription)
-        Console.WriteLine(o.PrimaryKeyFieldName)
+        'Dim o As BrainWork.Entities.EntityClassExtendsAttribute = s.ExtendedClassAttributes
+        'Console.WriteLine(fp.FieldDescription)
+        'Console.WriteLine(o.PrimaryKeyFieldName)
 
-        ''[Enum].GetName(s.GetType, s.CampoDeLaBase)
-        ''System.Reflection.PropertyInfo = s.GetType.getp
+        ' ''[Enum].GetName(s.GetType, s.CampoDeLaBase)
+        ' ''System.Reflection.PropertyInfo = s.GetType.getp
 
-        'Console.WriteLine(GetCustomAttributeValue(s.GetType, s.CampoDeLaBase, "FieldDescription"))
+        ''Console.WriteLine(GetCustomAttributeValue(s.GetType, s.CampoDeLaBase, "FieldDescription"))
 
 
-        'Console.WriteLine(GetCustomAttributeValue(s.GetType, "campoDeLaBase", "FieldDescription"))
+        ''Console.WriteLine(GetCustomAttributeValue(s.GetType, "campoDeLaBase", "FieldDescription"))
 
 
         Console.ReadLine()
 
     End Sub
+
+    Public Class eventsample
+        Public Shared Event oEvent(ByVal o As Object, ByVal e As EventArgs)
+
+
+        Private Sub MiEvent(ByVal o As Object, ByVal e As EventArgs) Handles Me.oEvent
+
+
+
+        End Sub
+
+        Public Sub prueba()
+            RaiseEvent oEvent(Me, New EventArgs)
+
+        End Sub
+
+
+
+
+
+    End Class
 
 
 

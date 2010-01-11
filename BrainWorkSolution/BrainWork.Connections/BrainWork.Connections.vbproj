@@ -5,10 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A8FB47E4-4949-4CAA-8804-5ACC9BD15E66}</ProjectGuid>
+    <ProjectGuid>{9E74306D-2CF5-4FEC-981E-11E182CFC30D}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>BrainWork.Security</RootNamespace>
-    <AssemblyName>BrainWork.Security</AssemblyName>
+    <RootNamespace>BrainWork.Connections</RootNamespace>
+    <AssemblyName>BrainWork.Connections</AssemblyName>
     <MyType>Windows</MyType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -17,7 +17,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>BrainWork.Security.xml</DocumentationFile>
+    <DocumentationFile>BrainWork.Connections.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -26,7 +26,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>BrainWork.Security.xml</DocumentationFile>
+    <DocumentationFile>BrainWork.Connections.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <ItemGroup>
@@ -43,8 +43,9 @@
     <Import Include="System.Diagnostics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationUser.vb" />
-    <Compile Include="Exceptions\NotUserLoggedException.vb" />
+    <Compile Include="AbstractConnection.vb" />
+    <Compile Include="ConnectionTypeEnum.vb" />
+    <Compile Include="Interfaces\IDBrainWorkConnection.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -79,6 +80,16 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BrainWork.Security\BrainWork.Security.vbproj">
+      <Project>{A8FB47E4-4949-4CAA-8804-5ACC9BD15E66}</Project>
+      <Name>BrainWork.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrainWork.Utils.Audit.Log\BrainWork.Utils.Audit.Log.vbproj">
+      <Project>{0D07AC75-8BA9-4785-8E3B-FDDA88DBD437}</Project>
+      <Name>BrainWork.Utils.Audit.Log</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
