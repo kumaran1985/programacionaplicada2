@@ -1,6 +1,7 @@
 Imports BrainWork.Security
 Public MustInherit Class AbstractConnection
-    Protected MustOverride Function CastParameter(ByVal p As System.Data.Common.DbParameter) As System.Data.Common.DbParameter
+
+
     Public Event OnConnect(ByVal source As Object, ByVal e As System.EventArgs)
     Public Event OnDisconect(ByVal source As Object, ByVal e As System.EventArgs)
     Public Event OnOpenConnection(ByVal source As Object, ByVal e As System.EventArgs)
@@ -35,7 +36,9 @@ Public MustInherit Class AbstractConnection
     Public Sub DBConnection_OnModifyValues(ByVal source As Object, ByVal e As System.EventArgs) Handles Me.OnModifyValues
 
     End Sub
- 
+
+    
+
 
     Public _ApplicationUser As ApplicationUser
     Public ReadOnly Property ApplicationUser() As ApplicationUser
@@ -57,7 +60,7 @@ Public MustInherit Class AbstractConnection
         AddHandler Me.OnOpenConnection, AddressOf DBConnection_OnOpenConnection
         AddHandler Me.OnDisconect, AddressOf DBConnection_OnDisconect
         AddHandler Me.OnConnect, AddressOf DBConnection_OnConnect
-       
+
     End Sub
 
 End Class

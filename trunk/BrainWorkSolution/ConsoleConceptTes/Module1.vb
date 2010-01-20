@@ -1,11 +1,16 @@
 Imports System.Reflection
+Imports System.Linq.Expressions
+
 Module Module12
     Public WithEvents ess As New eventsample
     Sub Main()
 
+        Dim da2 As New DataAccess(New BrainWork.Security.ApplicationUser())
+        'da.RollBackTransaction()
+        GetPropertyName(Function(da As DataAccess) da.ApplicationUser, da2)
+        ' Console.WriteLine(da.UnDataset().ToString)
 
-
-        ess.prueba()
+        'ess.prueba()
 
 
         'Dim s As New EntitiClassTest
@@ -31,6 +36,26 @@ Module Module12
         Console.ReadLine()
 
     End Sub
+
+    Public Function GetPropertyName(Of T, TReturn)(ByVal expression As Expression(Of Func(Of T, TReturn)), ByVal value As Object) As BrainWork.Entities.EntityFieldExtendsAttribute()
+        Dim body As MemberExpression = DirectCast(expression.Body, MemberExpression)
+
+        Dim att() As BrainWork.Entities.EntityFieldExtendsAttribute
+
+
+        Dim MyMemberInfo As MemberInfo() = value.GetType.GetMember(body.Member.Name) 't.GetProperties()
+
+        If MyMemberInfo Is Nothing OrElse MyMemberInfo.Length = 0 Then
+            Return Nothing
+        End If
+        att = Attribute.GetCustomAttributes(MyMemberInfo(0), GetType(BrainWork.Entities.EntityFieldExtendsAttribute))
+
+        If att Is Nothing OrElse att.Length = 0 Then
+            Return Nothing
+        End If
+
+        Return att
+    End Function
 
     Public Class eventsample
         Public Shared Event oEvent(ByVal o As Object, ByVal e As EventArgs)
@@ -208,6 +233,7 @@ Module Module12
     '    'End If
     'End Function
 
+     
 End Module
 
 
