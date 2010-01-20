@@ -22,7 +22,7 @@ Public NotInheritable Class ConfigXML
         ClearValues()
         _currentPath = Nothing
 
-        ApplicationPath = System.IO.Path.GetDirectoryName(GetType(Config).Assembly.CodeBase).Remove(0, "file:\".Length) & "\"
+        ' ApplicationPath = System.IO.Path.GetDirectoryName(GetType(Config).Assembly.CodeBase).Remove(0, "file:\".Length) & "\"
 
     End Sub
 
