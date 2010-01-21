@@ -2,7 +2,8 @@ Option Strict On
 Option Explicit On
 <System.AttributeUsage(System.AttributeTargets.Property, AllowMultiple:=False), System.Serializable()> _
 Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
-    Implements System.Data.IDbDataParameter
+    Implements Interfaces.IEntityFieldExtendsAttribute
+
 
     Private _DefaultValue As Object
     Private _ForeingTable As String
@@ -23,7 +24,7 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
     Private _Scale As Byte
     Private _Size As Integer
 
-    Public Property FieldName() As String
+    Public Property FieldName() As String Implements Interfaces.IEntityFieldExtendsAttribute.FieldName
         Get
             Return _FieldName
         End Get
@@ -32,7 +33,8 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
         End Set
     End Property
 
-    Public Property FieldDescription() As String
+    Public Property FieldDescription() As String Implements Interfaces.IEntityFieldExtendsAttribute.FieldDescription
+
         Get
             Return _FieldDescription
         End Get
@@ -41,7 +43,7 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
         End Set
     End Property
 
-    Public Property FieldType() As EnumFieldType
+    Public Property FieldType() As EnumFieldType Implements Interfaces.IEntityFieldExtendsAttribute.FieldType
         Get
             Return _FieldType
         End Get
@@ -50,7 +52,7 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
         End Set
     End Property
 
-    Public Property ForeingTable() As String
+    Public Property ForeingTable() As String Implements Interfaces.IEntityFieldExtendsAttribute.ForeingTable
         Get
             Return _ForeingTable
         End Get
@@ -59,7 +61,7 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
         End Set
     End Property
 
-    Public Property DefaultValue() As Object
+    Public Property DefaultValue() As Object Implements Interfaces.IEntityFieldExtendsAttribute.DefaultValue
         Get
             Return _DefaultValue
         End Get
@@ -68,7 +70,7 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
         End Set
     End Property
 
-    Public Property MainTable() As String
+    Public Property MainTable() As String Implements Interfaces.IEntityFieldExtendsAttribute.MainTable
         Get
             Return _MainTable
         End Get
@@ -77,7 +79,7 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
         End Set
     End Property
 
-    Private Property Constraint() As String
+    Private Property Constraint() As String Implements Interfaces.IEntityFieldExtendsAttribute.Constraint
         Get
             Return _Constraint
         End Get
@@ -173,4 +175,7 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
             _Size = value
         End Set
     End Property
+ 
+     
+   
 End Class
