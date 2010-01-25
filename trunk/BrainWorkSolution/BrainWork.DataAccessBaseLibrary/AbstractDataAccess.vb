@@ -23,71 +23,11 @@ Public MustInherit Class AbstractDataAccess
     End Sub
 
 
+    Public Function GetEntityFieldExtendsAttributes() As BrainWork.Entities.EntityFieldExtendsAttribute
 
-    Public Function GetPropertyName(Of T, TReturn)(ByVal expression As Expression(Of Func(Of T, TReturn))) As BrainWork.Entities.EntityFieldExtendsAttribute()
-        Dim body As MemberExpression = DirectCast(expression.Body, MemberExpression)
-
-        Dim att() As BrainWork.Entities.EntityFieldExtendsAttribute
- 
-
-        Dim MyMemberInfo As MemberInfo() '= T.GetMember(body.Member.Name) 't.GetProperties()
-
-        If MyMemberInfo Is Nothing OrElse MyMemberInfo.Length = 0 Then
-            Return Nothing
-        End If
-        att = Attribute.GetCustomAttributes(MyMemberInfo(0), GetType(BrainWork.Entities.EntityFieldExtendsAttribute))
-
-        If att Is Nothing OrElse att.Length = 0 Then
-            Return Nothing
-        End If
-
-        Return att
     End Function
 
-
-
-
-
-    Public Function GetCustomAttributeValue(ByVal t As Type, ByVal PropertyName As String, ByVal attributeName As String) As Object
-        Dim attArray As BrainWork.Entities.EntityFieldExtendsAttribute()
-
-        attArray = GetPropertyAttribute(t, PropertyName)
-
-
-        If Not attArray Is Nothing AndAlso attArray.Length > 0 Then
-
-            For Each att As BrainWork.Entities.EntityFieldExtendsAttribute In attArray
-
-                Dim pi() As Reflection.PropertyInfo = att.GetType.GetProperties()
-
-                For Each p As PropertyInfo In pi
-                    If p.Name.ToLower = attributeName.ToLower Then
-                        Return p.GetValue(att, Nothing)
-                    End If
-                Next
-            Next
-        End If
-        Return Nothing
-    End Function
-
-    Public Function GetPropertyAttribute(ByVal t As Type, ByVal MemberName As String) As BrainWork.Entities.EntityFieldExtendsAttribute()
-
-        Dim att() As BrainWork.Entities.EntityFieldExtendsAttribute
-
-
-        Dim MyMemberInfo As MemberInfo() = t.GetMember(MemberName) 't.GetProperties()
-
-        If MyMemberInfo Is Nothing OrElse MyMemberInfo.Length = 0 Then
-            Return Nothing
-        End If
-        att = Attribute.GetCustomAttributes(MyMemberInfo(0), GetType(BrainWork.Entities.EntityFieldExtendsAttribute))
-
-        If att Is Nothing OrElse att.Length = 0 Then
-            Return Nothing
-        End If
-
-        Return att
-    End Function
+    
 
     Public MustOverride Function Add(ByVal oEntity As Object) As Boolean
     Public MustOverride Function Update(ByVal oEntity As Object) As Boolean

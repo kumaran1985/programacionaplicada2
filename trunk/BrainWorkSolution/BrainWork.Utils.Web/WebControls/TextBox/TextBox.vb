@@ -32,6 +32,12 @@ Namespace WebControls
         Private _Size As Integer
         Private _OnBlur As List(Of String)
 
+        Private _CustomValidationExpression As System.Text.RegularExpressions.Regex
+        Private _ForeingCRUD As Object
+        Private _Order As Integer
+        Private _RelationType As EnumRelationType
+        Private _Visibility As EnumVisibility
+
         <Bindable(True), Category("Appearance"), DefaultValue(""), Localizable(True)> Property Text() As String
             Get
                 Dim s As String = CStr(ViewState("Text"))
@@ -127,16 +133,7 @@ Namespace WebControls
 
         End Sub
 
-        Private Sub renderizarControl(ByRef writer As HtmlTextWriter)
-
-            writer.WriteBeginTag("span")
-            writer.WriteAttribute("id", Me.ClientID & "_Label")
-            writer.Write(System.Web.UI.HtmlTextWriter.SelfClosingTagEnd)
-
-            If Not String.IsNullOrEmpty(Me.FieldDescription) Then
-                writer.WriteEncodedText(Me.FieldDescription & "  ")
-            End If
-
+        Private Sub CreateTextBox(ByRef writer As HtmlTextWriter)
             '<object  
             writer.WriteBeginTag("input")
 
@@ -147,6 +144,23 @@ Namespace WebControls
 
             writer.WriteAttribute("id", Me.ClientID)
 
+            AppendOnBlur(writer)
+
+            writer.Write(System.Web.UI.HtmlTextWriter.SelfClosingTagEnd)
+
+        End Sub
+
+        Private Sub CreateComboBox(ByRef writer As HtmlTextWriter)
+
+        End Sub
+
+        Private Sub CreatePopUp(ByRef writer As HtmlTextWriter)
+
+        End Sub
+
+
+        Private Sub AppendOnBlur(ByRef writer As HtmlTextWriter)
+
             If Me.OnBlur.Count > 0 Then
                 Dim sb As New System.Text.StringBuilder()
                 For Each att As String In Me.OnBlur
@@ -155,12 +169,34 @@ Namespace WebControls
                 Next
                 writer.WriteAttribute("onblur", sb.ToString)
             End If
+        End Sub
 
 
+        Private Sub renderizarControl(ByRef writer As HtmlTextWriter)
+
+            writer.WriteBeginTag("span")
+            writer.WriteAttribute("id", Me.ClientID & "_Label")
             writer.Write(System.Web.UI.HtmlTextWriter.SelfClosingTagEnd)
 
+            If Not String.IsNullOrEmpty(Me.FieldDescription) Then
+                writer.WriteEncodedText(Me.FieldDescription & "  ")
+            End If
 
             writer.WriteEndTag("span")
+
+
+            Select Case Me.RelationType
+                Case EnumRelationType.Combo
+                    Me.CreatePopUp(writer)
+                Case EnumRelationType.Embebed
+
+                Case EnumRelationType.PopUp
+                    Me.CreatePopUp(writer)
+
+                Case Else
+                    Me.CreateTextBox(writer)
+            End Select
+
             'writer.Write(System.Web.UI.HtmlTextWriter.TagRightChar)
 
             '
@@ -373,6 +409,51 @@ Namespace WebControls
             End Set
         End Property
 
+
+        Public Property CustomValidationExpression() As System.Text.RegularExpressions.Regex Implements Interfaces.IEntityFieldExtendsAttribute.CustomValidationExpression
+            Get
+                Return _CustomValidationExpression
+            End Get
+            Set(ByVal value As System.Text.RegularExpressions.Regex)
+
+            End Set
+        End Property
+
+        Public Property ForeingCRUD() As Object Implements Interfaces.IEntityFieldExtendsAttribute.ForeingCRUD
+            Get
+                Return _ForeingCRUD
+            End Get
+            Set(ByVal value As Object)
+                _ForeingCRUD = value
+            End Set
+        End Property
+
+        Public Property Order() As Integer Implements Interfaces.IEntityFieldExtendsAttribute.Order
+            Get
+                Return _Order
+            End Get
+            Set(ByVal value As Integer)
+                _Order = value
+            End Set
+        End Property
+
+        Public Property RelationType() As EnumRelationType Implements Interfaces.IEntityFieldExtendsAttribute.RelationType
+            Get
+                Return _RelationType
+            End Get
+            Set(ByVal value As EnumRelationType)
+                _RelationType = value
+            End Set
+        End Property
+
+        Public Property Visibility() As EnumVisibility Implements Interfaces.IEntityFieldExtendsAttribute.Visibility
+            Get
+                Return _Visibility
+            End Get
+            Set(ByVal value As EnumVisibility)
+                _Visibility = value
+            End Set
+        End Property
 
     End Class
 End Namespace
