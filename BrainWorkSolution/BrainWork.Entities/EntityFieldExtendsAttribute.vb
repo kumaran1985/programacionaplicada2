@@ -24,6 +24,14 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
     Private _Scale As Byte
     Private _Size As Integer
 
+
+    Private _CustomValidationExpression As System.Text.RegularExpressions.Regex
+    Private _ForeingCRUD As Object
+    Private _Order As Integer
+    Private _RelationType As EnumRelationType = EnumRelationType.TextBox
+    Private _Visibility As EnumVisibility = EnumVisibility.Normal
+
+
     Public Property FieldName() As String Implements Interfaces.IEntityFieldExtendsAttribute.FieldName
         Get
             Return _FieldName
@@ -175,7 +183,51 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
             _Size = value
         End Set
     End Property
- 
-     
-   
+
+
+
+    Public Property CustomValidationExpression() As System.Text.RegularExpressions.Regex Implements Interfaces.IEntityFieldExtendsAttribute.CustomValidationExpression
+        Get
+            Return _CustomValidationExpression
+        End Get
+        Set(ByVal value As System.Text.RegularExpressions.Regex)
+
+        End Set
+    End Property
+
+    Public Property ForeingCRUD() As Object Implements Interfaces.IEntityFieldExtendsAttribute.ForeingCRUD
+        Get
+            Return _ForeingCRUD
+        End Get
+        Set(ByVal value As Object)
+            _ForeingCRUD = value
+        End Set
+    End Property
+
+    Public Property Order() As Integer Implements Interfaces.IEntityFieldExtendsAttribute.Order
+        Get
+            Return _Order
+        End Get
+        Set(ByVal value As Integer)
+            _Order = value
+        End Set
+    End Property
+
+    Public Property RelationType() As EnumRelationType Implements Interfaces.IEntityFieldExtendsAttribute.RelationType
+        Get
+            Return _RelationType
+        End Get
+        Set(ByVal value As EnumRelationType)
+            _RelationType = value
+        End Set
+    End Property
+
+    Public Property Visibility() As EnumVisibility Implements Interfaces.IEntityFieldExtendsAttribute.Visibility
+        Get
+            Return _Visibility
+        End Get
+        Set(ByVal value As EnumVisibility)
+            _Visibility = value
+        End Set
+    End Property
 End Class
