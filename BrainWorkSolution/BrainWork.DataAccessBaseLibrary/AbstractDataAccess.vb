@@ -24,7 +24,7 @@ Public MustInherit Class AbstractDataAccess
 
 
     Public Function GetEntityFieldExtendsAttributes() As BrainWork.Entities.EntityFieldExtendsAttribute
-
+        Return Nothing
     End Function
 
     
