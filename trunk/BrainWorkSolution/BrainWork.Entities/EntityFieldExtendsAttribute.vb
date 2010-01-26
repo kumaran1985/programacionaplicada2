@@ -120,6 +120,11 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
             Return _IsNullable
         End Get
     End Property
+    Public WriteOnly Property SetNullable() As Boolean
+        Set(ByVal value As Boolean)
+            _IsNullable = value
+        End Set
+    End Property
 
     Public Property ParameterName() As String Implements System.Data.IDataParameter.ParameterName
         Get

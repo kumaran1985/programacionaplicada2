@@ -66,7 +66,7 @@ Namespace WebControls
 
 
 
-        <Bindable(True), Category("Appearance"), DefaultValue("CustomTextBox"), Localizable(True)> Property CssClass() As String
+        <Bindable(True), Category("Appearance"), DefaultValue("CustomTextBox"), Localizable(True)> Overrides Property CssClass() As String
             Get
                 Dim s As String = TryCast(ViewState("_CssClass"), String)
                 If s Is Nothing Then
