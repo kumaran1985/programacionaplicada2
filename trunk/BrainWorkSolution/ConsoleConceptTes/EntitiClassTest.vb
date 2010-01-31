@@ -5,7 +5,7 @@ RootContainerName:="sadsd")> _
 Public Class EntitiClassTest
     Inherits BrainWork.Entities.AbstractEntityBase
     Private _CampoDeLaBase As String
-    <EntityFieldExtendsAttribute(FieldDescription:="asdads", defaultvalue:="sadsd", fielddescription:="asd asdasdas")> _
+    '   <EntityFieldExtendsAttribute(DbType:=DbType.String, DefaultValue:="", Direction:=ParameterDirection.Input, FieldDescription:="", FieldName:="", FieldType:=EnumFieldType.Field, ForeingCRUD:="", ForeingTable:="", MainTable:="", Order:=0, ParameterName:="", Precision:="", RelationType:=EnumRelationType.PopUp, Scale:=0, SetNullable:=True, size:=0, SourceColumn:="", SourceVersion:=DataRowVersion.Current, Value:=0, Visibility:=EnumVisibility.Normal)> _
     Public Property CampoDeLaBase() As String
         Get
             Return _CampoDeLaBase
@@ -16,3 +16,4 @@ Public Class EntitiClassTest
     End Property
     '<EntityFieldExtendsAttribute(Direction:=ParameterDirection.Output)> _
 End Class
+

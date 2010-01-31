@@ -25,6 +25,11 @@
 
         Property CustomValidationExpression() As System.Text.RegularExpressions.Regex
 
+        Property TypeName() As String
+
+        Property EntityClassContainer() As String
+
+
 
 
 
