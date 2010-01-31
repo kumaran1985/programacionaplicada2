@@ -30,6 +30,9 @@ Namespace WebControls
         Private _Precision As Byte
         Private _Scale As Byte
         Private _Size As Integer
+        Private _EntityClassContainer As String
+        Private _TypeName As String
+
         Private _OnBlur As List(Of String)
 
         Private _CustomValidationExpression As System.Text.RegularExpressions.Regex
@@ -37,6 +40,16 @@ Namespace WebControls
         Private _Order As Integer
         Private _RelationType As EnumRelationType
         Private _Visibility As EnumVisibility
+
+
+        Public Property EntityClassContainer() As String Implements Interfaces.IEntityFieldExtendsAttribute.EntityClassContainer
+            Get
+                Return _EntityClassContainer
+            End Get
+            Set(ByVal value As String)
+                _EntityClassContainer = value
+            End Set
+        End Property
 
         <Bindable(True), Category("Appearance"), DefaultValue(""), Localizable(True)> Property Text() As String
             Get
@@ -452,6 +465,15 @@ Namespace WebControls
             End Get
             Set(ByVal value As EnumVisibility)
                 _Visibility = value
+            End Set
+        End Property
+
+        Public Property TypeName() As String Implements Interfaces.IEntityFieldExtendsAttribute.TypeName
+            Get
+                Return _TypeName
+            End Get
+            Set(ByVal value As String)
+                _TypeName = value
             End Set
         End Property
 

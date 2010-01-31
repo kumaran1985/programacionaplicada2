@@ -5,6 +5,7 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
     Implements Interfaces.IEntityFieldExtendsAttribute
 
 
+
     Private _DefaultValue As Object
     Private _ForeingTable As String
     Private _IsForeingKey As Boolean
@@ -23,6 +24,7 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
     Private _Precision As Byte
     Private _Scale As Byte
     Private _Size As Integer
+    Private _TypeName As String
 
 
     Private _CustomValidationExpression As System.Text.RegularExpressions.Regex
@@ -31,6 +33,16 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
     Private _RelationType As EnumRelationType = EnumRelationType.TextBox
     Private _Visibility As EnumVisibility = EnumVisibility.Normal
 
+    Private _EntityClassContainer As String
+
+    Public Property EntityClassContainer() As String Implements Interfaces.IEntityFieldExtendsAttribute.EntityClassContainer
+        Get
+            Return _EntityClassContainer
+        End Get
+        Set(ByVal value As String)
+            _EntityClassContainer = value
+        End Set
+    End Property
 
     Public Property FieldName() As String Implements Interfaces.IEntityFieldExtendsAttribute.FieldName
         Get
@@ -233,6 +245,15 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
         End Get
         Set(ByVal value As EnumVisibility)
             _Visibility = value
+        End Set
+    End Property
+
+    Public Property TypeName() As String Implements Interfaces.IEntityFieldExtendsAttribute.TypeName
+        Get
+            Return _TypeName
+        End Get
+        Set(ByVal value As String)
+            _TypeName = value
         End Set
     End Property
 End Class

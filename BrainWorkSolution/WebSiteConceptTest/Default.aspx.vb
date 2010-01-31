@@ -21,9 +21,13 @@ End Class
 Public Class Pop
     Inherits BrainWork.Entities.AbstractEntityBase
     Private _javier As String
-    <BrainWork.Entities.EntityFieldExtends(DbType:=Data.DbType.String, DefaultValue:="", Direction:=Data.ParameterDirection.Input, _
-                                           FieldDescription:="", FieldName:="TBL_CAMPO", FieldType:=BrainWork.Entities.EnumFieldType.PrimaryKey, _
-                                           ForeingCRUD:=Nothing, ForeingTable:="", MainTable:="")> _
+    '<BrainWork.Entities.EntityFieldExtends(DbType:=Data.DbType.String, DefaultValue:="", Direction:=Data.ParameterDirection.Input, _
+    '                                       FieldDescription:="", FieldName:="TBL_CAMPO", FieldType:=BrainWork.Entities.EnumFieldType.PrimaryKey, _
+    '                                       ForeingCRUD:=Nothing, ForeingTable:="", MainTable:="")> _
+    '
+    '<BrainWork.Entities.EntityFieldExtendsAttribute(FieldName:="CJA_Estado", FieldType:=Field, MainTable:=APERTURA_CAJA, Order:=8, ParameterName:=CJA_Estado, SourceColumn:=CJA_Estad)> _
+
+    <BrainWork.Entities.EntityFieldExtendsAttribute(FieldName:="CJA_Estado", FieldType:=BrainWork.Entities.EnumFieldType.Field, MainTable:="APERTURA_CAJA", Order:=8, ParameterName:="CJA_Estado", SourceColumn:="CJA_Estado")> _
     Public Property javier() As String
         Get
             Return _javier
