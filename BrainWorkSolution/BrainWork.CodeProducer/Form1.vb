@@ -4,6 +4,8 @@
         Dim c As New EntityCodeGenerator
         c.FillTables()
         c.CreateEntityClass()
+        c.CreateProcedures()
+
 
     End Sub
 End Class
