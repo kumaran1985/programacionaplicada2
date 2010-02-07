@@ -1,42 +1,258 @@
-﻿Imports System.Reflection
+﻿Option Explicit On
+Option Strict On
+Imports System.Reflection
 Imports System.Linq.Expressions
 
-
+<Serializable()> _
 Public MustInherit Class AbstractDataAccess
     Implements BrainWork.Connections.Interfaces.IDBrainWorkConnection
+
     Private _ConnectionManager As BrainWork.DataManager.ConnectionManager
     Private _userlogged As BrainWork.Security.ApplicationUser
+    Protected SP_ADD As String = Nothing
+    Protected SP_DELETE As String = Nothing
+    Protected SP_UPDATE As String = Nothing
+    Protected SP_DISABLE As String = Nothing
+    Protected SP_GETONE As String = Nothing
+    Protected SP_GETALL As String = Nothing
 
+    Private _Entity As BrainWork.Entities.AbstractEntityBase
+    Public Event OnAdd()
+    Public Event OnDelete()
+    Public Event OnUpdate()
+    Public Event OnDisable()
+
+  
+
+
+#Region "Propiedades Públicas"
     Public ReadOnly Property ApplicationUser() As BrainWork.Security.ApplicationUser
         Get
             Return _userlogged
         End Get
     End Property
+#End Region
 
-    Public Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)
-        Me._userlogged = oUser
-    End Sub
+#Region "Funciones de ABM Publicas"
 
+    Public Function Add() As Boolean
+        Dim strError As String = Nothing
 
-    Protected Sub AddEntity(ByVal oEntity As Object)
+        Try
+            AddEntity()
 
-    End Sub
-
-
-    Public Function GetEntityFieldExtendsAttributes() As BrainWork.Entities.EntityFieldExtendsAttribute
-        Return Nothing
+        Catch ex As Exception
+            Throw ex
+        End Try
+        Return True
     End Function
 
-    
+    Public Function Delete() As Boolean
+        Dim strError As String = Nothing
 
-    Public MustOverride Function Add(ByVal oEntity As Object) As Boolean
-    Public MustOverride Function Update(ByVal oEntity As Object) As Boolean
-    Public MustOverride Function Disable(ByVal oEntity As Object) As Boolean
-    Public MustOverride Function Delete(ByVal oEntity As Object) As Boolean
+        Try
+            DeleteEntity()
+            RaiseEvent OnDelete()
+
+        Catch ex As Exception
+            Throw ex
+        End Try
+        Return True
+    End Function
+
+
+    Public Function Update() As Boolean
+        Dim strError As String = Nothing
+
+        Try
+            UpdateEntity()
+            RaiseEvent OnUpdate()
+
+        Catch ex As Exception
+            Throw ex
+        End Try
+        Return True
+    End Function
+
+    Public Function Disable() As Boolean
+        Dim strError As String = Nothing
+
+        Try
+            UpdateEntity()
+            RaiseEvent OnUpdate()
+
+        Catch ex As Exception
+            Throw ex
+        End Try
+
+        Return True
+    End Function
+
+
+#End Region
+
+#Region "Constructores"
+    Protected Sub New(ByVal oUser As BrainWork.Security.ApplicationUser, ByVal oEntity As BrainWork.Entities.AbstractEntityBase)
+        Me._userlogged = oUser
+
+        If Me._userlogged Is Nothing Then
+            Throw New BrainWork.TrunkLibrary.Exceptions.ExceptionNotSetedUser
+        End If
+
+        'setea los estored
+        SetStoredProcedures()
+
+        'Validacion de estored
+        If SP_ADD Is Nothing OrElse _
+            SP_DELETE Is Nothing OrElse _
+            SP_UPDATE Is Nothing OrElse _
+            SP_DISABLE Is Nothing OrElse SP_GETONE Is Nothing OrElse _
+            SP_GETALL Is Nothing Then
+
+            Throw New Exceptions.ExceptionNotSetedStored
+        End If
+
+    End Sub
+
+    Public Function GetDataTable() As DataTable
+        Return GetDataTableEntity(0, 0)
+    End Function
+    Public Function GetDataSet() As DataSet
+        Return GetDataSetEntity(0, 0)
+    End Function
+    Public Function GetDataTable(ByVal Row As Integer, ByVal Page As Integer) As DataTable
+
+        Return GetDataTableEntity(Row, Page)
+    End Function
+    Public Function GetDataSet(ByVal Row As Integer, ByVal Page As Integer) As DataSet
+
+        Return GetDataSetEntity(0, 0)
+    End Function
+    Public Function GetDataReader() As IDataReader
+        Return GetDataReaderEntity(0, 0)
+    End Function
+    Public Function GetDataReader(ByVal Row As Integer, ByVal Page As Integer) As IDataReader
+
+        Return GetDataReaderEntity(Row, Page)
+    End Function
+    Public Function GetList() As IList(Of Object)
+        Return GetListEntity(0, 0)
+    End Function
+    Public Function GetList(ByVal Row As Integer, ByVal Page As Integer) As List(Of Object)
+
+        Return GetListEntity(Row, Page)
+    End Function
+#End Region
+
+    Protected ReadOnly Property Entity() As BrainWork.Entities.AbstractEntityBase
+        Get
+            Return Me._Entity
+        End Get
+    End Property
 
 
 
+    Protected MustOverride Sub SetStoredProcedures()
 
+
+    Public Function GetEntityFieldExtendsAttributes() As Dictionary(Of String, BrainWork.Entities.PropertysExtendedAtributtes)
+        Return Entity.GetExtendedFieldsAttributes()
+    End Function
+
+
+#Region "Funciones Privadas Auxiliares"
+    Private Function GetParameterByStored(ByVal spName As String) As System.Data.IDbDataParameter()
+        Dim EntFieldList As List(Of BrainWork.Entities.EntityFieldExtendsAttribute) = Me.Entity.GetEntityFieldExtendsAttributes
+
+        Dim pi As List(Of System.Data.IDbDataParameter) = Me.GetStoredProcedureInfo(SP_GETALL)
+
+        Dim p2 As New List(Of System.Data.IDbDataParameter)
+
+        For Each p As System.Data.Common.DbParameter In pi
+
+            For Each entField As BrainWork.Entities.EntityFieldExtendsAttribute In EntFieldList
+
+                If entField.ParameterName.ToLower = p.ParameterName.ToLower Then
+                    p2.Add(CType(entField, System.Data.IDbDataParameter))
+                    Exit For
+                End If
+            Next
+        Next
+
+        Return p2.ToArray()
+
+    End Function
+
+    Private Sub ParametizeValues(ByRef ParameterList() As System.Data.IDbDataParameter)
+        Dim pi() As Reflection.PropertyInfo = Me.GetType.GetProperties()
+
+        For i As Integer = 0 To ParameterList.Length - 1
+            For Each PropertyItem As Reflection.PropertyInfo In pi
+                If Replace(PropertyItem.Name.ToLower, "@"c, "") = Replace(ParameterList(i).ParameterName.ToLower, "@"c, "") Then
+                    ParameterList(i).Value = PropertyItem.GetValue(Me, Nothing)
+                    Exit For
+                End If
+            Next
+        Next
+    End Sub
+    Private Function CreateObjectByRow(ByVal dr As DataRow) As Object
+        Static pi() As Reflection.PropertyInfo = Me.GetType.GetProperties()
+        Dim p As Object = Activator.CreateInstance(Me.Entity.GetType) ' Crea la instancia del objeto
+        For Each PropertyItem As Reflection.PropertyInfo In pi
+            Dim att As BrainWork.Entities.EntityFieldExtendsAttribute
+            att = Me.Entity.GetFieldProperties(PropertyItem.Name)
+            PropertyItem.SetValue(p, dr(att.FieldName), Nothing)
+        Next
+        Return p
+    End Function
+
+
+#End Region
+
+#Region "Funciones de ABML"
+    Protected MustOverride Sub AddEntity()
+    Protected MustOverride Sub UpdateEntity()
+    Protected MustOverride Sub DisableEntity()
+    Protected MustOverride Sub DeleteEntity()
+    Protected MustOverride Sub LoadEntity()
+    Protected MustOverride Sub LoadEntityByPk(ByVal PK As Object)
+
+   
+    Protected Overridable Function GetDataTableEntity(ByVal Row As Integer, ByVal Page As Integer) As DataTable
+
+        Dim ParameterList() As System.Data.IDbDataParameter = GetParameterByStored(SP_GETALL)
+        ParametizeValues(ParameterList)
+        Return Me.GetStoredProcedureDataTable(Me.SP_GETALL, Row, Page, ParameterList)
+
+    End Function
+
+    Protected Overridable Function GetDataSetEntity(ByVal Row As Integer, ByVal Page As Integer) As DataSet
+        Dim ParameterList() As System.Data.IDbDataParameter = GetParameterByStored(SP_GETALL)
+        ParametizeValues(ParameterList)
+        Return Me.GetStoredProcedureDataSet(Me.SP_GETALL, Row, Page, ParameterList)
+    End Function
+
+    Protected Overridable Function GetDataReaderEntity(ByVal Row As Integer, ByVal Page As Integer) As IDataReader
+
+    End Function
+
+  
+
+    Protected Overridable Function GetListEntity(ByVal Row As Integer, ByVal Page As Integer) As List(Of Object)
+        Dim dt As DataTable = GetDataTableEntity(Row, Page)
+
+        GetListEntity = New List(Of Object)
+         
+        For Each dr As DataRow In dt.Rows
+           
+            GetListEntity.Add(CreateObjectByRow(dr))
+        Next 
+
+    End Function
+#End Region
+
+
+#Region "Connection Manager"
 
     Private Function CnnManager() As BrainWork.DataManager.ConnectionManager
         If _ConnectionManager Is Nothing Then
@@ -57,7 +273,7 @@ Public MustInherit Class AbstractDataAccess
         CnnManager().getConnectionUser().CommitTransaction()
     End Sub
 
-    Protected Sub ExecuteStoredProcedureNonQuery(ByVal StoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.Common.DbParameter) Implements Connections.Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureNonQuery
+    Protected Sub ExecuteStoredProcedureNonQuery(ByVal StoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) Implements Connections.Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureNonQuery
         CnnManager().getConnectionUser().ExecuteStoredProcedureNonQuery(StoredProcedureName, Parameters)
     End Sub
 
@@ -65,7 +281,7 @@ Public MustInherit Class AbstractDataAccess
         CnnManager().getConnectionUser().ExecuteStoredProcedureNonQuery(StoredProcedureName, params)
     End Sub
 
-    Protected Function ExecuteStoredProcedureReturns(ByVal sStoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.Common.DbParameter) As Object Implements Connections.Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureReturns
+    Protected Function ExecuteStoredProcedureReturns(ByVal sStoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As Object Implements Connections.Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureReturns
         Return CnnManager().getConnectionUser().ExecuteStoredProcedureReturns(sStoredProcedureName, Parameters)
     End Function
 
@@ -85,27 +301,27 @@ Public MustInherit Class AbstractDataAccess
         Return CnnManager().getConnectionUser().GetOpenConnection()
     End Function
 
-    Protected Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, ByVal RowFrom As Integer, ByVal RowTo As Integer, ByVal ParamArray Parameters() As System.Data.Common.DbParameter) As System.Data.DataSet Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
+    Protected Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, ByVal RowFrom As Integer, ByVal RowTo As Integer, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataSet Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
         Return CnnManager().getConnectionUser().GetStoredProcedureDataSet(StoredProcedureName, RowFrom, RowTo, Parameters)
     End Function
 
-    Protected Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.Common.DbParameter) As System.Data.DataSet Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
+    Protected Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataSet Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
         Return CnnManager().getConnectionUser().GetStoredProcedureDataSet(StoredProcedureName, Parameters)
     End Function
 
     Protected Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection) As System.Data.DataSet Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
-        Return CnnManager().getConnectionUser().GetStoredProcedureDataSet(State, params)
+        Return CnnManager().getConnectionUser().GetStoredProcedureDataSet(StoredProcedureName, params)
     End Function
 
     Protected Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection, ByVal RowFrom As Integer, ByVal RowTo As Integer) As System.Data.DataSet Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
         Return CnnManager().getConnectionUser().GetStoredProcedureDataSet(StoredProcedureName, params, RowFrom, RowTo)
     End Function
 
-    Protected Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, ByVal RowFrom As Integer, ByVal RowTo As Integer, ByVal ParamArray Parameters() As System.Data.Common.DbParameter) As System.Data.DataTable Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
+    Protected Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, ByVal RowFrom As Integer, ByVal RowTo As Integer, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataTable Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
         Return CnnManager().getConnectionUser().GetStoredProcedureDataTable(StoredProcedureName, RowFrom, RowTo, Parameters)
     End Function
 
-    Protected Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.Common.DbParameter) As System.Data.DataTable Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
+    Protected Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataTable Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
         Return CnnManager().getConnectionUser().GetStoredProcedureDataTable(StoredProcedureName, Parameters)
     End Function
 
@@ -190,6 +406,11 @@ Public MustInherit Class AbstractDataAccess
         End Get
     End Property
 
+#End Region
+
+
+#Region "IDisposable Support"
+
     Private disposedValue As Boolean = False        ' To detect redundant calls
 
     ' IDisposable
@@ -205,7 +426,6 @@ Public MustInherit Class AbstractDataAccess
         Me.disposedValue = True
     End Sub
 
-#Region " IDisposable Support "
     ' This code added by Visual Basic to correctly implement the disposable pattern.
     Public Sub Dispose() Implements IDisposable.Dispose
         ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
@@ -214,4 +434,7 @@ Public MustInherit Class AbstractDataAccess
     End Sub
 #End Region
 
+    Public Function GetStoredProcedureInfo(ByVal SpName As String) As System.Collections.Generic.List(Of System.Data.IDbDataParameter) Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureInfo
+        Return CnnManager().getConnectionUser().GetStoredProcedureInfo(SpName)
+    End Function
 End Class

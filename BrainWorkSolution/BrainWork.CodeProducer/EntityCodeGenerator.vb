@@ -354,13 +354,10 @@ Partial Public Class EntityCodeGenerator
 
                 If pField.TypeName.Contains("Byte[]") Then
                     pField.TypeName = "Byte"
-                End If
+                End If  
 
-                ' pField.TypeName = Me.GetColumnExtendInformation(Tabla, COLUMN_NAME)
-
-
-
-
+                pField.MinValue = 0
+                pField.MaxValue = Precision
                 AuxiliaryFieldExtends.Add(pField)
             Next
 
@@ -372,6 +369,8 @@ Partial Public Class EntityCodeGenerator
             If DescriptionFieldName = "" Then
                 DescriptionFieldName = PrimaryKeyFieldName
             End If
+
+
 
             AuxiliaryClassExtends.DescriptionFieldName = DescriptionFieldName
             AuxiliaryClassExtends.PrimaryKeyFieldName = PrimaryKeyFieldName
@@ -491,16 +490,30 @@ Partial Public Class EntityCodeGenerator
         End If
 
         'TypeName:="")> _"
-        If Not Efield.Visibility = Nothing Then
+        If Not Efield.TypeName = Nothing Then
             AuxString = AuxString & "TypeName:=""" & Efield.TypeName & ""","
         End If
 
 
+        'MinValue:="")> _"
+        If Not Efield.MinValue = Nothing Then
+            AuxString = AuxString & "MinValue:=" & Efield.MinValue & ","
+        End If
 
-        'If Not Efield.CustomValidationExpression Is Nothing Then
-        '    AuxString = AuxString & "CustomValidationExpression:=""" & Efield.CustomValidationExpression.ToString & ""","
-        'End If
+        'MaxValue:="")> _"
+        If Not Efield.MaxValue = Nothing Then
+            AuxString = AuxString & "MaxValue:=" & Efield.MaxValue & ","
+        End If
 
+        'EntityClassContainer
+        If Not Efield.EntityClassContainer Is Nothing Then
+            AuxString = AuxString & "EntityClassContainer:=""" & Efield.EntityClassContainer.ToString & ""","
+        End If
+
+        'CustomValidationExpression:="")> _"
+        If Not Efield.CustomValidationExpression Is Nothing Then
+            AuxString = AuxString & "CustomValidationExpression:=""" & Efield.CustomValidationExpression.ToString & ""","
+        End If
 
 
 

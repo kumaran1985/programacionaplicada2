@@ -4,8 +4,6 @@ Option Explicit On
 Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
     Implements Interfaces.IEntityFieldExtendsAttribute
 
-
-
     Private _DefaultValue As Object
     Private _ForeingTable As String
     Private _IsForeingKey As Boolean
@@ -25,9 +23,10 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
     Private _Scale As Byte
     Private _Size As Integer
     Private _TypeName As String
+    Private _MaxValue As Double
+    Private _MinValue As Double
 
-
-    Private _CustomValidationExpression As System.Text.RegularExpressions.Regex
+    Private _CustomValidationExpression As String
     Private _ForeingCRUD As Object
     Private _Order As Integer
     Private _RelationType As EnumRelationType = EnumRelationType.TextBox
@@ -203,11 +202,11 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
 
 
 
-    Public Property CustomValidationExpression() As System.Text.RegularExpressions.Regex Implements Interfaces.IEntityFieldExtendsAttribute.CustomValidationExpression
+    Public Property CustomValidationExpression() As String Implements Interfaces.IEntityFieldExtendsAttribute.CustomValidationExpression
         Get
             Return _CustomValidationExpression
         End Get
-        Set(ByVal value As System.Text.RegularExpressions.Regex)
+        Set(ByVal value As String)
 
         End Set
     End Property
@@ -256,4 +255,25 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
             _TypeName = value
         End Set
     End Property
+
+
+    Public Property MaxValue() As Double Implements Interfaces.IEntityFieldExtendsAttribute.MaxValue
+        Get
+            Return _MaxValue
+        End Get
+        Set(ByVal value As Double)
+            _MaxValue = value
+        End Set
+    End Property
+
+    Public Property MinValue() As Double Implements Interfaces.IEntityFieldExtendsAttribute.MinValue
+        Get
+            Return _MinValue
+        End Get
+        Set(ByVal value As Double)
+            _MinValue = value
+        End Set
+    End Property
+
+     
 End Class
