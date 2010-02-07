@@ -33,7 +33,7 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BrainWork.Connections.SQLCo
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BrainWork.Connections", "BrainWork.Connections\BrainWork.Connections.vbproj", "{9E74306D-2CF5-4FEC-981E-11E182CFC30D}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebSiteConceptTest", "WebSiteConceptTest\", "{F7019D86-3A18-4274-B95A-E253A48B521B}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebSiteConceptTest", "WebSiteConceptTest", "{F7019D86-3A18-4274-B95A-E253A48B521B}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFramework = "3.5"
 		ProjectReferences = "{59718F31-F037-413F-B9BE-37CCF90B9D80}|BrainWork.Utils.Web.dll;{CB1492C0-D33D-4C67-AE34-4BB7391E5A21}|BrainWork.Entities.dll;"
@@ -56,6 +56,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebSiteConceptTest", "WebSi
 	EndProjectSection
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BrainWork.CodeProducer", "BrainWork.CodeProducer\BrainWork.CodeProducer.vbproj", "{58363A84-8922-41DE-B7B1-2003EF821A7F}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BrainWork.ERP.Accountant", "BrainWork.ERP.Accountant\BrainWork.ERP.Accountant.vbproj", "{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -247,6 +249,16 @@ Global
 		{58363A84-8922-41DE-B7B1-2003EF821A7F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{58363A84-8922-41DE-B7B1-2003EF821A7F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{58363A84-8922-41DE-B7B1-2003EF821A7F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}.Release|.NET.ActiveCfg = Release|Any CPU
+		{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

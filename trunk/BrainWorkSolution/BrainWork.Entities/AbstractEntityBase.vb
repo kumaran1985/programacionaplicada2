@@ -32,6 +32,17 @@ Public Class AbstractEntityBase
         Next
     End Function
 
+    Public Function GetEntityFieldExtendsAttributes() As List(Of EntityFieldExtendsAttribute)
+        Dim l As New List(Of EntityFieldExtendsAttribute)
+
+        Dim pi() As Reflection.PropertyInfo = Me.GetType.GetProperties()
+        For Each prop As Reflection.PropertyInfo In pi
+            l.Add(Me.GetFieldProperties(prop.Name))
+        Next
+
+        Return l
+    End Function
+
 
     Protected Function GetCustomAttributeValue(ByVal t As Type, ByVal PropertyType As Type, ByVal attributeName As String) As Object
         Dim attArray As BrainWork.Entities.EntityFieldExtendsAttribute()
@@ -206,4 +217,7 @@ Public Class AbstractEntityBase
     '    Return att
     'End Function
 
+    Public Sub New()
+
+    End Sub
 End Class

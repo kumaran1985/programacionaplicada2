@@ -12,6 +12,7 @@ Namespace WebControls
 
 
         Implements BrainWork.Entities.Interfaces.IEntityFieldExtendsAttribute
+
         Private _DefaultValue As Object
         Private _ForeingTable As String
         Private _IsForeingKey As Boolean
@@ -35,12 +36,30 @@ Namespace WebControls
 
         Private _OnBlur As List(Of String)
 
-        Private _CustomValidationExpression As System.Text.RegularExpressions.Regex
+        Private _CustomValidationExpression As String
         Private _ForeingCRUD As Object
         Private _Order As Integer
         Private _RelationType As EnumRelationType
         Private _Visibility As EnumVisibility
+        Private _MaxValue As Double
+        Private _MinValue As Double
+        Public Property MaxValue() As Double Implements Interfaces.IEntityFieldExtendsAttribute.MaxValue
+            Get
+                Return _MaxValue
+            End Get
+            Set(ByVal value As Double)
+                _MaxValue = value
+            End Set
+        End Property
 
+        Public Property MinValue() As Double Implements Interfaces.IEntityFieldExtendsAttribute.MinValue
+            Get
+                Return _MinValue
+            End Get
+            Set(ByVal value As Double)
+                _MinValue = value
+            End Set
+        End Property
 
         Public Property EntityClassContainer() As String Implements Interfaces.IEntityFieldExtendsAttribute.EntityClassContainer
             Get
@@ -423,11 +442,11 @@ Namespace WebControls
         End Property
 
 
-        Public Property CustomValidationExpression() As System.Text.RegularExpressions.Regex Implements Interfaces.IEntityFieldExtendsAttribute.CustomValidationExpression
+        Public Property CustomValidationExpression() As String Implements Interfaces.IEntityFieldExtendsAttribute.CustomValidationExpression
             Get
                 Return _CustomValidationExpression
             End Get
-            Set(ByVal value As System.Text.RegularExpressions.Regex)
+            Set(ByVal value As String)
 
             End Set
         End Property
@@ -477,6 +496,7 @@ Namespace WebControls
             End Set
         End Property
 
+        
     End Class
 End Namespace
 

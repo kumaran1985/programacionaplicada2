@@ -23,11 +23,15 @@
 
         Property Visibility() As EnumVisibility
 
-        Property CustomValidationExpression() As System.Text.RegularExpressions.Regex
+        Property CustomValidationExpression() As String
 
         Property TypeName() As String
 
         Property EntityClassContainer() As String
+
+        Property MinValue() As Double
+
+        Property MaxValue() As Double
 
 
 
