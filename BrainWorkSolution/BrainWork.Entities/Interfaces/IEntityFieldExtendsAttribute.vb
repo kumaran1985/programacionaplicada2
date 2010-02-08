@@ -9,6 +9,8 @@
 
         Property ForeingTable() As String
 
+
+
         Property DefaultValue() As Object
 
         Property MainTable() As String
@@ -32,6 +34,13 @@
         Property MinValue() As Double
 
         Property MaxValue() As Double
+
+        Property IsDescription() As Boolean
+
+        Property ForeingFieldName() As String
+
+        Property DefaultOrderBy() As Boolean
+
 
 
 

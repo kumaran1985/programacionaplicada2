@@ -12,17 +12,19 @@ Public MustInherit Class AbstractDataAccess
     Protected SP_ADD As String = Nothing
     Protected SP_DELETE As String = Nothing
     Protected SP_UPDATE As String = Nothing
+    Protected SP_UPDATE_BY_PK As String = Nothing
     Protected SP_DISABLE As String = Nothing
     Protected SP_GETONE As String = Nothing
     Protected SP_GETALL As String = Nothing
 
-    Private _Entity As BrainWork.Entities.AbstractEntityBase
+    Private _Entity As Object
     Public Event OnAdd()
     Public Event OnDelete()
     Public Event OnUpdate()
     Public Event OnDisable()
+     
 
-  
+
 
 
 #Region "Propiedades Públicas"
@@ -33,7 +35,7 @@ Public MustInherit Class AbstractDataAccess
     End Property
 #End Region
 
-#Region "Funciones de ABM Publicas"
+#Region "Funciones de ABML Publicas"
 
     Public Function Add() As Boolean
         Dim strError As String = Nothing
@@ -60,7 +62,6 @@ Public MustInherit Class AbstractDataAccess
         Return True
     End Function
 
-
     Public Function Update() As Boolean
         Dim strError As String = Nothing
 
@@ -78,8 +79,8 @@ Public MustInherit Class AbstractDataAccess
         Dim strError As String = Nothing
 
         Try
-            UpdateEntity()
-            RaiseEvent OnUpdate()
+            DisableEntity()
+            RaiseEvent OnDisable()
 
         Catch ex As Exception
             Throw ex
@@ -88,6 +89,51 @@ Public MustInherit Class AbstractDataAccess
         Return True
     End Function
 
+    Public Function GetDataTable() As DataTable
+        Return GetDataTableEntity(0, 0)
+    End Function
+
+    Public Function GetDataSet() As DataSet
+        Return GetDataSetEntity(0, 0)
+    End Function
+
+    Public Function GetDataTable(ByVal Row As Integer, ByVal Page As Integer) As DataTable
+
+        Return GetDataTableEntity(Row, Page)
+    End Function
+
+    Public Function GetDataSet(ByVal Row As Integer, ByVal Page As Integer) As DataSet
+
+        Return GetDataSetEntity(0, 0)
+    End Function
+
+    Public Function GetDataReader() As IDataReader
+        Return GetDataReaderEntity(0, 0)
+    End Function
+
+    Public Function GetDataReader(ByVal Row As Integer, ByVal Page As Integer) As IDataReader
+
+        Return GetDataReaderEntity(Row, Page)
+    End Function
+
+    Public Function GetList() As IList(Of Object)
+        Return GetListEntity(0, 0)
+    End Function
+
+    Public Function GetList(ByVal Row As Integer, ByVal Page As Integer) As List(Of Object)
+
+        Return GetListEntity(Row, Page)
+    End Function
+
+    Public Sub LoadByPk(ByVal PK As Object)
+        LoadEntityByPk(PK)
+    End Sub
+
+    Public Sub Load()
+        LoadEntity()
+    End Sub
+
+     
 
 #End Region
 
@@ -107,46 +153,20 @@ Public MustInherit Class AbstractDataAccess
             SP_DELETE Is Nothing OrElse _
             SP_UPDATE Is Nothing OrElse _
             SP_DISABLE Is Nothing OrElse SP_GETONE Is Nothing OrElse _
-            SP_GETALL Is Nothing Then
+            SP_GETALL Is Nothing OrElse _
+            SP_UPDATE_BY_PK Is Nothing Then
 
             Throw New Exceptions.ExceptionNotSetedStored
         End If
 
     End Sub
 
-    Public Function GetDataTable() As DataTable
-        Return GetDataTableEntity(0, 0)
-    End Function
-    Public Function GetDataSet() As DataSet
-        Return GetDataSetEntity(0, 0)
-    End Function
-    Public Function GetDataTable(ByVal Row As Integer, ByVal Page As Integer) As DataTable
 
-        Return GetDataTableEntity(Row, Page)
-    End Function
-    Public Function GetDataSet(ByVal Row As Integer, ByVal Page As Integer) As DataSet
-
-        Return GetDataSetEntity(0, 0)
-    End Function
-    Public Function GetDataReader() As IDataReader
-        Return GetDataReaderEntity(0, 0)
-    End Function
-    Public Function GetDataReader(ByVal Row As Integer, ByVal Page As Integer) As IDataReader
-
-        Return GetDataReaderEntity(Row, Page)
-    End Function
-    Public Function GetList() As IList(Of Object)
-        Return GetListEntity(0, 0)
-    End Function
-    Public Function GetList(ByVal Row As Integer, ByVal Page As Integer) As List(Of Object)
-
-        Return GetListEntity(Row, Page)
-    End Function
 #End Region
 
     Protected ReadOnly Property Entity() As BrainWork.Entities.AbstractEntityBase
         Get
-            Return Me._Entity
+            Return CType(Me._Entity, BrainWork.Entities.AbstractEntityBase)
         End Get
     End Property
 
@@ -195,6 +215,7 @@ Public MustInherit Class AbstractDataAccess
             Next
         Next
     End Sub
+
     Private Function CreateObjectByRow(ByVal dr As DataRow) As Object
         Static pi() As Reflection.PropertyInfo = Me.GetType.GetProperties()
         Dim p As Object = Activator.CreateInstance(Me.Entity.GetType) ' Crea la instancia del objeto
@@ -210,14 +231,60 @@ Public MustInherit Class AbstractDataAccess
 #End Region
 
 #Region "Funciones de ABML"
-    Protected MustOverride Sub AddEntity()
-    Protected MustOverride Sub UpdateEntity()
-    Protected MustOverride Sub DisableEntity()
-    Protected MustOverride Sub DeleteEntity()
-    Protected MustOverride Sub LoadEntity()
-    Protected MustOverride Sub LoadEntityByPk(ByVal PK As Object)
+    Protected Overridable Sub AddEntity()
+        Dim ParameterList() As System.Data.IDbDataParameter = GetParameterByStored(SP_ADD)
+        ParametizeValues(ParameterList)
+       
+        Dim id As Object = Me.ExecuteStoredProcedureReturns(SP_ADD, ParameterList)
+        Dim PropertyItem As PropertyInfo = Me.Entity.GetType.GetProperty(Me.GetIDProperty)
+        PropertyItem.SetValue(Me._Entity, id, Nothing)
+    End Sub
 
-   
+    Protected Overridable Sub UpdateEntity()
+        Dim ParameterList() As System.Data.IDbDataParameter = GetParameterByStored(SP_UPDATE)
+        ParametizeValues(ParameterList)
+        Me.ExecuteStoredProcedureNonQuery(SP_UPDATE, ParameterList)
+    End Sub
+
+    Protected Overridable Sub DeleteEntity()
+        Dim ParameterList() As System.Data.IDbDataParameter = GetParameterByStored(SP_DELETE)
+        ParametizeValues(ParameterList)
+        Me.ExecuteStoredProcedureNonQuery(SP_DELETE, ParameterList)
+    End Sub
+
+    Protected Overridable Function GetIDProperty() As String
+        Return Me.Entity.ExtendedClassAttributes.DescriptionPropertyName
+    End Function
+
+    Protected Overridable Function GetDescriptionProperty() As String
+        Return Me.Entity.ExtendedClassAttributes.DescriptionPropertyName
+    End Function 
+
+    Protected Overridable Sub LoadEntityByPk(ByVal PK As Object)
+        Dim ParameterList() As System.Data.IDbDataParameter = GetParameterByStored(SP_GETONE)
+        Dim p As System.Data.IDbDataParameter
+        p = Me.GetNewParameter
+
+        For i As Integer = 0 To ParameterList.Length - 1
+            If ParameterList(i).ParameterName.Replace("@"c, "") = Me.Entity.ExtendedClassAttributes.PrimaryKeyFieldName Then
+                p = ParameterList(i)
+                p.Value = PK
+                Exit For
+            End If
+        Next
+
+        If p.ParameterName Is Nothing Then
+            Throw New Exception("No existe el parámetro")
+        End If
+
+        Dim dt As New DataTable
+        dt = Me.GetStoredProcedureDataTable(Me.SP_GETONE)
+        Me._Entity = CreateObjectByRow(dt.Rows(0))
+
+
+
+    End Sub
+
     Protected Overridable Function GetDataTableEntity(ByVal Row As Integer, ByVal Page As Integer) As DataTable
 
         Dim ParameterList() As System.Data.IDbDataParameter = GetParameterByStored(SP_GETALL)
@@ -233,22 +300,35 @@ Public MustInherit Class AbstractDataAccess
     End Function
 
     Protected Overridable Function GetDataReaderEntity(ByVal Row As Integer, ByVal Page As Integer) As IDataReader
-
+        Dim ParameterList() As System.Data.IDbDataParameter = GetParameterByStored(SP_GETALL)
+        ParametizeValues(ParameterList)
+        Return Me.GetStoredProcedureDataReader(Me.SP_GETALL, Row, Page, ParameterList)
     End Function
-
-  
-
+     
     Protected Overridable Function GetListEntity(ByVal Row As Integer, ByVal Page As Integer) As List(Of Object)
         Dim dt As DataTable = GetDataTableEntity(Row, Page)
 
         GetListEntity = New List(Of Object)
-         
+
         For Each dr As DataRow In dt.Rows
-           
+
             GetListEntity.Add(CreateObjectByRow(dr))
-        Next 
+        Next
 
     End Function
+
+    Protected Overridable Sub LoadEntity()
+
+        Dim propertyItem As PropertyInfo = Me.Entity.GetType.GetProperty(Me.GetIDProperty)
+
+        Dim pk As Object = propertyItem.GetValue(Me, Nothing)
+        Me.LoadEntityByPk(pk)
+
+    End Sub
+
+
+    Protected MustOverride Sub DisableEntity()
+
 #End Region
 
 
@@ -406,6 +486,31 @@ Public MustInherit Class AbstractDataAccess
         End Get
     End Property
 
+
+    Public Function GetStoredProcedureInfo(ByVal SpName As String) As System.Collections.Generic.List(Of System.Data.IDbDataParameter) Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureInfo
+        Return CnnManager().getConnectionUser().GetStoredProcedureInfo(SpName)
+    End Function
+
+    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String) As System.Data.IDataReader Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
+        Return CnnManager().getConnectionUser().GetStoredProcedureDataReader(StoredProcedureName)
+    End Function
+
+    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, ByVal RowFrom As Integer, ByVal MaxRecords As Integer) As System.Data.IDataReader Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
+        Return CnnManager().getConnectionUser().GetStoredProcedureDataReader(StoredProcedureName, RowFrom, MaxRecords)
+    End Function
+
+    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, ByVal RowFrom As Integer, ByVal MaxRecords As Integer, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.IDataReader Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
+        Return CnnManager().getConnectionUser().GetStoredProcedureDataReader(StoredProcedureName, RowFrom, MaxRecords, Parameters)
+    End Function
+
+    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection, ByVal RowFrom As Integer, ByVal MaxRecords As Integer) As System.Data.IDataReader Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
+        Return CnnManager().getConnectionUser().GetStoredProcedureDataReader(StoredProcedureName, params, RowFrom, MaxRecords)
+    End Function
+
+    Public Function GetNewParameter() As System.Data.IDbDataParameter Implements Connections.Interfaces.IDBrainWorkConnection.GetNewParameter
+        Return CnnManager().getConnectionUser().GetNewParameter
+    End Function
+
 #End Region
 
 
@@ -434,7 +539,4 @@ Public MustInherit Class AbstractDataAccess
     End Sub
 #End Region
 
-    Public Function GetStoredProcedureInfo(ByVal SpName As String) As System.Collections.Generic.List(Of System.Data.IDbDataParameter) Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureInfo
-        Return CnnManager().getConnectionUser().GetStoredProcedureInfo(SpName)
-    End Function
 End Class

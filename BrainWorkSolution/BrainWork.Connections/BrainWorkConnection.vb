@@ -2,8 +2,9 @@
     Inherits AbstractConnection
     Private _TransactionCounter As Integer
     Protected Const PAGED_ROW_PARAMETER As String = "@Row"
-    Protected Const PAGED_PAGE_PARAMETER As String = "@Page"
+    Protected Const PAGED_MAXVALUES_PARAMETER As String = "@MaxValues"
     Protected Const ORDER_BY_PARAMETER As String = "@OrderBy"
+
     Public CurrentRow As Integer
     Public CurrentMaxRecord As Integer
 
@@ -15,7 +16,7 @@
         HasStandarParametersSettings = True
 
         If Not oCmd.Parameters.Contains(PAGED_ROW_PARAMETER) OrElse _
-           Not oCmd.Parameters.Contains(PAGED_PAGE_PARAMETER) OrElse _
+           Not oCmd.Parameters.Contains(PAGED_MAXVALUES_PARAMETER) OrElse _
            Not oCmd.Parameters.Contains(ORDER_BY_PARAMETER) Then
             HasStandarParametersSettings = False
         End If

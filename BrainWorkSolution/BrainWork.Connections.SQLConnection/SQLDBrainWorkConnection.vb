@@ -2,7 +2,6 @@
 Public NotInheritable Class SQLDBrainWorkConnection
     Inherits BrainWorkConnection
     Implements BrainWork.Connections.Interfaces.IDBrainWorkConnection
-
     Private oConnection As SqlClient.SqlConnection
     Private oTransaction As SqlClient.SqlTransaction
     Private _ConnectionString As String
@@ -236,11 +235,15 @@ Public NotInheritable Class SQLDBrainWorkConnection
     Private Sub DAFillDataSet(ByRef ds As DataSet, _
                               ByVal cmd As SqlClient.SqlCommand, _
                               Optional ByVal RowFrom As Int32 = 0, _
-                              Optional ByVal MaxRecords As Int32 = 0)
+                              Optional ByVal MaxRecords As Int32 = 0, _
+                              Optional ByVal ValidateStandarParams As Boolean = False)
         Dim da As New SqlClient.SqlDataAdapter(cmd)
         If RowFrom = 0 AndAlso RowFrom = MaxRecords Then
             da.Fill(ds)
         Else
+            If (MaxRecords = RowFrom AndAlso MaxRecords = 0) AndAlso ValidateStandarParams AndAlso Not Me.HasStandarParametersSettings(cmd, RowFrom, MaxRecords) Then
+                Throw New Exceptions.ExceptionHasStandarParametersSettings
+            End If
             Me.CurrentRow = RowFrom
             Me.CurrentMaxRecord = MaxRecords
             da.Fill(ds, RowFrom, MaxRecords, "DataFiltered")
@@ -249,10 +252,11 @@ Public NotInheritable Class SQLDBrainWorkConnection
 
     Private Function GetDataSet(ByVal ocmd As SqlClient.SqlCommand, _
                                 Optional ByVal RowFrom As Int32 = 0, _
-                              Optional ByVal MaxRecords As Int32 = 0) As DataSet
+                                Optional ByVal MaxRecords As Int32 = 0, _
+                                Optional ByVal ValidateStandarParams As Boolean = False) As DataSet
 
         Dim ds As New DataSet
-        DAFillDataSet(ds, ocmd, RowFrom, MaxRecords)
+        DAFillDataSet(ds, ocmd, RowFrom, MaxRecords, ValidateStandarParams)
 
         Return ds
 
@@ -288,7 +292,8 @@ Public NotInheritable Class SQLDBrainWorkConnection
 
     Public Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, _
                                               ByVal params As System.Data.Common.DbParameterCollection, _
-                                              ByVal RowFrom As Integer, ByVal MaxRecords As Integer) As System.Data.DataSet Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
+                                              ByVal RowFrom As Integer, _
+                                              ByVal MaxRecords As Integer) As System.Data.DataSet Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
         Me.OpenConnection()
         Try
             Dim oCommand As SqlClient.SqlCommand
@@ -392,7 +397,7 @@ Public NotInheritable Class SQLDBrainWorkConnection
             cmd.CommandType = CommandType.Text
             cmd.CommandText = strSql
 
-            ds = Me.GetDataSet(cmd)
+            ds = Me.GetDataSet(cmd, False)
 
         Catch ex As Exception
             Throw ex
@@ -626,29 +631,6 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End Get
     End Property
 
-    Private disposedValue As Boolean = False        ' To detect redundant calls
-
-    ' IDisposable
-    Protected Sub Dispose(ByVal disposing As Boolean)
-        If Not Me.disposedValue Then
-            If disposing Then
-                ' TODO: free other state (managed objects).
-            End If
-
-            ' TODO: free your own state (unmanaged objects).
-            ' TODO: set large fields to null.
-        End If
-        Me.disposedValue = True
-    End Sub
-
-#Region " IDisposable Support "
-    ' This code added by Visual Basic to correctly implement the disposable pattern.
-    Public Sub Dispose() Implements IDisposable.Dispose
-        ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
-        Dispose(True)
-        GC.SuppressFinalize(Me)
-    End Sub
-#End Region
 
 
     Public Function GetStoredProcedureInfo(ByVal SpName As String) As System.Collections.Generic.List(Of System.Data.IDbDataParameter) Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureInfo
@@ -671,14 +653,55 @@ Public NotInheritable Class SQLDBrainWorkConnection
     End Function
 
     Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String) As System.Data.IDataReader Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
+        Me.OpenConnection()
+        Try
+            Dim oCommand As SqlClient.SqlCommand
 
+            oCommand = CType(GetNewCommand(), SqlClient.SqlCommand)
+            oCommand.CommandType = CommandType.StoredProcedure
+            oCommand.CommandText = StoredProcedureName
+            oCommand.Connection = Me.GetOpenConnection
+
+            Return oCommand.ExecuteReader()
+
+        Catch ex As Exception
+
+            Throw ex
+        Finally
+            Me.CloseConnection()
+        End Try
     End Function
 
-    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, ByVal RowFrom As Integer, ByVal MaxRecords As Integer) As System.Data.IDataReader Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
+    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, _
+                                                 ByVal RowFrom As Integer, _
+                                                 ByVal MaxRecords As Integer) As System.Data.IDataReader Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
+        Me.OpenConnection()
+        Try
+            Dim oCommand As SqlClient.SqlCommand
 
+            oCommand = CType(GetNewCommand(), SqlClient.SqlCommand)
+            oCommand.CommandType = CommandType.StoredProcedure
+            oCommand.CommandText = StoredProcedureName
+            oCommand.Connection = Me.GetOpenConnection
+
+            If Not Me.HasStandarParametersSettings(oCommand, RowFrom, MaxRecords) Then
+                Throw New Exceptions.ExceptionHasStandarParametersSettings
+            End If
+
+            Return oCommand.ExecuteReader()
+
+        Catch ex As Exception
+
+            Throw ex
+        Finally
+            Me.CloseConnection()
+        End Try
     End Function
 
-    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, ByVal RowFrom As Integer, ByVal MaxRecords As Integer, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.IDataReader Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
+    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, _
+                                                 ByVal RowFrom As Integer, _
+                                                 ByVal MaxRecords As Integer, _
+                                                 ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.IDataReader Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
         Me.OpenConnection()
         Try
             Dim oCommand As SqlClient.SqlCommand
@@ -698,7 +721,10 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End Try
     End Function
 
-    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection, ByVal RowFrom As Integer, ByVal MaxRecords As Integer) As System.Data.IDataReader Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
+    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, _
+                                                 ByVal params As System.Data.Common.DbParameterCollection, _
+                                                 ByVal RowFrom As Integer, _
+                                                 ByVal MaxRecords As Integer) As System.Data.IDataReader Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
         Me.OpenConnection()
         Try
             Dim oCommand As SqlClient.SqlCommand
@@ -717,9 +743,37 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End Try
     End Function
 
-    
 
     Public Overrides Function GetNewParameter() As System.Data.IDbDataParameter
+        Return New SqlClient.SqlParameter
+    End Function
+
+#Region " IDisposable Support "
+    Private disposedValue As Boolean = False        ' To detect redundant calls
+
+    ' IDisposable
+    Protected Sub Dispose(ByVal disposing As Boolean)
+        If Not Me.disposedValue Then
+            If disposing Then
+                ' TODO: free other state (managed objects).
+            End If
+
+            ' TODO: free your own state (unmanaged objects).
+            ' TODO: set large fields to null.
+        End If
+        Me.disposedValue = True
+    End Sub
+
+
+    ' This code added by Visual Basic to correctly implement the disposable pattern.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+#End Region
+
+    Public Function GetNewParameter1() As System.Data.IDbDataParameter Implements Interfaces.IDBrainWorkConnection.GetNewParameter
         Return New SqlClient.SqlParameter
     End Function
 End Class

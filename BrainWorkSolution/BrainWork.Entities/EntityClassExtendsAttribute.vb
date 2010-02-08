@@ -4,6 +4,25 @@ Public Class EntityClassExtendsAttribute : Inherits System.Attribute
     Private _RootContainerName As String
     Private _PrimaryKeyFieldName As String
     Private _DescriptionFieldName As String
+    Private _PrimaryKeyPropertyName As String
+    Private _DescriptionPropertyName As String
+
+    Public Property DescriptionPropertyName() As String
+        Get
+            Return _DescriptionPropertyName
+        End Get
+        Set(ByVal value As String)
+            _DescriptionPropertyName = value
+        End Set
+    End Property
+    Public Property PrimaryKeyPropertyName() As String
+        Get
+            Return _PrimaryKeyPropertyName
+        End Get
+        Set(ByVal value As String)
+            _PrimaryKeyPropertyName = value
+        End Set
+    End Property
     Public Property RootContainerName() As String
         Get
             Return _RootContainerName
