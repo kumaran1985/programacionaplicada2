@@ -33,6 +33,16 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
     Private _Visibility As EnumVisibility = EnumVisibility.Normal
 
     Private _EntityClassContainer As String
+    Private _IsDescription As Boolean
+    Private _ForeingFieldName As String
+    Private _DefaultOrderBy As Boolean
+
+
+    Public ReadOnly Property IsPK() As Boolean
+        Get
+            Return Me.FieldType = EnumFieldType.PrimaryKey
+        End Get 
+    End Property
 
     Public Property EntityClassContainer() As String Implements Interfaces.IEntityFieldExtendsAttribute.EntityClassContainer
         Get
@@ -275,5 +285,31 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
         End Set
     End Property
 
-     
+
+    Public Property IsDescription() As Boolean Implements Interfaces.IEntityFieldExtendsAttribute.IsDescription
+        Get
+            Return _IsDescription
+        End Get
+        Set(ByVal value As Boolean)
+            _IsDescription = value
+        End Set
+    End Property
+
+    Public Property ForeingFieldName() As String Implements Interfaces.IEntityFieldExtendsAttribute.ForeingFieldName
+        Get
+            Return _ForeingFieldName
+        End Get
+        Set(ByVal value As String)
+            _ForeingFieldName = value
+        End Set
+    End Property
+
+    Public Property DefaultOrderBy() As Boolean Implements Entities.Interfaces.IEntityFieldExtendsAttribute.DefaultOrderBy
+        Get
+            Return _DefaultOrderBy
+        End Get
+        Set(ByVal value As Boolean)
+            _DefaultOrderBy = value
+        End Set
+    End Property
 End Class

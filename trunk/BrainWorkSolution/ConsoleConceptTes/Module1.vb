@@ -4,10 +4,19 @@ Imports System.Linq.Expressions
 Module Module12
     ' Public WithEvents ess As New eventsample
     Sub Main()
-        Dim oUser As New BrainWork.Security.ApplicationUser
-        oUser.SessionID = "ss"
-        Dim ob As New ClaseBL(oUser)
-        ob.Add()
+        Dim e As New EntAWBuildVersion
+        For Each p As BrainWork.Entities.EntityFieldExtendsAttribute In e.GetEntityFieldExtendsAttributes()
+            Console.WriteLine(p.FieldName)
+        Next
+
+        Console.ReadLine()
+
+
+
+        'Dim oUser As New BrainWork.Security.ApplicationUser
+        'oUser.SessionID = "ss"
+        '' Dim ob As New ClaseBL(oUser)
+        'ob.Add()
 
 
         'Dim da2 As New DataAccess(New BrainWork.Security.ApplicationUser())
@@ -242,139 +251,139 @@ Module Module12
 End Module
 
 
-Public Class ClaseEntity
-    Inherits BrainWork.Entities.AbstractEntityBase
+'Public Class ClaseEntity
+'    Inherits BrainWork.Entities.AbstractEntityBase
 
-End Class
+'End Class
 
-Public Class ClaseBL
-    Inherits BrainWork.BussinesLogicBaseLibrary.AbstractBussinesLogic
+'Public Class ClaseBL
+'    Inherits BrainWork.BussinesLogicBaseLibrary.AbstractBussinesLogic
 
-    Public Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)
-        MyBase.New(oUser)
+'    Public Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)
+'        MyBase.New(oUser)
 
-        Me.DataAccess = New ClaseDA(oUser)
-        Me.Entity = New ClaseEntity()
-    End Sub
-
-
-    Public Overrides Function ClassValidation(ByRef strError As String, ByVal validationType As BrainWork.BussinesLogicBaseLibrary.Enums.enumValidationType) As Boolean
-        Return True
-    End Function
-
-    Protected Overrides Sub DeleteEntity()
-
-    End Sub
-
-    Protected Overrides Sub DisableEntity()
-
-    End Sub
-
-    Protected Overrides Sub LoadEntity()
-
-    End Sub
-
-    Protected Overrides Sub UpdateEntity()
-
-    End Sub
-
-  
-
-   
-
-    Protected Overrides Function GetDataReaderEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Data.IDataReader
-
-    End Function
-
-    Protected Overrides Function GetDataSetEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Data.DataSet
-
-    End Function
-
-    Protected Overrides Function GetDataTableEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Data.DataTable
-
-    End Function
-
-    Protected Overrides Function GetListEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Collections.Generic.List(Of Object)
-
-    End Function
-
-    Protected Overrides Sub LoadEntityByPk(ByVal PK As Object)
-
-    End Sub
-
-    Protected Overrides Sub AddEntity()
-        Dim oDa As New ClaseDA(Me.ApplicationUser)
-        oDa.Add()
-
-    End Sub
-End Class
-
-Public Class ClaseDA
-
-    Inherits BrainWork.DataAccessBaseLibrary.AbstractDataAccess
+'        Me.DataAccess = New ClaseDA(oUser)
+'        Me.Entity = New ClaseEntity()
+'    End Sub
 
 
-    Public Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)
-        MyBase.New(oUser)
-    End Sub
+'    Public Overrides Function ClassValidation(ByRef strError As String, ByVal validationType As BrainWork.BussinesLogicBaseLibrary.Enums.enumValidationType) As Boolean
+'        Return True
+'    End Function
 
-    Protected Overrides Sub AddEntity()
+'    Protected Overrides Sub DeleteEntity()
 
-    End Sub
+'    End Sub
 
-    Protected Overrides Sub DeleteEntity()
+'    Protected Overrides Sub DisableEntity()
 
-    End Sub
+'    End Sub
 
-    Protected Overrides Sub DisableEntity()
+'    Protected Overrides Sub LoadEntity()
 
-    End Sub
+'    End Sub
 
-    Protected Overrides Property GetEntity() As BrainWork.Entities.AbstractEntityBase
-        Get
-            Return Nothing
-        End Get
-        Set(ByVal value As BrainWork.Entities.AbstractEntityBase)
+'    Protected Overrides Sub UpdateEntity()
 
-        End Set
-    End Property
+'    End Sub
 
-    Protected Overrides Sub LoadEntityByPk(ByVal PK As Object)
 
-    End Sub
 
-    Protected Overrides Sub LoadEntity()
 
-    End Sub
 
-    Protected Overrides Sub SetStoredProcedures()
-        Me.SP_ADD = ""
-        Me.SP_DELETE = ""
-        Me.SP_DISABLE = ""
-        Me.SP_UPDATE = ""
-    End Sub
+'    Protected Overrides Function GetDataReaderEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Data.IDataReader
 
-    Protected Overrides Sub UpdateEntity()
+'    End Function
 
-    End Sub
+'    Protected Overrides Function GetDataSetEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Data.DataSet
 
-    Protected Overrides Function GetDataReaderEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Data.IDataReader
+'    End Function
 
-    End Function
+'    Protected Overrides Function GetDataTableEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Data.DataTable
 
-    Protected Overrides Function GetDataSetEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Data.DataSet
-        Return Me.GetDataSet(Row, Page)
-    End Function
+'    End Function
 
-    Protected Overrides Function GetDataTableEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Data.DataTable
+'    Protected Overrides Function GetListEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Collections.Generic.List(Of Object)
 
-    End Function
+'    End Function
 
-    Protected Overrides Function GetListEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Collections.Generic.List(Of Object)
+'    Protected Overrides Sub LoadEntityByPk(ByVal PK As Object)
 
-    End Function
- 
-End Class
+'    End Sub
+
+'    Protected Overrides Sub AddEntity()
+'        Dim oDa As New ClaseDA(Me.ApplicationUser)
+'        oDa.Add()
+
+'    End Sub
+'End Class
+
+'Public Class ClaseDA
+
+'    Inherits BrainWork.DataAccessBaseLibrary.AbstractDataAccess
+
+
+'    Public Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)
+'        MyBase.New(oUser, New Object)
+'    End Sub
+
+'    Protected Overrides Sub AddEntity()
+
+'    End Sub
+
+'    Protected Overrides Sub DeleteEntity()
+
+'    End Sub
+
+'    Protected Overrides Sub DisableEntity()
+
+'    End Sub
+
+'    Protected Overrides Property GetEntity() As BrainWork.Entities.AbstractEntityBase
+'        Get
+'            Return Nothing
+'        End Get
+'        Set(ByVal value As BrainWork.Entities.AbstractEntityBase)
+
+'        End Set
+'    End Property
+
+'    Protected Overrides Sub LoadEntityByPk(ByVal PK As Object)
+
+'    End Sub
+
+'    Protected Overrides Sub LoadEntity()
+
+'    End Sub
+
+'    Protected Overrides Sub SetStoredProcedures()
+'        Me.SP_ADD = ""
+'        Me.SP_DELETE = ""
+'        Me.SP_DISABLE = ""
+'        Me.SP_UPDATE = ""
+'    End Sub
+
+'    Protected Overrides Sub UpdateEntity()
+
+'    End Sub
+
+'    Protected Overrides Function GetDataReaderEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Data.IDataReader
+
+'    End Function
+
+'    Protected Overrides Function GetDataSetEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Data.DataSet
+'        Return Me.GetDataSet(Row, Page)
+'    End Function
+
+'    Protected Overrides Function GetDataTableEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Data.DataTable
+
+'    End Function
+
+'    Protected Overrides Function GetListEntity(ByVal Row As Integer, ByVal Page As Integer) As System.Collections.Generic.List(Of Object)
+
+'    End Function
+
+'End Class
 
 
 

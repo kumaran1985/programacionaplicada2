@@ -13,6 +13,120 @@ Partial Public Class EntityCodeGenerator
     Private METHOD_REGION As String = "GeneratedCode Methods"
     Private PROPERTYS_REGION As String = "GeneratedCode Propertys"
     Private CONSTRUCTOR_REGION As String = "GeneratedCode Constructor"
+
+    Protected Const PAGED_ROW_PARAMETER As String = "@Row"
+    Protected Const PAGED_MAXVALUES_PARAMETER As String = "@MaxValues"
+    Protected Const ORDER_BY_PARAMETER As String = "@OrderBy"
+
+
+    Dim TableProcedureInsert As New Dictionary(Of String, String)
+    Dim TableProcedureSelectAll As New Dictionary(Of String, String)
+    Dim TableProcedureDelete As New Dictionary(Of String, String)
+    Dim TableProcedureSelectOne As New Dictionary(Of String, String)
+    Dim TableProcedureUpdate As New Dictionary(Of String, String)
+    Dim TableProcedureUpdateByPK As New Dictionary(Of String, String)
+    Dim TableProcedureDisable As New Dictionary(Of String, String)
+
+
+
+    Private ReadOnly Property GetDATemplate() As String
+        Get
+            Dim strTemplate As String = "Public Class ____daClass____ " & vbCrLf
+            strTemplate += "    Inherits BrainWork.DataAccessBaseLibrary.AbstractDataAccess " & vbCrLf
+            strTemplate += "    Private _CurrentEntity As ____entClass____" & vbCrLf
+            strTemplate += "" & vbCrLf
+            strTemplate += "    Public Property CurrentEntity() As ____entClass____" & vbCrLf
+            strTemplate += "        Get" & vbCrLf
+            strTemplate += "            Return _CurrentEntity" & vbCrLf
+            strTemplate += "        End Get" & vbCrLf
+            strTemplate += "        Set(ByVal value As ____entClass____)" & vbCrLf
+            strTemplate += "            _CurrentEntity = value" & vbCrLf
+            strTemplate += "        End Set" & vbCrLf
+            strTemplate += "    End Property" & vbCrLf
+            strTemplate += "" & vbCrLf
+            strTemplate += "    Public Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)" & vbCrLf
+            strTemplate += "        MyBase.New(oUser, New ____entClass____)" & vbCrLf
+            strTemplate += "        Me._CurrentEntity = CType(MyBase.Entity, ____entClass____)" & vbCrLf
+            strTemplate += " ____ConstructorValues____" & vbCrLf
+            strTemplate += "    End Sub" & vbCrLf
+            strTemplate += "" & vbCrLf
+            strTemplate += "    Protected Overrides Sub DisableEntity()" & vbCrLf
+            strTemplate += "" & vbCrLf
+            strTemplate += "    End Sub" & vbCrLf
+            strTemplate += "" & vbCrLf
+            strTemplate += "    Protected Overrides Sub SetStoredProcedures()" & vbCrLf
+            strTemplate += " ____SetStoredProcedures____" & vbCrLf
+            strTemplate += "    End Sub" & vbCrLf
+            strTemplate += "End Class" & vbCrLf
+            strTemplate += "" & vbCrLf
+            Return strTemplate
+        End Get
+    End Property
+
+    Private Function GetDaClass(ByVal TableName As String, _
+                                ByVal className As String, _
+                                ByVal entClassName As String, _
+                                ByVal SetStoredProcedures As String, _
+                                ByVal ConstructorValues As String) As String
+        Dim strTemplate As String = Me.GetDATemplate.ToString
+        strTemplate = strTemplate.Replace("____daClass____", className)
+        strTemplate = strTemplate.Replace("____entClass____", entClassName)
+        strTemplate = strTemplate.Replace("____ConstructorValues____", ConstructorValues)
+        strTemplate = strTemplate.Replace("____SetStoredProcedures____", SetStoredProcedures)
+
+        Return strTemplate
+    End Function
+
+    Private ReadOnly Property GetBLTemplate() As String
+        Get
+            Dim strTemplate As String = "Public Class ____blClassName____"
+            strTemplate += vbCrLf & "    Inherits BrainWork.BussinesLogicBaseLibrary.AbstractBussinesLogic"
+            strTemplate += vbCrLf & "    Private _CurrentEntity As ____entClassName____"
+            strTemplate += vbCrLf & "    Private _myDataAccess As ____daClassName____"
+            strTemplate += vbCrLf & ""
+            strTemplate += vbCrLf & "    Public Property CurrentEntity() As ____entClassName____"
+            strTemplate += vbCrLf & "        Get"
+            strTemplate += vbCrLf & "            Return _CurrentEntity"
+            strTemplate += vbCrLf & "        End Get"
+            strTemplate += vbCrLf & "        Set(ByVal value As ____entClassName____)"
+            strTemplate += vbCrLf & "            _CurrentEntity = value"
+            strTemplate += vbCrLf & "        End Set"
+            strTemplate += vbCrLf & "    End Property"
+            strTemplate += vbCrLf & ""
+            strTemplate += vbCrLf & "    Public Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)"
+            strTemplate += vbCrLf & "        MyBase.New(oUser, New ____entClassName____, New ____daClassName____(oUser))"
+            strTemplate += vbCrLf & "        Me._CurrentEntity = CType(MyBase.Entity, ____entClassName____)"
+            strTemplate += vbCrLf & "        Me._myDataAccess = CType(MyBase.DataAccess, ____daClassName____)"
+            strTemplate += vbCrLf & "        Me._myDataAccess.CurrentEntity = Me.CurrentEntity"
+            strTemplate += vbCrLf & "____ConstructorValues____"
+
+            strTemplate += vbCrLf & "    End Sub"
+            strTemplate += vbCrLf & ""
+            strTemplate += vbCrLf & "    Public Overrides Function ClassValidation(ByRef strError As String, _ "
+            strTemplate += vbCrLf & "											  ByVal validationType As BrainWork.BussinesLogicBaseLibrary.Enums.enumValidationType) As Boolean "
+            strTemplate += vbCrLf & "____ClassValidationString____"
+            strTemplate += vbCrLf & "    End Function "
+            strTemplate += vbCrLf & "End Class"
+            Return strTemplate
+        End Get
+    End Property
+
+    Private Function GetBlClass(ByVal TableName As String, _
+                                ByVal className As String, _
+                                ByVal entClassName As String, _
+                                ByVal daClassName As String, _
+                                ByVal ClassValidationString As String, _
+                                ByVal ConstructorValues As String) As String
+        Dim strTemplate As String = Me.GetBLTemplate.ToString
+        strTemplate = strTemplate.Replace("____blClassName____", className)
+        strTemplate = strTemplate.Replace("____entClassName____", entClassName)
+        strTemplate = strTemplate.Replace("____daClassName____", daClassName)
+        strTemplate = strTemplate.Replace("____ClassValidationString____", ClassValidationString)
+        strTemplate = strTemplate.Replace("____ConstructorValues____", ConstructorValues)
+
+        Return strTemplate
+    End Function
+
     Private ReadOnly Property STORED_BrainworkSupport_GetTable_QUERY() As String
         Get
             Dim sb As New System.Text.StringBuilder()
@@ -120,6 +234,9 @@ Partial Public Class EntityCodeGenerator
     End Property
     Public ABM_Prefix As String = "ABM_"
     Public ENTITY_Prefix As String = "Ent"
+    Public BUSSINES_LOGIC_Prefix As String = "Bl"
+    Public DATA_ACCESS_Prefix As String = "Da"
+
     Public OUTPUTPAT As String = "c:\PruebaGenerador\"
     Public SUBDIR_CLASS_ENTITY As String = "Entity"
     Public SUBDIR_CLASS_BUSSINES As String = "BussinesLogic"
@@ -312,6 +429,7 @@ Partial Public Class EntityCodeGenerator
                     pField.ForeingCRUD = ABM_Prefix & PK_Table
                     pField.FieldType = Entities.EnumFieldType.ForeingKey
                     pField.EntityClassContainer = ENTITY_Prefix & PK_Table
+                    pField.ForeingFieldName = FK_Column
                 Else
                     If dtKeys.Select("COLUMN_NAME = '" & COLUMN_NAME & "'").Length > 0 Then
                         Dim drAux() As DataRow = dtKeys.Select("COLUMN_NAME = '" & COLUMN_NAME & "'")
@@ -321,6 +439,8 @@ Partial Public Class EntityCodeGenerator
                         pField.ForeingCRUD = ABM_Prefix & PK_Table
                         pField.FieldType = Entities.EnumFieldType.ForeingKey
                         pField.EntityClassContainer = ENTITY_Prefix & PK_Table
+                        pField.ForeingFieldName = FK_Column
+
 
                     Else
                         pField.RelationType = Entities.EnumRelationType.TextBox
@@ -344,6 +464,7 @@ Partial Public Class EntityCodeGenerator
 
                 If COLUMN_NAME.ToUpper.EndsWith("_D") Then
                     DescriptionFieldName = DescriptionFieldName & COLUMN_NAME & ","
+                    pField.IsDescription = True
                 End If
 
 
@@ -354,7 +475,7 @@ Partial Public Class EntityCodeGenerator
 
                 If pField.TypeName.Contains("Byte[]") Then
                     pField.TypeName = "Byte"
-                End If  
+                End If
 
                 pField.MinValue = 0
                 pField.MaxValue = Precision
@@ -375,7 +496,23 @@ Partial Public Class EntityCodeGenerator
             AuxiliaryClassExtends.DescriptionFieldName = DescriptionFieldName
             AuxiliaryClassExtends.PrimaryKeyFieldName = PrimaryKeyFieldName
             AuxiliaryClassExtends.RootContainerName = TableNameString
+
+
             Me.Tables.Add(TableNameString, AuxiliaryClassExtends)
+
+            Dim esPrimero As Boolean = True
+            Dim defaultOrderByItem As Integer = 0
+            For i As Integer = 0 To AuxiliaryFieldExtends.Count - 1
+                Dim item As BrainWork.Entities.EntityFieldExtendsAttribute = AuxiliaryFieldExtends(i)
+
+                If item.FieldType = Entities.EnumFieldType.PrimaryKey Then
+                    defaultOrderByItem = i
+                    Exit For
+                End If
+            Next
+            AuxiliaryFieldExtends.Item(defaultOrderByItem).DefaultOrderBy = True
+
+
             Me.TablesFields.Add(TableNameString, AuxiliaryFieldExtends)
 
         Next
@@ -466,7 +603,7 @@ Partial Public Class EntityCodeGenerator
 
         'size:=0, 
         If Not Efield.Size = Nothing Then
-            AuxString = AuxString & "size:=" & Efield.Size.ToString & ","
+            AuxString = AuxString & "Size:=" & Efield.Size.ToString & ","
         End If
 
         'SourceColumn:="", 
@@ -515,6 +652,19 @@ Partial Public Class EntityCodeGenerator
             AuxString = AuxString & "CustomValidationExpression:=""" & Efield.CustomValidationExpression.ToString & ""","
         End If
 
+        'IsDescription:="")> _"
+        ' If Not Efield.IsDescription Is Nothing Then
+        AuxString = AuxString & "IsDescription:=" & Efield.IsDescription.ToString & ","
+        '  End If
+
+
+        'ForeingFieldName:="")> _"
+        If Not Efield.ForeingFieldName Is Nothing Then
+            AuxString = AuxString & "ForeingFieldName:=""" & Efield.ForeingFieldName.ToString & ""","
+        End If
+
+        'DefaultOrderBy:="")> _"
+        AuxString = AuxString & "DefaultOrderBy:= " & Efield.DefaultOrderBy.ToString & " ,"
 
 
         sbB.Append(AuxString.Substring(0, AuxString.Length - 1))
@@ -548,27 +698,121 @@ Partial Public Class EntityCodeGenerator
         Return UCase(value.Substring(0, 1)) & value.Substring(1)
     End Function
 
-    Private Function CreateInsertProcedeure(ByRef sbInsertProcedure As System.Text.StringBuilder, _
-                                       ByRef TableName As String, _
-                                       ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute)) As String
-        CreateInsertProcedeure = "prc_" & TableName.Replace("["c, "").Replace("]"c, "").Replace("dbo.", "").Replace("."c, "") & "_Insert"
-        sbInsertProcedure.AppendLine("Create PROCEDURE  " & CreateInsertProcedeure)
-        sbInsertProcedure.AppendLine("                                                                    ")
-
+    Private Function CreateParametersForProcedure(ByVal sbProcedure As System.Text.StringBuilder, _
+                                                  ByVal TableName As String, _
+                                                  ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute), _
+                                                  Optional ByVal CreateStandarValues As Boolean = False, _
+                                                  Optional ByVal OnlyPrimaryKeys As Boolean = False) As String
         Dim auxDeclarationVariables As String = ""
 
         For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
 
             Dim ci As DataColumn
             ci = GetColumnExtendInformation(TableName, pField.FieldName)
+            If OnlyPrimaryKeys Then
+                If pField.FieldType = Entities.EnumFieldType.PrimaryKey Then
+                    auxDeclarationVariables += vbCrLf & "         @" & pField.FieldName.Replace(" "c, "_") & " As " & [Enum].GetName(GetSqlDBType(ci.DataType).GetType, GetSqlDBType(ci.DataType)) & IIf((Not pField.Size = Nothing AndAlso pField.Size > 0), "(" & pField.Size & ")", "").ToString & ","
+                End If
+            Else
+                auxDeclarationVariables += vbCrLf & "         @" & pField.FieldName.Replace(" "c, "_") & " As " & [Enum].GetName(GetSqlDBType(ci.DataType).GetType, GetSqlDBType(ci.DataType)) & IIf((Not pField.Size = Nothing AndAlso pField.Size > 0), "(" & pField.Size & ")", "").ToString & ","
+            End If
 
-            auxDeclarationVariables += vbCrLf & "         @" & pField.FieldName.Replace(" "c, "_") & " As " & [Enum].GetName(GetSqlDBType(ci.DataType).GetType, GetSqlDBType(ci.DataType)) & IIf((Not pField.Size = Nothing AndAlso pField.Size > 0), "(" & pField.Size & ")", "").ToString & ","
+
+        Next
+
+
+        If CreateStandarValues Then
+            auxDeclarationVariables += vbCrLf & "         " & ORDER_BY_PARAMETER & " varchar(4000),"
+            auxDeclarationVariables += vbCrLf & "         " & PAGED_ROW_PARAMETER & " int,"
+            auxDeclarationVariables += vbCrLf & "         " & PAGED_MAXVALUES_PARAMETER & " int"
+        Else
+            If String.IsNullOrEmpty(auxDeclarationVariables) Then
+                
+                Dim ci As DataColumn
+                ci = GetColumnExtendInformation(TableName, listefield(0).FieldName)
+
+
+                auxDeclarationVariables += vbCrLf & "         @" & listefield(0).FieldName.Replace(" "c, "_") & " As " & [Enum].GetName(GetSqlDBType(ci.DataType).GetType, GetSqlDBType(ci.DataType)) & IIf((Not listefield(0).Size = Nothing AndAlso listefield(0).Size > 0), "(" & listefield(0).Size & ")", "").ToString & ","
+
+
+            End If
+            auxDeclarationVariables = auxDeclarationVariables.Substring(0, auxDeclarationVariables.Length - 1)
+        End If
+
+
+        Return auxDeclarationVariables
+    End Function
+
+    Private Function SanitizeTableName(ByVal tablename As String) As String
+        Return "tbl" & tablename.Replace("[dbo].", "").Replace("."c, "_"c).Replace(" "c, "_").Replace("["c, "").Replace("]"c, "")
+    End Function
+
+    Private Function CreateSelectForProcedure(ByVal TableName As String, _
+                                                    ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute), _
+                                                    Optional ByVal prefix As String = "") As String
+        Dim auxDeclarationVariables As String = prefix & "SELECT "
+
+        Dim innerJoinValues As String = ""
+        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+
+            Dim ci As DataColumn
+            ci = GetColumnExtendInformation(TableName, pField.FieldName)
+
+            auxDeclarationVariables += vbCrLf & prefix & SanitizeTableName(TableName) & ".[" & pField.FieldName & "] ,"
+
+            If pField.FieldType = Entities.EnumFieldType.ForeingKey Then ' si es clave externa
+                innerJoinValues = innerJoinValues & vbCrLf & prefix & vbTab & " Inner Join " & pField.ForeingTable & " " & SanitizeTableName(pField.ForeingTable)
+                innerJoinValues = innerJoinValues & vbCrLf & prefix & vbTab & vbTab & " On " & SanitizeTableName(TableName) & ".[" & pField.FieldName & "] "
+                innerJoinValues = innerJoinValues & " = " & SanitizeTableName(pField.ForeingTable) & ".[" & pField.ForeingFieldName & "]   "
+
+                For Each item As BrainWork.Entities.EntityFieldExtendsAttribute In TablesFields(pField.ForeingTable)
+                    If item.IsDescription Then
+                        If auxDeclarationVariables.Contains(SanitizeTableName(pField.ForeingTable) & ".[" & pField.FieldName & "] ,") Then
+                            auxDeclarationVariables += vbCrLf & prefix & SanitizeTableName(pField.ForeingTable) & ".[" & pField.FieldName & "] As " & SanitizeTableName(pField.ForeingTable) & pField.FieldName.Replace(" "c, "_") & ","
+                        Else
+                            auxDeclarationVariables += vbCrLf & prefix & SanitizeTableName(pField.ForeingTable) & ".[" & pField.FieldName & "] ,"
+                        End If
+
+                    End If
+                Next
+            End If
+
+
 
         Next
 
         auxDeclarationVariables = auxDeclarationVariables.Substring(0, auxDeclarationVariables.Length - 1)
+        auxDeclarationVariables += vbCrLf & prefix & " From " & TableName & " " & SanitizeTableName(TableName) & innerJoinValues
 
-        sbInsertProcedure.Append(auxDeclarationVariables & vbCrLf)
+
+        Return auxDeclarationVariables
+    End Function
+
+
+    Private Function CreateInsertProcedeure(ByRef sbInsertProcedure As System.Text.StringBuilder, _
+                                       ByRef TableName As String, _
+                                       ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute)) As String
+        CreateInsertProcedeure = "prc_" & TableName.Replace("["c, "").Replace("]"c, "").Replace("dbo.", "").Replace("."c, "") & "_Insert"
+        sbInsertProcedure.AppendLine("Create PROCEDURE  " & CreateInsertProcedeure)
+        ' sbInsertProcedure.AppendLine("                                                                    ")
+
+
+
+        sbInsertProcedure.AppendLine(CreateParametersForProcedure(sbInsertProcedure, TableName, listefield, False))
+
+        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+            If pField.FieldType = Entities.EnumFieldType.PrimaryKey Then
+                Dim ci As DataColumn = Me.GetColumnExtendInformation(TableName, pField.FieldName)
+
+                sbInsertProcedure.AppendLine(vbCrLf & "           , @ID_Generated_New As " & _
+                                            [Enum].GetName(GetSqlDBType(ci.DataType).GetType, GetSqlDBType(ci.DataType)) & _
+                                            IIf((Not pField.Size = Nothing AndAlso pField.Size > 0), "(" & pField.Size & ")", "").ToString & " output")
+                Exit For
+            End If
+            
+        Next
+        sbInsertProcedure.AppendLine()
+
 
         sbInsertProcedure.AppendLine("AS")
         sbInsertProcedure.AppendLine("BEGIN")
@@ -579,29 +823,35 @@ Partial Public Class EntityCodeGenerator
         sbInsertProcedure.AppendLine("        INSERT INTO " & TableName)
         sbInsertProcedure.AppendLine("            ( ")
 
-        auxDeclarationVariables = ""
+        Dim auxValues As String = ""
         For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
 
-            auxDeclarationVariables += vbCrLf & "              [" & pField.FieldName & "],"
+            auxValues += vbCrLf & "              [" & pField.FieldName & "],"
 
         Next
-        auxDeclarationVariables = auxDeclarationVariables.Substring(0, auxDeclarationVariables.Length - 1)
-        sbInsertProcedure.Append(auxDeclarationVariables & vbCrLf)
+        auxValues = auxValues.Substring(0, auxValues.Length - 1)
+        sbInsertProcedure.Append(auxValues & vbCrLf)
 
 
         sbInsertProcedure.AppendLine("             )")
         sbInsertProcedure.AppendLine("        VALUES ")
         sbInsertProcedure.AppendLine("              (")
 
-        auxDeclarationVariables = ""
-        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield 
-            auxDeclarationVariables += vbCrLf & "              @" & pField.FieldName.Replace(" "c, "_") & ","
+        auxValues = ""
+        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+            auxValues += vbCrLf & "              @" & pField.FieldName.Replace(" "c, "_") & ","
 
         Next
-        auxDeclarationVariables = auxDeclarationVariables.Substring(0, auxDeclarationVariables.Length - 1)
-        sbInsertProcedure.Append(auxDeclarationVariables & vbCrLf)
+        auxValues = auxValues.Substring(0, auxValues.Length - 1)
+        sbInsertProcedure.Append(auxValues & vbCrLf)
 
         sbInsertProcedure.AppendLine("              );")
+
+        If sbInsertProcedure.ToString.Contains("@ID_Generated_New") Then
+            sbInsertProcedure.AppendLine("              Set @ID_Generated_New = SCOPE_IDENTITY();")
+        End If
+
+
         sbInsertProcedure.AppendLine("    END TRY")
         sbInsertProcedure.AppendLine("    BEGIN CATCH")
         sbInsertProcedure.AppendLine("       DECLARE @Error_Message_Value NVARCHAR(4000);")
@@ -620,22 +870,12 @@ Partial Public Class EntityCodeGenerator
 
         CreateUpdateProcedeure = "prc_" & TableName.Replace("["c, "").Replace("]"c, "").Replace("dbo.", "").Replace("."c, "") & "_Update"
         sbUpdateProcedure.AppendLine("Create PROCEDURE  " & CreateUpdateProcedeure)
-        sbUpdateProcedure.AppendLine("                                                                    ")
+        'sbUpdateProcedure.AppendLine("                                                                    ")
 
-        Dim auxDeclarationVariables As String = ""
+        Dim auxValues As String = ""
 
-        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+        sbUpdateProcedure.Append(CreateParametersForProcedure(sbUpdateProcedure, TableName, listefield, False) & vbCrLf)
 
-            Dim ci As DataColumn
-            ci = GetColumnExtendInformation(TableName, pField.FieldName)
-
-            auxDeclarationVariables += vbCrLf & "         @" & pField.FieldName.Replace(" "c, "_") & " As " & [Enum].GetName(GetSqlDBType(ci.DataType).GetType, GetSqlDBType(ci.DataType)) & IIf((Not pField.Size = Nothing AndAlso pField.Size > 0), "(" & pField.Size & ")", "").ToString & ","
-
-        Next
-
-        auxDeclarationVariables = auxDeclarationVariables.Substring(0, auxDeclarationVariables.Length - 1)
-
-        sbUpdateProcedure.Append(auxDeclarationVariables & vbCrLf)
 
         sbUpdateProcedure.AppendLine("AS")
         sbUpdateProcedure.AppendLine("BEGIN")
@@ -646,7 +886,7 @@ Partial Public Class EntityCodeGenerator
         sbUpdateProcedure.AppendLine("        Update " & TableName)
         sbUpdateProcedure.AppendLine("            SET ")
 
-        auxDeclarationVariables = ""
+        auxValues = ""
         Dim WhereExpression As String = ""
         Dim isFirst As Boolean = True
         For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
@@ -657,14 +897,14 @@ Partial Public Class EntityCodeGenerator
             End If
 
             If pField.FieldType <> Entities.EnumFieldType.PrimaryKey Then
-                auxDeclarationVariables += vbCrLf & "              [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ","
+                auxValues += vbCrLf & "              [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ","
             Else
                 WhereExpression = vbCrLf & "              Where [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
             End If
 
         Next
-        auxDeclarationVariables = auxDeclarationVariables.Substring(0, auxDeclarationVariables.Length - 1)
-        sbUpdateProcedure.Append(auxDeclarationVariables & vbCrLf)
+        auxValues = auxValues.Substring(0, auxValues.Length - 1)
+        sbUpdateProcedure.Append(auxValues & vbCrLf)
 
 
 
@@ -681,11 +921,344 @@ Partial Public Class EntityCodeGenerator
 
     End Function
 
+
+    Private Function CreateUpdateByPKProcedeure(ByRef sbUpdateProcedure As System.Text.StringBuilder, _
+                                      ByRef TableName As String, _
+                                      ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute)) As String
+
+        CreateUpdateByPKProcedeure = "prc_" & TableName.Replace("["c, "").Replace("]"c, "").Replace("dbo.", "").Replace("."c, "") & "_UpdateByPK"
+        sbUpdateProcedure.AppendLine("Create PROCEDURE  " & CreateUpdateByPKProcedeure)
+        Dim auxValues As String = ""
+
+        sbUpdateProcedure.Append(CreateParametersForProcedure(sbUpdateProcedure, TableName, listefield, False) & vbCrLf)
+
+
+        sbUpdateProcedure.AppendLine("AS")
+        sbUpdateProcedure.AppendLine("BEGIN")
+        sbUpdateProcedure.AppendLine("    SET NOCOUNT ON;")
+        sbUpdateProcedure.AppendLine("")
+
+        sbUpdateProcedure.AppendLine("    BEGIN TRY")
+        sbUpdateProcedure.AppendLine("        Update " & TableName)
+        sbUpdateProcedure.AppendLine("            SET ")
+
+        auxValues = ""
+        Dim WhereExpression As String = ""
+        Dim isFirst As Boolean = True
+        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+
+            'default where con el primero que encuentra
+            If isFirst Then
+                WhereExpression = vbCrLf & "              Where [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+            End If
+
+            If pField.FieldType = Entities.EnumFieldType.PrimaryKey Then
+                If isFirst Then
+                    isFirst = False
+                    WhereExpression = ""
+                End If
+                Dim pval As String
+                If WhereExpression.Contains("Where") Then
+                    pval = "AND"
+                Else
+                    pval = "Where"
+                End If
+
+                WhereExpression += vbCrLf & "              " & pval & " [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+
+            End If
+            auxValues += vbCrLf & "              [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ","
+ 
+           
+
+        Next
+        auxValues = auxValues.Substring(0, auxValues.Length - 1)
+        sbUpdateProcedure.Append(auxValues & vbCrLf)
+
+
+
+        sbUpdateProcedure.AppendLine("              " & WhereExpression & ";")
+        sbUpdateProcedure.AppendLine("    END TRY")
+        sbUpdateProcedure.AppendLine("    BEGIN CATCH")
+        sbUpdateProcedure.AppendLine("       DECLARE @Error_Message_Value NVARCHAR(4000);")
+        sbUpdateProcedure.AppendLine("		 SELECT @Error_Message_Value = ERROR_MESSAGE();")
+        sbUpdateProcedure.AppendLine("		 RAISERROR (@Error_Message_Value, 16, 1);")
+        sbUpdateProcedure.AppendLine("    END CATCH;")
+        sbUpdateProcedure.AppendLine("END;")
+
+        sbUpdateProcedure.AppendLine("GO")
+
+    End Function
+
+    Private Function CreateDisableProcedeure(ByRef sbUpdateProcedure As System.Text.StringBuilder, _
+                                     ByRef TableName As String, _
+                                     ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute)) As String
+
+        CreateDisableProcedeure = "prc_" & TableName.Replace("["c, "").Replace("]"c, "").Replace("dbo.", "").Replace("."c, "") & "_UpdateByPK"
+        sbUpdateProcedure.AppendLine("Create PROCEDURE  " & CreateDisableProcedeure)
+        Dim auxValues As String = ""
+
+        sbUpdateProcedure.Append(CreateParametersForProcedure(sbUpdateProcedure, TableName, listefield, False) & vbCrLf)
+
+
+        sbUpdateProcedure.AppendLine("AS")
+        sbUpdateProcedure.AppendLine("BEGIN")
+        sbUpdateProcedure.AppendLine("    SET NOCOUNT ON;")
+        sbUpdateProcedure.AppendLine("")
+
+        sbUpdateProcedure.AppendLine("    BEGIN TRY")
+        sbUpdateProcedure.AppendLine("        Update " & TableName)
+        sbUpdateProcedure.AppendLine("            SET ")
+
+        auxValues = ""
+        Dim WhereExpression As String = ""
+        Dim isFirst As Boolean = True
+        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+
+            'default where con el primero que encuentra
+            If isFirst Then
+                isFirst = False
+                WhereExpression = vbCrLf & "              Where [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+            End If
+
+            If pField.FieldType = Entities.EnumFieldType.PrimaryKey Then
+                Dim pval As String
+                If WhereExpression.Contains("Where") Then
+                    pval = "AND"
+                Else
+                    pval = "Where"
+                End If
+
+                If Not isFirst Then
+                    WhereExpression += vbCrLf & "              " & pval & " [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+                End If
+            End If
+
+            If pField.FieldType <> Entities.EnumFieldType.PrimaryKey Then
+                auxValues += vbCrLf & "              [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ","
+            End If
+
+            If isFirst Then
+                isFirst = False
+            End If
+
+
+
+
+        Next
+        auxValues = auxValues.Substring(0, auxValues.Length - 1)
+        sbUpdateProcedure.Append(auxValues & vbCrLf)
+
+
+
+        sbUpdateProcedure.AppendLine("              " & WhereExpression & ";")
+        sbUpdateProcedure.AppendLine("    END TRY")
+        sbUpdateProcedure.AppendLine("    BEGIN CATCH")
+        sbUpdateProcedure.AppendLine("       DECLARE @Error_Message_Value NVARCHAR(4000);")
+        sbUpdateProcedure.AppendLine("		 SELECT @Error_Message_Value = ERROR_MESSAGE();")
+        sbUpdateProcedure.AppendLine("		 RAISERROR (@Error_Message_Value, 16, 1);")
+        sbUpdateProcedure.AppendLine("    END CATCH;")
+        sbUpdateProcedure.AppendLine("END;")
+
+        sbUpdateProcedure.AppendLine("GO")
+
+    End Function
+
+
+    Private Function CreateDeleteProcedeure(ByRef sbUpdateProcedure As System.Text.StringBuilder, _
+                                            ByRef TableName As String, _
+                                            ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute)) As String
+
+        CreateDeleteProcedeure = "prc_" & TableName.Replace("["c, "").Replace("]"c, "").Replace("dbo.", "").Replace("."c, "") & "_Delete"
+        sbUpdateProcedure.AppendLine("Create PROCEDURE  " & CreateDeleteProcedeure)
+        'sbUpdateProcedure.AppendLine("                                                                    ")
+
+        Dim auxValues As String = ""
+
+        sbUpdateProcedure.Append(CreateParametersForProcedure(sbUpdateProcedure, TableName, listefield, False, True) & vbCrLf)
+
+
+        sbUpdateProcedure.AppendLine("AS")
+        sbUpdateProcedure.AppendLine("BEGIN")
+        sbUpdateProcedure.AppendLine("    SET NOCOUNT ON;")
+        sbUpdateProcedure.AppendLine("")
+
+        sbUpdateProcedure.AppendLine("    BEGIN TRY")
+        sbUpdateProcedure.AppendLine("        Delete From " & TableName)
+
+
+        Dim WhereExpression As String = ""
+        Dim isFirst As Boolean = True
+        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+            'default where con el primero que encuentra
+            If isFirst Then
+                WhereExpression = vbCrLf & "              Where [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+            End If
+
+            If pField.FieldType = Entities.EnumFieldType.PrimaryKey Then
+                If isFirst Then
+                    isFirst = False
+                    WhereExpression = ""
+                End If
+                Dim pval As String
+                If WhereExpression.Contains("Where") Then
+                    pval = "AND"
+                Else
+                    pval = "Where"
+                End If
+ 
+                WhereExpression += vbCrLf & "              " & pval & " [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+
+            End If
+
+
+        Next
+
+        sbUpdateProcedure.AppendLine("              " & WhereExpression & ";")
+        sbUpdateProcedure.AppendLine("    END TRY")
+        sbUpdateProcedure.AppendLine("    BEGIN CATCH")
+        sbUpdateProcedure.AppendLine("       DECLARE @Error_Message_Value NVARCHAR(4000);")
+        sbUpdateProcedure.AppendLine("		 SELECT @Error_Message_Value = ERROR_MESSAGE();")
+        sbUpdateProcedure.AppendLine("		 RAISERROR (@Error_Message_Value, 16, 1);")
+        sbUpdateProcedure.AppendLine("    END CATCH;")
+        sbUpdateProcedure.AppendLine("END;")
+
+        sbUpdateProcedure.AppendLine("GO")
+
+    End Function
+
+
+    Private Function CreateSelectAllProcedure(ByRef sbSelectProcedure As System.Text.StringBuilder, _
+                                      ByRef TableName As String, _
+                                      ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute)) As String
+
+        CreateSelectAllProcedure = "prc_" & TableName.Replace("["c, "").Replace("]"c, "").Replace("dbo.", "").Replace("."c, "") & "_SelectAll"
+        sbSelectProcedure.AppendLine("Create PROCEDURE  " & CreateSelectAllProcedure)
+        'sbSelectProcedure.AppendLine("                                                                    ")
+
+        sbSelectProcedure.Append(CreateParametersForProcedure(sbSelectProcedure, TableName, listefield, True) & vbCrLf)
+
+
+        sbSelectProcedure.AppendLine("AS")
+        sbSelectProcedure.AppendLine("BEGIN")
+        sbSelectProcedure.AppendLine("    SET NOCOUNT ON;")
+        sbSelectProcedure.AppendLine("")
+
+        sbSelectProcedure.AppendLine("    BEGIN TRY")
+        sbSelectProcedure.AppendLine("          BEGIN ")
+
+        Dim selectClause As String = CreateSelectForProcedure(TableName, listefield, vbTab & vbTab & vbTab)
+
+        Dim isFirst As Boolean = True
+        Dim auxstr As String = ""
+
+        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+
+            If isFirst Then
+                auxstr = vbTab & vbTab & vbTab & " ,ROW_NUMBER() OVER (ORDER BY " & SanitizeTableName(TableName) & ".[" & pField.FieldName & "]) AS 'RowNumber'"
+            End If
+
+            If pField.DefaultOrderBy Then
+                auxstr = vbTab & vbTab & vbTab & " ,ROW_NUMBER() OVER (ORDER BY " & SanitizeTableName(TableName) & ".[" & pField.FieldName & "]) AS 'RowNumber'"
+                Exit For
+            End If
+        Next
+
+
+        auxstr = " WITH PagedTableAuxiliary AS" & _
+                vbCrLf & vbTab & vbTab & vbTab & "(" & vbCrLf & _
+                    selectClause.Replace(vbTab & vbTab & vbTab & " From ", auxstr & vbCrLf & vbTab & vbTab & vbTab & " From ") & _
+                vbCrLf & vbTab & vbTab & vbTab & ")" & vbCrLf
+
+        sbSelectProcedure.AppendLine(vbTab & vbTab & vbTab & auxstr)
+        sbSelectProcedure.AppendLine(vbTab & vbTab & vbTab & "SELECT * FROM PagedTableAuxiliary " & _
+                                     vbCrLf & vbTab & vbTab & vbTab & "WHERE RowNumber BETWEEN " & PAGED_ROW_PARAMETER & " AND (" & PAGED_MAXVALUES_PARAMETER & " + " & PAGED_ROW_PARAMETER & ") ")
+
+
+        Dim WhereExpression As String = vbTab & vbTab & vbTab & " AND ("
+        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+
+            WhereExpression += vbTab & vbTab & vbTab & vbCrLf & "               ("
+            WhereExpression += "(@" & pField.FieldName.Replace(" "c, "_") & " is Null)"
+            WhereExpression += " OR "
+            WhereExpression += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+            WhereExpression += ") AND"
+
+        Next
+        WhereExpression = WhereExpression.Substring(0, WhereExpression.Length - 3)
+        WhereExpression += ")"
+
+        sbSelectProcedure.Append(WhereExpression & vbCrLf)
+
+        sbSelectProcedure.AppendLine("          END")
+        sbSelectProcedure.AppendLine("    END TRY")
+        sbSelectProcedure.AppendLine("    BEGIN CATCH")
+        sbSelectProcedure.AppendLine("		 DECLARE @Error_Message_Value NVARCHAR(4000);")
+        sbSelectProcedure.AppendLine("		 SELECT @Error_Message_Value = ERROR_MESSAGE();")
+        sbSelectProcedure.AppendLine("		 RAISERROR (@Error_Message_Value, 16, 1);")
+        sbSelectProcedure.AppendLine("    END CATCH;")
+        sbSelectProcedure.AppendLine("END;")
+
+        sbSelectProcedure.AppendLine("GO")
+
+    End Function
+
+
+    Private Function CreateSelectOneProcedure(ByRef sbSelectProcedure As System.Text.StringBuilder, _
+                                              ByRef TableName As String, _
+                                              ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute)) As String
+
+        CreateSelectOneProcedure = "prc_" & TableName.Replace("["c, "").Replace("]"c, "").Replace("dbo.", "").Replace("."c, "") & "_SlectOne"
+        sbSelectProcedure.AppendLine("Create PROCEDURE  " & CreateSelectOneProcedure)
+        'sbSelectProcedure.AppendLine("                                                                    ")
+
+        Dim params As String = CreateParametersForProcedure(sbSelectProcedure, TableName, listefield, False, True)
+        sbSelectProcedure.Append(params & vbCrLf)
+
+
+        sbSelectProcedure.AppendLine("AS")
+        sbSelectProcedure.AppendLine("BEGIN")
+        sbSelectProcedure.AppendLine("    SET NOCOUNT ON;")
+        sbSelectProcedure.AppendLine("")
+
+        sbSelectProcedure.AppendLine("    BEGIN TRY")
+        sbSelectProcedure.AppendLine("             " & CreateSelectForProcedure(TableName, listefield, "             "))
+
+
+
+        Dim WhereExpression As String = vbCrLf & " WHERE("
+        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+
+            If params.Contains("@" & pField.FieldName.Replace(" "c, "_") & " ") Then
+
+                WhereExpression += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ") AND"
+
+            End If
+
+        Next
+        WhereExpression = WhereExpression.Substring(0, WhereExpression.Length - 3)
+        WhereExpression += ")"
+
+        sbSelectProcedure.Append(WhereExpression & vbCrLf)
+
+        sbSelectProcedure.AppendLine("    END TRY")
+        sbSelectProcedure.AppendLine("    BEGIN CATCH")
+        sbSelectProcedure.AppendLine("       DECLARE @Error_Message_Value NVARCHAR(4000);")
+        sbSelectProcedure.AppendLine("		 SELECT @Error_Message_Value = ERROR_MESSAGE();")
+        sbSelectProcedure.AppendLine("		 RAISERROR (@Error_Message_Value, 16, 1);")
+        sbSelectProcedure.AppendLine("    END CATCH;")
+        sbSelectProcedure.AppendLine("END;")
+
+        sbSelectProcedure.AppendLine("GO")
+    End Function
+
+
     Private Sub AppendProperty(ByRef sbPropertysRegion As System.Text.StringBuilder, _
                                ByRef sbDeclarationRegion As System.Text.StringBuilder, _
                                ByRef sbConstructorMethod As System.Text.StringBuilder, _
                                ByVal efield As BrainWork.Entities.EntityFieldExtendsAttribute, _
-                               ByVal Attributes As String)
+                               ByVal Attributes As String, _
+                               ByVal TableName As String)
 
         Dim propertyName As String = efield.FieldName.Replace(" "c, "_")
         Dim sType As String = efield.TypeName
@@ -727,6 +1300,14 @@ Partial Public Class EntityCodeGenerator
         'inserta el campo en el area de la declaracion  
         sbDeclarationRegion.AppendLine(vbTab & "Private  " & PrivateDim & " As " & sType)
 
+        'agrego el nombre de la propiedad a la EntityClassExtends
+        If Me.Tables(TableName).DescriptionFieldName = efield.FieldName Then
+            Me.Tables(TableName).DescriptionPropertyName = propertyName
+        End If
+        If Me.Tables(TableName).PrimaryKeyFieldName = efield.FieldName Then
+            Me.Tables(TableName).PrimaryKeyFieldName = propertyName
+        End If
+
         'genero la property
         sbPropertysRegion.AppendLine(vbTab & Attributes)
         sbPropertysRegion.AppendLine(vbTab & "Public Property " & propertyName & "() As " & sType)
@@ -740,27 +1321,63 @@ Partial Public Class EntityCodeGenerator
 
     End Sub
 
+    Private Function SanitizeClassName(ByVal clsName As String) As String
+        Return clsName.Replace("["c, "").Replace("]"c, "").Replace("dbo.", "").Replace("."c, "_"c)
+    End Function
+
+    Private Function GetClassExtends(ByVal tableName As String) As String
+        Dim sbb As String
+
+        sbb = "<BrainWork.Entities.EntityClassExtendsAttribute("
+
+
+        If Not Me.Tables(tableName).DescriptionFieldName Is Nothing Then
+            sbb += "DescriptionFieldName:=""" & Me.Tables(tableName).DescriptionFieldName & ""","
+        End If
+
+
+        If Not Me.Tables(tableName).PrimaryKeyFieldName Is Nothing Then
+            sbb += "PrimaryKeyFieldName:=""" & Me.Tables(tableName).PrimaryKeyFieldName & ""","
+        End If
+
+
+
+
+        If Not Me.Tables(tableName).RootContainerName Is Nothing Then
+            sbb += "RootContainerName:=""" & Me.Tables(tableName).RootContainerName & """"
+        End If
+
+
+        sbb += ")> _"
+        Return sbb
+
+
+    End Function
+
     Private Function GenerateClass(ByRef sbPropertysRegion As System.Text.StringBuilder, _
                                ByRef sbDeclarationRegion As System.Text.StringBuilder, _
                                ByRef sbMethodRegion As System.Text.StringBuilder, _
                                ByRef sbConstructorMethod As System.Text.StringBuilder, _
                                ByVal ClassName As String, _
+                               ByVal TableName As String, _
                                Optional ByVal NamespaceName As String = Nothing) As String
 
         Dim ClassString As String
-        ClassName = ClassName.Replace("["c, "").Replace("]"c, "").Replace("dbo.", "").Replace("."c, "_"c)
-        ClassString = "''' <summary>"
+        ClassName = Me.ENTITY_Prefix & SanitizeClassName(ClassName)
+        ClassString = "''' <summary>" & vbCrLf
         ClassString += "''' Auto Generated:  " & Date.Now.ToString() & vbCrLf
-        ClassString += "''' </summary>"
-        ClassString += " ''' <remarks></remarks>"
+        ClassString += "''' </summary>" & vbCrLf
+        ClassString += " ''' <remarks></remarks>" & vbCrLf
 
         If NamespaceName <> Nothing Then
             ClassString += "Namespace " & NamespaceName & vbCrLf
+            ClassString += vbTab & Me.GetClassExtends(TableName) & vbCrLf
             ClassString += vbTab & "Public Class " & ClassName & vbCrLf
         Else
+            ClassString += vbTab & Me.GetClassExtends(TableName) & vbCrLf
             ClassString += "Public Class " & ClassName & vbCrLf
         End If
-
+        ClassString += vbCrLf & vbTab & vbTab & "Inherits BrainWork.Entities.AbstractEntityBase" & vbCrLf
 
 
         PutInRegion(sbDeclarationRegion, DECLARATION_REGION)
@@ -790,26 +1407,63 @@ Partial Public Class EntityCodeGenerator
         For Each Key As String In Me.TablesFields.Keys
             Dim sbInsertProcedure As New System.Text.StringBuilder
             Dim sbUpdateProcedure As New System.Text.StringBuilder
+            Dim sbSelectAllProcedure As New System.Text.StringBuilder
+            Dim sbSelectOneProcedure As New System.Text.StringBuilder
+            Dim sbDeleteProcedure As New System.Text.StringBuilder
+            Dim sbDisableProcedure As New System.Text.StringBuilder
+            Dim sbUpdateByPKProcedure As New System.Text.StringBuilder
 
             Dim listefield As New List(Of BrainWork.Entities.EntityFieldExtendsAttribute)
             listefield = Me.TablesFields.Item(Key)
             ' CreateInsertProcedeure(sbInsertProcedure, Key, listefield)
             Dim sAux As String
 
+
+
             sAux = CreateInsertProcedeure(sbInsertProcedure, Key, listefield)
+            TableProcedureInsert.Add(Key, sAux)
             PublishStoredProcedures(OUTPUTPAT, sbInsertProcedure.ToString, sAux)
 
-            sAux = CreateUpdateProcedeure(sbUpdateProcedure, Key, listefield)
+            sAux = CreateUpdateByPKProcedeure(sbUpdateProcedure, Key, listefield)
+            TableProcedureUpdate.Add(Key, sAux)
             PublishStoredProcedures(OUTPUTPAT, sbUpdateProcedure.ToString, sAux)
 
-             
+
+            sAux = CreateSelectAllProcedure(sbSelectAllProcedure, Key, listefield)
+            TableProcedureSelectAll.Add(Key, sAux)
+            PublishStoredProcedures(OUTPUTPAT, sbSelectAllProcedure.ToString, sAux)
+
+
+
+
+            sAux = CreateSelectOneProcedure(sbSelectOneProcedure, Key, listefield)
+            TableProcedureSelectOne.Add(Key, sAux)
+            PublishStoredProcedures(OUTPUTPAT, sbSelectOneProcedure.ToString, sAux)
+
+            sAux = CreateDeleteProcedeure(sbDeleteProcedure, Key, listefield)
+            TableProcedureDelete.Add(Key, sAux)
+            PublishStoredProcedures(OUTPUTPAT, sbDeleteProcedure.ToString, sAux)
+
+
+            sAux = CreateDisableProcedeure(sbDisableProcedure, Key, listefield)
+            TableProcedureDisable.Add(Key, sAux)
+            PublishStoredProcedures(OUTPUTPAT, sbDisableProcedure.ToString, sAux)
+
+            sAux = CreateUpdateByPKProcedeure(sbUpdateByPKProcedure, Key, listefield)
+            TableProcedureUpdateByPK.Add(Key, sAux)
+            PublishStoredProcedures(OUTPUTPAT, sbUpdateByPKProcedure.ToString, sAux)
+
+
 
         Next
 
 
     End Sub
 
+    Dim tempproc As String = ""
     Public Sub PublishStoredProcedures(ByVal directorio As String, ByVal storedProceduresString As String, ByVal procedureName As String)
+        tempproc += storedProceduresString
+        Return
         directorio = directorio & Me.SUBDIR_CLASS_PROCEDURES
         If Not System.IO.Directory.Exists(directorio) Then
             System.IO.Directory.CreateDirectory(directorio)
@@ -825,6 +1479,179 @@ Partial Public Class EntityCodeGenerator
         sw.Flush()
         sw.Close()
     End Sub
+    '
+
+    Public Sub CreateBLAndDAClass()
+        If Not System.IO.Directory.Exists(OUTPUTPAT) Then
+            System.IO.Directory.CreateDirectory(OUTPUTPAT)
+        End If
+
+
+
+
+        For Each Key As String In Me.TablesFields.Keys
+
+
+            Dim listefield As New List(Of BrainWork.Entities.EntityFieldExtendsAttribute)
+            listefield = Me.TablesFields.Item(Key)
+            Dim classValidationString As String = vbTab & vbTab & "If "
+
+            Dim ConstructorValues As String = vbTab & vbTab & ""
+
+            Dim sCurrentPropertys As String = ""
+
+            For Each efield As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+                Dim propertyName As String = efield.FieldName.Replace(" "c, "_")
+                Dim sType As String = efield.TypeName
+                If propertyName.Contains("_"c) Then
+                    propertyName = Mid(propertyName, propertyName.IndexOf("_"c) + 2)
+                End If
+
+                Dim i As Integer = 0
+                propertyName = SanitizeVariable(propertyName)
+
+                Dim propAux As String = propertyName
+                While sCurrentPropertys.ToLower.Contains(" _" & propAux.ToLower)
+                    i += 1
+                    If Not efield.ForeingTable Is Nothing Then
+                        If efield.ForeingTable & FirstLetter(propertyName) = propAux Then
+                            propAux = efield.ForeingTable & FirstLetter(propertyName) & "_" & i
+                        Else
+                            propAux = efield.ForeingTable & FirstLetter(propertyName)
+                        End If
+                    Else
+                        propAux = propertyName & "_" & i
+                    End If
+                End While
+
+                propertyName = propAux
+
+
+                'Agrego la capitalizacion
+                propertyName = FirstLetter(propertyName)
+
+                sCurrentPropertys += propertyName & vbCrLf
+
+                If Not efield.IsNullable Then
+
+
+
+                    Select Case True
+
+                        Case efield.TypeName.ToLower.Contains("decimal")
+                            classValidationString += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & "  =  Decimal.MinValue OrElse _ " & vbCrLf
+                            ConstructorValues += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & "  =  Decimal.MinValue" & vbCrLf
+
+
+                        Case efield.TypeName.ToLower.Contains("guid")
+                            ConstructorValues += vbTab & vbTab & vbTab & "'Me.CurrentEntity." & propertyName & "  = Nothing" & vbCrLf
+
+
+                        Case efield.TypeName.ToLower.Contains("bool")
+                            ConstructorValues += vbTab & vbTab & vbTab & "'Me.CurrentEntity." & propertyName & "  = Nothing" & vbCrLf
+
+
+                        Case efield.TypeName.ToLower.Contains("byte")
+                            classValidationString += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & "  = Byte.MinValue OrElse _ " & vbCrLf
+                            ConstructorValues += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & "  = Byte.MinValue" & vbCrLf
+
+                        Case efield.TypeName.ToLower.Contains("int16")
+                            classValidationString += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & "  = Int16.MinValue OrElse _ " & vbCrLf
+                            ConstructorValues += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & "  = Int16.MinValue" & vbCrLf
+
+                        Case efield.TypeName.ToLower.Contains("int32")
+                            classValidationString += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & " = Int32.MinValue OrElse _ " & vbCrLf
+                            ConstructorValues += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & "  = Int32.MinValue" & vbCrLf
+
+                        Case efield.TypeName.ToLower.Contains("int64")
+                            classValidationString += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & " = Int64.MinValue OrElse _ " & vbCrLf
+                            ConstructorValues += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & "  = Int64.MinValue" & vbCrLf
+
+                        Case efield.TypeName.ToLower.Contains("integer")
+                            classValidationString += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & " = Int32.MinValue OrElse _ " & vbCrLf
+                            ConstructorValues += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & "  = Int32.MinValue" & vbCrLf
+
+                        Case efield.TypeName.ToLower.Contains("double")
+                            classValidationString += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & " = Int64.MinValue OrElse _ " & vbCrLf
+                            ConstructorValues += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & "  = Int64.MinValue" & vbCrLf
+
+                        Case efield.TypeName.ToLower.Contains("date")
+                            classValidationString += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & " = Date.MinValue OrElse _ " & vbCrLf
+                            ConstructorValues += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & "  = Date.MinValue" & vbCrLf
+
+                        Case Else
+                            classValidationString += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & " is Nothing OrElse _ " & vbCrLf
+                            ConstructorValues += vbTab & vbTab & vbTab & "Me.CurrentEntity." & propertyName & "  = Nothing" & vbCrLf
+                    End Select
+
+                End If
+
+            Next
+
+            classValidationString += vbTab & vbTab & vbTab & vbTab & vbTab & " False Then" & vbCrLf
+            '
+            classValidationString += vbTab & vbTab & vbTab & vbTab & vbTab & vbTab & "strError = ""Error de validación general""" & vbCrLf
+            classValidationString += vbTab & vbTab & vbTab & vbTab & vbTab & vbTab & "Return False" & vbCrLf
+            classValidationString += vbTab & vbTab & vbTab & vbTab & vbTab & "Else" & vbCrLf
+            classValidationString += vbTab & vbTab & vbTab & vbTab & vbTab & vbTab & "Return True" & vbCrLf
+            classValidationString += vbTab & vbTab & vbTab & vbTab & vbTab & "End If" & vbCrLf
+
+            Dim strBLClass As String = GetBlClass(Key, _
+                                       Me.BUSSINES_LOGIC_Prefix & SanitizeClassName(Key), _
+                                       Me.ENTITY_Prefix & SanitizeClassName(Key), _
+                                       Me.DATA_ACCESS_Prefix & SanitizeClassName(Key), _
+                                       classValidationString, _
+                                       ConstructorValues)
+
+            Dim ConstructorValuesDataAccess As String = ""
+            Dim SetStoredProcedures As String
+            SetStoredProcedures = vbTab & vbTab & vbTab & "Me.SP_ADD = """ & Me.TableProcedureInsert(Key) & """" & vbCrLf
+            SetStoredProcedures += vbTab & vbTab & vbTab & "Me.SP_DELETE = """ & Me.TableProcedureDelete(Key) & """" & vbCrLf
+            SetStoredProcedures += vbTab & vbTab & vbTab & "Me.SP_DISABLE = """ & Me.TableProcedureDisable(Key) & """" & vbCrLf
+            SetStoredProcedures += vbTab & vbTab & vbTab & "Me.SP_GETALL = """ & Me.TableProcedureSelectAll(Key) & """" & vbCrLf
+            SetStoredProcedures += vbTab & vbTab & vbTab & "Me.SP_GETONE = """ & Me.TableProcedureSelectOne(Key) & """" & vbCrLf
+            SetStoredProcedures += vbTab & vbTab & vbTab & "Me.SP_UPDATE = """ & Me.TableProcedureUpdate(Key) & """" & vbCrLf
+            SetStoredProcedures += vbTab & vbTab & vbTab & "Me.SP_UPDATE_BY_PK = """ & Me.TableProcedureUpdateByPK(Key) & """" & vbCrLf
+
+            PublishBLDA(OUTPUTPAT & Me.SUBDIR_CLASS_BUSSINES, strBLClass, (Me.BUSSINES_LOGIC_Prefix & SanitizeClassName(Key)))
+
+
+            Dim strDaClass As String = GetDaClass(Key, _
+                                                 DATA_ACCESS_Prefix & SanitizeClassName(Key), _
+                                                 Me.ENTITY_Prefix & SanitizeClassName(Key), _
+                                                 SetStoredProcedures, _
+                                                 ConstructorValuesDataAccess)
+
+            PublishBLDA(OUTPUTPAT & Me.SUBDIR_CLASS_DATAACCES, strDaClass, (Me.DATA_ACCESS_Prefix & SanitizeClassName(Key)))
+
+            
+        Next
+
+         
+
+
+    End Sub
+
+    Dim tempblda As String = ""
+    Public Sub PublishBLDA(ByVal directorio As String, ByVal classString As String, ByVal ClassName As String)
+        temp += classString & vbCrLf
+        Return
+        ' directorio = directorio & Me.SUBDIR_CLASS_ENTITY
+        If Not System.IO.Directory.Exists(directorio) Then
+            System.IO.Directory.CreateDirectory(directorio)
+        End If
+
+        If Not directorio.EndsWith("\") Then
+            directorio = directorio & "\"
+        End If
+
+        'Dim fs As New System.IO.FileStream, IO.FileMode.Create)
+        Dim sw As New System.IO.StreamWriter(directorio & ClassName & ".vb", False, System.Text.Encoding.Default)
+        sw.Write(classString)
+        sw.Flush()
+        sw.Close()
+    End Sub
+
 
     Public Sub CreateEntityClass()
         If Not System.IO.Directory.Exists(OUTPUTPAT) Then
@@ -851,13 +1678,13 @@ Partial Public Class EntityCodeGenerator
             For Each efield As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
                 sbAuxiliary = New System.Text.StringBuilder
                 Me.AddFieldsAttributes(sbAuxiliary, efield)
-                Me.AppendProperty(sbPropertysRegion, sbDeclarationRegion, sbConstructorMethod, efield, sbAuxiliary.ToString)
+                Me.AppendProperty(sbPropertysRegion, sbDeclarationRegion, sbConstructorMethod, efield, sbAuxiliary.ToString, Key)
             Next
 
             sbConstructorMethod.AppendLine(vbTab & "End Sub")
 
-            Dim classString = Me.GenerateClass(sbPropertysRegion, sbDeclarationRegion, sbMethodRegion, sbConstructorMethod, Key)
-            PublishClass_Entitys(OUTPUTPAT, classString, Me.ENTITY_Prefix & Key)
+            Dim classString = Me.GenerateClass(sbPropertysRegion, sbDeclarationRegion, sbMethodRegion, sbConstructorMethod, Key, Key)
+            PublishClass_Entitys(OUTPUTPAT, classString, (Me.ENTITY_Prefix & SanitizeClassName(Key)))
         Next
 
 
@@ -867,8 +1694,10 @@ Partial Public Class EntityCodeGenerator
 
     End Sub
 
+    Private temp As String
     Private Sub PublishClass_Entitys(ByVal directorio As String, ByVal classString As String, ByVal ClassName As String)
-
+        temp += classString & vbCrLf
+        Return
         directorio = directorio & Me.SUBDIR_CLASS_ENTITY
         If Not System.IO.Directory.Exists(directorio) Then
             System.IO.Directory.CreateDirectory(directorio)

@@ -83,6 +83,9 @@ Namespace Interfaces
 
         Function GetStoredProcedureInfo(ByVal SpName As String) As List(Of System.Data.IDbDataParameter)
 
+        Function GetNewParameter() As System.Data.IDbDataParameter
+
+
 
 
 
