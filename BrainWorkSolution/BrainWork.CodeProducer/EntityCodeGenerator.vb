@@ -6,7 +6,7 @@ Partial Public Class EntityCodeGenerator
     Private Tables As New Dictionary(Of String, BrainWork.Entities.EntityClassExtendsAttribute)
     Private dtKeys As DataTable
     Private VBPrimaryKeys() As String = New String() {"AddHandler", "AddressOf", "Alias", "And", "AndAlso", "Ansi", "As", "Assembly", "Auto", "Boolean", "ByRef", "Byte", "ByVal", "Call", "Case", "Catch", "CBool", "CByte", "CChar", "CDate", "CDec", "CDbl", "Char", "CInt", "Class", "CLng", "CObj", "Const", "CShort", "CSng", "CStr", "CType", "Date", "Decimal", "Declare", "Default", "Delegate", "Dim", "DirectCast", "Do", "Double", "Each", "Else", "ElseIf", "End", "Enum", "Erase", "Error", "Event", "Exit", "False", "Finally", "For", "Friend", "Function", "Get", "GetType", "GoSub", "GoTo", "Handles", "If", "Implements", "Imports", "In", "Inherits", "Integer", "Interface", "Is", "Let", "Lib", "Like", "Long", "Loop", "Me", "Mod", "Module", "MustInherit", "MustOverride", "MyBase", "MyClass", "Namespace", "New", "Next", "Not", "Nothing", "NotInheritable", "NotOverridable", "Object", "On", "Option", "Optional", "Or", "OrElse", "Overloads", "Overridable", "Overrides", "ParamArray", "Preserve", "Private", "Property", "Protected", "Public", "RaiseEvent", "ReadOnly", "ReDim", "REM", "RemoveHandler", "Resume", "Return", "Select", "Set", "Shadows", "Shared", "Short", "Single", "Static", "Step", "Stop", "String", "Structure", "Sub", "SyncLock", "Then", "Throw", "To", "True", "Try", "TypeOf", "Unicode", "Until", "Variant", "When", "While", "With", "WithEvents", "WriteOnly", "Xor"}
-    Private _cnnString As String = "Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=AdventureWorks;Data Source=localhost\sqlexpress"
+    Private _cnnString As String = ""
     Private TEMPORAL_CLASS As String = ""
     Private TEMPORAL_STORED_PROCEDURES As String = ""
     Private DECLARATION_REGION As String = "GeneratedCode Declaration"
@@ -17,7 +17,7 @@ Partial Public Class EntityCodeGenerator
     Protected Const PAGED_ROW_PARAMETER As String = "@Row"
     Protected Const PAGED_MAXVALUES_PARAMETER As String = "@MaxValues"
     Protected Const ORDER_BY_PARAMETER As String = "@OrderBy"
-
+    Private _GeneratedStored As String = ""
 
     Dim TableProcedureInsert As New Dictionary(Of String, String)
     Dim TableProcedureSelectAll As New Dictionary(Of String, String)
@@ -28,6 +28,11 @@ Partial Public Class EntityCodeGenerator
     Dim TableProcedureDisable As New Dictionary(Of String, String)
 
 
+    Public ReadOnly Property GeneratedStored() As String
+        Get
+            Return _GeneratedStored
+        End Get
+    End Property
 
     Private ReadOnly Property GetDATemplate() As String
         Get
@@ -236,8 +241,16 @@ Partial Public Class EntityCodeGenerator
     Public ENTITY_Prefix As String = "Ent"
     Public BUSSINES_LOGIC_Prefix As String = "Bl"
     Public DATA_ACCESS_Prefix As String = "Da"
+    Private _OUTPUTPAT As String = "c:\PruebaGenerador\"
 
-    Public OUTPUTPAT As String = "c:\PruebaGenerador\"
+    Public Property OUTPUTPAT() As String
+        Get
+            Return _OUTPUTPAT
+        End Get
+        Set(ByVal value As String)
+            _OUTPUTPAT = value
+        End Set
+    End Property
     Public SUBDIR_CLASS_ENTITY As String = "Entity"
     Public SUBDIR_CLASS_BUSSINES As String = "BussinesLogic"
     Public SUBDIR_CLASS_DATAACCES As String = "DataAccess"
@@ -721,7 +734,7 @@ Partial Public Class EntityCodeGenerator
             Dim ci As DataColumn
             ci = GetColumnExtendInformation(TableName, pField.FieldName)
 
-           
+
             'IIf((Not pField.Size = Nothing AndAlso pField.Size > 0), "(" & pField.Size & ")", "").ToString
             If OnlyPrimaryKeys Then
                 If pField.FieldType = Entities.EnumFieldType.PrimaryKey Then
@@ -741,7 +754,7 @@ Partial Public Class EntityCodeGenerator
             auxDeclarationVariables += vbCrLf & "         " & PAGED_MAXVALUES_PARAMETER & " int"
         Else
             If String.IsNullOrEmpty(auxDeclarationVariables) Then
-                
+
                 Dim ci As DataColumn
                 ci = GetColumnExtendInformation(TableName, listefield(0).FieldName)
 
@@ -826,7 +839,7 @@ Partial Public Class EntityCodeGenerator
                                             SizeDeclaration & " output")
                 Exit For
             End If
-            
+
         Next
         sbInsertProcedure.AppendLine()
 
@@ -1515,9 +1528,9 @@ Partial Public Class EntityCodeGenerator
 
     End Sub
 
-    Dim tempproc As String = ""
+
     Public Sub PublishStoredProcedures(ByVal directorio As String, ByVal storedProceduresString As String, ByVal procedureName As String)
-        tempproc += storedProceduresString & vbCrLf 
+        _GeneratedStored += storedProceduresString & vbCrLf
         directorio = directorio & Me.SUBDIR_CLASS_PROCEDURES
         If Not System.IO.Directory.Exists(directorio) Then
             System.IO.Directory.CreateDirectory(directorio)
@@ -1678,10 +1691,10 @@ Partial Public Class EntityCodeGenerator
 
             PublishBLDA(OUTPUTPAT & Me.SUBDIR_CLASS_DATAACCES, strDaClass, (Me.DATA_ACCESS_Prefix & SanitizeClassName(Key)))
 
-            
+
         Next
 
-         
+
 
 
     End Sub

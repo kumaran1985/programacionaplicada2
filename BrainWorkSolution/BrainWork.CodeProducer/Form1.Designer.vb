@@ -23,28 +23,87 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.Button1 = New System.Windows.Forms.Button
+        Me.TXTQUERY = New System.Windows.Forms.TextBox
+        Me.TXTPROCS = New System.Windows.Forms.TextBox
+        Me.TXTOUTPUT = New System.Windows.Forms.TextBox
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.Label2 = New System.Windows.Forms.Label
         Me.SuspendLayout()
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(58, 72)
+        Me.Button1.Location = New System.Drawing.Point(659, 24)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.Size = New System.Drawing.Size(108, 62)
         Me.Button1.TabIndex = 0
-        Me.Button1.Text = "Button1"
+        Me.Button1.Text = "GENERAR"
         Me.Button1.UseVisualStyleBackColor = True
+        '
+        'TXTQUERY
+        '
+        Me.TXTQUERY.Location = New System.Drawing.Point(27, 26)
+        Me.TXTQUERY.Name = "TXTQUERY"
+        Me.TXTQUERY.Size = New System.Drawing.Size(626, 20)
+        Me.TXTQUERY.TabIndex = 1
+        Me.TXTQUERY.Text = "Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=AdventureWor" & _
+            "ks;Data Source=localhost\sqlexpress"
+        '
+        'TXTPROCS
+        '
+        Me.TXTPROCS.Location = New System.Drawing.Point(27, 94)
+        Me.TXTPROCS.Multiline = True
+        Me.TXTPROCS.Name = "TXTPROCS"
+        Me.TXTPROCS.Size = New System.Drawing.Size(740, 373)
+        Me.TXTPROCS.TabIndex = 2
+        '
+        'TXTOUTPUT
+        '
+        Me.TXTOUTPUT.Location = New System.Drawing.Point(27, 68)
+        Me.TXTOUTPUT.Name = "TXTOUTPUT"
+        Me.TXTOUTPUT.Size = New System.Drawing.Size(626, 20)
+        Me.TXTOUTPUT.TabIndex = 3
+        Me.TXTOUTPUT.Text = "c:\PruebaGenerador\"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(27, 49)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(52, 13)
+        Me.Label1.TabIndex = 4
+        Me.Label1.Text = "OUTPUT"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(27, 9)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(86, 13)
+        Me.Label2.TabIndex = 5
+        Me.Label2.Text = "QUERYSTRING"
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(292, 273)
+        Me.ClientSize = New System.Drawing.Size(790, 479)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.TXTOUTPUT)
+        Me.Controls.Add(Me.TXTPROCS)
+        Me.Controls.Add(Me.TXTQUERY)
         Me.Controls.Add(Me.Button1)
         Me.Name = "Form1"
-        Me.Text = "Form1"
+        Me.Text = "Code Generator"
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents Button1 As System.Windows.Forms.Button
+    Friend WithEvents TXTQUERY As System.Windows.Forms.TextBox
+    Friend WithEvents TXTPROCS As System.Windows.Forms.TextBox
+    Friend WithEvents TXTOUTPUT As System.Windows.Forms.TextBox
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
 
 End Class
