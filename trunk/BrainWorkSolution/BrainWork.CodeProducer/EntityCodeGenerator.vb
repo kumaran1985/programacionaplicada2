@@ -698,6 +698,17 @@ Partial Public Class EntityCodeGenerator
         Return UCase(value.Substring(0, 1)) & value.Substring(1)
     End Function
 
+
+    Private Function createSP_Param(ByVal pField As BrainWork.Entities.EntityFieldExtendsAttribute, ByVal ci As DataColumn) As String
+        'smallint
+        Dim variableDeclaration As String = [Enum].GetName(GetSqlDBType(ci.DataType).GetType, GetSqlDBType(ci.DataType))
+
+        Dim SizeDeclaration As String = IIf(((variableDeclaration.ToLower <> "int") AndAlso (variableDeclaration.ToLower <> "smallint")) AndAlso (Not pField.Size = Nothing AndAlso pField.Size > 0), "(" & pField.Size & ")", "").ToString
+
+        Return "@" & pField.FieldName.Replace(" "c, "_") & " As " & variableDeclaration & SizeDeclaration
+
+    End Function
+
     Private Function CreateParametersForProcedure(ByVal sbProcedure As System.Text.StringBuilder, _
                                                   ByVal TableName As String, _
                                                   ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute), _
@@ -709,12 +720,15 @@ Partial Public Class EntityCodeGenerator
 
             Dim ci As DataColumn
             ci = GetColumnExtendInformation(TableName, pField.FieldName)
+
+           
+            'IIf((Not pField.Size = Nothing AndAlso pField.Size > 0), "(" & pField.Size & ")", "").ToString
             If OnlyPrimaryKeys Then
                 If pField.FieldType = Entities.EnumFieldType.PrimaryKey Then
-                    auxDeclarationVariables += vbCrLf & "         @" & pField.FieldName.Replace(" "c, "_") & " As " & [Enum].GetName(GetSqlDBType(ci.DataType).GetType, GetSqlDBType(ci.DataType)) & IIf((Not pField.Size = Nothing AndAlso pField.Size > 0), "(" & pField.Size & ")", "").ToString & ","
+                    auxDeclarationVariables += vbCrLf & "          " & createSP_Param(pField, ci) & ","
                 End If
             Else
-                auxDeclarationVariables += vbCrLf & "         @" & pField.FieldName.Replace(" "c, "_") & " As " & [Enum].GetName(GetSqlDBType(ci.DataType).GetType, GetSqlDBType(ci.DataType)) & IIf((Not pField.Size = Nothing AndAlso pField.Size > 0), "(" & pField.Size & ")", "").ToString & ","
+                auxDeclarationVariables += vbCrLf & "          " & createSP_Param(pField, ci) & ","
             End If
 
 
@@ -732,7 +746,7 @@ Partial Public Class EntityCodeGenerator
                 ci = GetColumnExtendInformation(TableName, listefield(0).FieldName)
 
 
-                auxDeclarationVariables += vbCrLf & "         @" & listefield(0).FieldName.Replace(" "c, "_") & " As " & [Enum].GetName(GetSqlDBType(ci.DataType).GetType, GetSqlDBType(ci.DataType)) & IIf((Not listefield(0).Size = Nothing AndAlso listefield(0).Size > 0), "(" & listefield(0).Size & ")", "").ToString & ","
+                auxDeclarationVariables += vbCrLf & "         " & Me.createSP_Param(listefield(0), ci) & ","
 
 
             End If
@@ -803,10 +817,13 @@ Partial Public Class EntityCodeGenerator
         For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
             If pField.FieldType = Entities.EnumFieldType.PrimaryKey Then
                 Dim ci As DataColumn = Me.GetColumnExtendInformation(TableName, pField.FieldName)
+                Dim variableDeclaration As String = [Enum].GetName(GetSqlDBType(ci.DataType).GetType, GetSqlDBType(ci.DataType))
+
+                Dim SizeDeclaration As String = IIf(((variableDeclaration.ToLower <> "int") AndAlso (variableDeclaration.ToLower <> "smallint")) AndAlso (Not pField.Size = Nothing AndAlso pField.Size > 0), "(" & pField.Size & ")", "").ToString
 
                 sbInsertProcedure.AppendLine(vbCrLf & "           , @ID_Generated_New As " & _
-                                            [Enum].GetName(GetSqlDBType(ci.DataType).GetType, GetSqlDBType(ci.DataType)) & _
-                                            IIf((Not pField.Size = Nothing AndAlso pField.Size > 0), "(" & pField.Size & ")", "").ToString & " output")
+                                            variableDeclaration & _
+                                            SizeDeclaration & " output")
                 Exit For
             End If
             
@@ -864,6 +881,15 @@ Partial Public Class EntityCodeGenerator
 
     End Function
 
+
+
+    Private Function isValidWhereFieldQuery(ByVal saux As String) As Boolean
+        Return Not (saux.ToLower.Contains("as text") _
+              OrElse saux.ToLower.Contains("as nvarchar") _
+              OrElse saux.ToLower.Contains("as xml"))
+    End Function
+
+
     Private Function CreateUpdateProcedeure(ByRef sbUpdateProcedure As System.Text.StringBuilder, _
                                       ByRef TableName As String, _
                                       ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute)) As String
@@ -890,16 +916,24 @@ Partial Public Class EntityCodeGenerator
         Dim WhereExpression As String = ""
         Dim isFirst As Boolean = True
         For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
-            'default where con el primero que encuentra
-            If isFirst Then
-                isFirst = False
-                WhereExpression = vbCrLf & "              Where [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
-            End If
+            Dim saux As String = Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
+            If isValidWhereFieldQuery(saux) Then
 
-            If pField.FieldType <> Entities.EnumFieldType.PrimaryKey Then
-                auxValues += vbCrLf & "              [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ","
-            Else
-                WhereExpression = vbCrLf & "              Where [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+
+                'default where con el primero que encuentra
+                If isFirst Then
+                    isFirst = False
+                    WhereExpression = vbCrLf & "              Where [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+                End If
+
+                Dim sAuxa As String = createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
+                If isValidWhereFieldQuery(saux) Then
+                    If pField.FieldType <> Entities.EnumFieldType.PrimaryKey Then
+                        auxValues += vbCrLf & "              [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ","
+                    Else
+                        WhereExpression = vbCrLf & "              Where [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+                    End If
+                End If
             End If
 
         Next
@@ -951,6 +985,9 @@ Partial Public Class EntityCodeGenerator
             If isFirst Then
                 WhereExpression = vbCrLf & "              Where [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
             End If
+            Dim saux As String = Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
+
+
 
             If pField.FieldType = Entities.EnumFieldType.PrimaryKey Then
                 If isFirst Then
@@ -963,13 +1000,16 @@ Partial Public Class EntityCodeGenerator
                 Else
                     pval = "Where"
                 End If
+                If isValidWhereFieldQuery(saux) Then
+                    WhereExpression += vbCrLf & "              " & pval & " [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+                End If
+            Else
 
-                WhereExpression += vbCrLf & "              " & pval & " [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+                auxValues += vbCrLf & "              [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ","
 
             End If
-            auxValues += vbCrLf & "              [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ","
- 
-           
+
+
 
         Next
         auxValues = auxValues.Substring(0, auxValues.Length - 1)
@@ -1021,28 +1061,32 @@ Partial Public Class EntityCodeGenerator
                 WhereExpression = vbCrLf & "              Where [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
             End If
 
-            If pField.FieldType = Entities.EnumFieldType.PrimaryKey Then
-                Dim pval As String
-                If WhereExpression.Contains("Where") Then
-                    pval = "AND"
-                Else
-                    pval = "Where"
+            Dim saux As String = Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
+            If isValidWhereFieldQuery(saux) Then
+
+
+                If pField.FieldType = Entities.EnumFieldType.PrimaryKey Then
+                    Dim pval As String
+                    If WhereExpression.Contains("Where") Then
+                        pval = "AND"
+                    Else
+                        pval = "Where"
+                    End If
+
+                    If Not isFirst Then
+                        WhereExpression += vbCrLf & "              " & pval & " [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+                    End If
                 End If
 
-                If Not isFirst Then
-                    WhereExpression += vbCrLf & "              " & pval & " [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+                If pField.FieldType <> Entities.EnumFieldType.PrimaryKey Then
+                    auxValues += vbCrLf & "              [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ","
                 End If
+
+                If isFirst Then
+                    isFirst = False
+                End If
+
             End If
-
-            If pField.FieldType <> Entities.EnumFieldType.PrimaryKey Then
-                auxValues += vbCrLf & "              [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ","
-            End If
-
-            If isFirst Then
-                isFirst = False
-            End If
-
-
 
 
         Next
@@ -1095,23 +1139,27 @@ Partial Public Class EntityCodeGenerator
                 WhereExpression = vbCrLf & "              Where [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
             End If
 
-            If pField.FieldType = Entities.EnumFieldType.PrimaryKey Then
-                If isFirst Then
-                    isFirst = False
-                    WhereExpression = ""
+            Dim saux As String = Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
+            If isValidWhereFieldQuery(saux) Then
+
+
+                If pField.FieldType = Entities.EnumFieldType.PrimaryKey Then
+                    If isFirst Then
+                        isFirst = False
+                        WhereExpression = ""
+                    End If
+                    Dim pval As String
+                    If WhereExpression.Contains("Where") Then
+                        pval = "AND"
+                    Else
+                        pval = "Where"
+                    End If
+
+                    WhereExpression += vbCrLf & "              " & pval & " [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+
                 End If
-                Dim pval As String
-                If WhereExpression.Contains("Where") Then
-                    pval = "AND"
-                Else
-                    pval = "Where"
-                End If
- 
-                WhereExpression += vbCrLf & "              " & pval & " [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
 
             End If
-
-
         Next
 
         sbUpdateProcedure.AppendLine("              " & WhereExpression & ";")
@@ -1177,13 +1225,16 @@ Partial Public Class EntityCodeGenerator
 
         Dim WhereExpression As String = vbTab & vbTab & vbTab & " AND ("
         For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+            Dim saux As String = Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
+            If isValidWhereFieldQuery(saux) Then
 
-            WhereExpression += vbTab & vbTab & vbTab & vbCrLf & "               ("
-            WhereExpression += "(@" & pField.FieldName.Replace(" "c, "_") & " is Null)"
-            WhereExpression += " OR "
-            WhereExpression += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
-            WhereExpression += ") AND"
 
+                WhereExpression += vbTab & vbTab & vbTab & vbCrLf & "               ("
+                WhereExpression += "(@" & pField.FieldName.Replace(" "c, "_") & " is Null)"
+                WhereExpression += " OR "
+                WhereExpression += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+                WhereExpression += ") AND"
+            End If
         Next
         WhereExpression = WhereExpression.Substring(0, WhereExpression.Length - 3)
         WhereExpression += ")"
@@ -1229,12 +1280,16 @@ Partial Public Class EntityCodeGenerator
         Dim WhereExpression As String = vbCrLf & " WHERE("
         For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
 
-            If params.Contains("@" & pField.FieldName.Replace(" "c, "_") & " ") Then
+            Dim saux As String = Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
+            If isValidWhereFieldQuery(saux) Then
 
-                WhereExpression += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ") AND"
 
+                If params.Contains("@" & pField.FieldName.Replace(" "c, "_") & " ") Then
+
+                    WhereExpression += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ") AND"
+
+                End If
             End If
-
         Next
         WhereExpression = WhereExpression.Substring(0, WhereExpression.Length - 3)
         WhereExpression += ")"
@@ -1462,8 +1517,7 @@ Partial Public Class EntityCodeGenerator
 
     Dim tempproc As String = ""
     Public Sub PublishStoredProcedures(ByVal directorio As String, ByVal storedProceduresString As String, ByVal procedureName As String)
-        tempproc += storedProceduresString
-        Return
+        tempproc += storedProceduresString & vbCrLf 
         directorio = directorio & Me.SUBDIR_CLASS_PROCEDURES
         If Not System.IO.Directory.Exists(directorio) Then
             System.IO.Directory.CreateDirectory(directorio)
@@ -1632,10 +1686,10 @@ Partial Public Class EntityCodeGenerator
 
     End Sub
 
-    Dim tempblda As String = ""
+    ' Dim tempblda As String = ""
     Public Sub PublishBLDA(ByVal directorio As String, ByVal classString As String, ByVal ClassName As String)
-        temp += classString & vbCrLf
-        Return
+        ' temp += classString & vbCrLf
+        ' Return
         ' directorio = directorio & Me.SUBDIR_CLASS_ENTITY
         If Not System.IO.Directory.Exists(directorio) Then
             System.IO.Directory.CreateDirectory(directorio)
@@ -1694,9 +1748,9 @@ Partial Public Class EntityCodeGenerator
 
     End Sub
 
-    Private temp As String
+    ' Private temp As String
     Private Sub PublishClass_Entitys(ByVal directorio As String, ByVal classString As String, ByVal ClassName As String)
-        temp += classString & vbCrLf
+        '  temp += classString & vbCrLf
         Return
         directorio = directorio & Me.SUBDIR_CLASS_ENTITY
         If Not System.IO.Directory.Exists(directorio) Then
