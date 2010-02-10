@@ -47,6 +47,17 @@ Namespace WebControls
 
         Private _ForeingFieldName As String
         Private _DefaultOrderBy As Boolean
+        Private _IsEnableField As Boolean
+
+
+        Public Property IsEnableField() As Boolean Implements Interfaces.IEntityFieldExtendsAttribute.IsEnableField
+            Get
+                Return _IsEnableField
+            End Get
+            Set(ByVal value As Boolean)
+                _IsEnableField = value
+            End Set
+        End Property
         Public Property MaxValue() As Double Implements Interfaces.IEntityFieldExtendsAttribute.MaxValue
             Get
                 Return _MaxValue

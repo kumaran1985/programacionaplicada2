@@ -26,11 +26,30 @@ Partial Public Class EntityCodeGenerator
     Dim TableProcedureUpdate As New Dictionary(Of String, String)
     Dim TableProcedureUpdateByPK As New Dictionary(Of String, String)
     Dim TableProcedureDisable As New Dictionary(Of String, String)
-
+    Public DESCRIPTIONENDWITH As String = "_D"
+    Public ENABLEDDENDWITH As String = "ENABLED"
 
     Public ReadOnly Property GeneratedStored() As String
         Get
             Return _GeneratedStored
+        End Get
+    End Property
+    Private _GeneratedEntity As String
+    Public ReadOnly Property GeneratedEntity() As String
+        Get
+            Return _GeneratedEntity
+        End Get
+    End Property
+    Private _GeneratedBussines As String
+    Public ReadOnly Property GeneratedBussines() As String
+        Get
+            Return _GeneratedBussines
+        End Get
+    End Property
+    Private _GeneratedDataAccess As String
+    Public ReadOnly Property GeneratedDataAccess() As String
+        Get
+            Return _GeneratedDataAccess
         End Get
     End Property
 
@@ -135,103 +154,142 @@ Partial Public Class EntityCodeGenerator
     Private ReadOnly Property STORED_BrainworkSupport_GetTable_QUERY() As String
         Get
             Dim sb As New System.Text.StringBuilder()
-            sb.AppendLine("CREATE PROCEDURE [dbo].[BrainworkSupport_GetTable]                                     ")
-            sb.AppendLine("				@tablaname varChar(max)			                                                    ")
-            sb.AppendLine("AS                                                                                     ")
-            sb.AppendLine("BEGIN                                                                                  ")
-            sb.AppendLine("	SET NOCOUNT ON;                                                                       ")
-            sb.AppendLine("	                                                                                      ")
+            sb.AppendLine("")
+            sb.AppendLine("CREATE PROCEDURE [dbo].[BrainworkSupport_GetTable]")
+            sb.AppendLine("				@tablaname varChar(max)			")
+            sb.AppendLine("AS")
+            sb.AppendLine("BEGIN")
+            sb.AppendLine("	SET NOCOUNT ON;")
+            sb.AppendLine("	")
             sb.AppendLine("---------------------------------------------------------------------------------------")
-            sb.AppendLine("declare @propiedades as table(COLUMN_NAME sql_variant, COLUMN_DESCRIPTION sql_variant) ")
-            sb.AppendLine("Insert Into @propiedades                                                               ")
-            sb.AppendLine("SELECT      c.name AS COLUMN_NAME ,                                                    ")
-            sb.AppendLine("            ep.value AS COLUMN_DESCRIPTION                                             ")
-            sb.AppendLine("FROM        sys.objects o INNER JOIN sys.extended_properties ep                        ")
-            sb.AppendLine("            ON o.object_id = ep.major_id                                               ")
-            sb.AppendLine("            INNER JOIN sys.schemas s                                                   ")
-            sb.AppendLine("            ON o.schema_id = s.schema_id                                               ")
-            sb.AppendLine("            LEFT JOIN syscolumns c                                                     ")
-            sb.AppendLine("            ON ep.minor_id = c.colid                                                   ")
-            sb.AppendLine("            AND ep.major_id = c.id                                                     ")
-            sb.AppendLine("WHERE        o.type IN ('V', 'U', 'P') and o.Name like @tablaname                      ")
-            sb.AppendLine("ORDER BY   COLUMN_NAME                                                                 ")
+            sb.AppendLine("declare @propiedades2 as table(COLUMN_NAME sql_variant, COLUMN_DESCRIPTION sql_variant)")
+            sb.AppendLine("declare @propiedades  as table(COLUMN_NAME sql_variant, COLUMN_DESCRIPTION sql_variant)")
+            sb.AppendLine("Insert Into @propiedades2")
+            sb.AppendLine("SELECT")
+            sb.AppendLine("		c.name AS COLUMN_NAME ,")
+            sb.AppendLine("		ep.value AS COLUMN_DESCRIPTION")
+            sb.AppendLine("")
+            sb.AppendLine("FROM        sys.schemas o")
+            sb.AppendLine("			left join sys.tables b on (b.schema_id = o.schema_id)")
+            sb.AppendLine("			INNER JOIN sys.extended_properties ep  ON b.object_id = ep.major_id")
+            sb.AppendLine("            --INNER JOIN sys.schemas s ON o.schema_id = s.schema_id")
+            sb.AppendLine("            LEFT JOIN syscolumns c  ON ep.minor_id = c.colid")
+            sb.AppendLine("            AND ep.major_id = c.id")
+            sb.AppendLine(" WHERE      o.name is not null and b.name is not null")
+            sb.AppendLine("			And quotename(o.name) + '.' + quotename(b.name)  =   @tablaname")
+            sb.AppendLine("ORDER BY   COLUMN_NAME")
+            sb.AppendLine("")
+            sb.AppendLine("Declare @COLUMN_NAME as sql_variant")
+            sb.AppendLine("Declare @COLUMN_DESCRIPTION as sql_variant")
+            sb.AppendLine("Declare @COLUMN_NAME_ANTERIOR as sql_variant")
+            sb.AppendLine("DECLARE CUR_MOVENTRADAS CURSOR")
+            sb.AppendLine("FOR")
+            sb.AppendLine("	Select COLUMN_NAME, COLUMN_DESCRIPTION From @propiedades2")
+            sb.AppendLine("")
+            sb.AppendLine("OPEN CUR_MOVENTRADAS")
+            sb.AppendLine("")
+            sb.AppendLine("FETCH NEXT FROM CUR_MOVENTRADAS INTO @COLUMN_NAME,  @COLUMN_DESCRIPTION")
+            sb.AppendLine("")
+            sb.AppendLine("WHILE (@@FETCH_STATUS = 0)")
+            sb.AppendLine("BEGIN")
+            sb.AppendLine("	")
+            sb.AppendLine("   if @COLUMN_NAME_ANTERIOR = @COLUMN_NAME Begin")
+            sb.AppendLine("	   Update @propiedades Set COLUMN_DESCRIPTION =  Convert(sql_variant, Convert(varchar(5000),@COLUMN_DESCRIPTION) + ' - '  + Convert(varchar(5000), COLUMN_DESCRIPTION)) Where  COLUMN_NAME = @COLUMN_NAME")
+            sb.AppendLine("   End")
+            sb.AppendLine("   Else")
+            sb.AppendLine("		Begin")
+            sb.AppendLine("			insert Into @propiedades ( COLUMN_NAME, COLUMN_DESCRIPTION) Values (@COLUMN_NAME,@COLUMN_DESCRIPTION)")
+            sb.AppendLine("		End")
+            sb.AppendLine("")
+            sb.AppendLine("	set @COLUMN_NAME_ANTERIOR = @COLUMN_NAME")
+            sb.AppendLine("	-- Avanzamos otro registro")
+            sb.AppendLine("	fetch next from CUR_MOVENTRADAS")
+            sb.AppendLine("    into  @COLUMN_NAME, @COLUMN_DESCRIPTION")
+            sb.AppendLine("END")
+            sb.AppendLine("")
+            sb.AppendLine("-- cerramos el cursor")
+            sb.AppendLine("close CUR_MOVENTRADAS")
+            sb.AppendLine("deallocate CUR_MOVENTRADAS")
+            sb.AppendLine("")
+            sb.AppendLine("")
             sb.AppendLine("---------------------------------------------------------------------------------------")
             sb.AppendLine("declare @detalle as table(COLUMN_NAME sql_variant, COLUMN_DEFAULT sql_variant,IS_NULLABLE sql_variant,DATA_TYPE sql_variant ,ORDINAL_POSITION sql_variant, CHARACTER_MAXIMUM_LENGTH sql_variant, NUMERIC_PRECISION sql_variant,NUMERIC_SCALE sql_variant)")
-            sb.AppendLine("Insert Into @detalle                                                                                                                                                                                                                                     ")
-            sb.AppendLine("SELECT  isq.COLUMN_NAME, isq.COLUMN_DEFAULT, isq.IS_NULLABLE, isq.DATA_TYPE ,                                                                                                                                                                            ")
-            sb.AppendLine("		isq.ORDINAL_POSITION,                                                                                                                                                                                                                                 ")
-            sb.AppendLine("		isq.CHARACTER_MAXIMUM_LENGTH,                                                                                                                                                                                                                         ")
-            sb.AppendLine("		isq.NUMERIC_PRECISION,                                                                                                                                                                                                                                ")
-            sb.AppendLine("		isq.NUMERIC_SCALE                                                                                                                                                                                                                                     ")
-            sb.AppendLine("FROM        sys.objects o                                                                                                                                                                                                                                ")
-            sb.AppendLine("			LEFT JOIN sys.schemas s                                                                                                                                                                                                                             ")
-            sb.AppendLine("				ON o.schema_id = s.schema_id                                                                                                                                                                                                                      ")
-            sb.AppendLine("			LEFT Join INFORMATION_SCHEMA.COLUMNS isq 			                                                                                                                                                                                                      ")
-            sb.AppendLine("				On isq.TABLE_NAME =  o.Name                                                                                                                                                                                                                       ")
-            sb.AppendLine("                                                                                                                                                                                                                                                         ")
-            sb.AppendLine("WHERE o.type IN ('U')AND isq.TABLE_NAME = @tablaname                                                                                                                                                                                                     ")
-            sb.AppendLine("Order By COLUMN_NAME                                                                                                                                                                                                                                     ")
-            sb.AppendLine("---------------------------------------------------------------------------------------                                                                                                                                                                  ")
-            sb.AppendLine("declare @claves as table(COLUMN_NAME sql_variant, COLUMN_KEY int)                                                                                                                                                                                        ")
-            sb.AppendLine("Insert Into @claves                                                                                                                                                                                                                                      ")
-            sb.AppendLine("select  c.name as COLUMN_NAME, 1 As COLUMN_KEY                                                                                                                                                                                                           ")
-            sb.AppendLine("from sys.key_constraints as k                                                                                                                                                                                                                            ")
-            sb.AppendLine("		join sys.tables as t                                                                                                                                                                                                                                  ")
-            sb.AppendLine("			on t.object_id = k.parent_object_id                                                                                                                                                                                                                 ")
-            sb.AppendLine("		join sys.schemas as s                                                                                                                                                                                                                                 ")
-            sb.AppendLine("			on s.schema_id = t.schema_id                                                                                                                                                                                                                        ")
-            sb.AppendLine("		join sys.index_columns as ic                                                                                                                                                                                                                          ")
-            sb.AppendLine("			on ic.object_id = t.object_id and ic.index_id = k.unique_index_id                                                                                                                                                                                   ")
-            sb.AppendLine("		join sys.columns as c                                                                                                                                                                                                                                 ")
-            sb.AppendLine("			on c.object_id = t.object_id and c.column_id = ic.column_id                                                                                                                                                                                         ")
-            sb.AppendLine("Where t.name LIKE @tablaname order by COLUMN_NAME                                                                                                                                                                                                        ")
-            sb.AppendLine("---------------------------------------------------------------------------------------                                                                                                                                                                  ")
-            sb.AppendLine("declare @foraneas as Table (K_Table sql_variant, FK_Column sql_variant, PK_Table sql_variant, PK_Column sql_variant, Constraint_Name sql_variant)                                                                                                        ")
-            sb.AppendLine("insert into @foraneas                                                                                                                                                                                                                                    ")
-            sb.AppendLine("SELECT                                                                                                                                                                                                                                                   ")
-            sb.AppendLine("       K_Table  = FK.TABLE_NAME,                                                                                                                                                                                                                         ")
-            sb.AppendLine("       FK_Column = CU.COLUMN_NAME,                                                                                                                                                                                                                       ")
-            sb.AppendLine("       PK_Table  = PK.TABLE_NAME,                                                                                                                                                                                                                        ")
-            sb.AppendLine("       PK_Column = PT.COLUMN_NAME,                                                                                                                                                                                                                       ")
-            sb.AppendLine("       Constraint_Name = C.CONSTRAINT_NAME                                                                                                                                                                                                               ")
-            sb.AppendLine("FROM       INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS C                                                                                                                                                                                                  ")
-            sb.AppendLine("INNER JOIN  INFORMATION_SCHEMA.TABLE_CONSTRAINTS FK ON C.CONSTRAINT_NAME = FK.CONSTRAINT_NAME                                                                                                                                                            ")
-            sb.AppendLine("INNER JOIN      INFORMATION_SCHEMA.TABLE_CONSTRAINTS PK ON C.UNIQUE_CONSTRAINT_NAME = PK.CONSTRAINT_NAME                                                                                                                                                 ")
-            sb.AppendLine("INNER JOIN      INFORMATION_SCHEMA.KEY_COLUMN_USAGE CU ON C.CONSTRAINT_NAME = CU.CONSTRAINT_NAME                                                                                                                                                         ")
-            sb.AppendLine("INNER JOIN  (                                                                                                                                                                                                                                            ")
-            sb.AppendLine("       SELECT      i1.TABLE_NAME, i2.COLUMN_NAME                                                                                                                                                                                                         ")
-            sb.AppendLine("       FROM        INFORMATION_SCHEMA.TABLE_CONSTRAINTS i1                                                                                                                                                                                               ")
-            sb.AppendLine("           INNER JOIN      INFORMATION_SCHEMA.KEY_COLUMN_USAGE i2 ON i1.CONSTRAINT_NAME = i2.CONSTRAINT_NAME                                                                                                                                             ")
-            sb.AppendLine("               WHERE       i1.CONSTRAINT_TYPE = 'PRIMARY KEY'                                                                                                                                                                                            ")
-            sb.AppendLine("       ) PT ON PT.TABLE_NAME = PK.TABLE_NAME                                                                                                                                                                                                             ")
-            sb.AppendLine("Where FK.TABLE_NAME Like @tablaname                                                                                                                                                                                                                      ")
-            sb.AppendLine("---------------------------------------------------------------------------------------                                                                                                                                                                  ")
-            sb.AppendLine("Select d.COLUMN_NAME ,d.COLUMN_DEFAULT                                                                                                                                                                                                                   ")
-            sb.AppendLine("	   , d.IS_NULLABLE, d.DATA_TYPE                                                                                                                                                                                                                         ")
-            sb.AppendLine("	   , d.ORDINAL_POSITION                                                                                                                                                                                                                                 ")
-            sb.AppendLine("                                                                                                                                                                                                                                                         ")
-            sb.AppendLine("		,Case                                                                                                                                                                                                                                                 ")
-            sb.AppendLine("			When Not d.CHARACTER_MAXIMUM_LENGTH is Null Then d.CHARACTER_MAXIMUM_LENGTH                                                                                                                                                                         ")
-            sb.AppendLine("			When Not d.NUMERIC_PRECISION is Null Then d.NUMERIC_PRECISION                                                                                                                                                                                       ")
-            sb.AppendLine("			Else                                                                                                                                                                                                                                                ")
-            sb.AppendLine("				Case When  Convert(varchar(50), d.DATA_TYPE) like '%varchar' Then 4000                                                                                                                                                                            ")
-            sb.AppendLine("					Else NULL                                                                                                                                                                                                                                       ")
-            sb.AppendLine("				End                                                                                                                                                                                                                                               ")
-            sb.AppendLine("		End As [Precision]                                                                                                                                                                                                                                    ")
-            sb.AppendLine("                                                                                                                                                                                                                                                         ")
-            sb.AppendLine("	   , d.NUMERIC_SCALE ,                                                                                                                                                                                                                                  ")
-            sb.AppendLine("			Case When p.COLUMN_DESCRIPTION is Null then d.COLUMN_NAME Else p.COLUMN_DESCRIPTION End as COLUMN_DESCRIPTION,                                                                                                                                      ")
-            sb.AppendLine("			Case When c.COLUMN_KEY is Null then 0 else 1 End As COLUMN_KEY,K_Table ,                                                                                                                                                                            ")
-            sb.AppendLine("			FK_Column, PK_Table, PK_Column, Constraint_Name                                                                                                                                                                                                     ")
-            sb.AppendLine("	From @detalle d                                                                                                                                                                                                                                         ")
-            sb.AppendLine("		Left join @claves c On c.COLUMN_NAME = d.COLUMN_NAME                                                                                                                                                                                                  ")
-            sb.AppendLine("		Left Join @propiedades p on p.COLUMN_NAME = d.COLUMN_NAME                                                                                                                                                                                             ")
-            sb.AppendLine("		Left Join @foraneas f On d.COLUMN_NAME = f.FK_COLUMN                                                                                                                                                                                                  ")
-            sb.AppendLine("---------------------------------------------------------------------------------------                                                                                                                                                                  ")
-            sb.AppendLine("                                                                                                                                                                                                                                                         ")
-            sb.AppendLine("                                                                                                                                                                                                                                                         ")
-            sb.AppendLine("                                                                                                                                                                                                                                                         ")
-            sb.AppendLine("END                                                                                                                                                                                                                                                      ")
+            sb.AppendLine("Insert Into @detalle")
+            sb.AppendLine("SELECT  isq.COLUMN_NAME, isq.COLUMN_DEFAULT, isq.IS_NULLABLE, isq.DATA_TYPE ,")
+            sb.AppendLine("		isq.ORDINAL_POSITION,")
+            sb.AppendLine("		isq.CHARACTER_MAXIMUM_LENGTH,")
+            sb.AppendLine("		isq.NUMERIC_PRECISION,")
+            sb.AppendLine("		isq.NUMERIC_SCALE")
+            sb.AppendLine("FROM        sys.objects o")
+            sb.AppendLine("			LEFT JOIN sys.schemas s")
+            sb.AppendLine("				ON o.schema_id = s.schema_id")
+            sb.AppendLine("			LEFT Join INFORMATION_SCHEMA.COLUMNS isq 			")
+            sb.AppendLine("				On isq.TABLE_NAME =  o.Name")
+            sb.AppendLine("")
+            sb.AppendLine("WHERE o.type IN ('U')AND quotename(isq.TABLE_SCHEMA) + '.' + quotename(isq.TABLE_NAME) = @tablaname")
+            sb.AppendLine("Order By COLUMN_NAME")
+            sb.AppendLine("---------------------------------------------------------------------------------------")
+            sb.AppendLine("declare @claves as table(COLUMN_NAME sql_variant, COLUMN_KEY int)")
+            sb.AppendLine("Insert Into @claves")
+            sb.AppendLine("select  c.name as COLUMN_NAME, 1 As COLUMN_KEY")
+            sb.AppendLine("from sys.key_constraints as k")
+            sb.AppendLine("		join sys.tables as t")
+            sb.AppendLine("			on t.object_id = k.parent_object_id")
+            sb.AppendLine("		join sys.schemas as s")
+            sb.AppendLine("			on s.schema_id = t.schema_id")
+            sb.AppendLine("		join sys.index_columns as ic")
+            sb.AppendLine("			on ic.object_id = t.object_id and ic.index_id = k.unique_index_id")
+            sb.AppendLine("		join sys.columns as c")
+            sb.AppendLine("			on c.object_id = t.object_id and c.column_id = ic.column_id")
+            sb.AppendLine("Where quotename(s.name) + '.' + quotename(t.name)  = @tablaname order by COLUMN_NAME")
+            sb.AppendLine("---------------------------------------------------------------------------------------")
+            sb.AppendLine("declare @foraneas as Table (K_Table sql_variant, FK_Column sql_variant, PK_Table sql_variant, PK_Column sql_variant, Constraint_Name sql_variant)")
+            sb.AppendLine("insert into @foraneas")
+            sb.AppendLine("SELECT")
+            sb.AppendLine("       K_Table  = FK.TABLE_NAME,")
+            sb.AppendLine("       FK_Column = CU.COLUMN_NAME,")
+            sb.AppendLine("       PK_Table  = PK.TABLE_NAME,")
+            sb.AppendLine("       PK_Column = PT.COLUMN_NAME,")
+            sb.AppendLine("       Constraint_Name = C.CONSTRAINT_NAME")
+            sb.AppendLine("FROM       INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS C")
+            sb.AppendLine("INNER JOIN  INFORMATION_SCHEMA.TABLE_CONSTRAINTS FK ON C.CONSTRAINT_NAME = FK.CONSTRAINT_NAME")
+            sb.AppendLine("INNER JOIN      INFORMATION_SCHEMA.TABLE_CONSTRAINTS PK ON C.UNIQUE_CONSTRAINT_NAME = PK.CONSTRAINT_NAME")
+            sb.AppendLine("INNER JOIN      INFORMATION_SCHEMA.KEY_COLUMN_USAGE CU ON C.CONSTRAINT_NAME = CU.CONSTRAINT_NAME")
+            sb.AppendLine("INNER JOIN  (")
+            sb.AppendLine("       SELECT      i1.TABLE_NAME, i2.COLUMN_NAME")
+            sb.AppendLine("       FROM        INFORMATION_SCHEMA.TABLE_CONSTRAINTS i1")
+            sb.AppendLine("           INNER JOIN      INFORMATION_SCHEMA.KEY_COLUMN_USAGE i2 ON i1.CONSTRAINT_NAME = i2.CONSTRAINT_NAME")
+            sb.AppendLine("               WHERE       i1.CONSTRAINT_TYPE = 'PRIMARY KEY'")
+            sb.AppendLine("       ) PT ON PT.TABLE_NAME = PK.TABLE_NAME")
+            sb.AppendLine("Where CU.COLUMN_NAME <> PT.COLUMN_NAME AND quotename(FK.TABLE_SCHEMA) + '.' + quotename(FK.TABLE_NAME)  = @tablaname  --FK.TABLE_NAME Like 'ProductVendor'")
+            sb.AppendLine("")
+            sb.AppendLine("---------------------------------------------------------------------------------------")
+            sb.AppendLine("Select d.COLUMN_NAME ,d.COLUMN_DEFAULT")
+            sb.AppendLine("	   , d.IS_NULLABLE, d.DATA_TYPE")
+            sb.AppendLine("	   , d.ORDINAL_POSITION")
+            sb.AppendLine("")
+            sb.AppendLine("		,Case")
+            sb.AppendLine("			When Not d.CHARACTER_MAXIMUM_LENGTH is Null Then d.CHARACTER_MAXIMUM_LENGTH")
+            sb.AppendLine("			When Not d.NUMERIC_PRECISION is Null Then d.NUMERIC_PRECISION")
+            sb.AppendLine("			Else")
+            sb.AppendLine("				Case When  Convert(varchar(50), d.DATA_TYPE) like '%varchar' Then 4000")
+            sb.AppendLine("					Else NULL")
+            sb.AppendLine("				End")
+            sb.AppendLine("		End As [Precision]")
+            sb.AppendLine("")
+            sb.AppendLine("	   , d.NUMERIC_SCALE ,")
+            sb.AppendLine("			Case When p.COLUMN_DESCRIPTION is Null then d.COLUMN_NAME Else p.COLUMN_DESCRIPTION End as COLUMN_DESCRIPTION,")
+            sb.AppendLine("			Case When c.COLUMN_KEY is Null then 0 else 1 End As COLUMN_KEY,K_Table ,")
+            sb.AppendLine("			FK_Column, PK_Table, PK_Column, Constraint_Name")
+            sb.AppendLine("	From @detalle d")
+            sb.AppendLine("		Left join @claves c On c.COLUMN_NAME = d.COLUMN_NAME")
+            sb.AppendLine("		Left Join @propiedades p on p.COLUMN_NAME = d.COLUMN_NAME")
+            sb.AppendLine("		Left Join @foraneas f On d.COLUMN_NAME = f.FK_COLUMN")
+            sb.AppendLine("---------------------------------------------------------------------------------------")
+            sb.AppendLine("")
+            sb.AppendLine("")
+            sb.AppendLine("")
+            sb.AppendLine("END")
 
             Return sb.ToString
         End Get
@@ -404,6 +462,7 @@ Partial Public Class EntityCodeGenerator
             Dim AuxiliaryFieldExtends As New List(Of BrainWork.Entities.EntityFieldExtendsAttribute)
 
             Dim DescriptionFieldName As String = ""
+            Dim EnabledField As String = Nothing
             Dim PrimaryKeyFieldName As String = ""
             Dim IsFirstRecord As Boolean = True
 
@@ -430,6 +489,8 @@ Partial Public Class EntityCodeGenerator
 
                 Dim pField As New BrainWork.Entities.EntityFieldExtendsAttribute
 
+                pField.FieldDescription = COLUMN_DESCRIPTION
+
                 pField.FieldName = COLUMN_NAME
                 pField.DefaultValue = COLUMN_DEFAULT
                 pField.MainTable = TableNameString
@@ -441,7 +502,7 @@ Partial Public Class EntityCodeGenerator
                     pField.ForeingTable = PK_Table
                     pField.ForeingCRUD = ABM_Prefix & PK_Table
                     pField.FieldType = Entities.EnumFieldType.ForeingKey
-                    pField.EntityClassContainer = ENTITY_Prefix & PK_Table
+                    pField.EntityClassContainer = ENTITY_Prefix & Me.SanitizeClassName(PK_Table)
                     pField.ForeingFieldName = FK_Column
                 Else
                     If dtKeys.Select("COLUMN_NAME = '" & COLUMN_NAME & "'").Length > 0 Then
@@ -451,7 +512,7 @@ Partial Public Class EntityCodeGenerator
                         pField.ForeingTable = PK_Table
                         pField.ForeingCRUD = ABM_Prefix & PK_Table
                         pField.FieldType = Entities.EnumFieldType.ForeingKey
-                        pField.EntityClassContainer = ENTITY_Prefix & PK_Table
+                        pField.EntityClassContainer = ENTITY_Prefix & Me.SanitizeClassName(PK_Table)
                         pField.ForeingFieldName = FK_Column
 
 
@@ -475,8 +536,14 @@ Partial Public Class EntityCodeGenerator
                 pField.Scale = CType(dbValue(dt2.Rows(i)("NUMERIC_SCALE")), Byte)
                 pField.SourceColumn = COLUMN_NAME
 
-                If COLUMN_NAME.ToUpper.EndsWith("_D") Then
+                If COLUMN_NAME.ToUpper.EndsWith(DESCRIPTIONENDWITH) Then
                     DescriptionFieldName = DescriptionFieldName & COLUMN_NAME & ","
+                    pField.IsDescription = True
+                End If
+
+
+                If COLUMN_NAME.ToUpper.EndsWith(ENABLEDDENDWITH) Then
+                    EnabledField = COLUMN_NAME
                     pField.IsDescription = True
                 End If
 
@@ -509,7 +576,7 @@ Partial Public Class EntityCodeGenerator
             AuxiliaryClassExtends.DescriptionFieldName = DescriptionFieldName
             AuxiliaryClassExtends.PrimaryKeyFieldName = PrimaryKeyFieldName
             AuxiliaryClassExtends.RootContainerName = TableNameString
-
+            AuxiliaryClassExtends.EnableFieldName = EnabledField
 
             Me.Tables.Add(TableNameString, AuxiliaryClassExtends)
 
@@ -788,9 +855,14 @@ Partial Public Class EntityCodeGenerator
             auxDeclarationVariables += vbCrLf & prefix & SanitizeTableName(TableName) & ".[" & pField.FieldName & "] ,"
 
             If pField.FieldType = Entities.EnumFieldType.ForeingKey Then ' si es clave externa
-                innerJoinValues = innerJoinValues & vbCrLf & prefix & vbTab & " Inner Join " & pField.ForeingTable & " " & SanitizeTableName(pField.ForeingTable)
-                innerJoinValues = innerJoinValues & vbCrLf & prefix & vbTab & vbTab & " On " & SanitizeTableName(TableName) & ".[" & pField.FieldName & "] "
-                innerJoinValues = innerJoinValues & " = " & SanitizeTableName(pField.ForeingTable) & ".[" & pField.ForeingFieldName & "]   "
+                innerJoinValues = innerJoinValues & vbCrLf & prefix & vbTab & _
+                " Inner Join " & pField.ForeingTable & " " & SanitizeTableName(pField.ForeingTable)
+
+                innerJoinValues = innerJoinValues & vbCrLf & prefix & vbTab & vbTab & " On " & _
+                SanitizeTableName(TableName) & ".[" & pField.FieldName & "] "
+
+                innerJoinValues = innerJoinValues & " = " & _
+                SanitizeTableName(pField.ForeingTable) & ".[" & pField.ForeingFieldName & "]   "
 
                 For Each item As BrainWork.Entities.EntityFieldExtendsAttribute In TablesFields(pField.ForeingTable)
                     If item.IsDescription Then
@@ -940,22 +1012,36 @@ Partial Public Class EntityCodeGenerator
                 End If
 
                 Dim sAuxa As String = createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
-                If isValidWhereFieldQuery(saux) Then
-                    If pField.FieldType <> Entities.EnumFieldType.PrimaryKey Then
-                        auxValues += vbCrLf & "              [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ","
-                    Else
-                        WhereExpression = vbCrLf & "              Where [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
-                    End If
+
+                If pField.FieldType <> Entities.EnumFieldType.PrimaryKey Then
+                    auxValues += vbCrLf & "              [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ","
+                ElseIf isValidWhereFieldQuery(saux) Then
+                    WhereExpression = vbCrLf & "              Where [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
                 End If
+
             End If
 
         Next
-        auxValues = auxValues.Substring(0, auxValues.Length - 1)
+        Dim PasedByValidValues As Boolean = False
+        If Not String.IsNullOrEmpty(auxValues) Then
+            auxValues = auxValues.Substring(0, auxValues.Length - 1)
+            PasedByValidValues = True
+        Else
+            auxValues += vbCrLf & "              [" & listefield(0).FieldName & "] = @" & listefield(0).FieldName.Replace(" "c, "_")
+        End If
+
+        If String.IsNullOrEmpty(WhereExpression) OrElse String.IsNullOrEmpty(auxValues) Then
+            PasedByValidValues = False
+        End If
+
         sbUpdateProcedure.Append(auxValues & vbCrLf)
 
 
 
         sbUpdateProcedure.AppendLine("              " & WhereExpression & ";")
+        If Not PasedByValidValues Then
+            sbUpdateProcedure.AppendLine("		 RAISERROR ('No se han declarado valores para el filtro correspondiente' , 16, 1);")
+        End If
         sbUpdateProcedure.AppendLine("    END TRY")
         sbUpdateProcedure.AppendLine("    BEGIN CATCH")
         sbUpdateProcedure.AppendLine("       DECLARE @Error_Message_Value NVARCHAR(4000);")
@@ -1047,11 +1133,11 @@ Partial Public Class EntityCodeGenerator
                                      ByRef TableName As String, _
                                      ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute)) As String
 
-        CreateDisableProcedeure = "prc_" & TableName.Replace("["c, "").Replace("]"c, "").Replace("dbo.", "").Replace("."c, "") & "_UpdateByPK"
+        CreateDisableProcedeure = "prc_" & TableName.Replace("["c, "").Replace("]"c, "").Replace("dbo.", "").Replace("."c, "") & "_Disable"
         sbUpdateProcedure.AppendLine("Create PROCEDURE  " & CreateDisableProcedeure)
         Dim auxValues As String = ""
 
-        sbUpdateProcedure.Append(CreateParametersForProcedure(sbUpdateProcedure, TableName, listefield, False) & vbCrLf)
+        sbUpdateProcedure.Append(CreateParametersForProcedure(sbUpdateProcedure, TableName, listefield, False, True) & vbCrLf)
 
 
         sbUpdateProcedure.AppendLine("AS")
@@ -1065,51 +1151,52 @@ Partial Public Class EntityCodeGenerator
 
         auxValues = ""
         Dim WhereExpression As String = ""
-        Dim isFirst As Boolean = True
-        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
 
-            'default where con el primero que encuentra
-            If isFirst Then
-                isFirst = False
-                WhereExpression = vbCrLf & "              Where [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+ 
+ 
+
+            Dim pval As String
+            If WhereExpression.Contains("Where") Then
+                pval = "AND"
+            Else
+                pval = "Where"
             End If
 
-            Dim saux As String = Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
-            If isValidWhereFieldQuery(saux) Then
+            If pField.IsPK Then
+                WhereExpression += vbCrLf & "              " & pval & " [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
+            End If
 
 
-                If pField.FieldType = Entities.EnumFieldType.PrimaryKey Then
-                    Dim pval As String
-                    If WhereExpression.Contains("Where") Then
-                        pval = "AND"
-                    Else
-                        pval = "Where"
-                    End If
-
-                    If Not isFirst Then
-                        WhereExpression += vbCrLf & "              " & pval & " [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
-                    End If
-                End If
-
-                If pField.FieldType <> Entities.EnumFieldType.PrimaryKey Then
-                    auxValues += vbCrLf & "              [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ","
-                End If
-
-                If isFirst Then
-                    isFirst = False
-                End If
-
+            If pField.IsEnableField = True AndAlso pField.FieldType <> Entities.EnumFieldType.PrimaryKey AndAlso isValidWhereFieldQuery(Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))) Then
+                auxValues += vbCrLf & "              [" & pField.FieldName & "] = " & pField.DefaultValue.ToString & ","
             End If
 
 
         Next
+        If auxValues = "" Then
+            auxValues = "/*Atención debe seleccionar un valor para deshabilitar*/              [" & listefield(0).FieldName & "] = NULL,"
+        End If
+        '& vbCrLf & 
+
+
+        If String.IsNullOrEmpty(WhereExpression) Then
+            WhereExpression = vbCrLf & "              Where [" & listefield(0).FieldName & "] = @" & listefield(0).FieldName.Replace(" "c, "_")
+        End If
         auxValues = auxValues.Substring(0, auxValues.Length - 1)
         sbUpdateProcedure.Append(auxValues & vbCrLf)
 
 
 
         sbUpdateProcedure.AppendLine("              " & WhereExpression & ";")
+
+        If auxValues.Contains("/*Atención debe seleccionar un valor para deshabilitar*/") Then
+            sbUpdateProcedure.AppendLine(" RAISERROR ('Atención debe seleccionar un valor para deshabilitar', 16, 1)")
+        End If
+
         sbUpdateProcedure.AppendLine("    END TRY")
+
+
         sbUpdateProcedure.AppendLine("    BEGIN CATCH")
         sbUpdateProcedure.AppendLine("       DECLARE @Error_Message_Value NVARCHAR(4000);")
         sbUpdateProcedure.AppendLine("		 SELECT @Error_Message_Value = ERROR_MESSAGE();")
@@ -1146,6 +1233,7 @@ Partial Public Class EntityCodeGenerator
 
         Dim WhereExpression As String = ""
         Dim isFirst As Boolean = True
+        Dim isPassedByValidValue As Boolean = False
         For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
             'default where con el primero que encuentra
             If isFirst Then
@@ -1153,7 +1241,7 @@ Partial Public Class EntityCodeGenerator
             End If
 
             Dim saux As String = Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
-            If isValidWhereFieldQuery(saux) Then
+            If isValidWhereFieldQuery(saux) AndAlso pField.IsPK Then
 
 
                 If pField.FieldType = Entities.EnumFieldType.PrimaryKey Then
@@ -1167,13 +1255,16 @@ Partial Public Class EntityCodeGenerator
                     Else
                         pval = "Where"
                     End If
-
+                    isPassedByValidValue = True
                     WhereExpression += vbCrLf & "              " & pval & " [" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_")
 
                 End If
 
             End If
         Next
+        If Not isPassedByValidValue Then
+            WhereExpression = " RAISERROR ('No se han declarado filtros', 16, 1)"
+        End If
 
         sbUpdateProcedure.AppendLine("              " & WhereExpression & ";")
         sbUpdateProcedure.AppendLine("    END TRY")
@@ -1249,11 +1340,19 @@ Partial Public Class EntityCodeGenerator
                 WhereExpression += ") AND"
             End If
         Next
+        Dim raiseerrortrue As Boolean = False
+        If WhereExpression = vbTab & vbTab & vbTab & " AND (" Then
+            WhereExpression += "1=0AND"
+            raiseerrortrue = True
+        End If
+
         WhereExpression = WhereExpression.Substring(0, WhereExpression.Length - 3)
         WhereExpression += ")"
 
         sbSelectProcedure.Append(WhereExpression & vbCrLf)
-
+        If raiseerrortrue Then
+            sbSelectProcedure.AppendLine(" RAISERROR ('NO SE HAN SELECCIONADO FILTROS WHERE', 16, 1);")
+        End If
         sbSelectProcedure.AppendLine("          END")
         sbSelectProcedure.AppendLine("    END TRY")
         sbSelectProcedure.AppendLine("    BEGIN CATCH")
@@ -1304,11 +1403,19 @@ Partial Public Class EntityCodeGenerator
                 End If
             End If
         Next
+
+        If WhereExpression = vbCrLf & " WHERE(" Then
+            WhereExpression = "where (1=0AND"
+        End If
+
         WhereExpression = WhereExpression.Substring(0, WhereExpression.Length - 3)
         WhereExpression += ")"
 
         sbSelectProcedure.Append(WhereExpression & vbCrLf)
 
+        If WhereExpression = "where (1=0)" Then
+            sbSelectProcedure.AppendLine(" RAISERROR ('NO SE HAN SELECCIONADO FILTROS WHERE', 16, 1);")
+        End If
         sbSelectProcedure.AppendLine("    END TRY")
         sbSelectProcedure.AppendLine("    BEGIN CATCH")
         sbSelectProcedure.AppendLine("       DECLARE @Error_Message_Value NVARCHAR(4000);")
@@ -1362,7 +1469,21 @@ Partial Public Class EntityCodeGenerator
         Dim PrivateDim As String = IIf(propertyName.Contains("["), "[_" & propertyName.Substring(1), "_" & propertyName).ToString
 
         'agrgo al constructor
-        sbConstructorMethod.AppendLine(PrivateDim & " = Nothing")
+
+        If efield.DefaultValue Is Nothing Then
+            sbConstructorMethod.AppendLine(PrivateDim & " = Nothing")
+        ElseIf efield.TypeName.ToLower.Contains("date") Then
+            If IsDate(efield.DefaultValue) Then
+                sbConstructorMethod.AppendLine(PrivateDim & " = #" & efield.DefaultValue.ToString & "#")
+            ElseIf efield.DefaultValue.ToString.ToLower.Contains("date") Then
+                sbConstructorMethod.AppendLine(PrivateDim & " = Now")
+            End If
+        Else
+
+            sbConstructorMethod.AppendLine(PrivateDim & " = " & efield.DefaultValue.ToString.Replace("("c, "").Replace(")"c, ""))
+        End If
+
+
 
 
         'inserta el campo en el area de la declaracion  
@@ -1371,9 +1492,10 @@ Partial Public Class EntityCodeGenerator
         'agrego el nombre de la propiedad a la EntityClassExtends
         If Me.Tables(TableName).DescriptionFieldName = efield.FieldName Then
             Me.Tables(TableName).DescriptionPropertyName = propertyName
+            Me.Tables(TableName).EnabledPropertyName = propertyName
         End If
         If Me.Tables(TableName).PrimaryKeyFieldName = efield.FieldName Then
-            Me.Tables(TableName).PrimaryKeyFieldName = propertyName
+            Me.Tables(TableName).PrimaryKeyPropertyName = propertyName
         End If
 
         'genero la property
@@ -1471,7 +1593,7 @@ Partial Public Class EntityCodeGenerator
         If Not System.IO.Directory.Exists(OUTPUTPAT) Then
             System.IO.Directory.CreateDirectory(OUTPUTPAT)
         End If
-
+        _GeneratedStored = ""
         For Each Key As String In Me.TablesFields.Keys
             Dim sbInsertProcedure As New System.Text.StringBuilder
             Dim sbUpdateProcedure As New System.Text.StringBuilder
@@ -1492,7 +1614,7 @@ Partial Public Class EntityCodeGenerator
             TableProcedureInsert.Add(Key, sAux)
             PublishStoredProcedures(OUTPUTPAT, sbInsertProcedure.ToString, sAux)
 
-            sAux = CreateUpdateByPKProcedeure(sbUpdateProcedure, Key, listefield)
+            sAux = CreateUpdateProcedeure(sbUpdateProcedure, Key, listefield)
             TableProcedureUpdate.Add(Key, sAux)
             PublishStoredProcedures(OUTPUTPAT, sbUpdateProcedure.ToString, sAux)
 
@@ -1681,7 +1803,7 @@ Partial Public Class EntityCodeGenerator
             SetStoredProcedures += vbTab & vbTab & vbTab & "Me.SP_UPDATE_BY_PK = """ & Me.TableProcedureUpdateByPK(Key) & """" & vbCrLf
 
             PublishBLDA(OUTPUTPAT & Me.SUBDIR_CLASS_BUSSINES, strBLClass, (Me.BUSSINES_LOGIC_Prefix & SanitizeClassName(Key)))
-
+            _GeneratedBussines += strBLClass & vbCrLf
 
             Dim strDaClass As String = GetDaClass(Key, _
                                                  DATA_ACCESS_Prefix & SanitizeClassName(Key), _
@@ -1691,7 +1813,7 @@ Partial Public Class EntityCodeGenerator
 
             PublishBLDA(OUTPUTPAT & Me.SUBDIR_CLASS_DATAACCES, strDaClass, (Me.DATA_ACCESS_Prefix & SanitizeClassName(Key)))
 
-
+            _GeneratedDataAccess += strDaClass & vbCrLf
         Next
 
 
@@ -1701,7 +1823,7 @@ Partial Public Class EntityCodeGenerator
 
     ' Dim tempblda As String = ""
     Public Sub PublishBLDA(ByVal directorio As String, ByVal classString As String, ByVal ClassName As String)
-        ' temp += classString & vbCrLf
+
         ' Return
         ' directorio = directorio & Me.SUBDIR_CLASS_ENTITY
         If Not System.IO.Directory.Exists(directorio) Then
@@ -1763,8 +1885,8 @@ Partial Public Class EntityCodeGenerator
 
     ' Private temp As String
     Private Sub PublishClass_Entitys(ByVal directorio As String, ByVal classString As String, ByVal ClassName As String)
-        '  temp += classString & vbCrLf
-        Return
+        Me._GeneratedEntity += classString & vbCrLf
+
         directorio = directorio & Me.SUBDIR_CLASS_ENTITY
         If Not System.IO.Directory.Exists(directorio) Then
             System.IO.Directory.CreateDirectory(directorio)

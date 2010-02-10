@@ -41,7 +41,7 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
     Public ReadOnly Property IsPK() As Boolean
         Get
             Return Me.FieldType = EnumFieldType.PrimaryKey
-        End Get 
+        End Get
     End Property
 
     Public Property EntityClassContainer() As String Implements Interfaces.IEntityFieldExtendsAttribute.EntityClassContainer
@@ -310,6 +310,16 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
         End Get
         Set(ByVal value As Boolean)
             _DefaultOrderBy = value
+        End Set
+    End Property
+
+    Private _IsEnableField As Boolean
+    Public Property IsEnableField() As Boolean Implements Interfaces.IEntityFieldExtendsAttribute.IsEnableField
+        Get
+            Return _IsEnableField
+        End Get
+        Set(ByVal value As Boolean)
+            _IsEnableField = value
         End Set
     End Property
 End Class

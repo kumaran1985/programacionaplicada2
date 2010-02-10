@@ -6,6 +6,35 @@ Public Class EntityClassExtendsAttribute : Inherits System.Attribute
     Private _DescriptionFieldName As String
     Private _PrimaryKeyPropertyName As String
     Private _DescriptionPropertyName As String
+    Private _EnableFieldName As String
+    Private _EnablePropertyName As String
+    Private _EnableCompareValue As String
+
+
+    Public Property EnableFieldName() As String
+        Get
+            Return _EnableFieldName
+        End Get
+        Set(ByVal value As String)
+            _EnableFieldName = value
+        End Set
+    End Property
+    Public Property EnabledPropertyName() As String
+        Get
+            Return _EnablePropertyName
+        End Get
+        Set(ByVal value As String)
+            _EnablePropertyName = value
+        End Set
+    End Property
+    Public Property EnableCompareValue() As String
+        Get
+            Return _EnableCompareValue
+        End Get
+        Set(ByVal value As String)
+            _EnableCompareValue = value
+        End Set
+    End Property
 
     Public Property DescriptionPropertyName() As String
         Get
