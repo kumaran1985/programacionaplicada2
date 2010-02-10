@@ -41,6 +41,9 @@
 
         Property DefaultOrderBy() As Boolean
 
+        Property IsEnableField() As Boolean
+
+
 
 
 
