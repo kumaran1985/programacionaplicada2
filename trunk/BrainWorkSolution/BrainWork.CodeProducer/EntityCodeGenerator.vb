@@ -17,6 +17,7 @@ Partial Public Class EntityCodeGenerator
     Protected Const PAGED_ROW_PARAMETER As String = "@Row"
     Protected Const PAGED_MAXVALUES_PARAMETER As String = "@MaxValues"
     Protected Const ORDER_BY_PARAMETER As String = "@OrderBy"
+    Protected Const ORDER_BY_DIRECTION_PARAMETER As String = "@OrderByDirection"
     Private _GeneratedStored As String = ""
 
     Dim TableProcedureInsert As New Dictionary(Of String, String)
@@ -789,6 +790,55 @@ Partial Public Class EntityCodeGenerator
 
     End Function
 
+
+
+    Private Function createOrderBy(ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute), ByVal TableName As String) As String
+        Dim strValue As String = ""
+
+        Dim variableDeclarationAsc As String = ""
+        Dim variableDeclarationDesc As String = ""
+        Dim hasPassedVerification As Boolean = False
+        variableDeclarationAsc += "					CASE " & vbCrLf
+        variableDeclarationDesc += "					CASE " & vbCrLf
+        For Each item As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+            Dim ci As DataColumn = GetColumnExtendInformation(TableName, item.FieldName)
+            If isValidWhereFieldQuery([Enum].GetName(GetSqlDBType(ci.DataType).GetType, GetSqlDBType(ci.DataType))) Then
+                hasPassedVerification = True
+                Dim vdec() As String = item.FieldName.Split("."c)
+                Dim dec As String = vdec(vdec.Length - 1)
+                If Not dec.Trim.Contains("["c) Then
+                    dec = "[" & dec & "]"
+                End If
+
+
+                variableDeclarationDesc += "                         WHEN  " & ORDER_BY_DIRECTION_PARAMETER & " = '" & item.FieldName & "' THEN (RANK() OVER (ORDER BY " & dec & " DESC))  " & vbCrLf
+
+                variableDeclarationAsc += "                         WHEN  " & ORDER_BY_DIRECTION_PARAMETER & " = '" & item.FieldName & "' THEN (RANK() OVER (ORDER BY " & dec & " ))  " & vbCrLf
+
+              
+            End If 
+        Next
+        variableDeclarationAsc += "                    END " & vbCrLf
+        variableDeclarationDesc += "                    END " & vbCrLf
+
+        strValue += "ORDER BY " & vbCrLf
+        strValue += "		 CASE WHEN NOT " & ORDER_BY_PARAMETER & " IS NULL THEN " & vbCrLf
+        strValue += "				CASE WHEN NOT  " & ORDER_BY_DIRECTION_PARAMETER & " IS NULL THEN " & vbCrLf
+        strValue += variableDeclarationDesc
+        strValue += "				ELSE " & vbCrLf
+        strValue += variableDeclarationAsc
+        strValue += "				END " & vbCrLf
+        strValue += "		 END " & vbCrLf
+
+        If hasPassedVerification Then
+            Return strValue
+        Else
+            Return ""
+        End If
+
+
+    End Function
+
     Private Function CreateParametersForProcedure(ByVal sbProcedure As System.Text.StringBuilder, _
                                                   ByVal TableName As String, _
                                                   ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute), _
@@ -816,9 +866,11 @@ Partial Public Class EntityCodeGenerator
 
 
         If CreateStandarValues Then
-            auxDeclarationVariables += vbCrLf & "         " & ORDER_BY_PARAMETER & " varchar(4000),"
+            auxDeclarationVariables += vbCrLf & "         " & ORDER_BY_PARAMETER & " varchar(500),"
+            auxDeclarationVariables += vbCrLf & "         " & ORDER_BY_DIRECTION_PARAMETER & " varchar(500),"
             auxDeclarationVariables += vbCrLf & "         " & PAGED_ROW_PARAMETER & " int,"
             auxDeclarationVariables += vbCrLf & "         " & PAGED_MAXVALUES_PARAMETER & " int"
+            '
         Else
             If String.IsNullOrEmpty(auxDeclarationVariables) Then
 
@@ -1349,7 +1401,9 @@ Partial Public Class EntityCodeGenerator
         WhereExpression = WhereExpression.Substring(0, WhereExpression.Length - 3)
         WhereExpression += ")"
 
+
         sbSelectProcedure.Append(WhereExpression & vbCrLf)
+        sbSelectProcedure.AppendLine(createOrderBy(listefield, TableName))
         If raiseerrortrue Then
             sbSelectProcedure.AppendLine(" RAISERROR ('NO SE HAN SELECCIONADO FILTROS WHERE', 16, 1);")
         End If
@@ -1365,6 +1419,9 @@ Partial Public Class EntityCodeGenerator
         sbSelectProcedure.AppendLine("GO")
 
     End Function
+
+
+
 
 
     Private Function CreateSelectOneProcedure(ByRef sbSelectProcedure As System.Text.StringBuilder, _
