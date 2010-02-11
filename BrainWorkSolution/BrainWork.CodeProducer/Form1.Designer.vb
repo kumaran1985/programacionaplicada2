@@ -30,16 +30,16 @@ Partial Class Form1
         Me.Label2 = New System.Windows.Forms.Label
         Me.TabControl1 = New System.Windows.Forms.TabControl
         Me.TabPage1 = New System.Windows.Forms.TabPage
-        Me.TabPage2 = New System.Windows.Forms.TabPage
-        Me.TabPage3 = New System.Windows.Forms.TabPage
-        Me.TabPage4 = New System.Windows.Forms.TabPage
         Me.TXTPROCS = New System.Windows.Forms.TextBox
+        Me.TabPage2 = New System.Windows.Forms.TabPage
         Me.TXTENTITY = New System.Windows.Forms.TextBox
+        Me.TabPage3 = New System.Windows.Forms.TabPage
         Me.TXTBUSSINES = New System.Windows.Forms.TextBox
+        Me.TabPage4 = New System.Windows.Forms.TabPage
         Me.TXTDATAACCESS = New System.Windows.Forms.TextBox
         Me.pnlWaith = New System.Windows.Forms.Panel
-        Me.Label3 = New System.Windows.Forms.Label
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar
+        Me.Label3 = New System.Windows.Forms.Label
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
@@ -51,7 +51,7 @@ Partial Class Form1
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(659, 24)
+        Me.Button1.Location = New System.Drawing.Point(785, 26)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(108, 62)
         Me.Button1.TabIndex = 0
@@ -62,7 +62,7 @@ Partial Class Form1
         '
         Me.TXTQUERY.Location = New System.Drawing.Point(27, 26)
         Me.TXTQUERY.Name = "TXTQUERY"
-        Me.TXTQUERY.Size = New System.Drawing.Size(626, 20)
+        Me.TXTQUERY.Size = New System.Drawing.Size(752, 20)
         Me.TXTQUERY.TabIndex = 1
         Me.TXTQUERY.Text = "Integrated Security=SSPI;Persist Security Info=False;Initial Catalog=AdventureWor" & _
             "ks;Data Source=localhost\sqlexpress"
@@ -71,7 +71,7 @@ Partial Class Form1
         '
         Me.TXTOUTPUT.Location = New System.Drawing.Point(27, 68)
         Me.TXTOUTPUT.Name = "TXTOUTPUT"
-        Me.TXTOUTPUT.Size = New System.Drawing.Size(626, 20)
+        Me.TXTOUTPUT.Size = New System.Drawing.Size(752, 20)
         Me.TXTOUTPUT.TabIndex = 3
         Me.TXTOUTPUT.Text = "c:\PruebaGenerador\"
         '
@@ -116,6 +116,15 @@ Partial Class Form1
         Me.TabPage1.Text = "Stored Procedures"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
+        'TXTPROCS
+        '
+        Me.TXTPROCS.Location = New System.Drawing.Point(6, 6)
+        Me.TXTPROCS.Multiline = True
+        Me.TXTPROCS.Name = "TXTPROCS"
+        Me.TXTPROCS.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.TXTPROCS.Size = New System.Drawing.Size(861, 338)
+        Me.TXTPROCS.TabIndex = 3
+        '
         'TabPage2
         '
         Me.TabPage2.Controls.Add(Me.TXTENTITY)
@@ -126,6 +135,15 @@ Partial Class Form1
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Entitys"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'TXTENTITY
+        '
+        Me.TXTENTITY.Location = New System.Drawing.Point(6, 4)
+        Me.TXTENTITY.Multiline = True
+        Me.TXTENTITY.Name = "TXTENTITY"
+        Me.TXTENTITY.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.TXTENTITY.Size = New System.Drawing.Size(861, 338)
+        Me.TXTENTITY.TabIndex = 4
         '
         'TabPage3
         '
@@ -138,6 +156,15 @@ Partial Class Form1
         Me.TabPage3.Text = "Bussines Logic"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+        'TXTBUSSINES
+        '
+        Me.TXTBUSSINES.Location = New System.Drawing.Point(6, 4)
+        Me.TXTBUSSINES.Multiline = True
+        Me.TXTBUSSINES.Name = "TXTBUSSINES"
+        Me.TXTBUSSINES.ScrollBars = System.Windows.Forms.ScrollBars.Both
+        Me.TXTBUSSINES.Size = New System.Drawing.Size(861, 338)
+        Me.TXTBUSSINES.TabIndex = 5
+        '
         'TabPage4
         '
         Me.TabPage4.Controls.Add(Me.TXTDATAACCESS)
@@ -148,33 +175,6 @@ Partial Class Form1
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Data Access"
         Me.TabPage4.UseVisualStyleBackColor = True
-        '
-        'TXTPROCS
-        '
-        Me.TXTPROCS.Location = New System.Drawing.Point(6, 6)
-        Me.TXTPROCS.Multiline = True
-        Me.TXTPROCS.Name = "TXTPROCS"
-        Me.TXTPROCS.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TXTPROCS.Size = New System.Drawing.Size(861, 338)
-        Me.TXTPROCS.TabIndex = 3
-        '
-        'TXTENTITY
-        '
-        Me.TXTENTITY.Location = New System.Drawing.Point(6, 4)
-        Me.TXTENTITY.Multiline = True
-        Me.TXTENTITY.Name = "TXTENTITY"
-        Me.TXTENTITY.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TXTENTITY.Size = New System.Drawing.Size(861, 338)
-        Me.TXTENTITY.TabIndex = 4
-        '
-        'TXTBUSSINES
-        '
-        Me.TXTBUSSINES.Location = New System.Drawing.Point(6, 4)
-        Me.TXTBUSSINES.Multiline = True
-        Me.TXTBUSSINES.Name = "TXTBUSSINES"
-        Me.TXTBUSSINES.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TXTBUSSINES.Size = New System.Drawing.Size(861, 338)
-        Me.TXTBUSSINES.TabIndex = 5
         '
         'TXTDATAACCESS
         '
@@ -195,6 +195,14 @@ Partial Class Form1
         Me.pnlWaith.TabIndex = 7
         Me.pnlWaith.Visible = False
         '
+        'ProgressBar1
+        '
+        Me.ProgressBar1.Location = New System.Drawing.Point(80, 96)
+        Me.ProgressBar1.Name = "ProgressBar1"
+        Me.ProgressBar1.Size = New System.Drawing.Size(715, 23)
+        Me.ProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous
+        Me.ProgressBar1.TabIndex = 1
+        '
         'Label3
         '
         Me.Label3.AutoSize = True
@@ -204,14 +212,6 @@ Partial Class Form1
         Me.Label3.Size = New System.Drawing.Size(242, 33)
         Me.Label3.TabIndex = 0
         Me.Label3.Text = "Pere un cacho..."
-        '
-        'ProgressBar1
-        '
-        Me.ProgressBar1.Location = New System.Drawing.Point(80, 96)
-        Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(715, 23)
-        Me.ProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous
-        Me.ProgressBar1.TabIndex = 1
         '
         'Timer1
         '
