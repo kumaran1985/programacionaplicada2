@@ -16,6 +16,7 @@ Public MustInherit Class AbstractDataAccess
     Protected SP_DISABLE As String = Nothing
     Protected SP_GETONE As String = Nothing
     Protected SP_GETALL As String = Nothing
+    Protected SP_GETALL_FULLDESCRIPTION As String = Nothing
 
     Private _Entity As Object
     Public Event OnAdd()

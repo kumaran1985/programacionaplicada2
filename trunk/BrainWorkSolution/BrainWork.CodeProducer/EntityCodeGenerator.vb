@@ -16,12 +16,14 @@ Partial Public Class EntityCodeGenerator
 
     Protected Const PAGED_ROW_PARAMETER As String = "@Row"
     Protected Const PAGED_MAXVALUES_PARAMETER As String = "@MaxValues"
+    Protected Const PAGED_COUNT_PARAMETER As String = "@RecordCount"
     Protected Const ORDER_BY_PARAMETER As String = "@OrderBy"
     Protected Const ORDER_BY_DIRECTION_PARAMETER As String = "@OrderByDirection"
     Private _GeneratedStored As String = ""
 
     Dim TableProcedureInsert As New Dictionary(Of String, String)
     Dim TableProcedureSelectAll As New Dictionary(Of String, String)
+    Dim TableProcedureSelectAllFullDescription As New Dictionary(Of String, String)
     Dim TableProcedureDelete As New Dictionary(Of String, String)
     Dim TableProcedureSelectOne As New Dictionary(Of String, String)
     Dim TableProcedureUpdate As New Dictionary(Of String, String)
@@ -802,7 +804,7 @@ Partial Public Class EntityCodeGenerator
         variableDeclarationDesc += "					CASE " & vbCrLf
         For Each item As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
             Dim ci As DataColumn = GetColumnExtendInformation(TableName, item.FieldName)
-            If isValidWhereFieldQuery([Enum].GetName(GetSqlDBType(ci.DataType).GetType, GetSqlDBType(ci.DataType))) Then
+            If isValidWhereFieldQuery("as " & [Enum].GetName(GetSqlDBType(ci.DataType).GetType, GetSqlDBType(ci.DataType))) Then
                 hasPassedVerification = True
                 Dim vdec() As String = item.FieldName.Split("."c)
                 Dim dec As String = vdec(vdec.Length - 1)
@@ -811,22 +813,26 @@ Partial Public Class EntityCodeGenerator
                 End If
 
 
-                variableDeclarationDesc += "                         WHEN  " & ORDER_BY_DIRECTION_PARAMETER & " = '" & item.FieldName & "' THEN (RANK() OVER (ORDER BY " & dec & " DESC))  " & vbCrLf
+                variableDeclarationDesc += "                         WHEN  Upper(" & ORDER_BY_DIRECTION_PARAMETER & ") = Upper('" & item.FieldName & "') THEN (RANK() OVER (ORDER BY " & dec & " DESC))  " & vbCrLf
 
-                variableDeclarationAsc += "                         WHEN  " & ORDER_BY_DIRECTION_PARAMETER & " = '" & item.FieldName & "' THEN (RANK() OVER (ORDER BY " & dec & " ))  " & vbCrLf
+                variableDeclarationAsc += "                         WHEN  Upper(" & ORDER_BY_DIRECTION_PARAMETER & ") = Upper('" & item.FieldName & "') THEN (RANK() OVER (ORDER BY " & dec & " ))  " & vbCrLf
 
-              
-            End If 
+
+            End If
         Next
         variableDeclarationAsc += "                    END " & vbCrLf
         variableDeclarationDesc += "                    END " & vbCrLf
 
-        strValue += "ORDER BY " & vbCrLf
+        strValue += "   ORDER BY " & vbCrLf
         strValue += "		 CASE WHEN NOT " & ORDER_BY_PARAMETER & " IS NULL THEN " & vbCrLf
-        strValue += "				CASE WHEN NOT  " & ORDER_BY_DIRECTION_PARAMETER & " IS NULL THEN " & vbCrLf
-        strValue += variableDeclarationDesc
-        strValue += "				ELSE " & vbCrLf
+        strValue += "				CASE WHEN  " & ORDER_BY_DIRECTION_PARAMETER & " IS NULL THEN " & vbCrLf
+
         strValue += variableDeclarationAsc
+
+        strValue += "				ELSE " & vbCrLf
+
+        strValue += variableDeclarationDesc
+
         strValue += "				END " & vbCrLf
         strValue += "		 END " & vbCrLf
 
@@ -869,7 +875,8 @@ Partial Public Class EntityCodeGenerator
             auxDeclarationVariables += vbCrLf & "         " & ORDER_BY_PARAMETER & " varchar(500),"
             auxDeclarationVariables += vbCrLf & "         " & ORDER_BY_DIRECTION_PARAMETER & " varchar(500),"
             auxDeclarationVariables += vbCrLf & "         " & PAGED_ROW_PARAMETER & " int,"
-            auxDeclarationVariables += vbCrLf & "         " & PAGED_MAXVALUES_PARAMETER & " int"
+            auxDeclarationVariables += vbCrLf & "         " & PAGED_MAXVALUES_PARAMETER & " int,"
+            auxDeclarationVariables += vbCrLf & "         " & PAGED_COUNT_PARAMETER & " bigint OUTPUT "
             '
         Else
             If String.IsNullOrEmpty(auxDeclarationVariables) Then
@@ -895,7 +902,8 @@ Partial Public Class EntityCodeGenerator
 
     Private Function CreateSelectForProcedure(ByVal TableName As String, _
                                                     ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute), _
-                                                    Optional ByVal prefix As String = "") As String
+                                                    Optional ByVal prefix As String = "", _
+                                                    Optional ByVal WithDescriptionField As Boolean = True) As String
         Dim auxDeclarationVariables As String = prefix & "SELECT "
 
         Dim innerJoinValues As String = ""
@@ -907,25 +915,25 @@ Partial Public Class EntityCodeGenerator
             auxDeclarationVariables += vbCrLf & prefix & SanitizeTableName(TableName) & ".[" & pField.FieldName & "] ,"
 
             If pField.FieldType = Entities.EnumFieldType.ForeingKey Then ' si es clave externa
-                innerJoinValues = innerJoinValues & vbCrLf & prefix & vbTab & _
-                " Inner Join " & pField.ForeingTable & " " & SanitizeTableName(pField.ForeingTable)
+                innerJoinValues += vbCrLf & prefix & vbTab & " Inner Join " & pField.ForeingTable & " " & SanitizeTableName(pField.ForeingTable)
 
-                innerJoinValues = innerJoinValues & vbCrLf & prefix & vbTab & vbTab & " On " & _
-                SanitizeTableName(TableName) & ".[" & pField.FieldName & "] "
+                innerJoinValues += vbCrLf & prefix & vbTab & vbTab & " On " & SanitizeTableName(TableName) & ".[" & pField.FieldName & "] "
 
-                innerJoinValues = innerJoinValues & " = " & _
-                SanitizeTableName(pField.ForeingTable) & ".[" & pField.ForeingFieldName & "]   "
+                innerJoinValues += " = " & SanitizeTableName(pField.ForeingTable) & ".[" & pField.ForeingFieldName & "]   "
 
-                For Each item As BrainWork.Entities.EntityFieldExtendsAttribute In TablesFields(pField.ForeingTable)
-                    If item.IsDescription Then
-                        If auxDeclarationVariables.Contains(SanitizeTableName(pField.ForeingTable) & ".[" & pField.FieldName & "] ,") Then
-                            auxDeclarationVariables += vbCrLf & prefix & SanitizeTableName(pField.ForeingTable) & ".[" & pField.FieldName & "] As " & SanitizeTableName(pField.ForeingTable) & pField.FieldName.Replace(" "c, "_") & ","
-                        Else
-                            auxDeclarationVariables += vbCrLf & prefix & SanitizeTableName(pField.ForeingTable) & ".[" & pField.FieldName & "] ,"
+                If WithDescriptionField Then
+                    For Each item As BrainWork.Entities.EntityFieldExtendsAttribute In TablesFields(pField.ForeingTable)
+                        If item.IsDescription Then
+                            If auxDeclarationVariables.Contains(SanitizeTableName(pField.ForeingTable) & ".[" & pField.FieldName & "] ,") Then
+                                auxDeclarationVariables += vbCrLf & prefix & SanitizeTableName(pField.ForeingTable) & ".[" & pField.FieldName & "] As " & SanitizeTableName(pField.ForeingTable) & pField.FieldName.Replace(" "c, "_") & ","
+                            Else
+                                auxDeclarationVariables += vbCrLf & prefix & SanitizeTableName(pField.ForeingTable) & ".[" & pField.FieldName & "] ,"
+                            End If
+
                         End If
+                    Next
+                End If
 
-                    End If
-                Next
             End If
 
 
@@ -1205,8 +1213,8 @@ Partial Public Class EntityCodeGenerator
         Dim WhereExpression As String = ""
 
         For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
- 
- 
+
+
 
             Dim pval As String
             If WhereExpression.Contains("Where") Then
@@ -1332,26 +1340,197 @@ Partial Public Class EntityCodeGenerator
     End Function
 
 
-    Private Function CreateSelectAllProcedure(ByRef sbSelectProcedure As System.Text.StringBuilder, _
-                                      ByRef TableName As String, _
-                                      ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute)) As String
+    'Private Function CreateSelectAllProcedure(ByRef sbSelectProcedure As System.Text.StringBuilder, _
+    '                                  ByRef TableName As String, _
+    '                                  ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute), _
+    '                                  Optional ByRef IncludeRowCount As Boolean = False) As String
+
+    '    CreateSelectAllProcedure = "prc_" & TableName.Replace("["c, "").Replace("]"c, "").Replace("dbo.", "").Replace("."c, "") & "_SelectAll"
+    '    sbSelectProcedure.AppendLine("Create PROCEDURE  " & CreateSelectAllProcedure)
+    '    'sbSelectProcedure.AppendLine("                                                                    ")
+
+    '    sbSelectProcedure.Append(CreateParametersForProcedure(sbSelectProcedure, TableName, listefield, True) & vbCrLf)
+
+
+    '    sbSelectProcedure.AppendLine("AS")
+    '    sbSelectProcedure.AppendLine("BEGIN")
+    '    sbSelectProcedure.AppendLine("    SET NOCOUNT ON;")
+    '    sbSelectProcedure.AppendLine("")
+
+    '    sbSelectProcedure.AppendLine("    BEGIN TRY")
+
+    '    If IncludeRowCount Then
+    '        sbSelectProcedure.AppendLine("          BEGIN ")
+
+    '        sbSelectProcedure.AppendLine("              Set  " & PAGED_COUNT_PARAMETER & _
+    '                                                " = (Select Count(*) From " & TableName & " " & SanitizeTableName(TableName))
+    '        Dim WhereExpression2 As String = ""
+    '        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+    '            Dim saux As String = Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
+    '            If isValidWhereFieldQuery(saux) Then
+    '                WhereExpression2 += vbTab & vbTab & vbTab & vbCrLf & "               ("
+    '                WhereExpression2 += "(@" & pField.FieldName.Replace(" "c, "_") & " is Null)"
+    '                WhereExpression2 += " OR "
+    '                WhereExpression2 += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+    '                WhereExpression2 += ") AND"
+    '            End If
+    '        Next
+
+    '        Dim raiseerrortrue2 As Boolean = False
+    '        If WhereExpression2 = vbTab & vbTab & vbTab & " AND (" Then
+    '            WhereExpression2 += "1=0AND"
+    '            raiseerrortrue2 = True
+    '        End If
+
+    '        WhereExpression2 = WhereExpression2.Substring(0, WhereExpression2.Length - 3)
+    '        WhereExpression2 += ")"
+    '        sbSelectProcedure.Append(vbTab & vbTab & "  Where (" & WhereExpression2 & vbCrLf & vbTab & vbTab & "   ) " & vbCrLf)
+    '        If raiseerrortrue2 Then
+    '            sbSelectProcedure.AppendLine("              RAISERROR ('NO SE HAN SELECCIONADO FILTROS WHERE', 16, 1);")
+    '        End If
+
+    '        sbSelectProcedure.AppendLine("          END ")
+    '    End If
+
+
+
+    '    sbSelectProcedure.AppendLine("          BEGIN ")
+
+    '    Dim selectClause As String = CreateSelectForProcedure(TableName, listefield, vbTab & vbTab & vbTab)
+
+    '    Dim isFirst As Boolean = True
+    '    Dim auxstr As String = ""
+
+    '    For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+
+    '        If isFirst Then
+    '            auxstr = vbTab & vbTab & vbTab & " ,ROW_NUMBER() OVER (ORDER BY " & SanitizeTableName(TableName) & ".[" & pField.FieldName & "]) AS 'RowNumber'"
+    '        End If
+
+    '        If pField.DefaultOrderBy Then
+    '            auxstr = vbTab & vbTab & vbTab & " ,ROW_NUMBER() OVER (ORDER BY " & SanitizeTableName(TableName) & ".[" & pField.FieldName & "]) AS 'RowNumber'"
+    '            Exit For
+    '        End If
+    '    Next
+
+
+    '    auxstr = " WITH PagedTableAuxiliary AS" & _
+    '            vbCrLf & vbTab & vbTab & vbTab & "(" & vbCrLf & _
+    '                selectClause.Replace(vbTab & vbTab & vbTab & " From ", auxstr & vbCrLf & vbTab & vbTab & vbTab & " From ") & _
+    '            vbCrLf & vbTab & vbTab & vbTab & ")" & vbCrLf
+
+    '    sbSelectProcedure.AppendLine(vbTab & vbTab & vbTab & auxstr)
+    '    sbSelectProcedure.AppendLine(vbTab & vbTab & vbTab & "SELECT * FROM PagedTableAuxiliary " & _
+    '                                 vbCrLf & vbTab & vbTab & vbTab & "WHERE RowNumber BETWEEN " & PAGED_ROW_PARAMETER & " AND (" & PAGED_MAXVALUES_PARAMETER & " + " & PAGED_ROW_PARAMETER & ") ")
+
+
+    '    Dim WhereExpression As String = vbTab & vbTab & vbTab & " AND ("
+    '    For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+    '        Dim saux As String = Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
+    '        If isValidWhereFieldQuery(saux) Then
+
+
+    '            WhereExpression += vbTab & vbTab & vbTab & vbCrLf & "               ("
+    '            WhereExpression += "(@" & pField.FieldName.Replace(" "c, "_") & " is Null)"
+    '            WhereExpression += " OR "
+    '            WhereExpression += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+    '            WhereExpression += ") AND"
+    '        End If
+    '    Next
+    '    Dim raiseerrortrue As Boolean = False
+    '    If WhereExpression = vbTab & vbTab & vbTab & " AND (" Then
+    '        WhereExpression += "1=0AND"
+    '        raiseerrortrue = True
+    '    End If
+
+    '    WhereExpression = WhereExpression.Substring(0, WhereExpression.Length - 3)
+    '    WhereExpression += ")"
+
+
+    '    sbSelectProcedure.Append(WhereExpression & vbCrLf)
+    '    sbSelectProcedure.AppendLine(createOrderBy(listefield, TableName))
+    '    If raiseerrortrue Then
+    '        sbSelectProcedure.AppendLine(" RAISERROR ('NO SE HAN SELECCIONADO FILTROS WHERE', 16, 1);")
+    '    End If
+    '    sbSelectProcedure.AppendLine("          END")
+    '    sbSelectProcedure.AppendLine("    END TRY")
+    '    sbSelectProcedure.AppendLine("    BEGIN CATCH")
+    '    sbSelectProcedure.AppendLine("		 DECLARE @Error_Message_Value NVARCHAR(4000);")
+    '    sbSelectProcedure.AppendLine("		 SELECT @Error_Message_Value = ERROR_MESSAGE();")
+    '    sbSelectProcedure.AppendLine("		 RAISERROR (@Error_Message_Value, 16, 1);")
+    '    sbSelectProcedure.AppendLine("    END CATCH;")
+    '    sbSelectProcedure.AppendLine("END;")
+
+    '    sbSelectProcedure.AppendLine("GO")
+
+    'End Function
+
+    '
+
+    Private Function CreateSelectAllProcedure(ByRef sbSelectAllProcedure As System.Text.StringBuilder, _
+                                    ByRef TableName As String, _
+                                    ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute), _
+                                    Optional ByRef IncludeRowCount As Boolean = False) As String
 
         CreateSelectAllProcedure = "prc_" & TableName.Replace("["c, "").Replace("]"c, "").Replace("dbo.", "").Replace("."c, "") & "_SelectAll"
-        sbSelectProcedure.AppendLine("Create PROCEDURE  " & CreateSelectAllProcedure)
+        sbSelectAllProcedure.AppendLine("Create PROCEDURE  " & CreateSelectAllProcedure)
         'sbSelectProcedure.AppendLine("                                                                    ")
 
-        sbSelectProcedure.Append(CreateParametersForProcedure(sbSelectProcedure, TableName, listefield, True) & vbCrLf)
+        sbSelectAllProcedure.Append(CreateParametersForProcedure(sbSelectAllProcedure, TableName, listefield, True) & vbCrLf)
 
 
-        sbSelectProcedure.AppendLine("AS")
-        sbSelectProcedure.AppendLine("BEGIN")
-        sbSelectProcedure.AppendLine("    SET NOCOUNT ON;")
-        sbSelectProcedure.AppendLine("")
+        sbSelectAllProcedure.AppendLine("AS")
+        sbSelectAllProcedure.AppendLine("BEGIN")
+        sbSelectAllProcedure.AppendLine("    SET NOCOUNT ON;")
+        sbSelectAllProcedure.AppendLine("")
 
-        sbSelectProcedure.AppendLine("    BEGIN TRY")
-        sbSelectProcedure.AppendLine("          BEGIN ")
+        sbSelectAllProcedure.AppendLine("    BEGIN TRY")
 
-        Dim selectClause As String = CreateSelectForProcedure(TableName, listefield, vbTab & vbTab & vbTab)
+        If IncludeRowCount Then
+            sbSelectAllProcedure.AppendLine("          BEGIN ")
+
+            sbSelectAllProcedure.AppendLine("              Set  " & PAGED_COUNT_PARAMETER & _
+                                                    " = (Select Count(*) From " & TableName & " " & SanitizeTableName(TableName))
+            Dim WhereExpression2 As String = ""
+            For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+                Dim saux As String = Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
+                If isValidWhereFieldQuery(saux) Then
+                    WhereExpression2 += vbTab & vbTab & vbTab & vbTab & vbTab & vbTab & vbTab & vbCrLf & "               ("
+                    WhereExpression2 += "(@" & pField.FieldName.Replace(" "c, "_") & " is Null)"
+                    WhereExpression2 += " OR "
+                    WhereExpression2 += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+                    WhereExpression2 += ") AND"
+                End If
+            Next
+
+            Dim raiseerrortrue2 As Boolean = False
+            If WhereExpression2 = vbTab & vbTab & vbTab & vbTab & " AND (" Then
+                WhereExpression2 += "1=0AND"
+                raiseerrortrue2 = True
+            End If
+
+            WhereExpression2 = WhereExpression2.Substring(0, WhereExpression2.Length - 3)
+            WhereExpression2 += ")"
+            sbSelectAllProcedure.Append(vbTab & vbTab & vbTab & vbTab & "  Where (" & WhereExpression2 & vbCrLf & vbTab & vbTab & vbTab & vbTab & "   ) " & vbCrLf)
+            If raiseerrortrue2 Then
+                sbSelectAllProcedure.AppendLine("              RAISERROR ('NO SE HAN SELECCIONADO FILTROS WHERE', 16, 1);")
+            End If
+
+            sbSelectAllProcedure.AppendLine("          END ")
+        End If
+
+
+        sbSelectAllProcedure.AppendLine("  		  IF (@MaxValues = 0) OR (@MaxValues Is Null) BEGIN ")
+        sbSelectAllProcedure.AppendLine("			    Set @MaxValues = @RecordCount ")
+        sbSelectAllProcedure.AppendLine("		  END ")
+        sbSelectAllProcedure.AppendLine("		  IF (@Row Is Null) BEGIN ")
+        sbSelectAllProcedure.AppendLine("				Set @Row = 0 ")
+        sbSelectAllProcedure.AppendLine("		  END ")
+        sbSelectAllProcedure.AppendLine("")
+
+        sbSelectAllProcedure.AppendLine("         BEGIN ")
+
+        Dim selectClause As String = CreateSelectForProcedure(TableName, listefield, vbTab & vbTab & vbTab, False)
 
         Dim isFirst As Boolean = True
         Dim auxstr As String = ""
@@ -1374,8 +1553,8 @@ Partial Public Class EntityCodeGenerator
                     selectClause.Replace(vbTab & vbTab & vbTab & " From ", auxstr & vbCrLf & vbTab & vbTab & vbTab & " From ") & _
                 vbCrLf & vbTab & vbTab & vbTab & ")" & vbCrLf
 
-        sbSelectProcedure.AppendLine(vbTab & vbTab & vbTab & auxstr)
-        sbSelectProcedure.AppendLine(vbTab & vbTab & vbTab & "SELECT * FROM PagedTableAuxiliary " & _
+        sbSelectAllProcedure.AppendLine(vbTab & vbTab & vbTab & auxstr)
+        sbSelectAllProcedure.AppendLine(vbTab & vbTab & vbTab & "SELECT * FROM PagedTableAuxiliary " & _
                                      vbCrLf & vbTab & vbTab & vbTab & "WHERE RowNumber BETWEEN " & PAGED_ROW_PARAMETER & " AND (" & PAGED_MAXVALUES_PARAMETER & " + " & PAGED_ROW_PARAMETER & ") ")
 
 
@@ -1402,23 +1581,159 @@ Partial Public Class EntityCodeGenerator
         WhereExpression += ")"
 
 
-        sbSelectProcedure.Append(WhereExpression & vbCrLf)
-        sbSelectProcedure.AppendLine(createOrderBy(listefield, TableName))
+        sbSelectAllProcedure.Append(WhereExpression & vbCrLf)
+        sbSelectAllProcedure.AppendLine(createOrderBy(listefield, TableName))
         If raiseerrortrue Then
-            sbSelectProcedure.AppendLine(" RAISERROR ('NO SE HAN SELECCIONADO FILTROS WHERE', 16, 1);")
+            sbSelectAllProcedure.AppendLine(" RAISERROR ('NO SE HAN SELECCIONADO FILTROS WHERE', 16, 1);")
         End If
-        sbSelectProcedure.AppendLine("          END")
-        sbSelectProcedure.AppendLine("    END TRY")
-        sbSelectProcedure.AppendLine("    BEGIN CATCH")
-        sbSelectProcedure.AppendLine("		 DECLARE @Error_Message_Value NVARCHAR(4000);")
-        sbSelectProcedure.AppendLine("		 SELECT @Error_Message_Value = ERROR_MESSAGE();")
-        sbSelectProcedure.AppendLine("		 RAISERROR (@Error_Message_Value, 16, 1);")
-        sbSelectProcedure.AppendLine("    END CATCH;")
-        sbSelectProcedure.AppendLine("END;")
+        sbSelectAllProcedure.AppendLine("          END")
+        sbSelectAllProcedure.AppendLine("    END TRY")
+        sbSelectAllProcedure.AppendLine("    BEGIN CATCH")
+        sbSelectAllProcedure.AppendLine("		 DECLARE @Error_Message_Value NVARCHAR(4000);")
+        sbSelectAllProcedure.AppendLine("		 SELECT @Error_Message_Value = ERROR_MESSAGE();")
+        sbSelectAllProcedure.AppendLine("		 RAISERROR (@Error_Message_Value, 16, 1);")
+        sbSelectAllProcedure.AppendLine("    END CATCH;")
+        sbSelectAllProcedure.AppendLine("END;")
 
-        sbSelectProcedure.AppendLine("GO")
+        sbSelectAllProcedure.AppendLine("GO")
+
 
     End Function
+
+
+    Private Function CreateSelectAllFullDescription(ByRef sbSearchAllProcedure As System.Text.StringBuilder, _
+                                      ByRef TableName As String, _
+                                      ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute), _
+                                      Optional ByRef IncludeRowCount As Boolean = False) As String
+
+        CreateSelectAllFullDescription = "prc_" & TableName.Replace("["c, "").Replace("]"c, "").Replace("dbo.", "").Replace("."c, "") & "_SelectFullDescriptionAll"
+        sbSearchAllProcedure.AppendLine("Create PROCEDURE  " & CreateSelectAllFullDescription)
+        'sbSelectProcedure.AppendLine("                                                                    ")
+
+        sbSearchAllProcedure.Append(CreateParametersForProcedure(sbSearchAllProcedure, TableName, listefield, True) & vbCrLf)
+
+
+        sbSearchAllProcedure.AppendLine("AS")
+        sbSearchAllProcedure.AppendLine("BEGIN")
+        sbSearchAllProcedure.AppendLine("    SET NOCOUNT ON;")
+        sbSearchAllProcedure.AppendLine("")
+
+        sbSearchAllProcedure.AppendLine("    BEGIN TRY")
+
+        If IncludeRowCount Then
+            sbSearchAllProcedure.AppendLine("          BEGIN ")
+
+            sbSearchAllProcedure.AppendLine("              Set  " & PAGED_COUNT_PARAMETER & _
+                                                    " = (Select Count(*) From " & TableName & " " & SanitizeTableName(TableName))
+            Dim WhereExpression2 As String = ""
+            For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+                Dim saux As String = Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
+                If isValidWhereFieldQuery(saux) Then
+                    WhereExpression2 += vbTab & vbTab & vbTab & vbTab & vbTab & vbTab & vbTab & vbCrLf & "               ("
+                    WhereExpression2 += "(@" & pField.FieldName.Replace(" "c, "_") & " is Null)"
+                    WhereExpression2 += " OR "
+                    WhereExpression2 += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+                    WhereExpression2 += ") AND"
+                End If
+            Next
+
+            Dim raiseerrortrue2 As Boolean = False
+            If WhereExpression2 = vbTab & vbTab & vbTab & vbTab & " AND (" Then
+                WhereExpression2 += "1=0AND"
+                raiseerrortrue2 = True
+            End If
+
+            WhereExpression2 = WhereExpression2.Substring(0, WhereExpression2.Length - 3)
+            WhereExpression2 += ")"
+            sbSearchAllProcedure.Append(vbTab & vbTab & vbTab & vbTab & "  Where (" & WhereExpression2 & vbCrLf & vbTab & vbTab & vbTab & vbTab & "   ) " & vbCrLf)
+            If raiseerrortrue2 Then
+                sbSearchAllProcedure.AppendLine("              RAISERROR ('NO SE HAN SELECCIONADO FILTROS WHERE', 16, 1);")
+            End If
+
+            sbSearchAllProcedure.AppendLine("          END ")
+        End If
+
+
+        sbSearchAllProcedure.AppendLine("  		  IF (@MaxValues = 0) OR (@MaxValues Is Null) BEGIN ")
+        sbSearchAllProcedure.AppendLine("			    Set @MaxValues = @RecordCount ")
+        sbSearchAllProcedure.AppendLine("		  END ")
+        sbSearchAllProcedure.AppendLine("		  IF (@Row Is Null) BEGIN ")
+        sbSearchAllProcedure.AppendLine("				Set @Row = 0 ")
+        sbSearchAllProcedure.AppendLine("		  END ")
+        sbSearchAllProcedure.AppendLine("")
+
+        sbSearchAllProcedure.AppendLine("         BEGIN ")
+
+        Dim selectClause As String = CreateSelectForProcedure(TableName, listefield, vbTab & vbTab & vbTab)
+
+        Dim isFirst As Boolean = True
+        Dim auxstr As String = ""
+
+        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+
+            If isFirst Then
+                auxstr = vbTab & vbTab & vbTab & " ,ROW_NUMBER() OVER (ORDER BY " & SanitizeTableName(TableName) & ".[" & pField.FieldName & "]) AS 'RowNumber'"
+            End If
+
+            If pField.DefaultOrderBy Then
+                auxstr = vbTab & vbTab & vbTab & " ,ROW_NUMBER() OVER (ORDER BY " & SanitizeTableName(TableName) & ".[" & pField.FieldName & "]) AS 'RowNumber'"
+                Exit For
+            End If
+        Next
+
+
+        auxstr = " WITH PagedTableAuxiliary AS" & _
+                vbCrLf & vbTab & vbTab & vbTab & "(" & vbCrLf & _
+                    selectClause.Replace(vbTab & vbTab & vbTab & " From ", auxstr & vbCrLf & vbTab & vbTab & vbTab & " From ") & _
+                vbCrLf & vbTab & vbTab & vbTab & ")" & vbCrLf
+
+        sbSearchAllProcedure.AppendLine(vbTab & vbTab & vbTab & auxstr)
+        sbSearchAllProcedure.AppendLine(vbTab & vbTab & vbTab & "SELECT * FROM PagedTableAuxiliary " & _
+                                     vbCrLf & vbTab & vbTab & vbTab & "WHERE RowNumber BETWEEN " & PAGED_ROW_PARAMETER & " AND (" & PAGED_MAXVALUES_PARAMETER & " + " & PAGED_ROW_PARAMETER & ") ")
+
+
+        Dim WhereExpression As String = vbTab & vbTab & vbTab & " AND ("
+        For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
+            Dim saux As String = Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
+            If isValidWhereFieldQuery(saux) Then
+
+
+                WhereExpression += vbTab & vbTab & vbTab & vbCrLf & "               ("
+                WhereExpression += "(@" & pField.FieldName.Replace(" "c, "_") & " is Null)"
+                WhereExpression += " OR "
+                WhereExpression += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+                WhereExpression += ") AND"
+            End If
+        Next
+        Dim raiseerrortrue As Boolean = False
+        If WhereExpression = vbTab & vbTab & vbTab & " AND (" Then
+            WhereExpression += "1=0AND"
+            raiseerrortrue = True
+        End If
+
+        WhereExpression = WhereExpression.Substring(0, WhereExpression.Length - 3)
+        WhereExpression += ")"
+
+
+        sbSearchAllProcedure.Append(WhereExpression & vbCrLf)
+        sbSearchAllProcedure.AppendLine(createOrderBy(listefield, TableName))
+        If raiseerrortrue Then
+            sbSearchAllProcedure.AppendLine(" RAISERROR ('NO SE HAN SELECCIONADO FILTROS WHERE', 16, 1);")
+        End If
+        sbSearchAllProcedure.AppendLine("          END")
+        sbSearchAllProcedure.AppendLine("    END TRY")
+        sbSearchAllProcedure.AppendLine("    BEGIN CATCH")
+        sbSearchAllProcedure.AppendLine("		 DECLARE @Error_Message_Value NVARCHAR(4000);")
+        sbSearchAllProcedure.AppendLine("		 SELECT @Error_Message_Value = ERROR_MESSAGE();")
+        sbSearchAllProcedure.AppendLine("		 RAISERROR (@Error_Message_Value, 16, 1);")
+        sbSearchAllProcedure.AppendLine("    END CATCH;")
+        sbSearchAllProcedure.AppendLine("END;")
+
+        sbSearchAllProcedure.AppendLine("GO")
+
+
+    End Function
+
 
 
 
@@ -1655,6 +1970,7 @@ Partial Public Class EntityCodeGenerator
             Dim sbInsertProcedure As New System.Text.StringBuilder
             Dim sbUpdateProcedure As New System.Text.StringBuilder
             Dim sbSelectAllProcedure As New System.Text.StringBuilder
+            Dim sbSelectAllFullDescription As New System.Text.StringBuilder
             Dim sbSelectOneProcedure As New System.Text.StringBuilder
             Dim sbDeleteProcedure As New System.Text.StringBuilder
             Dim sbDisableProcedure As New System.Text.StringBuilder
@@ -1676,9 +1992,16 @@ Partial Public Class EntityCodeGenerator
             PublishStoredProcedures(OUTPUTPAT, sbUpdateProcedure.ToString, sAux)
 
 
-            sAux = CreateSelectAllProcedure(sbSelectAllProcedure, Key, listefield)
+            sAux = CreateSelectAllFullDescription(sbSelectAllFullDescription, Key, listefield, True)
+            TableProcedureSelectAllFullDescription.Add(Key, sAux)
+            PublishStoredProcedures(OUTPUTPAT, sbSelectAllFullDescription.ToString, sAux)
+
+
+
+            sAux = CreateSelectAllProcedure(sbSelectAllProcedure, Key, listefield, True)
             TableProcedureSelectAll.Add(Key, sAux)
             PublishStoredProcedures(OUTPUTPAT, sbSelectAllProcedure.ToString, sAux)
+
 
 
 
@@ -1855,6 +2178,7 @@ Partial Public Class EntityCodeGenerator
             SetStoredProcedures += vbTab & vbTab & vbTab & "Me.SP_DELETE = """ & Me.TableProcedureDelete(Key) & """" & vbCrLf
             SetStoredProcedures += vbTab & vbTab & vbTab & "Me.SP_DISABLE = """ & Me.TableProcedureDisable(Key) & """" & vbCrLf
             SetStoredProcedures += vbTab & vbTab & vbTab & "Me.SP_GETALL = """ & Me.TableProcedureSelectAll(Key) & """" & vbCrLf
+            SetStoredProcedures += vbTab & vbTab & vbTab & "Me.SP_GETALL_FULLDESCRIPTION = """ & Me.TableProcedureSelectAllFullDescription(Key) & """" & vbCrLf
             SetStoredProcedures += vbTab & vbTab & vbTab & "Me.SP_GETONE = """ & Me.TableProcedureSelectOne(Key) & """" & vbCrLf
             SetStoredProcedures += vbTab & vbTab & vbTab & "Me.SP_UPDATE = """ & Me.TableProcedureUpdate(Key) & """" & vbCrLf
             SetStoredProcedures += vbTab & vbTab & vbTab & "Me.SP_UPDATE_BY_PK = """ & Me.TableProcedureUpdateByPK(Key) & """" & vbCrLf
