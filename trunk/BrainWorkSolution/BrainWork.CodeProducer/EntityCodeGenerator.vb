@@ -30,7 +30,7 @@ Partial Public Class EntityCodeGenerator
     Dim TableProcedureUpdateByPK As New Dictionary(Of String, String)
     Dim TableProcedureDisable As New Dictionary(Of String, String)
     Public DESCRIPTIONENDWITH As String = "_D"
-    Public ENABLEDDENDWITH As String = "ENABLED"
+    Public ENABLEDDENDWITH As String = "HABILITADO"
 
     Public ReadOnly Property GeneratedStored() As String
         Get
