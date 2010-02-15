@@ -2,6 +2,8 @@
     
 <%@ Register assembly="BrainWork.Utils.Web" namespace="BrainWork.Utils.Web.WebControls" tagprefix="cc1" %>
 
+<%@ Register assembly="BrainWork.Utils.Web" namespace="BrainWork.Utils.Web.ControlTest" tagprefix="cc2" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -39,7 +41,7 @@
         MinValue="0" 
         IsDescription="False" 
         IsDefaultOrderBy="True" 
-        IsEnableField="False" 
+        IsEnableField="False" Text="Hola" 
     />
     <cc1:CustomTextBox 
         ID="_ModifiedDate"
@@ -101,6 +103,24 @@
     
         <br />
         <asp:Button ID="btnAdd" runat="server" Text="Agregar" />
+
+       
+    
+         
+
+       
+    
+        <br />
+        <br />
+        <br />
+        <br />
+        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
+            ControlToValidate="_CurrencyCode" ErrorMessage="RequiredFieldValidator"></asp:RequiredFieldValidator>
+        <br />
+
+       
+    
+         
 
        
     

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5D1246DB-8F52-497D-BA4C-4BA6C4DED92C}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -60,77 +60,7 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntAWBuildVersion.vb" />
-    <Compile Include="EntDatabaseLog.vb" />
-    <Compile Include="EntErrorLog.vb" />
-    <Compile Include="EntHumanResources_Department.vb" />
-    <Compile Include="EntHumanResources_Employee.vb" />
-    <Compile Include="EntHumanResources_EmployeeAddress.vb" />
-    <Compile Include="EntHumanResources_EmployeeDepartmentHistory.vb" />
-    <Compile Include="EntHumanResources_EmployeePayHistory.vb" />
-    <Compile Include="EntHumanResources_JobCandidate.vb" />
-    <Compile Include="EntHumanResources_Shift.vb" />
-    <Compile Include="EntPerson_Address.vb" />
-    <Compile Include="EntPerson_AddressType.vb" />
-    <Compile Include="EntPerson_Contact.vb" />
-    <Compile Include="EntPerson_ContactType.vb" />
-    <Compile Include="EntPerson_CountryRegion.vb" />
-    <Compile Include="EntPerson_StateProvince.vb" />
-    <Compile Include="EntProduction_BillOfMaterials.vb" />
-    <Compile Include="EntProduction_Culture.vb" />
-    <Compile Include="EntProduction_Document.vb" />
-    <Compile Include="EntProduction_Illustration.vb" />
-    <Compile Include="EntProduction_Location.vb" />
-    <Compile Include="EntProduction_Product.vb" />
-    <Compile Include="EntProduction_ProductCategory.vb" />
-    <Compile Include="EntProduction_ProductCostHistory.vb" />
-    <Compile Include="EntProduction_ProductDescription.vb" />
-    <Compile Include="EntProduction_ProductDocument.vb" />
-    <Compile Include="EntProduction_ProductInventory.vb" />
-    <Compile Include="EntProduction_ProductListPriceHistory.vb" />
-    <Compile Include="EntProduction_ProductModel.vb" />
-    <Compile Include="EntProduction_ProductModelIllustration.vb" />
-    <Compile Include="EntProduction_ProductModelProductDescriptionCulture.vb" />
-    <Compile Include="EntProduction_ProductPhoto.vb" />
-    <Compile Include="EntProduction_ProductProductPhoto.vb" />
-    <Compile Include="EntProduction_ProductReview.vb" />
-    <Compile Include="EntProduction_ProductSubcategory.vb" />
-    <Compile Include="EntProduction_ScrapReason.vb" />
-    <Compile Include="EntProduction_TransactionHistory.vb" />
-    <Compile Include="EntProduction_TransactionHistoryArchive.vb" />
-    <Compile Include="EntProduction_UnitMeasure.vb" />
-    <Compile Include="EntProduction_WorkOrder.vb" />
-    <Compile Include="EntProduction_WorkOrderRouting.vb" />
-    <Compile Include="EntPurchasing_ProductVendor.vb" />
-    <Compile Include="EntPurchasing_PurchaseOrderDetail.vb" />
-    <Compile Include="EntPurchasing_PurchaseOrderHeader.vb" />
-    <Compile Include="EntPurchasing_ShipMethod.vb" />
-    <Compile Include="EntPurchasing_Vendor.vb" />
-    <Compile Include="EntPurchasing_VendorAddress.vb" />
-    <Compile Include="EntPurchasing_VendorContact.vb" />
-    <Compile Include="EntSales_ContactCreditCard.vb" />
-    <Compile Include="EntSales_CountryRegionCurrency.vb" />
-    <Compile Include="EntSales_CreditCard.vb" />
     <Compile Include="EntSales_Currency.vb" />
-    <Compile Include="EntSales_CurrencyRate.vb" />
-    <Compile Include="EntSales_Customer.vb" />
-    <Compile Include="EntSales_CustomerAddress.vb" />
-    <Compile Include="EntSales_Individual.vb" />
-    <Compile Include="EntSales_SalesOrderDetail.vb" />
-    <Compile Include="EntSales_SalesOrderHeader.vb" />
-    <Compile Include="EntSales_SalesOrderHeaderSalesReason.vb" />
-    <Compile Include="EntSales_SalesPerson.vb" />
-    <Compile Include="EntSales_SalesPersonQuotaHistory.vb" />
-    <Compile Include="EntSales_SalesReason.vb" />
-    <Compile Include="EntSales_SalesTaxRate.vb" />
-    <Compile Include="EntSales_SalesTerritory.vb" />
-    <Compile Include="EntSales_SalesTerritoryHistory.vb" />
-    <Compile Include="EntSales_ShoppingCartItem.vb" />
-    <Compile Include="EntSales_SpecialOffer.vb" />
-    <Compile Include="EntSales_SpecialOfferProduct.vb" />
-    <Compile Include="EntSales_Store.vb" />
-    <Compile Include="EntSales_StoreContact.vb" />
-    <Compile Include="EntTable_1.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

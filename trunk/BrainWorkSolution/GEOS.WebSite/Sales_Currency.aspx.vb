@@ -2,13 +2,15 @@ Partial Class Sales_Currency
     Inherits System.Web.UI.Page
                                
     Protected Sub btnAdd_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnAdd.Click
+
+        Me._CurrencyCode.Text = Me._CurrencyCode.Text
+
         Dim Ent As New GEOS.Entities.EntSales_Currency
 
 
         For Each ctrl As System.Web.UI.Control In Me.form1.Controls
             If Not ctrl Is Nothing Then
-
-
+ 
 
 
                 If TypeOf ctrl Is BrainWork.Utils.Web.WebControls.CustomTextBox Then
@@ -38,7 +40,7 @@ Partial Class Sales_Currency
 
 
                     Next
-                   
+
 
                 End If
             End If
