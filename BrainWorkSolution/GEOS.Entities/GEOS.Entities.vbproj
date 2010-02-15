@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5D1246DB-8F52-497D-BA4C-4BA6C4DED92C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>GEOS.Entities</RootNamespace>
+    <AssemblyName>GEOS.Entities</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>GEOS.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>GEOS.Entities.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EntAWBuildVersion.vb" />
+    <Compile Include="EntDatabaseLog.vb" />
+    <Compile Include="EntErrorLog.vb" />
+    <Compile Include="EntHumanResources_Department.vb" />
+    <Compile Include="EntHumanResources_Employee.vb" />
+    <Compile Include="EntHumanResources_EmployeeAddress.vb" />
+    <Compile Include="EntHumanResources_EmployeeDepartmentHistory.vb" />
+    <Compile Include="EntHumanResources_EmployeePayHistory.vb" />
+    <Compile Include="EntHumanResources_JobCandidate.vb" />
+    <Compile Include="EntHumanResources_Shift.vb" />
+    <Compile Include="EntPerson_Address.vb" />
+    <Compile Include="EntPerson_AddressType.vb" />
+    <Compile Include="EntPerson_Contact.vb" />
+    <Compile Include="EntPerson_ContactType.vb" />
+    <Compile Include="EntPerson_CountryRegion.vb" />
+    <Compile Include="EntPerson_StateProvince.vb" />
+    <Compile Include="EntProduction_BillOfMaterials.vb" />
+    <Compile Include="EntProduction_Culture.vb" />
+    <Compile Include="EntProduction_Document.vb" />
+    <Compile Include="EntProduction_Illustration.vb" />
+    <Compile Include="EntProduction_Location.vb" />
+    <Compile Include="EntProduction_Product.vb" />
+    <Compile Include="EntProduction_ProductCategory.vb" />
+    <Compile Include="EntProduction_ProductCostHistory.vb" />
+    <Compile Include="EntProduction_ProductDescription.vb" />
+    <Compile Include="EntProduction_ProductDocument.vb" />
+    <Compile Include="EntProduction_ProductInventory.vb" />
+    <Compile Include="EntProduction_ProductListPriceHistory.vb" />
+    <Compile Include="EntProduction_ProductModel.vb" />
+    <Compile Include="EntProduction_ProductModelIllustration.vb" />
+    <Compile Include="EntProduction_ProductModelProductDescriptionCulture.vb" />
+    <Compile Include="EntProduction_ProductPhoto.vb" />
+    <Compile Include="EntProduction_ProductProductPhoto.vb" />
+    <Compile Include="EntProduction_ProductReview.vb" />
+    <Compile Include="EntProduction_ProductSubcategory.vb" />
+    <Compile Include="EntProduction_ScrapReason.vb" />
+    <Compile Include="EntProduction_TransactionHistory.vb" />
+    <Compile Include="EntProduction_TransactionHistoryArchive.vb" />
+    <Compile Include="EntProduction_UnitMeasure.vb" />
+    <Compile Include="EntProduction_WorkOrder.vb" />
+    <Compile Include="EntProduction_WorkOrderRouting.vb" />
+    <Compile Include="EntPurchasing_ProductVendor.vb" />
+    <Compile Include="EntPurchasing_PurchaseOrderDetail.vb" />
+    <Compile Include="EntPurchasing_PurchaseOrderHeader.vb" />
+    <Compile Include="EntPurchasing_ShipMethod.vb" />
+    <Compile Include="EntPurchasing_Vendor.vb" />
+    <Compile Include="EntPurchasing_VendorAddress.vb" />
+    <Compile Include="EntPurchasing_VendorContact.vb" />
+    <Compile Include="EntSales_ContactCreditCard.vb" />
+    <Compile Include="EntSales_CountryRegionCurrency.vb" />
+    <Compile Include="EntSales_CreditCard.vb" />
+    <Compile Include="EntSales_Currency.vb" />
+    <Compile Include="EntSales_CurrencyRate.vb" />
+    <Compile Include="EntSales_Customer.vb" />
+    <Compile Include="EntSales_CustomerAddress.vb" />
+    <Compile Include="EntSales_Individual.vb" />
+    <Compile Include="EntSales_SalesOrderDetail.vb" />
+    <Compile Include="EntSales_SalesOrderHeader.vb" />
+    <Compile Include="EntSales_SalesOrderHeaderSalesReason.vb" />
+    <Compile Include="EntSales_SalesPerson.vb" />
+    <Compile Include="EntSales_SalesPersonQuotaHistory.vb" />
+    <Compile Include="EntSales_SalesReason.vb" />
+    <Compile Include="EntSales_SalesTaxRate.vb" />
+    <Compile Include="EntSales_SalesTerritory.vb" />
+    <Compile Include="EntSales_SalesTerritoryHistory.vb" />
+    <Compile Include="EntSales_ShoppingCartItem.vb" />
+    <Compile Include="EntSales_SpecialOffer.vb" />
+    <Compile Include="EntSales_SpecialOfferProduct.vb" />
+    <Compile Include="EntSales_Store.vb" />
+    <Compile Include="EntSales_StoreContact.vb" />
+    <Compile Include="EntTable_1.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BrainWork.Entities\BrainWork.Entities.vbproj">
+      <Project>{CB1492C0-D33D-4C67-AE34-4BB7391E5A21}</Project>
+      <Name>BrainWork.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrainWork.Security\BrainWork.Security.vbproj">
+      <Project>{A8FB47E4-4949-4CAA-8804-5ACC9BD15E66}</Project>
+      <Name>BrainWork.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrainWork.TrunkLibrary\BrainWork.TrunkLibrary.vbproj">
+      <Project>{336B48F1-D8B6-4889-AC5C-08AFFD961440}</Project>
+      <Name>BrainWork.TrunkLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
