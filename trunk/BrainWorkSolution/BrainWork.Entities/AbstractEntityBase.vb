@@ -2,10 +2,23 @@ Option Explicit On
 Option Strict On
 
 Imports System.Reflection
+<Serializable()> _
 Public Class AbstractEntityBase
-
-
-    Public Function GetFieldProperties(ByVal PropertyName As String) As EntityFieldExtendsAttribute
+    ''' <summary>
+    ''' retorna un nuevo GUID
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function newid() As Guid
+        Return Guid.NewGuid()
+    End Function
+    ''' <summary>
+    ''' Obtiene los atributos EntityFieldExtendsAttribute de la propiedad especificada por nombre
+    ''' </summary>
+    ''' <param name="PropertyName">Nombre de la propiedad</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    Public Function GetPropertyAttributes(ByVal PropertyName As String) As EntityFieldExtendsAttribute
         Dim t As Type = Me.GetType()
         Dim v As EntityFieldExtendsAttribute() = GetPropertyAttributes(t, PropertyName)
         If Not v Is Nothing AndAlso v.Length > 0 Then
@@ -15,8 +28,17 @@ Public Class AbstractEntityBase
     End Function
 
     Public Function ExtendedClassAttributes() As EntityClassExtendsAttribute
+        Dim oAtt As Object() = Me.GetType().GetCustomAttributes(True)
 
-        Return CType(Me.GetType().GetCustomAttributes(True)(0), EntityClassExtendsAttribute)
+        For i As Integer = 0 To oAtt.Length
+            If TypeOf oAtt(i) Is BrainWork.Entities.EntityClassExtendsAttribute Then
+                Return CType(oAtt(i), EntityClassExtendsAttribute)
+            End If
+
+
+        Next
+
+        ' Return CType(Me.GetType().GetCustomAttributes(True)(0), EntityClassExtendsAttribute)
 
     End Function
 
@@ -27,7 +49,7 @@ Public Class AbstractEntityBase
         For Each prop As Reflection.PropertyInfo In pi
             Dim pea As New PropertysExtendedAtributtes()
             pea.PropertyObject = prop.GetValue(Me, Nothing)
-            pea.PropertyAttributes = Me.GetFieldProperties(prop.Name)
+            pea.PropertyAttributes = Me.GetPropertyAttributes(prop.Name)
             GetExtendedFieldsAttributes.Add(prop.Name, pea)
         Next
     End Function
@@ -37,7 +59,7 @@ Public Class AbstractEntityBase
 
         Dim pi() As Reflection.PropertyInfo = Me.GetType.GetProperties()
         For Each prop As Reflection.PropertyInfo In pi
-            l.Add(Me.GetFieldProperties(prop.Name))
+            l.Add(Me.GetPropertyAttributes(prop.Name))
         Next
 
         Return l
@@ -107,6 +129,8 @@ Public Class AbstractEntityBase
             End If
             MyMemberInfo = t.GetMember(MemberName)
         End If
+
+
         att = CType(Attribute.GetCustomAttributes(MyMemberInfo(0), GetType(BrainWork.Entities.EntityFieldExtendsAttribute)), EntityFieldExtendsAttribute())
 
         If att Is Nothing OrElse att.Length = 0 Then

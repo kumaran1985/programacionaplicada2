@@ -12,6 +12,8 @@ Public Class Form1
         c.CreateEntityClass()
         c.CreateProcedures()
         c.CreateBLAndDAClass()
+        c.CreateASP_AND_ASPXClass()
+
 
         Me.TXTPROCS.Text = c.GeneratedStored
         Me.TXTBUSSINES.Text = c.GeneratedBussines

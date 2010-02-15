@@ -51,13 +51,41 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebSiteConceptTest", "WebSi
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "4218"
+		VWDPort = "46409"
 		DefaultWebSiteLanguage = "Visual Basic"
 	EndProjectSection
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BrainWork.CodeProducer", "BrainWork.CodeProducer\BrainWork.CodeProducer.vbproj", "{58363A84-8922-41DE-B7B1-2003EF821A7F}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BrainWork.ERP.Accountant", "BrainWork.ERP.Accountant\BrainWork.ERP.Accountant.vbproj", "{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GEOS.BussinesLogic", "GEOS.BussinesLogic\GEOS.BussinesLogic.vbproj", "{69E7F1E6-F2DF-4FCD-BD63-5B16456E3943}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GEOS.DataAccess", "GEOS.DataAccess\GEOS.DataAccess.vbproj", "{D2354AC8-493A-4252-ADB0-D7CA4E617BCB}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GEOS.Entities", "GEOS.Entities\GEOS.Entities.vbproj", "{5D1246DB-8F52-497D-BA4C-4BA6C4DED92C}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "GEOS.WebSite", "GEOS.WebSite", "{AF7F9869-8055-48E2-9D1E-5843AB3CB346}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFramework = "3.5"
+		ProjectReferences = "{69E7F1E6-F2DF-4FCD-BD63-5B16456E3943}|GEOS.BussinesLogic.dll;{5D1246DB-8F52-497D-BA4C-4BA6C4DED92C}|GEOS.Entities.dll;{CB1492C0-D33D-4C67-AE34-4BB7391E5A21}|BrainWork.Entities.dll;{A8FB47E4-4949-4CAA-8804-5ACC9BD15E66}|BrainWork.Security.dll;{336B48F1-D8B6-4889-AC5C-08AFFD961440}|BrainWork.TrunkLibrary.dll;{9152B7D1-99C1-42DC-A80B-77100458463D}|BrainWork.BussinesLogicBaseLibrary.dll;{90967095-6A26-4F13-B0EE-4DD2FC20F277}|BrainWork.Utils.Configuration.dll;{3BC6021F-9918-4857-B363-BCCBDACF4CE8}|BrainWork.Utils.Reflection.dll;{0216E34B-BAD1-4FFA-B59A-6ADFA7B90168}|BrainWork.DataAccessBaseLibrary.dll;{9E74306D-2CF5-4FEC-981E-11E182CFC30D}|BrainWork.Connections.dll;{5BE8A0A4-770C-4F2C-B7E1-503D1DA1128D}|BrainWork.Connections.SQLConnection.dll;{C5241944-7102-4435-9A4F-6C9AA7598659}|BrainWork.DataManager.dll;{0D07AC75-8BA9-4785-8E3B-FDDA88DBD437}|BrainWork.Utils.Audit.Log.dll;{D2354AC8-493A-4252-ADB0-D7CA4E617BCB}|GEOS.DataAccess.dll;{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}|BrainWork.ERP.Accountant.dll;{447D7A90-CF6F-466D-B6B7-4380560EC118}|BrainWork.Utils.XMLTools.dll;{59718F31-F037-413F-B9BE-37CCF90B9D80}|BrainWork.Utils.Web.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/GEOS.WebSite"
+		Debug.AspNetCompiler.PhysicalPath = "GEOS.WebSite\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\GEOS.WebSite\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/GEOS.WebSite"
+		Release.AspNetCompiler.PhysicalPath = "GEOS.WebSite\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\GEOS.WebSite\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "46414"
+		DefaultWebSiteLanguage = "Visual Basic"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -259,6 +287,46 @@ Global
 		{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{7C0CD838-B00A-4609-AC7B-F6E3CFC7A2A5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{69E7F1E6-F2DF-4FCD-BD63-5B16456E3943}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{69E7F1E6-F2DF-4FCD-BD63-5B16456E3943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69E7F1E6-F2DF-4FCD-BD63-5B16456E3943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69E7F1E6-F2DF-4FCD-BD63-5B16456E3943}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{69E7F1E6-F2DF-4FCD-BD63-5B16456E3943}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{69E7F1E6-F2DF-4FCD-BD63-5B16456E3943}.Release|.NET.ActiveCfg = Release|Any CPU
+		{69E7F1E6-F2DF-4FCD-BD63-5B16456E3943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69E7F1E6-F2DF-4FCD-BD63-5B16456E3943}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69E7F1E6-F2DF-4FCD-BD63-5B16456E3943}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{69E7F1E6-F2DF-4FCD-BD63-5B16456E3943}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D2354AC8-493A-4252-ADB0-D7CA4E617BCB}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{D2354AC8-493A-4252-ADB0-D7CA4E617BCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2354AC8-493A-4252-ADB0-D7CA4E617BCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2354AC8-493A-4252-ADB0-D7CA4E617BCB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D2354AC8-493A-4252-ADB0-D7CA4E617BCB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D2354AC8-493A-4252-ADB0-D7CA4E617BCB}.Release|.NET.ActiveCfg = Release|Any CPU
+		{D2354AC8-493A-4252-ADB0-D7CA4E617BCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2354AC8-493A-4252-ADB0-D7CA4E617BCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2354AC8-493A-4252-ADB0-D7CA4E617BCB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D2354AC8-493A-4252-ADB0-D7CA4E617BCB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5D1246DB-8F52-497D-BA4C-4BA6C4DED92C}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{5D1246DB-8F52-497D-BA4C-4BA6C4DED92C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D1246DB-8F52-497D-BA4C-4BA6C4DED92C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D1246DB-8F52-497D-BA4C-4BA6C4DED92C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5D1246DB-8F52-497D-BA4C-4BA6C4DED92C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5D1246DB-8F52-497D-BA4C-4BA6C4DED92C}.Release|.NET.ActiveCfg = Release|Any CPU
+		{5D1246DB-8F52-497D-BA4C-4BA6C4DED92C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D1246DB-8F52-497D-BA4C-4BA6C4DED92C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D1246DB-8F52-497D-BA4C-4BA6C4DED92C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5D1246DB-8F52-497D-BA4C-4BA6C4DED92C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AF7F9869-8055-48E2-9D1E-5843AB3CB346}.Debug|.NET.ActiveCfg = Debug|.NET
+		{AF7F9869-8055-48E2-9D1E-5843AB3CB346}.Debug|.NET.Build.0 = Debug|.NET
+		{AF7F9869-8055-48E2-9D1E-5843AB3CB346}.Debug|Any CPU.ActiveCfg = Debug|.NET
+		{AF7F9869-8055-48E2-9D1E-5843AB3CB346}.Debug|Mixed Platforms.ActiveCfg = Debug|.NET
+		{AF7F9869-8055-48E2-9D1E-5843AB3CB346}.Debug|Mixed Platforms.Build.0 = Debug|.NET
+		{AF7F9869-8055-48E2-9D1E-5843AB3CB346}.Release|.NET.ActiveCfg = Debug|.NET
+		{AF7F9869-8055-48E2-9D1E-5843AB3CB346}.Release|.NET.Build.0 = Debug|.NET
+		{AF7F9869-8055-48E2-9D1E-5843AB3CB346}.Release|Any CPU.ActiveCfg = Debug|.NET
+		{AF7F9869-8055-48E2-9D1E-5843AB3CB346}.Release|Mixed Platforms.ActiveCfg = Debug|.NET
+		{AF7F9869-8055-48E2-9D1E-5843AB3CB346}.Release|Mixed Platforms.Build.0 = Debug|.NET
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-<System.AttributeUsage(System.AttributeTargets.Class Or System.AttributeTargets.Module, AllowMultiple:=False), System.Serializable()> _
+<Serializable()> _
+<System.AttributeUsage(System.AttributeTargets.Class Or System.AttributeTargets.Module, AllowMultiple:=False)> _
 Public Class EntityClassExtendsAttribute : Inherits System.Attribute
 
     Private _RootContainerName As String

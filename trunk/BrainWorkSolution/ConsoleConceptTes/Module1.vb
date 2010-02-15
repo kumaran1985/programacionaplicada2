@@ -4,12 +4,12 @@ Imports System.Linq.Expressions
 Module Module12
     ' Public WithEvents ess As New eventsample
     Sub Main()
-        Dim e As New EntAWBuildVersion
-        For Each p As BrainWork.Entities.EntityFieldExtendsAttribute In e.GetEntityFieldExtendsAttributes()
-            Console.WriteLine(p.FieldName)
-        Next
+        'Dim e As New EntAWBuildVersion
+        'For Each p As BrainWork.Entities.EntityFieldExtendsAttribute In e.GetEntityFieldExtendsAttributes()
+        '    Console.WriteLine(p.FieldName)
+        'Next
 
-        Console.ReadLine()
+        'Console.ReadLine()
 
 
 
