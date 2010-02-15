@@ -1,3 +1,4 @@
+<Serializable()> _
 Public Class NotUserLoggedException
     Inherits System.Exception
 

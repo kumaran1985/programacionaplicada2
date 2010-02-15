@@ -1,5 +1,7 @@
-﻿Namespace Exceptions
-    Public Class ExceptionNotSetedUser
+﻿
+Namespace Exceptions
+    <Serializable()> _
+        Public Class ExceptionNotSetedUser
         Inherits ExceptionBase
 
         Sub New()

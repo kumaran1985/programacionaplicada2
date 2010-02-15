@@ -1,4 +1,6 @@
-﻿Namespace Exceptions
+﻿
+Namespace Exceptions
+    <Serializable()> _
     Public MustInherit Class ExceptionBase
         Inherits Exception
 

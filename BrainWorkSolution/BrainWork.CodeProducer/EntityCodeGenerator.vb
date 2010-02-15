@@ -1,4 +1,5 @@
 ﻿Imports System.Globalization
+Imports System.Text
 
 Partial Public Class EntityCodeGenerator
     Private _Connection As SqlClient.SqlConnection
@@ -56,6 +57,111 @@ Partial Public Class EntityCodeGenerator
         End Get
     End Property
 
+    Sub CreateCustomControl(ByRef sbControlText As System.Text.StringBuilder, _
+                            ByVal pfield As BrainWork.Entities.EntityFieldExtendsAttribute, _
+                            Optional ByVal prefix As String = "")
+
+        sbControlText.AppendLine(prefix & "<cc1:CustomTextBox ")
+        sbControlText.AppendLine(prefix & prefix & "ID=""_" & pfield.PropertyName.Replace("["c, "").Replace("]"c, "").Replace(" "c, "_") & """")
+        sbControlText.AppendLine(prefix & prefix & "runat=""server"" ")
+        For Each pi As System.Reflection.PropertyInfo In pfield.GetType().GetProperties
+            If pi.CanRead AndAlso pi.CanWrite Then
+
+                If Not pi.GetValue(pfield, Nothing) Is Nothing Then
+
+                    If pi.PropertyType.IsEnum Then
+                        If Not [Enum].GetName(pi.PropertyType, pi.GetValue(pfield, Nothing)) Is Nothing Then
+                            sbControlText.Append(prefix & prefix & pi.Name & "=")
+                            '"""" & pi.PropertyType.FullName & "." &
+                            sbControlText.Append("""" & [Enum].GetName(pi.PropertyType, pi.GetValue(pfield, Nothing)) & """")
+                        End If
+
+                    Else
+                        sbControlText.Append(prefix & prefix & pi.Name & "=")
+                        If pi.PropertyType.Name.ToLower.Contains("string") Then
+
+                            sbControlText.Append("""" & pi.GetValue(pfield, Nothing).ToString.Replace(""""c, "'") & """")
+
+                        Else
+                            If pi.PropertyType.Name = "Boolean" Then
+                                sbControlText.Append("""" & pi.GetValue(pfield, Nothing).ToString & """")
+                            Else
+                                sbControlText.Append("""" & pi.GetValue(pfield, Nothing) & """")
+                            End If
+
+                        End If
+                    End If
+                    sbControlText.AppendLine(" ")
+                    '""" & pi.GetValue(pfield, Nothing) & """ ")
+                End If
+
+            End If
+
+
+        Next
+
+        sbControlText.AppendLine(prefix & "/>")
+
+    End Sub
+
+    Function createASP_VB(ByVal TableName As String) As String
+
+        Dim strTextBody As String = ""
+        strTextBody += "Partial Class " & SanitizeClassName(TableName) & vbCrLf
+        strTextBody += "    Inherits System.Web.UI.Page" & vbCrLf
+        strTextBody += "                               " & vbCrLf
+        strTextBody += "End Class                      " & vbCrLf
+        Return strTextBody
+    End Function
+    Function createASPX(ByVal TableName As String) As String
+        Dim strTextBody As String = ""
+
+        strTextBody += "<%@ Page Language=""VB"" AutoEventWireup=""false"" CodeFile=""" & Me.SanitizeClassName(TableName) & ".aspx.vb"" Inherits=""" & Me.SanitizeClassName(TableName) & """ %>" & vbCrLf
+        strTextBody += "    " & vbCrLf
+        strTextBody += "<%@ Register assembly=""BrainWork.Utils.Web"" namespace=""BrainWork.Utils.Web.WebControls"" tagprefix=""cc1"" %>" & vbCrLf
+        strTextBody += "" & vbCrLf
+        strTextBody += "<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">" & vbCrLf
+        strTextBody += "" & vbCrLf
+        strTextBody += "<html xmlns=""http://www.w3.org/1999/xhtml"">" & vbCrLf
+        strTextBody += "<head runat=""server"">" & vbCrLf
+        strTextBody += "    <title>Untitled Page</title>" & vbCrLf
+        strTextBody += "</head>" & vbCrLf
+        strTextBody += "<body>" & vbCrLf
+        strTextBody += "    <form id=""form1"" runat=""server"">" & vbCrLf
+        strTextBody += "    <div>" & vbCrLf
+        strTextBody += "    " & vbCrLf
+
+        Dim sbControlText As New StringBuilder
+
+        For Each pfield As BrainWork.Entities.EntityFieldExtendsAttribute In TablesFields(TableName)
+            CreateCustomControl(sbControlText, pfield, "    ")
+        Next
+        strTextBody += sbControlText.ToString & vbCrLf
+        'strTextBody += "     "
+        'strTextBody += "        <cc1:CustomTextBox"
+        'strTextBody += "        ID=""CustomTextBox1"" "
+        'strTextBody += "        runat=""server"" "
+        'strTextBody += "        EntityClassContainer=""GEOS.Entities.EntSales_Currency""             "
+        'strTextBody += "        PropertyName=""CurrencyCode"" />"
+
+        strTextBody += "       " & vbCrLf
+        strTextBody += "    " & vbCrLf
+        strTextBody += "    </div>" & vbCrLf
+        strTextBody += "    </form>" & vbCrLf
+        strTextBody += "</body>" & vbCrLf
+        strTextBody += "</html>" & vbCrLf
+
+        Return strTextBody
+
+    End Function
+
+
+
+
+
+
+
+
     Private ReadOnly Property GetDATemplate() As String
         Get
             Dim strTemplate As String = "Public Class ____daClass____ " & vbCrLf
@@ -77,10 +183,10 @@ Partial Public Class EntityCodeGenerator
             strTemplate += " ____ConstructorValues____" & vbCrLf
             strTemplate += "    End Sub" & vbCrLf
             strTemplate += "" & vbCrLf
-            strTemplate += "    Protected Overrides Sub DisableEntity()" & vbCrLf
-            strTemplate += "" & vbCrLf
-            strTemplate += "    End Sub" & vbCrLf
-            strTemplate += "" & vbCrLf
+            'strTemplate += "    Protected Overrides Sub DisableEntity()" & vbCrLf
+            'strTemplate += "" & vbCrLf
+            'strTemplate += "    End Sub" & vbCrLf
+            'strTemplate += "" & vbCrLf
             strTemplate += "    Protected Overrides Sub SetStoredProcedures()" & vbCrLf
             strTemplate += " ____SetStoredProcedures____" & vbCrLf
             strTemplate += "    End Sub" & vbCrLf
@@ -312,10 +418,10 @@ Partial Public Class EntityCodeGenerator
             _OUTPUTPAT = value
         End Set
     End Property
-    Public SUBDIR_CLASS_ENTITY As String = "Entity"
-    Public SUBDIR_CLASS_BUSSINES As String = "BussinesLogic"
-    Public SUBDIR_CLASS_DATAACCES As String = "DataAccess"
-    Public SUBDIR_CLASS_PROCEDURES As String = "StoredProcedures"
+    Public SUBDIR_CLASS_ENTITY As String = "GEOS.Entities"
+    Public SUBDIR_CLASS_BUSSINES As String = "GEOS.BussinesLogic"
+    Public SUBDIR_CLASS_DATAACCES As String = "GEOS.DataAccess"
+    Public SUBDIR_CLASS_PROCEDURES As String = "GEOS.StoredProcedures"
 
     Public Property Connection() As SqlClient.SqlConnection
         Get
@@ -503,7 +609,7 @@ Partial Public Class EntityCodeGenerator
                 If Not String.IsNullOrEmpty(PK_Table) Then
                     pField.RelationType = Entities.EnumRelationType.Combo
                     pField.ForeingTable = PK_Table
-                    pField.ForeingCRUD = ABM_Prefix & PK_Table
+                    pField.ForeingCRUD = ABM_Prefix & Me.SanitizeClassName(PK_Table) & ".aspx"
                     pField.FieldType = Entities.EnumFieldType.ForeingKey
                     pField.EntityClassContainer = ENTITY_Prefix & Me.SanitizeClassName(PK_Table)
                     pField.ForeingFieldName = FK_Column
@@ -521,7 +627,7 @@ Partial Public Class EntityCodeGenerator
 
                     Else
                         pField.RelationType = Entities.EnumRelationType.TextBox
-                        pField.EntityClassContainer = ENTITY_Prefix & TableNameString
+                        pField.EntityClassContainer = ENTITY_Prefix & SanitizeClassName(TableNameString)
                     End If
 
                 End If
@@ -593,7 +699,7 @@ Partial Public Class EntityCodeGenerator
                     Exit For
                 End If
             Next
-            AuxiliaryFieldExtends.Item(defaultOrderByItem).DefaultOrderBy = True
+            AuxiliaryFieldExtends.Item(defaultOrderByItem).IsDefaultOrderBy = True
 
 
             Me.TablesFields.Add(TableNameString, AuxiliaryFieldExtends)
@@ -747,7 +853,7 @@ Partial Public Class EntityCodeGenerator
         End If
 
         'DefaultOrderBy:="")> _"
-        AuxString = AuxString & "DefaultOrderBy:= " & Efield.DefaultOrderBy.ToString & " ,"
+        AuxString = AuxString & "IsDefaultOrderBy:= " & Efield.IsDefaultOrderBy.ToString & " ,"
 
 
         sbB.Append(AuxString.Substring(0, AuxString.Length - 1))
@@ -825,7 +931,7 @@ Partial Public Class EntityCodeGenerator
 
         strValue += "   ORDER BY " & vbCrLf
         strValue += "		 CASE WHEN NOT " & ORDER_BY_PARAMETER & " IS NULL THEN " & vbCrLf
-        strValue += "				CASE WHEN  " & ORDER_BY_DIRECTION_PARAMETER & " IS NULL THEN " & vbCrLf
+        strValue += "				CASE WHEN NOT UPPER(" & ORDER_BY_DIRECTION_PARAMETER & ") = 'DESC' THEN " & vbCrLf
 
         strValue += variableDeclarationAsc
 
@@ -1504,7 +1610,7 @@ Partial Public Class EntityCodeGenerator
             Next
 
             Dim raiseerrortrue2 As Boolean = False
-            If WhereExpression2 = vbTab & vbTab & vbTab & vbTab & " AND (" Then
+            If WhereExpression2 = "" Then
                 WhereExpression2 += "1=0AND"
                 raiseerrortrue2 = True
             End If
@@ -1520,12 +1626,18 @@ Partial Public Class EntityCodeGenerator
         End If
 
 
-        sbSelectAllProcedure.AppendLine("  		  IF (@MaxValues = 0) OR (@MaxValues Is Null) BEGIN ")
-        sbSelectAllProcedure.AppendLine("			    Set @MaxValues = @RecordCount ")
+        sbSelectAllProcedure.AppendLine("  		  IF (" & PAGED_MAXVALUES_PARAMETER & " = 0) OR (" & PAGED_MAXVALUES_PARAMETER & " Is Null) BEGIN ")
+        sbSelectAllProcedure.AppendLine("			    Set " & PAGED_MAXVALUES_PARAMETER & "   = " & PAGED_COUNT_PARAMETER & " ")
         sbSelectAllProcedure.AppendLine("		  END ")
         sbSelectAllProcedure.AppendLine("		  IF (@Row Is Null) BEGIN ")
-        sbSelectAllProcedure.AppendLine("				Set @Row = 0 ")
+        sbSelectAllProcedure.AppendLine("				Set " & PAGED_ROW_PARAMETER & " = 0 ")
         sbSelectAllProcedure.AppendLine("		  END ")
+        '
+        sbSelectAllProcedure.AppendLine("		  IF (" & ORDER_BY_DIRECTION_PARAMETER & " Is Null) BEGIN ")
+        sbSelectAllProcedure.AppendLine("				Set " & ORDER_BY_DIRECTION_PARAMETER & "  = 'ASC' ")
+        sbSelectAllProcedure.AppendLine("		  END ")
+
+
         sbSelectAllProcedure.AppendLine("")
 
         sbSelectAllProcedure.AppendLine("         BEGIN ")
@@ -1541,7 +1653,7 @@ Partial Public Class EntityCodeGenerator
                 auxstr = vbTab & vbTab & vbTab & " ,ROW_NUMBER() OVER (ORDER BY " & SanitizeTableName(TableName) & ".[" & pField.FieldName & "]) AS 'RowNumber'"
             End If
 
-            If pField.DefaultOrderBy Then
+            If pField.IsDefaultOrderBy Then
                 auxstr = vbTab & vbTab & vbTab & " ,ROW_NUMBER() OVER (ORDER BY " & SanitizeTableName(TableName) & ".[" & pField.FieldName & "]) AS 'RowNumber'"
                 Exit For
             End If
@@ -1638,7 +1750,7 @@ Partial Public Class EntityCodeGenerator
             Next
 
             Dim raiseerrortrue2 As Boolean = False
-            If WhereExpression2 = vbTab & vbTab & vbTab & vbTab & " AND (" Then
+            If WhereExpression2 = "" Then
                 WhereExpression2 += "1=0AND"
                 raiseerrortrue2 = True
             End If
@@ -1675,7 +1787,7 @@ Partial Public Class EntityCodeGenerator
                 auxstr = vbTab & vbTab & vbTab & " ,ROW_NUMBER() OVER (ORDER BY " & SanitizeTableName(TableName) & ".[" & pField.FieldName & "]) AS 'RowNumber'"
             End If
 
-            If pField.DefaultOrderBy Then
+            If pField.IsDefaultOrderBy Then
                 auxstr = vbTab & vbTab & vbTab & " ,ROW_NUMBER() OVER (ORDER BY " & SanitizeTableName(TableName) & ".[" & pField.FieldName & "]) AS 'RowNumber'"
                 Exit For
             End If
@@ -1764,16 +1876,17 @@ Partial Public Class EntityCodeGenerator
         Dim WhereExpression As String = vbCrLf & " WHERE("
         For Each pField As BrainWork.Entities.EntityFieldExtendsAttribute In listefield
 
-            Dim saux As String = Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
-            If isValidWhereFieldQuery(saux) Then
+            'Dim saux As String = Me.createSP_Param(pField, Me.GetColumnExtendInformation(TableName, pField.FieldName))
+            'If isValidWhereFieldQuery(saux) Then
 
-
+            If pField.IsPK Then
                 If params.Contains("@" & pField.FieldName.Replace(" "c, "_") & " ") Then
-
                     WhereExpression += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ") AND"
-
                 End If
             End If
+
+
+            'End If
         Next
 
         If WhereExpression = vbCrLf & " WHERE(" Then
@@ -1803,7 +1916,7 @@ Partial Public Class EntityCodeGenerator
     Private Sub AppendProperty(ByRef sbPropertysRegion As System.Text.StringBuilder, _
                                ByRef sbDeclarationRegion As System.Text.StringBuilder, _
                                ByRef sbConstructorMethod As System.Text.StringBuilder, _
-                               ByVal efield As BrainWork.Entities.EntityFieldExtendsAttribute, _
+                               ByRef efield As BrainWork.Entities.EntityFieldExtendsAttribute, _
                                ByVal Attributes As String, _
                                ByVal TableName As String)
 
@@ -1837,6 +1950,8 @@ Partial Public Class EntityCodeGenerator
         'Agrego la capitalizacion
         propertyName = FirstLetter(propertyName)
 
+        efield.PropertyName = propertyName
+
         'Nombre del Campo
         Dim PrivateDim As String = IIf(propertyName.Contains("["), "[_" & propertyName.Substring(1), "_" & propertyName).ToString
 
@@ -1848,7 +1963,7 @@ Partial Public Class EntityCodeGenerator
             If IsDate(efield.DefaultValue) Then
                 sbConstructorMethod.AppendLine(PrivateDim & " = #" & efield.DefaultValue.ToString & "#")
             ElseIf efield.DefaultValue.ToString.ToLower.Contains("date") Then
-                sbConstructorMethod.AppendLine(PrivateDim & " = Now")
+                sbConstructorMethod.AppendLine(PrivateDim & " = Date.UtcNow")
             End If
         Else
 
@@ -1897,19 +2012,63 @@ Partial Public Class EntityCodeGenerator
             sbb += "DescriptionFieldName:=""" & Me.Tables(tableName).DescriptionFieldName & ""","
         End If
 
-
         If Not Me.Tables(tableName).PrimaryKeyFieldName Is Nothing Then
             sbb += "PrimaryKeyFieldName:=""" & Me.Tables(tableName).PrimaryKeyFieldName & ""","
         End If
 
 
-
-
         If Not Me.Tables(tableName).RootContainerName Is Nothing Then
-            sbb += "RootContainerName:=""" & Me.Tables(tableName).RootContainerName & """"
+            sbb += "RootContainerName:=""" & Me.Tables(tableName).RootContainerName & ""","
         End If
 
 
+        If Not Me.Tables(tableName).EnabledPropertyName Is Nothing Then
+            sbb += "EnabledPropertyName:=""" & Me.Tables(tableName).EnabledPropertyName & ""","
+        End If
+
+        If Not Me.Tables(tableName).EnableFieldName Is Nothing Then
+            sbb += "EnableFieldName:=""" & Me.Tables(tableName).EnableFieldName & ""","
+        End If
+
+        Dim campList As List(Of BrainWork.Entities.EntityFieldExtendsAttribute) = Me.TablesFields(tableName)
+
+
+        Dim primaryKeyPropertyName As String = Nothing
+        Dim descriptionPropertyName As String = Nothing
+        Dim enabledCompareValue As String = Nothing
+        Dim enabledCompareType As String = Nothing
+
+        For Each item As BrainWork.Entities.EntityFieldExtendsAttribute In campList
+
+            If item.IsEnableField Then
+                enabledCompareValue = item.PropertyName
+                enabledCompareType = item.TypeName
+            End If
+
+            If item.IsPK Then
+                primaryKeyPropertyName = item.PropertyName
+            End If
+
+            If item.IsDescription Then
+                descriptionPropertyName = item.PropertyName
+            End If
+
+        Next
+
+
+        If Not enabledCompareValue Is Nothing Then
+            sbb += "EnableCompareValue:=Ctype(""" & enabledCompareValue & """," & enabledCompareType & "),"
+        End If
+
+        If Not primaryKeyPropertyName Is Nothing Then
+            sbb += "PrimaryKeyPropertyName:=""" & primaryKeyPropertyName & ""","
+        End If
+
+        If Not descriptionPropertyName Is Nothing Then
+            sbb += "DescriptionPropertyName:=""" & descriptionPropertyName & ""","
+        End If
+
+        sbb = sbb.Remove(sbb.Length - 1, 1)
         sbb += ")> _"
         Return sbb
 
@@ -2049,6 +2208,30 @@ Partial Public Class EntityCodeGenerator
         sw.Close()
     End Sub
     '
+
+
+    Public Sub CreateASP_AND_ASPXClass()
+        If Not System.IO.Directory.Exists(OUTPUTPAT) Then
+            System.IO.Directory.CreateDirectory(OUTPUTPAT)
+        End If
+
+
+
+        For Each Key As String In Me.TablesFields.Keys
+            Dim strClassVBNet As String
+            strClassVBNet = Me.createASP_VB(Key)
+
+            Dim strClassASPX As String
+            strClassASPX = Me.createASPX(Key)
+
+            PublishASPX(OUTPUTPAT & "Web", strClassVBNet, SanitizeClassName(Key) & ".aspx.vb")
+            PublishASPX(OUTPUTPAT & "Web", strClassASPX, SanitizeClassName(Key) & ".aspx")
+
+        Next
+    End Sub
+
+
+
 
     Public Sub CreateBLAndDAClass()
         If Not System.IO.Directory.Exists(OUTPUTPAT) Then
@@ -2201,6 +2384,29 @@ Partial Public Class EntityCodeGenerator
 
 
     End Sub
+
+
+    Public Sub PublishASPX(ByVal directorio As String, ByVal textContenido As String, ByVal nombredelarchivo As String)
+
+        ' Return
+        ' directorio = directorio & Me.SUBDIR_CLASS_ENTITY
+        If Not System.IO.Directory.Exists(directorio) Then
+            System.IO.Directory.CreateDirectory(directorio)
+        End If
+
+        If Not directorio.EndsWith("\") Then
+            directorio = directorio & "\"
+        End If
+
+        'Dim fs As New System.IO.FileStream, IO.FileMode.Create)
+        Dim sw As New System.IO.StreamWriter(directorio & nombredelarchivo, False, System.Text.Encoding.Default)
+        sw.Write(textContenido)
+        sw.Flush()
+        sw.Close()
+    End Sub
+
+
+
 
     ' Dim tempblda As String = ""
     Public Sub PublishBLDA(ByVal directorio As String, ByVal classString As String, ByVal ClassName As String)

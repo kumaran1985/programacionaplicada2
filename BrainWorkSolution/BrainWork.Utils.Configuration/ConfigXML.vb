@@ -4,6 +4,7 @@ Imports System.IO
 ''' <summary>
 ''' Retorna un valor pasandole la ruta del XML
 ''' </summary>
+<Serializable()> _
 Public NotInheritable Class ConfigXML
     'Inherits AbstractConfigurationXML
 

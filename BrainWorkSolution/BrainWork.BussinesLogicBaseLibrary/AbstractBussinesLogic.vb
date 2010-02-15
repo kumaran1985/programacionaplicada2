@@ -8,7 +8,7 @@ Public MustInherit Class AbstractBussinesLogic
     Public Event OnUpdate()
     Public Event OnDisable()
     Public Event OnLoad()
-    Private _DataAccess As Object
+    Private WithEvents _DataAccess As Object
     Private _Entity As Object
 
     Private _CurrentPage As Integer
@@ -159,12 +159,10 @@ Public MustInherit Class AbstractBussinesLogic
         Dim strError As String = Nothing
 
         Try
-            If ClassValidation(strError, Enums.enumValidationType.Load) Then
-                LoadEntity()
-                RaiseEvent OnLoad()
-            Else
-                Throw New Exceptions.ExceptionValidationError(strError)
-            End If
+
+            LoadEntity()
+            RaiseEvent OnLoad()
+           
         Catch ex As Exception
             Throw ex
         End Try
@@ -189,37 +187,37 @@ Public MustInherit Class AbstractBussinesLogic
         Return True
     End Function
 
-    Protected Function GetDataTable() As DataTable
+    Public Function GetDataTable() As DataTable
         Return GetDataTableEntity(0, 0)
     End Function
-    Protected Function GetDataSet() As DataSet
+    Public Function GetDataSet() As DataSet
         Return GetDataSetEntity(0, 0)
     End Function
-    Protected Function GetDataTable(ByVal Row As Integer, ByVal Page As Integer) As DataTable
-        Me._CurrentPage = Page
+    Public Function GetDataTable(ByVal Row As Integer, ByVal MaxRecords As Integer) As DataTable
+        Me._CurrentPage = MaxRecords
         Me._CurrentRow = Row
-        Return GetDataTableEntity(Row, Page)
+        Return GetDataTableEntity(Row, MaxRecords)
     End Function
-    Protected Function GetDataSet(ByVal Row As Integer, ByVal Page As Integer) As DataSet
-        Me._CurrentPage = Page
+    Public Function GetDataSet(ByVal Row As Integer, ByVal MaxRecords As Integer) As DataSet
+        Me._CurrentPage = MaxRecords
         Me._CurrentRow = Row
-        Return GetDataSetEntity(0, 0)
+        Return GetDataSetEntity(Row, MaxRecords)
     End Function
-    Protected Function GetDataReader() As IDataReader
+    Public Function GetDataReader() As IDataReader
         Return GetDataReaderEntity(0, 0)
     End Function
-    Protected Function GetDataReader(ByVal Row As Integer, ByVal Page As Integer) As IDataReader
-        Me._CurrentPage = Page
+    Public Function GetDataReader(ByVal Row As Integer, ByVal MaxRecords As Integer) As IDataReader
+        Me._CurrentPage = MaxRecords
         Me._CurrentRow = Row
-        Return GetDataReaderEntity(Row, Page)
+        Return GetDataReaderEntity(Row, MaxRecords)
     End Function
-    Protected Function GetList() As IList(Of Object)
+    Public Function GetList() As IList(Of Object)
         Return GetListEntity(0, 0)
     End Function
-    Protected Function GetList(ByVal Row As Integer, ByVal Page As Integer) As List(Of Object)
-        Me._CurrentPage = Page
+    Public Function GetList(ByVal Row As Integer, ByVal MaxRecords As Integer) As List(Of Object)
+        Me._CurrentPage = MaxRecords
         Me._CurrentRow = Row
-        Return GetListEntity(Row, Page)
+        Return GetListEntity(Row, MaxRecords)
     End Function
 
 
@@ -267,66 +265,66 @@ Public MustInherit Class AbstractBussinesLogic
     Public MustOverride Function ClassValidation(ByRef strError As String, ByVal validationType As Enums.enumValidationType) As Boolean
 
 End Class
+ 
+'Public Class entClass
+'    Inherits BrainWork.Entities.AbstractEntityBase
 
-Public Class entClass
-    Inherits BrainWork.Entities.AbstractEntityBase
+'End Class
+'Public Class blClass
+'    Inherits BrainWork.BussinesLogicBaseLibrary.AbstractBussinesLogic
+'    Private _CurrentEntity As entClass
+'    Private _myDataAccess As daClass
 
-End Class
-Public Class blClass
-    Inherits BrainWork.BussinesLogicBaseLibrary.AbstractBussinesLogic
-    Private _CurrentEntity As entClass
-    Private _myDataAccess As daClass
+'    Public Property CurrentEntity() As entClass
+'        Get
+'            Return _CurrentEntity
+'        End Get
+'        Set(ByVal value As entClass)
+'            _CurrentEntity = value
+'        End Set
+'    End Property
 
-    Public Property CurrentEntity() As entClass
-        Get
-            Return _CurrentEntity
-        End Get
-        Set(ByVal value As entClass)
-            _CurrentEntity = value
-        End Set
-    End Property
-
-    Public Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)
-        MyBase.New(oUser, New entClass, New daClass(oUser))
-        Me._CurrentEntity = CType(MyBase.Entity, entClass)
-        Me._myDataAccess = CType(MyBase.DataAccess, daClass)
-        Me._myDataAccess.CurrentEntity = Me.CurrentEntity
-    End Sub
+'    Public Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)
+'        MyBase.New(oUser, New entClass, New daClass(oUser))
+'        Me._CurrentEntity = CType(MyBase.Entity, entClass)
+'        Me._myDataAccess = CType(MyBase.DataAccess, daClass)
+'        Me._myDataAccess.CurrentEntity = Me.CurrentEntity
+'    End Sub
 
 
-    Public Overrides Function ClassValidation(ByRef strError As String, ByVal validationType As Enums.enumValidationType) As Boolean
+'    Public Overrides Function ClassValidation(ByRef strError As String, ByVal validationType As Enums.enumValidationType) As Boolean
 
-    End Function
-End Class
+'    End Function
+'End Class
 
-Public Class daClass
-    Inherits BrainWork.DataAccessBaseLibrary.AbstractDataAccess
-    Private _CurrentEntity As entClass
-    
-    Public Property CurrentEntity() As entClass
-        Get
-            Return _CurrentEntity
-        End Get
-        Set(ByVal value As entClass)
-            _CurrentEntity = value
-        End Set
-    End Property
+'Public Class daClass
+'    Inherits BrainWork.DataAccessBaseLibrary.AbstractDataAccess
+'    Private _CurrentEntity As entClass
 
-    Public Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)
-        MyBase.New(oUser, New entClass)
-        Me._CurrentEntity = CType(MyBase.Entity, entClass)
-    End Sub
+'    Public Property CurrentEntity() As entClass
+'        Get
+'            Return _CurrentEntity
+'        End Get
+'        Set(ByVal value As entClass)
+'            _CurrentEntity = value
+'        End Set
+'    End Property
 
-    Protected Overrides Sub DisableEntity()
+'    Public Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)
+'        MyBase.New(oUser, New entClass)
+'        Me._CurrentEntity = CType(MyBase.Entity, entClass)
+'    End Sub
 
-    End Sub
+'    Protected Overrides Sub DisableEntity()
 
-    Protected Overrides Sub SetStoredProcedures()
-        Me.SP_ADD = ""
-        Me.SP_DELETE = ""
-        Me.SP_DISABLE = ""
-        Me.SP_GETALL = ""
-        Me.SP_GETONE = ""
-        Me.SP_UPDATE = ""
-    End Sub
-End Class
+'    End Sub
+
+'    Protected Overrides Sub SetStoredProcedures()
+'        Me.SP_ADD = ""
+'        Me.SP_DELETE = ""
+'        Me.SP_DISABLE = ""
+'        Me.SP_GETALL = ""
+'        Me.SP_GETONE = ""
+'        Me.SP_UPDATE = ""
+'    End Sub
+'End Class

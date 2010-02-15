@@ -1,4 +1,5 @@
-﻿Public Class PropertysExtendedAtributtes
+﻿<Serializable()> _
+Public Class PropertysExtendedAtributtes
 
     Private _PropertyObject As Object
     Private _PropertyAttributes As EntityFieldExtendsAttribute

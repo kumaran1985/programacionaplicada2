@@ -2,11 +2,11 @@
 Option Strict On
 Imports System.Reflection
 Imports System.Linq.Expressions
+Imports BrainWork.Connections
 
 <Serializable()> _
 Public MustInherit Class AbstractDataAccess
-    Implements BrainWork.Connections.Interfaces.IDBrainWorkConnection
-
+    ' Implements BrainWork.Connections.Interfaces.IDBrainWorkConnection
     Private _ConnectionManager As BrainWork.DataManager.ConnectionManager
     Private _userlogged As BrainWork.Security.ApplicationUser
     Protected SP_ADD As String = Nothing
@@ -18,17 +18,262 @@ Public MustInherit Class AbstractDataAccess
     Protected SP_GETALL As String = Nothing
     Protected SP_GETALL_FULLDESCRIPTION As String = Nothing
 
-    Private _Entity As Object
+    Private _PAGED_ROW_PARAMETER As String = "@Row"
+    Private _PAGED_MAXVALUES_PARAMETER As String = "@MaxValues"
+    Private _PAGED_COUNT_PARAMETER As String = "@RecordCount"
+    Private _ORDER_BY_PARAMETER As String = "@OrderBy"
+    Private _ORDER_BY_DIRECTION_PARAMETER As String = "@OrderByDirection"
+    Private _ID_GENERATED_ROW As String = "@ID_Generated_New"
+
+
+
+    Protected Overridable Property ID_GENERATED_ROW() As String
+        Get
+            Return _ID_GENERATED_ROW
+        End Get
+        Set(ByVal value As String)
+            _ID_GENERATED_ROW = value
+        End Set
+    End Property
+
+    Protected Overridable Property ORDER_BY_DIRECTION_PARAMETER() As String
+        Get
+            Return _ORDER_BY_DIRECTION_PARAMETER
+        End Get
+        Set(ByVal value As String)
+            _ORDER_BY_DIRECTION_PARAMETER = value
+        End Set
+    End Property
+
+    Protected Overridable Property ORDER_BY_PARAMETER() As String
+        Get
+            Return _ORDER_BY_PARAMETER
+        End Get
+        Set(ByVal value As String)
+            _ORDER_BY_PARAMETER = value
+        End Set
+    End Property
+
+    Protected Overridable Property PAGED_COUNT_PARAMETER() As String
+        Get
+            Return _PAGED_COUNT_PARAMETER
+        End Get
+        Set(ByVal value As String)
+            _PAGED_COUNT_PARAMETER = value
+        End Set
+    End Property
+
+    Protected Overridable Property PAGED_MAXVALUES_PARAMETER() As String
+        Get
+            Return _PAGED_MAXVALUES_PARAMETER
+        End Get
+        Set(ByVal value As String)
+            _PAGED_MAXVALUES_PARAMETER = value
+        End Set
+    End Property
+
+    Protected Overridable Property PAGED_ROW_PARAMETER() As String
+        Get
+            Return _PAGED_ROW_PARAMETER
+        End Get
+        Set(ByVal value As String)
+            _PAGED_ROW_PARAMETER = value
+        End Set
+    End Property
+
+    Private WithEvents _CurrentConnection As BrainWork.Connections.BrainWorkConnection
+
+
+
     Public Event OnAdd(ByVal p As System.Data.IDbDataParameter(), ByVal spName As String)
     Public Event OnDelete(ByVal p As System.Data.IDbDataParameter(), ByVal spName As String)
     Public Event OnUpdate(ByVal p As System.Data.IDbDataParameter(), ByVal spName As String)
     Public Event OnDisable(ByVal p As System.Data.IDbDataParameter(), ByVal spName As String)
 
-    Public Event OnAlterValues(ByVal p As System.Data.IDbDataParameter(), ByVal spName As String)
-    Public Sub _OnAlterValues(ByVal p As System.Data.IDbDataParameter(), ByVal spName As String)
-        RaiseEvent OnAlterValues(p, spName)
+    Protected _CurrentEntity As Object
+    Protected MustOverride Function GetEntity() As Object 
+
+
+    Private _SelectedOrderBy As String
+    Private _SelectedDirection As String = "ASC"
+    Private _SelectedRow As Int32 = 0
+    Private _SelectedMaxRecords As Int32 = 0
+    Private _SelectedCountRegisters As Int64
+
+    Protected Overridable Property SelectedMaxRecords() As Int32
+        Get
+            Return _SelectedMaxRecords
+        End Get
+        Set(ByVal value As Int32)
+            _SelectedMaxRecords = value
+        End Set
+    End Property
+
+
+    Protected Overridable Property SelectedRow() As Int32
+        Get
+            Return _SelectedRow
+        End Get
+        Set(ByVal value As Int32)
+            _SelectedRow = value
+        End Set
+    End Property
+
+
+    Protected Overridable Property SelectedDirection() As String
+        Get
+            Return _SelectedDirection
+        End Get
+        Set(ByVal value As String)
+            _SelectedDirection = value
+        End Set
+    End Property
+
+    Protected Overridable Property SelectedCountRegisters() As Int64
+        Get
+            Return _SelectedCountRegisters
+        End Get
+        Set(ByVal value As Int64)
+            _SelectedCountRegisters = value
+        End Set
+    End Property
+
+
+
+
+    Protected Overridable Property SelectedOrderBy() As String
+        Get
+            If _SelectedOrderBy Is Nothing Then
+
+                For Each item As BrainWork.Entities.EntityFieldExtendsAttribute In Me.Entity.GetEntityFieldExtendsAttributes
+                    If item.IsDefaultOrderBy Then
+                        _SelectedOrderBy = item.FieldName
+                        Exit For
+                    End If
+                Next
+
+            End If
+            Return _SelectedOrderBy
+        End Get
+        Set(ByVal value As String)
+            _SelectedOrderBy = value
+        End Set
+    End Property
+
+
+    '--         @Row int,
+    Protected Overridable Function GetPAGED_ROW_PARAMETER_parameter() As System.Data.IDbDataParameter
+        GetPAGED_ROW_PARAMETER_parameter = Me.CurrentConnection.GetNewParameter
+        GetPAGED_ROW_PARAMETER_parameter.Direction = ParameterDirection.Input
+        GetPAGED_ROW_PARAMETER_parameter.DbType = DbType.Int32
+        GetPAGED_ROW_PARAMETER_parameter.ParameterName = PAGED_ROW_PARAMETER
+    End Function
+
+    '--         @MaxValues int,
+    Protected Overridable Function GetPAGED_MAXVALUES_PARAMETER_parameter() As System.Data.IDbDataParameter
+        GetPAGED_MAXVALUES_PARAMETER_parameter = Me.CurrentConnection.GetNewParameter
+        GetPAGED_MAXVALUES_PARAMETER_parameter.Direction = ParameterDirection.Input
+        GetPAGED_MAXVALUES_PARAMETER_parameter.DbType = DbType.Int32
+        GetPAGED_MAXVALUES_PARAMETER_parameter.ParameterName = PAGED_MAXVALUES_PARAMETER
+    End Function
+
+    '--         @RecordCount bigint OUTPUT 
+    Protected Overridable Function GetPAGED_COUNT_PARAMETER_parameter() As System.Data.IDbDataParameter
+        GetPAGED_COUNT_PARAMETER_parameter = Me.CurrentConnection.GetNewParameter
+        GetPAGED_COUNT_PARAMETER_parameter.Direction = ParameterDirection.Output
+        GetPAGED_COUNT_PARAMETER_parameter.DbType = DbType.Int64
+        GetPAGED_COUNT_PARAMETER_parameter.ParameterName = PAGED_COUNT_PARAMETER
+    End Function
+
+    '           @OrderBy varchar(500),
+    Protected Overridable Function GetORDER_BY_DIRECTION_PARAMETER_parameter() As System.Data.IDbDataParameter
+        GetORDER_BY_DIRECTION_PARAMETER_parameter = Me.CurrentConnection.GetNewParameter
+        GetORDER_BY_DIRECTION_PARAMETER_parameter.Direction = ParameterDirection.Input
+        GetORDER_BY_DIRECTION_PARAMETER_parameter.DbType = DbType.String
+        GetORDER_BY_DIRECTION_PARAMETER_parameter.Size = 500
+        GetORDER_BY_DIRECTION_PARAMETER_parameter.ParameterName = ORDER_BY_DIRECTION_PARAMETER
+    End Function
+
+    '--         @OrderByDirection varchar(500),
+    Protected Overridable Function GetORDER_BY_PARAMETER_parameter() As System.Data.IDbDataParameter
+        GetORDER_BY_PARAMETER_parameter = Me.CurrentConnection.GetNewParameter
+        GetORDER_BY_PARAMETER_parameter.Direction = ParameterDirection.Input
+        GetORDER_BY_PARAMETER_parameter.DbType = DbType.String
+        GetORDER_BY_PARAMETER_parameter.Size = 500
+        GetORDER_BY_PARAMETER_parameter.ParameterName = ORDER_BY_PARAMETER
+    End Function
+
+
+    Protected Overridable Function GetID_GENERATED_ROW_parameter() As System.Data.IDbDataParameter
+        GetID_GENERATED_ROW_parameter = Me.CurrentConnection.GetNewParameter
+        GetID_GENERATED_ROW_parameter.Direction = ParameterDirection.Output
+        GetID_GENERATED_ROW_parameter.DbType = DbType.Int64
+        GetID_GENERATED_ROW_parameter.ParameterName = ID_GENERATED_ROW
+    End Function
+
+
+    Protected Overridable Function HasStandarParametersSettings(ByRef oCmd As IDbCommand, ByVal row As Integer, ByVal page As Integer) As Boolean
+        HasStandarParametersSettings = True
+
+        If Not oCmd.Parameters.Contains(PAGED_ROW_PARAMETER) OrElse _
+           Not oCmd.Parameters.Contains(PAGED_MAXVALUES_PARAMETER) OrElse _
+           Not oCmd.Parameters.Contains(ORDER_BY_PARAMETER) OrElse _
+           Not oCmd.Parameters.Contains(ORDER_BY_DIRECTION_PARAMETER) Then
+            HasStandarParametersSettings = False
+        End If
+        'If Not oCmd.Parameters.Contains(PAGED_ROW_PARAMETER) Then
+        '    'Dim p As IDbDataParameter = Me.GetNewParameter
+        '    'p.ParameterName = PAGED_ROW_PARAMETER
+        '    'p.Direction = ParameterDirection.Input
+        '    'p.DbType = DbType.Int32
+        '    'p.Value = row
+        '    HasStandarParametersSettings = False
+        'End If
+
+        'If Not oCmd.Parameters.Contains(PAGED_PAGE_PARAMETER) Then
+        '    'Dim p As IDbDataParameter = Me.GetNewParameter
+        '    'p.ParameterName = PAGED_PAGE_PARAMETER
+        '    'p.Direction = ParameterDirection.Input
+        '    'p.DbType = DbType.Int32
+        '    'p.Value = page
+        '    HasStandarParametersSettings = False
+        'End If
+
+        'If Not oCmd.Parameters.Contains(ORDER_BY_PARAMETER) Then
+        '    'Dim p As IDbDataParameter = Me.GetNewParameter
+        '    'p.ParameterName = PAGED_PAGE_PARAMETER
+        '    'p.Direction = ParameterDirection.Input
+        '    'p.DbType = DbType.String
+        '    'p.Value = ""
+        '    HasStandarParametersSettings = False
+        'End If
+
+    End Function
+
+
+
+
+    Private Function CurrentConnection() As BrainWork.Connections.BrainWorkConnection
+        If _CurrentConnection Is Nothing Then
+            _ConnectionManager = New BrainWork.DataManager.ConnectionManager(Me.ApplicationUser)
+            _CurrentConnection = _ConnectionManager.CurrentConnection
+        ElseIf Not _ConnectionManager.ApplicationUser Is Me.ApplicationUser Then
+            _ConnectionManager = New BrainWork.DataManager.ConnectionManager(Me.ApplicationUser)
+            _CurrentConnection = _ConnectionManager.CurrentConnection
+        End If
+        Return _CurrentConnection
+    End Function
+
+    Public Sub BeginTransaction()
+        Me.CurrentConnection.BeginTransaction()
     End Sub
-     
+    Public Sub CommitTransaction()
+        Me.CurrentConnection.CommitTransaction()
+    End Sub
+    Public Sub RollBackTransaction()
+        Me.CurrentConnection.RollBackTransaction()
+    End Sub
+
 
     Private Sub _OnAdd(ByVal p As System.Data.IDbDataParameter(), ByVal spName As String)
         RaiseEvent OnAdd(p, spName)
@@ -134,18 +379,17 @@ Public MustInherit Class AbstractDataAccess
     End Function
 
     Public Function GetDataSet() As DataSet
-
         Return GetDataSetEntity(0, 0)
     End Function
 
-    Public Function GetDataTable(ByVal Row As Integer, ByVal Page As Integer) As DataTable
+    Public Function GetDataTable(ByVal Row As Integer, ByVal MaxRecords As Integer) As DataTable
 
-        Return GetDataTableEntity(Row, Page)
+        Return GetDataTableEntity(Row, MaxRecords)
     End Function
 
-    Public Function GetDataSet(ByVal Row As Integer, ByVal Page As Integer) As DataSet
+    Public Function GetDataSet(ByVal Row As Integer, ByVal MaxRecords As Integer) As DataSet
 
-        Return GetDataSetEntity(0, 0)
+        Return GetDataSetEntity(Row, MaxRecords)
     End Function
 
     Public Function GetDataReader() As IDataReader
@@ -153,9 +397,9 @@ Public MustInherit Class AbstractDataAccess
         Return GetDataReaderEntity(0, 0)
     End Function
 
-    Public Function GetDataReader(ByVal Row As Integer, ByVal Page As Integer) As IDataReader
+    Public Function GetDataReader(ByVal Row As Integer, ByVal MaxRecords As Integer) As IDataReader
 
-        Return GetDataReaderEntity(Row, Page)
+        Return GetDataReaderEntity(Row, MaxRecords)
     End Function
 
     Public Function GetList() As IList(Of Object)
@@ -163,9 +407,9 @@ Public MustInherit Class AbstractDataAccess
         Return GetListEntity(0, 0)
     End Function
 
-    Public Function GetList(ByVal Row As Integer, ByVal Page As Integer) As List(Of Object)
+    Public Function GetList(ByVal Row As Integer, ByVal MaxRecords As Integer) As List(Of Object)
 
-        Return GetListEntity(Row, Page)
+        Return GetListEntity(Row, MaxRecords)
     End Function
 
     Public Sub LoadByPk(ByVal PK As Object)
@@ -178,17 +422,21 @@ Public MustInherit Class AbstractDataAccess
         LoadEntity()
     End Sub
 
-     
+
 
 #End Region
 
 #Region "Constructores"
-    Protected Sub New(ByVal oUser As BrainWork.Security.ApplicationUser, ByVal oEntity As BrainWork.Entities.AbstractEntityBase)
+    Protected Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)
         Me._userlogged = oUser
 
         If Me._userlogged Is Nothing Then
             Throw New BrainWork.TrunkLibrary.Exceptions.ExceptionNotSetedUser
         End If
+ 
+        'If Entity Is Nothing Then
+        '    Throw New BrainWork.TrunkLibrary.Exceptions.ExceptionNotSetedEntity
+        'End If
 
         'setea los estored
         SetStoredProcedures()
@@ -211,7 +459,7 @@ Public MustInherit Class AbstractDataAccess
 
     Protected ReadOnly Property Entity() As BrainWork.Entities.AbstractEntityBase
         Get
-            Return CType(Me._Entity, BrainWork.Entities.AbstractEntityBase)
+            Return CType(GetEntity(), BrainWork.Entities.AbstractEntityBase)
         End Get
     End Property
 
@@ -229,14 +477,14 @@ Public MustInherit Class AbstractDataAccess
     Private Function GetParameterByStored(ByVal spName As String) As System.Data.IDbDataParameter()
         Dim EntFieldList As List(Of BrainWork.Entities.EntityFieldExtendsAttribute) = Me.Entity.GetEntityFieldExtendsAttributes
 
-        Dim pi As List(Of System.Data.IDbDataParameter) = Me.GetStoredProcedureInfo(SP_GETALL)
+        Dim pi As List(Of System.Data.IDbDataParameter) = Me.CurrentConnection.GetStoredProcedureInfo(spName)
 
         Dim p2 As New List(Of System.Data.IDbDataParameter)
 
         For Each p As System.Data.Common.DbParameter In pi
 
             For Each entField As BrainWork.Entities.EntityFieldExtendsAttribute In EntFieldList
-
+                Me.CurrentConnection.SanitizeParameterName(CType(entField, System.Data.IDbDataParameter))
                 If entField.ParameterName.ToLower = p.ParameterName.ToLower Then
                     p2.Add(CType(entField, System.Data.IDbDataParameter))
                     Exit For
@@ -247,37 +495,101 @@ Public MustInherit Class AbstractDataAccess
         Return p2.ToArray()
 
     End Function
+    'Public Function GetPropertyByNamedValue(ByVal PropertyName As   String)
+    '    Dim userType As Type = Me.GetType()
+    '    Dim UserProp As PropertyInfo = userType.GetProperty(PropertyName)
+    '    Dim myValue As String
+    '    myValue = UserProp.GetValue(Me, Nothing)
+    '    Return myValue
+    'End Function
 
-    Private Sub ParametizeValues(ByRef ParameterList() As System.Data.IDbDataParameter)
-        Dim pi() As Reflection.PropertyInfo = Me.GetType.GetProperties()
+    Private Function PropertyToDBValue(ByVal PropertyItem As Reflection.PropertyInfo) As Object
+     
+
+        'Dim dataType As Type = PropertyItem.PropertyType
+        'If dataType.IsGenericType _
+        '    AndAlso dataType.FullName.Contains("System.Nullable") Then 'Is GetType(System.Nullable) Then
+
+        '    dataType = System.Nullable.GetUnderlyingType(dataType)
+        'End If
+        Dim oValue As Object = PropertyItem.GetValue(Me.Entity, Nothing)
+        If oValue Is Nothing Then
+            Return DBNull.Value
+        End If
+
+        Return oValue
+
+        'If PropertyItem.PropertyType.IsGenericType _
+        '                AndAlso PropertyItem.PropertyType.FullName.Contains("System.Nullable") Then 'Is GetType(System.Nullable) Then
+
+        '    Return System.Nullable.GetUnderlyingType(PropertyItem.PropertyType)
+        'End If
+
+
+    End Function
+
+    Private Sub ParametizeValues(ByRef ParameterList() As System.Data.IDbDataParameter, _
+                                 Optional ByVal SetOutParameter As Boolean = False )
+        Dim pi() As Reflection.PropertyInfo = Me.Entity.GetType.GetProperties()
 
         For i As Integer = 0 To ParameterList.Length - 1
             For Each PropertyItem As Reflection.PropertyInfo In pi
-                If Replace(PropertyItem.Name.ToLower, "@"c, "") = Replace(ParameterList(i).ParameterName.ToLower, "@"c, "") Then
-                    ParameterList(i).Value = PropertyItem.GetValue(Me, Nothing)
+                Dim pat As BrainWork.Entities.EntityFieldExtendsAttribute = Me.Entity.GetPropertyAttributes(PropertyItem.Name)
+                Me.CurrentConnection.SanitizeParameterName(CType(pat, System.Data.IDbDataParameter))
+                If pat.ParameterName.ToLower = ParameterList(i).ParameterName.ToLower Then
+                    ParameterList(i).Value = PropertyToDBValue(PropertyItem) 'PropertyItem.GetValue(Me.Entity, Nothing)
                     Exit For
                 End If
             Next
         Next
+        If SetOutParameter Then
+            ReDim Preserve ParameterList(ParameterList.Length)
+            ParameterList(ParameterList.Length - 1) = GetID_GENERATED_ROW_parameter()
+        End If
+         
+    End Sub
+
+    Private Sub SetPagedSortParams(ByRef ParameterList() As System.Data.IDbDataParameter, _
+                                   ByVal Row As Int32, _
+                                   ByVal MaxRecords As Int32, _
+                                   ByVal OrderBy As String, _
+                                   ByVal Direction As String )
+
+        ReDim Preserve ParameterList(ParameterList.Length + 4)
+
+        ParameterList(ParameterList.Length - 5) = GetORDER_BY_PARAMETER_parameter()
+        ParameterList(ParameterList.Length - 5).Value = OrderBy
+
+        ParameterList(ParameterList.Length - 4) = GetORDER_BY_DIRECTION_PARAMETER_parameter()
+        ParameterList(ParameterList.Length - 4).Value = Direction
+
+        ParameterList(ParameterList.Length - 3) = GetPAGED_ROW_PARAMETER_parameter()
+        ParameterList(ParameterList.Length - 3).Value = Row
+
+        ParameterList(ParameterList.Length - 2) = GetPAGED_MAXVALUES_PARAMETER_parameter()
+        ParameterList(ParameterList.Length - 2).Value = MaxRecords
+
+        ParameterList(ParameterList.Length - 1) = GetPAGED_COUNT_PARAMETER_parameter()
+
     End Sub
 
     Private Function CreateObjectByRow(ByVal dr As DataRow) As Object
-        Static pi() As Reflection.PropertyInfo = Me.GetType.GetProperties()
+        Static pi() As Reflection.PropertyInfo = Me.Entity.GetType.GetProperties()
         Dim p As Object = Activator.CreateInstance(Me.Entity.GetType) ' Crea la instancia del objeto
         For Each PropertyItem As Reflection.PropertyInfo In pi
             Dim att As BrainWork.Entities.EntityFieldExtendsAttribute
-            att = Me.Entity.GetFieldProperties(PropertyItem.Name)
+            att = Me.Entity.GetPropertyAttributes(PropertyItem.Name)
             PropertyItem.SetValue(p, dr(att.FieldName), Nothing)
         Next
         Return p
     End Function
 
     Private Function CreateObjectByReader(ByVal dr As IDataReader) As Object
-        Static pi() As Reflection.PropertyInfo = Me.GetType.GetProperties()
+        Static pi() As Reflection.PropertyInfo = Me.Entity.GetType.GetProperties()
         Dim p As Object = Activator.CreateInstance(Me.Entity.GetType) ' Crea la instancia del objeto
         For Each PropertyItem As Reflection.PropertyInfo In pi
             Dim att As BrainWork.Entities.EntityFieldExtendsAttribute
-            att = Me.Entity.GetFieldProperties(PropertyItem.Name)
+            att = Me.Entity.GetPropertyAttributes(PropertyItem.Name)
             PropertyItem.SetValue(p, dr(att.FieldName), Nothing)
         Next
         Return p
@@ -286,60 +598,77 @@ Public MustInherit Class AbstractDataAccess
 
 #End Region
 
+    Private Sub MappStoredReturns(ByVal ReturnedTable As Dictionary(Of String, Object))
+
+        For Each Key As String In ReturnedTable.Keys
+            For Each item As BrainWork.Entities.EntityFieldExtendsAttribute In Me.Entity.GetEntityFieldExtendsAttributes
+                Me.CurrentConnection.SanitizeParameterName(CType(item, System.Data.IDbDataParameter))
+                If Key.ToLower = item.ParameterName.ToLower Then
+                    Dim PropertyItem As PropertyInfo = Me.Entity.GetType.GetProperty(item.PropertyName)
+                    Dim ent As Object = GetEntity()
+                    PropertyItem.SetValue(ent, ReturnedTable(Key), Nothing)
+                    Exit For
+                End If
+            Next
+        Next
+    End Sub
 #Region "Funciones de ABML"
     Protected Overridable Sub AddEntity(ByRef ParameterList() As System.Data.IDbDataParameter, ByRef SP_Name As String)
         SP_Name = SP_ADD
-        ParameterList = GetParameterByStored(SP_ADD)
-        ParametizeValues(ParameterList)
+        ParameterList = GetParameterByStored(SP_Name)
+        ParametizeValues(ParameterList, True)
 
-        Dim id As Object = Me.ExecuteStoredProcedureReturns(SP_ADD, ParameterList)
-        Dim PropertyItem As PropertyInfo = Me.Entity.GetType.GetProperty(Me.GetIDProperty)
-        PropertyItem.SetValue(Me._Entity, id, Nothing)
+        Dim ReturnedTable As New Dictionary(Of String, Object)
+        ReturnedTable = Me.CurrentConnection.ExecuteStoredProcedureReturns(SP_Name, ParameterList)
+        MappStoredReturns(ReturnedTable)
+
     End Sub
 
     Protected Overridable Sub UpdateEntity(ByRef ParameterList() As System.Data.IDbDataParameter, ByRef SP_Name As String)
         SP_Name = SP_UPDATE
         ParameterList = GetParameterByStored(SP_Name)
         ParametizeValues(ParameterList)
-        Me.ExecuteStoredProcedureNonQuery(SP_UPDATE, ParameterList)
+        Me.CurrentConnection.ExecuteStoredProcedureNonQuery(SP_Name, ParameterList)
     End Sub
 
     Protected Overridable Sub DeleteEntity(ByRef ParameterList() As System.Data.IDbDataParameter, ByRef SP_Name As String)
         SP_Name = SP_DELETE
         ParameterList = GetParameterByStored(SP_Name)
         ParametizeValues(ParameterList)
-        Me.ExecuteStoredProcedureNonQuery(SP_DELETE, ParameterList)
+        Me.CurrentConnection.ExecuteStoredProcedureNonQuery(SP_Name, ParameterList)
     End Sub
 
     Protected Overridable Function GetIDProperty() As String
-        Return Me.Entity.ExtendedClassAttributes.DescriptionPropertyName
+        Return Me.Entity.ExtendedClassAttributes.PrimaryKeyPropertyName
     End Function
 
     Protected Overridable Function GetDescriptionProperty() As String
         Return Me.Entity.ExtendedClassAttributes.DescriptionPropertyName
-    End Function 
+    End Function
 
     Protected Overridable Sub LoadEntityByPk(ByVal PK As Object)
         Dim ParameterList() As System.Data.IDbDataParameter
-        ParameterList = GetParameterByStored(SP_UPDATE_BY_PK)
-        Dim p As System.Data.IDbDataParameter
-        p = Me.GetNewParameter
+        ParameterList = GetParameterByStored(SP_GETONE)
 
-        For i As Integer = 0 To ParameterList.Length - 1
-            If ParameterList(i).ParameterName.Replace("@"c, "") = Me.Entity.ExtendedClassAttributes.PrimaryKeyFieldName Then
-                p = ParameterList(i)
-                p.Value = PK
-                Exit For
-            End If
-        Next
+        Me.ParametizeValues(ParameterList)
+        'Dim p As System.Data.IDbDataParameter
+        'p = Me.CurrentConnection.GetNewParameter
 
-        If p.ParameterName Is Nothing Then
-            Throw New Exception("No existe el parámetro")
-        End If
+        'For i As Integer = 0 To ParameterList.Length - 1
+        '    If ParameterList(i).ParameterName.Replace("@"c, "") = Me.Entity.ExtendedClassAttributes.PrimaryKeyFieldName Then
+        '        p = ParameterList(i)
+        '        p.Value = PK
+        '        Exit For
+        '    End If
+        'Next
+
+        'If p.ParameterName Is Nothing Then
+        '    Throw New Exception("No existe el parámetro")
+        'End If
 
         Dim dt As New DataTable
-        dt = Me.GetStoredProcedureDataTable(Me.SP_UPDATE_BY_PK)
-        Me._Entity = CreateObjectByRow(dt.Rows(0))
+        dt = Me.CurrentConnection.GetStoredProcedureDataTable(Me.SP_GETONE, ParameterList)
+        Me._CurrentEntity = CreateObjectByRow(dt.Rows(0))
 
 
 
@@ -349,7 +678,8 @@ Public MustInherit Class AbstractDataAccess
         Dim ParameterList() As System.Data.IDbDataParameter
         ParameterList = GetParameterByStored(SP_GETONE)
         ParametizeValues(ParameterList)
-        Dim dr As DataTable = Me.GetStoredProcedureDataTable(Me.SP_GETONE, 0, 0, ParameterList)
+
+        Dim dr As DataTable = Me.CurrentConnection.GetStoredProcedureDataTable(Me.SP_GETONE, ParameterList)
         Return dr
     End Function
 
@@ -357,32 +687,49 @@ Public MustInherit Class AbstractDataAccess
         Dim ParameterList() As System.Data.IDbDataParameter
         ParameterList = GetParameterByStored(SP_GETONE)
         ParametizeValues(ParameterList)
-        Dim dr As IDataReader = Me.GetStoredProcedureDataReader(Me.SP_GETONE, 0, 0, ParameterList)
+        Dim dr As IDataReader = Me.CurrentConnection.GetStoredProcedureDataReader(Me.SP_GETONE, ParameterList)
         Return CType(CreateObjectByReader(dr), BrainWork.Entities.Interfaces.IEntityFieldExtendsAttribute)
     End Function
 
-    Protected Overridable Function GetDataTableEntity(ByVal Row As Integer, ByVal Page As Integer) As DataTable
+    Protected Overridable Function GetDataTableEntity(ByVal Row As Integer, ByVal MaxRecords As Integer) As DataTable
+
         Dim ParameterList() As System.Data.IDbDataParameter
         ParameterList = GetParameterByStored(SP_GETALL)
-        ParametizeValues(ParameterList)
-        Return Me.GetStoredProcedureDataTable(Me.SP_GETALL, Row, Page, ParameterList)
+        ParametizeValues(ParameterList, False)
+
+        Dim listReturnsValues As New Dictionary(Of String, Object)
+        SetPagedSortParams(ParameterList, Row, MaxRecords, Me.SelectedOrderBy, Me.SelectedDirection)
+        GetDataTableEntity = Me.CurrentConnection.GetStoredProcedureDataTable(Me.SP_GETALL, listReturnsValues, ParameterList)
+
+        Me.SelectedCountRegisters = CLng(listReturnsValues(Me.PAGED_COUNT_PARAMETER))
 
     End Function
 
-    Protected Overridable Function GetDataSetEntity(ByVal Row As Integer, ByVal Page As Integer) As DataSet
+    Protected Overridable Function GetDataSetEntity(ByVal Row As Integer, ByVal MaxRecords As Integer) As DataSet
         Dim ParameterList() As System.Data.IDbDataParameter
         ParameterList = GetParameterByStored(SP_GETALL)
-        ParametizeValues(ParameterList)
-        Return Me.GetStoredProcedureDataSet(Me.SP_GETALL, Row, Page, ParameterList)
+        ParametizeValues(ParameterList, False)
+
+        Dim listReturnsValues As New Dictionary(Of String, Object)
+        SetPagedSortParams(ParameterList, Row, MaxRecords, Me.SelectedOrderBy, Me.SelectedDirection)
+        GetDataSetEntity = Me.CurrentConnection.GetStoredProcedureDataSet(Me.SP_GETALL, listReturnsValues, ParameterList)
+
+        Me.SelectedCountRegisters = CLng(listReturnsValues(Me.PAGED_COUNT_PARAMETER))
+         
     End Function
 
-    Protected Overridable Function GetDataReaderEntity(ByVal Row As Integer, ByVal Page As Integer) As IDataReader
+    Protected Overridable Function GetDataReaderEntity(ByVal Row As Integer, ByVal MaxRecords As Integer) As IDataReader
         Dim ParameterList() As System.Data.IDbDataParameter
         ParameterList = GetParameterByStored(SP_GETALL)
-        ParametizeValues(ParameterList)
-        Return Me.GetStoredProcedureDataReader(Me.SP_GETALL, Row, Page, ParameterList)
+        ParametizeValues(ParameterList, False)
+
+        Dim listReturnsValues As New Dictionary(Of String, Object)
+        SetPagedSortParams(ParameterList, Row, MaxRecords, Me.SelectedOrderBy, Me.SelectedDirection)
+        GetDataReaderEntity = Me.CurrentConnection.GetStoredProcedureDataReader(Me.SP_GETALL, listReturnsValues, ParameterList)
+
+        Me.SelectedCountRegisters = CLng(listReturnsValues(Me.PAGED_COUNT_PARAMETER))
     End Function
-     
+
     Protected Overridable Function GetListEntity(ByVal Row As Integer, ByVal Page As Integer) As List(Of Object)
 
         Dim dt As DataTable = GetDataTableEntity(Row, Page)
@@ -400,226 +747,28 @@ Public MustInherit Class AbstractDataAccess
 
         Dim propertyItem As PropertyInfo = Me.Entity.GetType.GetProperty(Me.GetIDProperty)
 
-        Dim pk As Object = propertyItem.GetValue(Me, Nothing)
+        Dim pk As Object = propertyItem.GetValue(Me.Entity, Nothing)
         Me.LoadEntityByPk(pk)
 
     End Sub
 
 
-    Protected MustOverride Sub DisableEntity(ByRef NewParameters() As System.Data.IDbDataParameter, ByRef SP_Name As String)
+    Protected Overridable Sub DisableEntity(ByRef NewParameters() As System.Data.IDbDataParameter, ByRef SP_Name As String)
+        SP_Name = SP_DISABLE
+        NewParameters = GetParameterByStored(SP_Name)
+        ParametizeValues(NewParameters)
+        Me.CurrentConnection.ExecuteStoredProcedureNonQuery(SP_Name, NewParameters)
+
+    End Sub
 
 #End Region
 
 
 #Region "Connection Manager"
 
-    Private Function CnnManager() As BrainWork.DataManager.ConnectionManager
-        If _ConnectionManager Is Nothing Then
-            _ConnectionManager = New BrainWork.DataManager.ConnectionManager(_userlogged)
-        End If
-        Return _ConnectionManager
-    End Function
-
-    Public Overloads Sub BeginTransaction() Implements Connections.Interfaces.IDBrainWorkConnection.BeginTransaction
-        CnnManager().getConnectionUser().BeginTransaction()
-    End Sub
-
-    Protected Sub CloseConnection() Implements Connections.Interfaces.IDBrainWorkConnection.CloseConnection
-        CnnManager().getConnectionUser().CloseConnection()
-    End Sub
-
-    Public Sub CommitTransaction() Implements Connections.Interfaces.IDBrainWorkConnection.CommitTransaction
-        CnnManager().getConnectionUser().CommitTransaction()
-    End Sub
-
-    Protected Sub ExecuteStoredProcedureNonQuery(ByVal StoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) Implements Connections.Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureNonQuery
-        CnnManager().getConnectionUser().ExecuteStoredProcedureNonQuery(StoredProcedureName, Parameters)
-        _OnAlterValues(Parameters, StoredProcedureName)
-    End Sub
-
-    Protected Sub ExecuteStoredProcedureNonQuery(ByVal StoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection) Implements Connections.Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureNonQuery
-        CnnManager().getConnectionUser().ExecuteStoredProcedureNonQuery(StoredProcedureName, params)
-        _OnAlterValues(Parameters, StoredProcedureName)
-    End Sub
-
-    Protected Function ExecuteStoredProcedureReturns(ByVal sStoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As Object Implements Connections.Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureReturns
-        Return CnnManager().getConnectionUser().ExecuteStoredProcedureReturns(sStoredProcedureName, Parameters)
-        _OnAlterValues(Parameters, sStoredProcedureName)
-    End Function
-
-    Protected Function ExecuteStoredProcedureReturns(ByVal sStoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection) As Object Implements Connections.Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureReturns
-        Return CnnManager().getConnectionUser().ExecuteStoredProcedureReturns(sStoredProcedureName, params)
-        _OnAlterValues(Parameters, sStoredProcedureName)
-    End Function
-
-    Protected Function GetNewCommand() As System.Data.IDbCommand Implements Connections.Interfaces.IDBrainWorkConnection.GetNewCommand
-        Return CnnManager().getConnectionUser().GetNewCommand()
-    End Function
-
-    Protected Function GetNewConnection() As System.Data.IDbConnection Implements Connections.Interfaces.IDBrainWorkConnection.GetNewConnection
-        Return CnnManager().getConnectionUser().GetNewConnection()
-    End Function
-
-    Protected Function GetOpenConnection() As System.Data.IDbConnection Implements Connections.Interfaces.IDBrainWorkConnection.GetOpenConnection
-        Return CnnManager().getConnectionUser().GetOpenConnection()
-    End Function
-
-    Protected Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, ByVal RowFrom As Integer, ByVal RowTo As Integer, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataSet Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
-        Return CnnManager().getConnectionUser().GetStoredProcedureDataSet(StoredProcedureName, RowFrom, RowTo, Parameters)
-    End Function
-
-    Protected Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataSet Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
-        Return CnnManager().getConnectionUser().GetStoredProcedureDataSet(StoredProcedureName, Parameters)
-    End Function
-
-    Protected Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection) As System.Data.DataSet Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
-        Return CnnManager().getConnectionUser().GetStoredProcedureDataSet(StoredProcedureName, params)
-    End Function
-
-    Protected Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection, ByVal RowFrom As Integer, ByVal RowTo As Integer) As System.Data.DataSet Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
-        Return CnnManager().getConnectionUser().GetStoredProcedureDataSet(StoredProcedureName, params, RowFrom, RowTo)
-    End Function
-
-    Protected Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, ByVal RowFrom As Integer, ByVal RowTo As Integer, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataTable Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
-        Return CnnManager().getConnectionUser().GetStoredProcedureDataTable(StoredProcedureName, RowFrom, RowTo, Parameters)
-    End Function
-
-    Protected Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataTable Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
-        Return CnnManager().getConnectionUser().GetStoredProcedureDataTable(StoredProcedureName, Parameters)
-    End Function
-
-    Protected Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection) As System.Data.DataTable Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
-        Return CnnManager().getConnectionUser().GetStoredProcedureDataTable(StoredProcedureName, params)
-    End Function
-
-    Protected Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection, ByVal RowFrom As Integer, ByVal RowTo As Integer) As System.Data.DataTable Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
-        Return CnnManager().getConnectionUser().GetStoredProcedureDataTable(StoredProcedureName, params, RowFrom, RowTo)
-    End Function
-
-    Protected Function GetTable(ByVal TableName As String) As System.Data.DataTable Implements Connections.Interfaces.IDBrainWorkConnection.GetTable
-        Return CnnManager().getConnectionUser().GetTable(TableName)
-    End Function
-
-    Protected Function GetTable(ByVal TableName As String, ByVal RowFrom As Integer, ByVal RowTo As Integer) As System.Data.DataTable Implements Connections.Interfaces.IDBrainWorkConnection.GetTable
-        Return CnnManager().getConnectionUser().GetTable(TableName, RowFrom, RowTo)
-    End Function
-
-    Private Sub OpenConnection() Implements Connections.Interfaces.IDBrainWorkConnection.OpenConnection
-        CnnManager().getConnectionUser().OpenConnection()
-    End Sub
-
-    Public Sub RollBackTransaction() Implements Connections.Interfaces.IDBrainWorkConnection.RollBackTransaction
-        CnnManager().getConnectionUser().RollBackTransaction()
-    End Sub
-
-    Protected ReadOnly Property TransactionCount() As Integer Implements Connections.Interfaces.IDBrainWorkConnection.TransactionCount
-        Get
-            Return CnnManager().getConnectionUser().TransactionCount
-        End Get
-    End Property
-
-    Protected Function BeginTransactionFunction() As System.Data.IDbTransaction Implements System.Data.IDbConnection.BeginTransaction
-        Return Nothing
-    End Function
-
-    Protected Function BeginTransaction1(ByVal il As System.Data.IsolationLevel) As System.Data.IDbTransaction Implements System.Data.IDbConnection.BeginTransaction
-        Return Nothing
-    End Function
-
-    Private Sub ChangeDatabase(ByVal databaseName As String) Implements System.Data.IDbConnection.ChangeDatabase
-        CnnManager().getConnectionUser().ChangeDatabase(databaseName)
-    End Sub
-
-    Private Sub Close() Implements System.Data.IDbConnection.Close
-        CnnManager().getConnectionUser().Close()
-    End Sub
-
-    Private Property ConnectionString() As String Implements System.Data.IDbConnection.ConnectionString
-        Get
-            Return CnnManager().getConnectionUser().ConnectionString
-        End Get
-        Set(ByVal value As String)
-            CnnManager().getConnectionUser().ConnectionString = value
-        End Set
-    End Property
-
-    Protected ReadOnly Property ConnectionTimeout() As Integer Implements System.Data.IDbConnection.ConnectionTimeout
-        Get
-            Return CnnManager().getConnectionUser().ConnectionTimeout
-        End Get
-    End Property
-
-    Protected Function CreateCommand() As System.Data.IDbCommand Implements System.Data.IDbConnection.CreateCommand
-        Return CnnManager().getConnectionUser().CreateCommand
-    End Function
-
-    Protected ReadOnly Property Database() As String Implements System.Data.IDbConnection.Database
-        Get
-            Return CnnManager().getConnectionUser().Database
-        End Get
-    End Property
-
-    Private Sub Open() Implements System.Data.IDbConnection.Open
-        CnnManager().getConnectionUser().Open()
-    End Sub
-
-    Protected ReadOnly Property State() As System.Data.ConnectionState Implements System.Data.IDbConnection.State
-        Get
-            Return CnnManager().getConnectionUser().State
-        End Get
-    End Property
-
-
-    Public Function GetStoredProcedureInfo(ByVal SpName As String) As System.Collections.Generic.List(Of System.Data.IDbDataParameter) Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureInfo
-        Return CnnManager().getConnectionUser().GetStoredProcedureInfo(SpName)
-    End Function
-
-    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String) As System.Data.IDataReader Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
-        Return CnnManager().getConnectionUser().GetStoredProcedureDataReader(StoredProcedureName)
-    End Function
-
-    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, ByVal RowFrom As Integer, ByVal MaxRecords As Integer) As System.Data.IDataReader Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
-        Return CnnManager().getConnectionUser().GetStoredProcedureDataReader(StoredProcedureName, RowFrom, MaxRecords)
-    End Function
-
-    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, ByVal RowFrom As Integer, ByVal MaxRecords As Integer, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.IDataReader Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
-        Return CnnManager().getConnectionUser().GetStoredProcedureDataReader(StoredProcedureName, RowFrom, MaxRecords, Parameters)
-    End Function
-
-    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection, ByVal RowFrom As Integer, ByVal MaxRecords As Integer) As System.Data.IDataReader Implements Connections.Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
-        Return CnnManager().getConnectionUser().GetStoredProcedureDataReader(StoredProcedureName, params, RowFrom, MaxRecords)
-    End Function
-
-    Public Function GetNewParameter() As System.Data.IDbDataParameter Implements Connections.Interfaces.IDBrainWorkConnection.GetNewParameter
-        Return CnnManager().getConnectionUser().GetNewParameter
-    End Function
 
 #End Region
 
 
-#Region "IDisposable Support"
-
-    Private disposedValue As Boolean = False        ' To detect redundant calls
-
-    ' IDisposable
-    Protected Overridable Sub Dispose(ByVal disposing As Boolean)
-        If Not Me.disposedValue Then
-            If disposing Then
-                ' TODO: free other state (managed objects).
-            End If
-
-            ' TODO: free your own state (unmanaged objects).
-            ' TODO: set large fields to null.
-        End If
-        Me.disposedValue = True
-    End Sub
-
-    ' This code added by Visual Basic to correctly implement the disposable pattern.
-    Public Sub Dispose() Implements IDisposable.Dispose
-        ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
-        Dispose(True)
-        GC.SuppressFinalize(Me)
-    End Sub
-#End Region
 
 End Class

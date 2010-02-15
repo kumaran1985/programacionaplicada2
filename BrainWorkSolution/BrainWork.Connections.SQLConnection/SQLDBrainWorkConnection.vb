@@ -1,7 +1,7 @@
-
+<Serializable()> _
 Public NotInheritable Class SQLDBrainWorkConnection
     Inherits BrainWorkConnection
-    Implements BrainWork.Connections.Interfaces.IDBrainWorkConnection
+    '' Implements BrainWork.Connections.Interfaces.IDBrainWorkConnection
     Private oConnection As SqlClient.SqlConnection
     Private oTransaction As SqlClient.SqlTransaction
     Private _ConnectionString As String
@@ -86,11 +86,11 @@ Public NotInheritable Class SQLDBrainWorkConnection
         Return GetNewParameter
     End Function
 
-    Private Sub CastParameterArray(ByVal p() As System.Data.Common.DbParameter, _
+    Private Sub CastParameterArray(ByVal p() As System.Data.IDbDataParameter, _
                                         ByRef sp As SqlClient.SqlParameterCollection)
 
         If p Is Nothing Then Exit Sub
-        For Each dbp As System.Data.Common.DbParameter In p
+        For Each dbp As System.Data.IDbDataParameter In p
             sp.Add(CastParameter(dbp))
         Next
 
@@ -109,7 +109,7 @@ Public NotInheritable Class SQLDBrainWorkConnection
 
 
 
-    Public Sub ExecuteStoredProcedureNonQuery(ByVal StoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) Implements Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureNonQuery
+    Protected Overrides Sub ExecuteStoredProcedureNonQuery_Internal(ByVal StoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) ' Implements Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureNonQuery
         Me.OpenConnection()
         Dim oCommand As SqlClient.SqlCommand
 
@@ -120,7 +120,7 @@ Public NotInheritable Class SQLDBrainWorkConnection
         oCommand.Connection = GetOpenConnection()
 
         Try
-            MyBase.DBConnection_OnModifyValues(StoredProcedureName, New EventArgs())
+            ' MyBase.DBConnection_OnModifyValues(StoredProcedureName, New EventArgs())
             oCommand.ExecuteNonQuery()
         Catch oException As Exception
 
@@ -130,7 +130,7 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End Try
     End Sub
 
-    Public Sub ExecuteStoredProcedureNonQuery(ByVal StoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection) Implements Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureNonQuery
+    Protected Overrides Sub ExecuteStoredProcedureNonQuery_Internal(ByVal StoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection) ' Implements Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureNonQuery
         Me.OpenConnection()
         Dim oCommand As SqlClient.SqlCommand
 
@@ -150,7 +150,7 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End Try
     End Sub
 
-    Public Function ExecuteStoredProcedureReturns(ByVal sStoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As Object Implements Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureReturns
+    Protected Overrides Function ExecuteStoredProcedureReturns_Internal(ByVal sStoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As Dictionary(Of String, Object) ' Implements Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureReturns
         Me.OpenConnection()
         Dim oCommand As SqlClient.SqlCommand
 
@@ -169,23 +169,26 @@ Public NotInheritable Class SQLDBrainWorkConnection
             Me.CloseConnection()
         End Try
 
-        Dim objectToReturn As String = ""
+
+        Dim listToReturn As New Dictionary(Of String, Object)
         For Each p As SqlClient.SqlParameter In oCommand.Parameters
             If p.Direction = ParameterDirection.Output OrElse p.Direction = ParameterDirection.InputOutput Then
-                objectToReturn = p.ParameterName & "=" & p.Value & ";"
+
+                listToReturn.Add(p.ParameterName, p.Value)
+
             End If
         Next
-        If objectToReturn = "" Then
-            Return Nothing
-        Else
-            Return objectToReturn.Split(";"c)
-        End If
+
+        Return listToReturn
+
 
     End Function
 
-    Public Function ExecuteStoredProcedureReturns(ByVal sStoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection) As Object Implements Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureReturns
+    Protected Overrides Function ExecuteStoredProcedureReturns_Internal(ByVal sStoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection) As Dictionary(Of String, Object) ' Implements Interfaces.IDBrainWorkConnection.ExecuteStoredProcedureReturns
         Me.OpenConnection()
         Dim oCommand As SqlClient.SqlCommand
+        Dim listToReturn As New Dictionary(Of String, Object)
+
         oCommand = CType(GetNewCommand(), SqlClient.SqlCommand)
         oCommand.CommandType = CommandType.StoredProcedure
         oCommand.CommandText = sStoredProcedureName
@@ -194,37 +197,36 @@ Public NotInheritable Class SQLDBrainWorkConnection
 
         Try
             oCommand.ExecuteNonQuery()
-            Dim objectToReturn As String = ""
-            For Each p As SqlClient.SqlParameter In oCommand.Parameters
-                If p.Direction = ParameterDirection.Output OrElse p.Direction = ParameterDirection.InputOutput Then
-                    objectToReturn = p.ParameterName & "=" & p.Value & ";"
-                End If
-            Next
-            If objectToReturn = "" Then
-                Return Nothing
-            Else
-                Return objectToReturn.Split(";"c)
-            End If
         Catch oException As Exception
 
             Throw oException
         Finally
             Me.CloseConnection()
         End Try
+        For Each p As SqlClient.SqlParameter In oCommand.Parameters
+            If p.Direction = ParameterDirection.Output OrElse p.Direction = ParameterDirection.InputOutput Then
+                Dim Item As New Dictionary(Of String, Object)
+                Item.Add(p.ParameterName, p.Value)
+
+            End If
+        Next
 
 
+
+
+        Return listToReturn
     End Function
 
-    Public Function GetNewCommand() As System.Data.IDbCommand Implements Interfaces.IDBrainWorkConnection.GetNewCommand
-        Return New SqlClient.SqlCommand()
-    End Function
+    'Public Overrides Function GetNewCommand() As System.Data.IDbCommand ' Implements Interfaces.IDBrainWorkConnection.GetNewCommand
+    '    Return New SqlClient.SqlCommand()
+    'End Function
 
-    Public Function GetNewConnection() As System.Data.IDbConnection Implements Interfaces.IDBrainWorkConnection.GetNewConnection
+    Protected Overrides Function GetNewConnection_Internal() As System.Data.IDbConnection ' Implements Interfaces.IDBrainWorkConnection.GetNewConnection
         oConnection = New SqlClient.SqlConnection(Me.ConnectionString)
         Return oConnection
     End Function
 
-    Public Function GetOpenConnection() As System.Data.IDbConnection Implements Interfaces.IDBrainWorkConnection.GetOpenConnection
+    Protected Overrides Function GetOpenConnection() As System.Data.IDbConnection ' Implements Interfaces.IDBrainWorkConnection.GetOpenConnection
         If oConnection Is Nothing Then
             GetOpenConnection = GetNewConnection()
         Else
@@ -233,7 +235,7 @@ Public NotInheritable Class SQLDBrainWorkConnection
     End Function
 
     Private Sub DAFillDataSet(ByRef ds As DataSet, _
-                              ByVal cmd As SqlClient.SqlCommand, _
+                              ByRef cmd As SqlClient.SqlCommand, _
                               Optional ByVal RowFrom As Int32 = 0, _
                               Optional ByVal MaxRecords As Int32 = 0, _
                               Optional ByVal ValidateStandarParams As Boolean = False)
@@ -241,7 +243,7 @@ Public NotInheritable Class SQLDBrainWorkConnection
         If RowFrom = 0 AndAlso RowFrom = MaxRecords Then
             da.Fill(ds)
         Else
-            If (MaxRecords = RowFrom AndAlso MaxRecords = 0) AndAlso ValidateStandarParams AndAlso Not Me.HasStandarParametersSettings(cmd, RowFrom, MaxRecords) Then
+            If (MaxRecords = RowFrom AndAlso MaxRecords = 0) AndAlso ValidateStandarParams Then
                 Throw New Exceptions.ExceptionHasStandarParametersSettings
             End If
             Me.CurrentRow = RowFrom
@@ -250,7 +252,7 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End If
     End Sub
 
-    Private Function GetDataSet(ByVal ocmd As SqlClient.SqlCommand, _
+    Private Function GetDataSet(ByRef ocmd As SqlClient.SqlCommand, _
                                 Optional ByVal RowFrom As Int32 = 0, _
                                 Optional ByVal MaxRecords As Int32 = 0, _
                                 Optional ByVal ValidateStandarParams As Boolean = False) As DataSet
@@ -262,15 +264,18 @@ Public NotInheritable Class SQLDBrainWorkConnection
 
     End Function
 
-    Public Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataSet Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
+    Public Overrides Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataSet ' Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
         Return GetStoredProcedureDataSet(StoredProcedureName, 0, 0, Parameters)
     End Function
 
-    Public Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection) As System.Data.DataSet Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
+    Public Overrides Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, ByVal params As System.Data.Common.DbParameterCollection) As System.Data.DataSet ' Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
         Return GetStoredProcedureDataSet(StoredProcedureName, params, 0, 0)
     End Function
 
-    Public Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, ByVal RowFrom As Integer, ByVal MaxRecords As Integer, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataSet Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
+    Public Overrides Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, _
+                                                        ByVal RowFrom As Integer, _
+                                                        ByVal MaxRecords As Integer, _
+                                                        ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataSet ' Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
         Me.OpenConnection()
         Try
             Dim oCommand As SqlClient.SqlCommand
@@ -290,10 +295,40 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End Try
     End Function
 
-    Public Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, _
+    Public Overloads Overrides Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, _
+                                                                  ByRef ListReturnedValues As System.Collections.Generic.Dictionary(Of String, Object), _
+                                                                  ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataSet
+        Me.OpenConnection()
+        Try
+            Dim oCommand As SqlClient.SqlCommand
+
+            oCommand = CType(GetNewCommand(), SqlClient.SqlCommand)
+            oCommand.CommandType = CommandType.StoredProcedure
+            oCommand.CommandText = StoredProcedureName
+            oCommand.Connection = Me.GetOpenConnection
+            Me.CastParameterArray(Parameters, oCommand.Parameters)
+
+            Dim ds As DataSet = GetDataSet(oCommand)
+
+            For Each p As SqlClient.SqlParameter In oCommand.Parameters
+                If p.Direction = ParameterDirection.Output OrElse p.Direction = ParameterDirection.InputOutput Then
+                    ListReturnedValues.Add(p.ParameterName, p.Value)
+                End If
+            Next
+            Return ds
+        Catch ex As Exception
+
+            Throw ex
+        Finally
+            Me.CloseConnection()
+        End Try
+    End Function
+
+
+    Public Overrides Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, _
                                               ByVal params As System.Data.Common.DbParameterCollection, _
                                               ByVal RowFrom As Integer, _
-                                              ByVal MaxRecords As Integer) As System.Data.DataSet Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
+                                              ByVal MaxRecords As Integer) As System.Data.DataSet ' Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataSet
         Me.OpenConnection()
         Try
             Dim oCommand As SqlClient.SqlCommand
@@ -312,21 +347,32 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End Try
     End Function
 
+    Public Overloads Overrides Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, _
+                                                                    ByRef ListReturnedValues As System.Collections.Generic.Dictionary(Of String, Object), _
+                                                                    ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataTable
 
-    Public Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, _
-                                                ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataTable Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
+        Dim ds As DataSet = GetStoredProcedureDataSet(StoredProcedureName, ListReturnedValues, Parameters)
+
+        If Not ds Is Nothing AndAlso ds.Tables.Count > 0 Then
+            Return ds.Tables(0)
+        Else
+            Return Nothing
+        End If
+    End Function
+    Public Overrides Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, _
+                                                ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataTable ' Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
         Return GetStoredProcedureDataTable(StoredProcedureName, 0, 0, Parameters)
     End Function
 
-    Public Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, _
-                                                ByVal params As System.Data.Common.DbParameterCollection) As System.Data.DataTable Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
+    Public Overrides Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, _
+                                                ByVal params As System.Data.Common.DbParameterCollection) As System.Data.DataTable ' Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
         Return GetStoredProcedureDataTable(StoredProcedureName, params, 0, 0)
     End Function
 
-    Public Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, _
+    Public Overrides Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, _
                                                 ByVal RowFrom As Integer, _
                                                 ByVal MaxRecords As Integer, _
-                                                ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataTable Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
+                                                ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataTable ' Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
         Dim ds As DataSet = GetStoredProcedureDataSet(StoredProcedureName, RowFrom, MaxRecords, Parameters)
         If Not ds Is Nothing AndAlso ds.Tables.Count > 0 Then
             Return ds.Tables(0)
@@ -336,9 +382,9 @@ Public NotInheritable Class SQLDBrainWorkConnection
 
     End Function
 
-    Public Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, _
+    Public Overrides Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, _
                                                 ByVal params As System.Data.Common.DbParameterCollection, _
-                                                ByVal RowFrom As Integer, ByVal MaxRecords As Integer) As System.Data.DataTable Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
+                                                ByVal RowFrom As Integer, ByVal MaxRecords As Integer) As System.Data.DataTable ' Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
         Dim ds As DataSet = GetStoredProcedureDataSet(StoredProcedureName, params, RowFrom, MaxRecords)
         If Not ds Is Nothing AndAlso ds.Tables.Count > 0 Then
             Return ds.Tables(0)
@@ -426,7 +472,7 @@ Public NotInheritable Class SQLDBrainWorkConnection
         Return True
     End Function
 
-    Public Function GetTable(ByVal TableName As String) As System.Data.DataTable Implements Interfaces.IDBrainWorkConnection.GetTable
+    Public Overrides Function GetTable(ByVal TableName As String) As System.Data.DataTable ' Implements Interfaces.IDBrainWorkConnection.GetTable
 
         Dim pc(0) As SqlClient.SqlParameter
         pc(0) = New SqlClient.SqlParameter("TABLE_NAME", SqlDbType.VarChar, 500, ParameterDirection.Input)
@@ -443,16 +489,24 @@ Public NotInheritable Class SQLDBrainWorkConnection
 
     End Function
 
-    Public Function GetTable(ByVal TableName As String, ByVal RowFrom As Integer, ByVal MaxRecords As Integer) As System.Data.DataTable Implements Interfaces.IDBrainWorkConnection.GetTable
+    Public Overrides Function GetTable(ByVal TableName As String, ByVal RowFrom As Integer, ByVal MaxRecords As Integer) As System.Data.DataTable ' Implements Interfaces.IDBrainWorkConnection.GetTable
         Dim p As New SqlClient.SqlParameter
         p.ParameterName = "TABLE_NAME"
         p.Value = TableName
         Return GetStoredProcedureDataTable("aux_GetTable", p)
     End Function
 
+    Public Overloads Overrides Function GetTable(ByVal TableName As String, ByRef ListReturnedValues As System.Collections.Generic.Dictionary(Of String, Object)) As System.Data.DataTable
+        Dim p As New SqlClient.SqlParameter
+        p.ParameterName = "TABLE_NAME"
+        p.Value = TableName
+        Dim Dt As DataTable = GetStoredProcedureDataTable("aux_GetTable", ListReturnedValues, p)
+        Return Dt
+    End Function
 
 
-    Public Sub OpenConnection() Implements Interfaces.IDBrainWorkConnection.OpenConnection
+
+    Protected Overrides Sub OpenConnection() ' Implements Interfaces.IDBrainWorkConnection.OpenConnection
         Try
             If IsInTransaction Then
                 Me.BeginTransaction()
@@ -508,10 +562,10 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End Try
     End Sub
 
-    Public Sub RollBackTransaction() Implements Interfaces.IDBrainWorkConnection.RollBackTransaction
-        TransactionManager(enumTransaction.Rollback)
-    End Sub
-    Public Overloads Sub BeginTransaction() Implements Interfaces.IDBrainWorkConnection.BeginTransaction
+
+
+
+    Protected Overrides Sub BeginTransaction_Internal()
         If Me.TransactionCounter = 0 Then 'es la primera transacción
             TransactionManager(enumTransaction.Start)
         Else
@@ -519,17 +573,25 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End If
     End Sub
 
-    Public Sub CloseConnection() Implements Interfaces.IDBrainWorkConnection.CloseConnection
-        If IsInTransaction Then
-            Me.CommitTransaction()
-        Else
-            Me.Close()
-        End If
-    End Sub
-
-    Public Sub CommitTransaction() Implements Interfaces.IDBrainWorkConnection.CommitTransaction
+    Protected Overrides Sub CommitTransaction_Internal()
         TransactionManager(enumTransaction.Commit)
     End Sub
+
+    Protected Overrides Sub RollBackTransaction_Internal()
+        TransactionManager(enumTransaction.Rollback)
+    End Sub
+
+    'Protected Overrides Sub CloseConnection() ' Implements Interfaces.IDBrainWorkConnection.CloseConnection
+    '    If IsInTransaction Then
+    '        Me.CommitTransaction()
+    '    Else
+    '        Me.Close()
+    '    End If
+    'End Sub
+
+    'Private Sub CommitTransaction() ' Implements Interfaces.IDBrainWorkConnection.CommitTransaction
+
+    'End Sub
 
 
     Private Sub TransactionManager(ByVal TransactionAction As enumTransaction)
@@ -564,28 +626,28 @@ Public NotInheritable Class SQLDBrainWorkConnection
 
     End Sub
 
-    Public ReadOnly Property TransactionCount() As Integer Implements Interfaces.IDBrainWorkConnection.TransactionCount
+    Public Overrides ReadOnly Property TransactionCount() As Integer ' Implements Interfaces.IDBrainWorkConnection.TransactionCount
         Get
             Return Me.TransactionCounter
         End Get
     End Property
 
 
-    <Obsolete("Este método no debe ser utilzado")> _
-    Private Function BeginTransactionFUnction() As System.Data.IDbTransaction Implements System.Data.IDbConnection.BeginTransaction
-        Return Nothing
-    End Function
+    '<Obsolete("Este método no debe ser utilzado")> _
+    'Private Function BeginTransactionFunction() As System.Data.IDbTransaction Implements System.Data.IDbConnection.BeginTransaction
+    '    Return Nothing
+    'End Function
 
-    <Obsolete("Este método no debe ser utilzado")> _
-    Private Function BeginTransactionIsolation(ByVal il As System.Data.IsolationLevel) As System.Data.IDbTransaction Implements System.Data.IDbConnection.BeginTransaction
-        Return Nothing
-    End Function
+    '<Obsolete("Este método no debe ser utilzado")> _
+    'Private Function BeginTransactionIsolation(ByVal il As System.Data.IsolationLevel) As System.Data.IDbTransaction ' Implements System.Data.IDbConnection.BeginTransaction
+    '    Return Nothing
+    'End Function
 
-    Public Sub ChangeDatabase(ByVal databaseName As String) Implements System.Data.IDbConnection.ChangeDatabase
+    Protected Overrides Sub ChangeDatabase(ByVal databaseName As String) ' Implements System.Data.IDbConnection.ChangeDatabase
         Me.oConnection.ChangeDatabase(databaseName)
     End Sub
 
-    Public Sub Close() Implements System.Data.IDbConnection.Close
+    Protected Overrides Sub CloseConnection() ' Implements System.Data.IDbConnection.Close
         If IsInTransaction Then
             Return
         End If
@@ -595,7 +657,7 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End If
     End Sub
 
-    Public Property ConnectionString() As String Implements System.Data.IDbConnection.ConnectionString
+    Protected Overrides Property ConnectionString() As String ' Implements System.Data.IDbConnection.ConnectionString
         Get
 
             Return BrainWork.Connections.Configuration.GetConnectionString(Me.ApplicationUser)
@@ -605,54 +667,92 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End Set
     End Property
 
-    Public ReadOnly Property ConnectionTimeout() As Integer Implements System.Data.IDbConnection.ConnectionTimeout
+    Protected Overrides ReadOnly Property ConnectionTimeout() As Integer ' Implements System.Data.IDbConnection.ConnectionTimeout
         Get
             Return Me.oConnection.ConnectionTimeout
         End Get
     End Property
 
-    Public Function CreateCommand() As System.Data.IDbCommand Implements System.Data.IDbConnection.CreateCommand
+    Protected Overrides Function CreateCommand() As System.Data.IDbCommand ' Implements System.Data.IDbConnection.CreateCommand
         Return oConnection.CreateCommand
     End Function
 
-    Public ReadOnly Property Database() As String Implements System.Data.IDbConnection.Database
+    Public Overrides ReadOnly Property Database() As String ' Implements System.Data.IDbConnection.Database
         Get
             Return oConnection.Database
         End Get
     End Property
 
-    Public Sub Open() Implements System.Data.IDbConnection.Open
-        Me.oConnection.Open()
-    End Sub
+    'Protected Overrides Sub OpenConnection() ' Implements System.Data.IDbConnection.Open
+    '    Me.oConnection.Open()
+    'End Sub
 
-    Public ReadOnly Property State() As System.Data.ConnectionState Implements System.Data.IDbConnection.State
+    Public Overrides ReadOnly Property State() As System.Data.ConnectionState ' Implements System.Data.IDbConnection.State
         Get
             Return oConnection.State
         End Get
     End Property
+    Private Function GetDbType(ByVal name As String) As DbType
 
 
-
-    Public Function GetStoredProcedureInfo(ByVal SpName As String) As System.Collections.Generic.List(Of System.Data.IDbDataParameter) Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureInfo
-        Dim ds As New DataSet
-        ds = Me.ExecuteStringDataSet("EXEC sp_help " & SpName)
-        Dim list As System.Collections.Generic.List(Of System.Data.IDbDataParameter)
-        If Not ds Is Nothing AndAlso ds.Tables.Count >= 2 Then
-            list = New System.Collections.Generic.List(Of System.Data.IDbDataParameter)
-            For Each dr As DataRow In ds.Tables(1).Select("", "Param_order")
-                Dim l As IDbDataParameter = New System.Data.OleDb.OleDbParameter
-                l.DbType = dr("Type")
-                l.Direction = ParameterDirection.Input
-                l.ParameterName = dr("Parameter_name").ToString
-                l.Size = CInt(dr("Length"))
-                list.Add(l)
-            Next
-
+        If name.ToLower.Contains("byte") Then
+            Return DbType.Byte
         End If
+        ' default value
+        Dim val As DbType = DbType.String
+        Try
+            val = DirectCast([Enum].Parse(GetType(DbType), name, True), DbType)
+        Catch generatedExceptionName As Exception
+            Throw generatedExceptionName
+        End Try
+        Return val
+    End Function
+
+
+    Protected Overrides Function GetStoredProcedureInfo_Internal(ByVal SpName As String) As  _
+                                 System.Collections.Generic.List(Of System.Data.IDbDataParameter) ' Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureInfo
+
+        Dim list As New System.Collections.Generic.List(Of System.Data.IDbDataParameter)
+
+        Try
+
+            Me.OpenConnection()
+            Dim cb As New System.Data.SqlClient.SqlCommandBuilder
+            Dim cmd As SqlClient.SqlCommand = Me.CreateCommand
+            cmd.CommandText = SpName
+            cmd.CommandType = CommandType.StoredProcedure
+            System.Data.SqlClient.SqlCommandBuilder.DeriveParameters(cmd)
+            For Each p As System.Data.SqlClient.SqlParameter In cmd.Parameters
+
+                list.Add(CType(p, System.Data.IDbDataParameter))
+            Next
+        Catch ex As Exception
+            Throw ex
+        Finally
+            Me.CloseConnection()
+        End Try
+
+
+        'Dim ds As New DataSet
+        'ds = Me.ExecuteStringDataSet("EXEC sp_help " & SpName)
+        'Dim list As System.Collections.Generic.List(Of System.Data.IDbDataParameter)
+        'If Not ds Is Nothing AndAlso ds.Tables.Count >= 2 Then
+        '    list = New System.Collections.Generic.List(Of System.Data.IDbDataParameter)
+        '    For Each dr As DataRow In ds.Tables(1).Select("", "Param_order")
+        '        Dim l As New System.Data.SqlClient.SqlParameter
+
+        '        l.DbType = GetDbType(dr("Type"))
+        '        l.Direction = ParameterDirection.Input
+        '        l.ParameterName = dr("Parameter_name").ToString
+        '        l.Size = CInt(dr("Length"))
+        '        list.Add(CType(l, System.Data.IDbDataParameter))
+        '    Next
+
+        'End If
         Return list
     End Function
 
-    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String) As System.Data.IDataReader Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
+    Public Overrides Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String) As System.Data.IDataReader ' Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
         Me.OpenConnection()
         Try
             Dim oCommand As SqlClient.SqlCommand
@@ -672,9 +772,9 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End Try
     End Function
 
-    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, _
+    Public Overrides Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, _
                                                  ByVal RowFrom As Integer, _
-                                                 ByVal MaxRecords As Integer) As System.Data.IDataReader Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
+                                                 ByVal MaxRecords As Integer) As System.Data.IDataReader ' Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
         Me.OpenConnection()
         Try
             Dim oCommand As SqlClient.SqlCommand
@@ -684,9 +784,7 @@ Public NotInheritable Class SQLDBrainWorkConnection
             oCommand.CommandText = StoredProcedureName
             oCommand.Connection = Me.GetOpenConnection
 
-            If Not Me.HasStandarParametersSettings(oCommand, RowFrom, MaxRecords) Then
-                Throw New Exceptions.ExceptionHasStandarParametersSettings
-            End If
+
 
             Return oCommand.ExecuteReader()
 
@@ -698,10 +796,7 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End Try
     End Function
 
-    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, _
-                                                 ByVal RowFrom As Integer, _
-                                                 ByVal MaxRecords As Integer, _
-                                                 ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.IDataReader Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
+    Public Overloads Overrides Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.IDataReader
         Me.OpenConnection()
         Try
             Dim oCommand As SqlClient.SqlCommand
@@ -721,10 +816,64 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End Try
     End Function
 
-    Public Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, _
+    Public Overrides Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, _
+                                                 ByVal RowFrom As Integer, _
+                                                 ByVal MaxRecords As Integer, _
+                                                 ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.IDataReader ' Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
+        Me.OpenConnection()
+        Try
+            Dim oCommand As SqlClient.SqlCommand
+
+            oCommand = CType(GetNewCommand(), SqlClient.SqlCommand)
+            oCommand.CommandType = CommandType.StoredProcedure
+            oCommand.CommandText = StoredProcedureName
+            oCommand.Connection = Me.GetOpenConnection
+            Me.CastParameterArray(Parameters, oCommand.Parameters)
+
+            Return oCommand.ExecuteReader()
+        Catch ex As Exception
+
+            Throw ex
+        Finally
+            Me.CloseConnection()
+        End Try
+    End Function
+
+    Public Overloads Overrides Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, _
+                                                                     ByRef ListReturnedValues As System.Collections.Generic.Dictionary(Of String, Object), _
+                                                                     ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.IDataReader
+        Me.OpenConnection()
+        Try
+            Dim oCommand As SqlClient.SqlCommand
+
+            oCommand = CType(GetNewCommand(), SqlClient.SqlCommand)
+            oCommand.CommandType = CommandType.StoredProcedure
+            oCommand.CommandText = StoredProcedureName
+            Me.CastParameterArray(Parameters, oCommand.Parameters)
+
+
+
+            Dim dr As System.Data.SqlClient.SqlDataReader = oCommand.ExecuteReader()
+
+            For Each p As SqlClient.SqlParameter In oCommand.Parameters
+                If p.Direction = ParameterDirection.Output OrElse p.Direction = ParameterDirection.InputOutput Then
+                    ListReturnedValues.Add(p.ParameterName, p.Value)
+                End If
+            Next
+
+            Return dr
+
+        Catch ex As Exception
+            Throw ex
+        Finally
+            Me.CloseConnection()
+        End Try
+    End Function
+
+    Public Overrides Function GetStoredProcedureDataReader(ByVal StoredProcedureName As String, _
                                                  ByVal params As System.Data.Common.DbParameterCollection, _
                                                  ByVal RowFrom As Integer, _
-                                                 ByVal MaxRecords As Integer) As System.Data.IDataReader Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
+                                                 ByVal MaxRecords As Integer) As System.Data.IDataReader ' Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataReader
         Me.OpenConnection()
         Try
             Dim oCommand As SqlClient.SqlCommand
@@ -766,14 +915,49 @@ Public NotInheritable Class SQLDBrainWorkConnection
 
 
     ' This code added by Visual Basic to correctly implement the disposable pattern.
-    Public Sub Dispose() Implements IDisposable.Dispose
+    Public Sub Dispose() ' Implements IDisposable.Dispose
         ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
         Dispose(True)
         GC.SuppressFinalize(Me)
     End Sub
 #End Region
 
-    Public Function GetNewParameter1() As System.Data.IDbDataParameter Implements Interfaces.IDBrainWorkConnection.GetNewParameter
-        Return New SqlClient.SqlParameter
+
+    Private Function GetSqlDBType(ByVal theType As Type) As SqlDbType
+
+        If theType.Name.ToLower.Contains("byte") Then
+            Return SqlDbType.Binary
+        End If
+
+
+        Dim p1 As SqlClient.SqlParameter
+        Dim tc As System.ComponentModel.TypeConverter
+        p1 = New SqlClient.SqlParameter()
+        tc = System.ComponentModel.TypeDescriptor.GetConverter(p1.DbType)
+        If tc.CanConvertFrom(theType) Then
+            p1.DbType = tc.ConvertFrom(theType.Name)
+        Else
+            'Try brute force
+            Try
+                p1.DbType = tc.ConvertFrom(theType.Name)
+            Catch ex As Exception
+                'Do Nothing
+            End Try
+        End If
+        Return p1.SqlDbType
+
     End Function
+
+
+
+
+
+
+
+
+    Public Overrides Sub SanitizeParameterName(ByRef p As System.Data.IDbDataParameter)
+        If p.ParameterName.StartsWith("@"c) = False Then
+            p.ParameterName = "@" & p.ParameterName
+        End If
+    End Sub
 End Class

@@ -73,7 +73,9 @@
     <Compile Include="Configuration.vb" />
     <Compile Include="ConnectionTypeEnum.vb" />
     <Compile Include="Exceptions\ExceptionHasStandarParametersSettings.vb" />
+    <Compile Include="GenericEventArgs.vb" />
     <Compile Include="Interfaces\IDBrainWorkConnection.vb" />
+    <Compile Include="ModifyQueryEventArgs.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

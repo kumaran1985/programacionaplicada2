@@ -1,4 +1,6 @@
-﻿Namespace Exceptions
+﻿
+Namespace Exceptions
+    <Serializable()> _
     Public Class ExceptionNotSetedStored
         Inherits BrainWork.TrunkLibrary.Exceptions.ExceptionBase
         Public Sub New()

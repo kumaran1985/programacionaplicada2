@@ -1,10 +1,12 @@
 Option Strict On
 Option Explicit On
+
 <System.AttributeUsage(System.AttributeTargets.Property, AllowMultiple:=False), System.Serializable()> _
 Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
     Implements Interfaces.IEntityFieldExtendsAttribute
 
-    Private _DefaultValue As Object
+
+    Private _DefaultValue As String
     Private _ForeingTable As String
     Private _IsForeingKey As Boolean
     Private _FieldType As EnumFieldType
@@ -27,7 +29,7 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
     Private _MinValue As Double
 
     Private _CustomValidationExpression As String
-    Private _ForeingCRUD As Object
+    Private _ForeingCRUD As String
     Private _Order As Integer
     Private _RelationType As EnumRelationType = EnumRelationType.TextBox
     Private _Visibility As EnumVisibility = EnumVisibility.Normal
@@ -35,8 +37,19 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
     Private _EntityClassContainer As String
     Private _IsDescription As Boolean
     Private _ForeingFieldName As String
-    Private _DefaultOrderBy As Boolean
+    Private _IsDefaultOrderBy As Boolean
 
+    Private _PropertyName As String
+
+
+    Public Property PropertyName() As String Implements Interfaces.IEntityFieldExtendsAttribute.PropertyName
+        Get
+            Return _PropertyName
+        End Get
+        Set(ByVal value As String)
+            _PropertyName = value
+        End Set
+    End Property
 
     Public ReadOnly Property IsPK() As Boolean
         Get
@@ -90,11 +103,11 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
         End Set
     End Property
 
-    Public Property DefaultValue() As Object Implements Interfaces.IEntityFieldExtendsAttribute.DefaultValue
+    Public Property DefaultValue() As String Implements Interfaces.IEntityFieldExtendsAttribute.DefaultValue
         Get
             Return _DefaultValue
         End Get
-        Set(ByVal value As Object)
+        Set(ByVal value As String)
             _DefaultValue = value
         End Set
     End Property
@@ -221,11 +234,11 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
         End Set
     End Property
 
-    Public Property ForeingCRUD() As Object Implements Interfaces.IEntityFieldExtendsAttribute.ForeingCRUD
+    Public Property ForeingCRUD() As String Implements Interfaces.IEntityFieldExtendsAttribute.ForeingCRUD
         Get
             Return _ForeingCRUD
         End Get
-        Set(ByVal value As Object)
+        Set(ByVal value As String)
             _ForeingCRUD = value
         End Set
     End Property
@@ -304,12 +317,12 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
         End Set
     End Property
 
-    Public Property DefaultOrderBy() As Boolean Implements Entities.Interfaces.IEntityFieldExtendsAttribute.DefaultOrderBy
+    Public Property IsDefaultOrderBy() As Boolean Implements Entities.Interfaces.IEntityFieldExtendsAttribute.IsDefaultOrderBy
         Get
-            Return _DefaultOrderBy
+            Return _IsDefaultOrderBy
         End Get
         Set(ByVal value As Boolean)
-            _DefaultOrderBy = value
+            _IsDefaultOrderBy = value
         End Set
     End Property
 
@@ -322,4 +335,6 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
             _IsEnableField = value
         End Set
     End Property
+
+
 End Class

@@ -11,7 +11,7 @@
 
 
 
-        Property DefaultValue() As Object
+        Property DefaultValue() As String
 
         Property MainTable() As String
 
@@ -19,7 +19,7 @@
 
         Property RelationType() As EnumRelationType
 
-        Property ForeingCRUD() As Object
+        Property ForeingCRUD() As String
 
         Property Order() As Integer
 
@@ -39,12 +39,13 @@
 
         Property ForeingFieldName() As String
 
-        Property DefaultOrderBy() As Boolean
+        Property IsDefaultOrderBy() As Boolean
 
         Property IsEnableField() As Boolean
 
 
 
+        Property PropertyName() As String
 
 
 
