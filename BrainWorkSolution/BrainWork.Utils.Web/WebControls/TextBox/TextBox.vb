@@ -9,7 +9,13 @@ Imports System.Web.UI.WebControls
 Namespace WebControls
     <Serializable()> _
     <DefaultProperty("Text"), ToolboxData("<{0}:CustomTextBox runat=server></{0}:CustomTextBox>")> _
+    <ValidationProperty("Text")> _
     Public Class CustomTextBox : Inherits System.Web.UI.WebControls.WebControl
+        Implements System.Web.UI.WebControls.IPostBackContainer
+        Implements System.Web.UI.IValidator
+        Implements System.Web.UI.IPostBackDataHandler
+        Implements System.Web.UI.IPostBackEventHandler
+
 
 
         Implements BrainWork.Entities.Interfaces.IEntityFieldExtendsAttribute
@@ -556,17 +562,47 @@ Namespace WebControls
 
 
 
-            
+
 
 
         End Sub
 
 
         Protected Overrides Sub RenderContents(ByVal writer As HtmlTextWriter)
- 
+
             renderizarControl(writer)
 
+            writer.Flush()
+
+
+            Dim rfv As New RequiredFieldValidator
+            rfv.ID = Me.ClientID & "_rfv"
+            rfv.ErrorMessage = "*"
+
+            rfv.ControlToValidate = GetControlID()
+            rfv.Display = ValidatorDisplay.Dynamic
+            rfv.EnableClientScript = True
+            rfv.Enabled = True
+            rfv.EnableTheming = True
+            rfv.EnableViewState = True
+            'rfv.Style.Add("visibility", "hidden")
+
+
+
+            For Each Ctrli As Control In Page.Controls
+                If TypeOf Ctrli Is System.Web.UI.HtmlControls.HtmlForm Then
+                    Ctrli.Controls.Add(rfv)
+                End If
+
+            Next
+
         End Sub
+
+        '<System.Security.Permissions.PermissionSetAttribute(System.Security.Permissions.SecurityAction.Demand, Name:="FullTrust")> _
+        'Protected Overrides Sub RenderContents(ByVal writer As HtmlTextWriter)
+        '    writer.Write("Custom Contents")
+        '    MyBase.RenderContents(writer)
+        'End Sub 'RenderContents
 
 
         Private Sub PutTextType(ByRef writer As Html32TextWriter)
@@ -599,20 +635,36 @@ Namespace WebControls
 
         End Sub
 
+        Private Function GetControlID() As String
+            Return Me.ClientID & "_Value"
+        End Function
+
         Private Sub CreateTextBox(ByRef writer As HtmlTextWriter)
-            '<object  
-            writer.WriteBeginTag("input")
 
-            'classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
-            writer.WriteAttribute("type", "text")
+            Dim Ctrl As New TextBox
 
-            writer.WriteAttribute("class", Me.CssClass)
+            Ctrl.ID = GetControlID()
+            Ctrl.Text = Me.Text
 
-            writer.WriteAttribute("id", Me.ClientID)
+            Ctrl.RenderControl(writer)
+            Ctrl.CausesValidation = True
 
-            AppendOnBlur(writer)
+             
+            ''<object  
+            'writer.WriteBeginTag("input")
 
-            writer.Write(System.Web.UI.HtmlTextWriter.SelfClosingTagEnd)
+            ''classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
+            'writer.WriteAttribute("type", "text")
+
+            'writer.WriteAttribute("class", Me.CssClass)
+
+            'writer.WriteAttribute("id", Me.ClientID & "_Value")
+
+            'writer.WriteAttribute("value", Me.Text)
+
+            'AppendOnBlur(writer)
+
+            'writer.Write(System.Web.UI.HtmlTextWriter.SelfClosingTagEnd)
 
         End Sub
 
@@ -741,8 +793,83 @@ Namespace WebControls
 
         End Sub
 
+        Private Sub CustomTextBox_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+           
+        End Sub
 
-         
+
+
+        Private Sub CustomTextBox_PreRender(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.PreRender
+            If Me.Page.IsPostBack Then
+                If Not System.Web.HttpContext.Current.Request.Form(GetControlID) Is Nothing Then
+                    Me.Text = System.Web.HttpContext.Current.Request.Form(GetControlID)
+                End If
+            End If
+            
+        End Sub
+
+        Public Sub New()
+
+        End Sub
+
+        Public Function GetPostBackOptions(ByVal buttonControl As System.Web.UI.WebControls.IButtonControl) As System.Web.UI.PostBackOptions Implements System.Web.UI.WebControls.IPostBackContainer.GetPostBackOptions
+
+        End Function
+
+        Private _ErrorMessage As String = ""
+        Public Property ErrorMessage() As String Implements System.Web.UI.IValidator.ErrorMessage
+            Get
+                Return _ErrorMessage
+            End Get
+            Set(ByVal value As String)
+                _ErrorMessage = value
+            End Set
+        End Property
+
+        Private _IsValid As Boolean = True
+        Public Property IsValid() As Boolean Implements System.Web.UI.IValidator.IsValid
+            Get
+                Return _IsValid
+            End Get
+            Set(ByVal value As Boolean)
+                _IsValid = value
+            End Set
+        End Property
+
+        Public Sub Validate() Implements System.Web.UI.IValidator.Validate
+
+        End Sub
+
+        Public Event TextChanged As EventHandler
+
+
+        Public Function LoadPostData(ByVal postDataKey As String, ByVal postCollection As System.Collections.Specialized.NameValueCollection) As Boolean Implements System.Web.UI.IPostBackDataHandler.LoadPostData
+            Dim presentValue As String = Text
+            Dim postedValue As String = postCollection(postDataKey)
+
+            If presentValue Is Nothing Or Not presentValue.Equals(postedValue) Then
+                Text = postedValue
+                Return True
+            End If
+
+            Return False
+
+        End Function
+
+        
+        Protected Overridable Sub OnTextChanged(ByVal e As EventArgs)
+            RaiseEvent TextChanged(Me, e)
+        End Sub
+
+
+
+        Public Overridable Shadows Sub RaisePostDataChangedEvent() Implements System.Web.UI.IPostBackDataHandler.RaisePostDataChangedEvent
+            OnTextChanged(EventArgs.Empty)
+        End Sub
+
+        Public Sub RaisePostBackEvent(ByVal eventArgument As String) Implements System.Web.UI.IPostBackEventHandler.RaisePostBackEvent
+
+        End Sub
     End Class
 End Namespace
 
