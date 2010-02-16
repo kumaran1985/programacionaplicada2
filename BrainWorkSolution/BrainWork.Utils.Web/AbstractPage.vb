@@ -2,6 +2,28 @@
 
 Public Class AbstractPage
     Inherits System.Web.UI.Page
+    Public Enum EnumABMLMode
+        Lista
+        Alta
+        Baja
+        Modificacion
+        Reporte
+    End Enum
+
+
+    Protected Property Mode() As EnumABMLMode
+        Get
+            If ViewState("_Mode") Is Nothing Then
+                ViewState("_Mode") = EnumABMLMode.Lista
+            End If
+
+            Return CType(ViewState("_Mode"), EnumABMLMode)
+        End Get
+        Set(ByVal value As EnumABMLMode)
+            ViewState("_Mode") = value
+        End Set
+    End Property
+
 
     Protected Property CurrentUser() As BrainWork.Security.ApplicationUser
         Get
