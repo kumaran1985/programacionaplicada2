@@ -9,9 +9,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Untitled Page</title>
+    <script language="javascript">
+    
+    
+    </script>
+    <link href="Styles/StyleSheet.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <form id="form1" runat="server">
+    
+    
+    <input type="text" name="prueba" id="prueba" value="sds" />
+    
     <div>
     
     <cc1:CustomTextBox 
@@ -80,7 +89,7 @@
         FieldDescription="Currency name. - Unique nonclustered index." 
         FieldType="Field" 
         MainTable="[Sales].[Currency]" 
-        DbType="String" 
+        DbType="Int32" 
  
         ParameterName="Name" 
         SourceColumn="Name" 
@@ -112,10 +121,9 @@
     
         <br />
         <br />
+        
         <br />
         <br />
-        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" 
-            ControlToValidate="_CurrencyCode" ErrorMessage="RequiredFieldValidator"></asp:RequiredFieldValidator>
         <br />
 
        
