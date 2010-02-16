@@ -5,7 +5,6 @@ Option Explicit On
 Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
     Implements Interfaces.IEntityFieldExtendsAttribute
 
-
     Private _DefaultValue As String
     Private _ForeingTable As String
     Private _IsForeingKey As Boolean
@@ -336,5 +335,13 @@ Public Class EntityFieldExtendsAttribute : Inherits System.Attribute
         End Set
     End Property
 
-
+    Private _Label As String
+    Public Property Label() As String Implements Interfaces.IEntityFieldExtendsAttribute.Label
+        Get
+            Return _Label
+        End Get
+        Set(ByVal value As String)
+            _Label = value
+        End Set
+    End Property
 End Class
