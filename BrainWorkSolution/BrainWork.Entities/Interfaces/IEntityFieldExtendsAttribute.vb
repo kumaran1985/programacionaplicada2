@@ -47,6 +47,7 @@
 
         Property PropertyName() As String
 
+        Property Label() As String
 
 
 
