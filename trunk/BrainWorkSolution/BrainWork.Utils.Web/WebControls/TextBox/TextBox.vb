@@ -41,7 +41,7 @@ Namespace WebControls
         Private _EntityClassContainer As String
         Private _TypeName As String
 
-        Private _OnBlur As List(Of String)
+        Private _OnBlur As String = ""
 
         Private _CustomValidationExpression As String
         Private _ForeingCRUD As String
@@ -370,22 +370,68 @@ Namespace WebControls
                 _LabelText = Value
             End Set
         End Property
+        '
+        Dim _OnKeyPress As String = ""
+        <Bindable(True), Category("Appearance"), DefaultValue(""), Localizable(True)> Property OnKeyPress() As String
 
-        <Bindable(True), Category("Appearance"), DefaultValue(""), Localizable(True)> ReadOnly Property OnBlur() As List(Of String)
+            Get
+                If Me._OnKeyPress Is Nothing Then
+                    Me._OnKeyPress = ""
+                End If
+                Return Me._OnKeyPress
+            End Get
+            Set(ByVal value As String)
+                Me._OnKeyPress += value & ";"
+            End Set
+        End Property
+
+        <Bindable(True), Category("Appearance"), DefaultValue(""), Localizable(True)> Property OnBlur() As String
+
             Get
                 If Me._OnBlur Is Nothing Then
-                    Me._OnBlur = New List(Of String)
+                    Me._OnBlur = ""
                 End If
                 Return Me._OnBlur
             End Get
+            Set(ByVal value As String)
+                Me._OnBlur += value & ";"
+            End Set
+        End Property
+
+
+        Private _OnFocus As String = ""
+        <Bindable(True), Category("Appearance"), DefaultValue(""), Localizable(True)> Property OnFocus() As String
+            Get
+                If Me._OnFocus Is Nothing Then
+                    Me._OnFocus = ""
+                End If
+                Return Me._OnFocus
+            End Get
+            Set(ByVal value As String)
+                Me._OnFocus += value & ";"
+            End Set
         End Property
 
 
 
+        '
+        <Bindable(True), Category("Appearance"), DefaultValue("CssClassCalendar"), Localizable(True)> Property CssClassCalendar() As String
+            Get
+                Dim s As String = TryCast(ViewState("_CssClassCalendar"), String)
+                If s Is Nothing Then
+                    Return "CssClassCalendar"
+                Else
+                    Return s
+                End If
+            End Get
+            Set(ByVal value As String)
+                ViewState("_CssClassCalendar") = value
+            End Set
+        End Property
 
         <Bindable(True), Category("Appearance"), DefaultValue("CustomTextBox"), Localizable(True)> Overrides Property CssClass() As String
             Get
-                Dim s As String = TryCast(ViewState("_CssClass"), String)
+                Dim s As String = TryCast(ViewState("_CustomTextBox"), String)
                 If s Is Nothing Then
                     Return "CustomTextBox"
                 Else
@@ -393,13 +439,41 @@ Namespace WebControls
                 End If
             End Get
             Set(ByVal value As String)
-                ViewState("_CssClass") = value
+                ViewState("_CustomTextBox") = value
             End Set
         End Property
 
-        <Bindable(True), Category("Appearance"), DefaultValue("CustomTextBoxLabel"), Localizable(True)> Property LabelCssClass() As String
+        <Bindable(True), Category("Appearance"), DefaultValue("CustomTextBoxOnFocus"), Localizable(True)> Property CssClassOnFocus() As String
             Get
-                Dim s As String = TryCast(ViewState("_LabelCssClass"), String)
+                Dim s As String = TryCast(ViewState("_CustomTextBoxOnFocus"), String)
+                If s Is Nothing Then
+                    Return "CustomTextBoxOnFocus"
+                Else
+                    Return s
+                End If
+            End Get
+            Set(ByVal value As String)
+                ViewState("_CustomTextBoxOnFocus") = value
+            End Set
+        End Property
+
+        <Bindable(True), Category("Appearance"), DefaultValue("CustomTextBoxNumeric"), Localizable(True)> Property CssClassNumeric() As String
+            Get
+                Dim s As String = TryCast(ViewState("_CustomTextBoxNumeric"), String)
+                If s Is Nothing Then
+                    Return "CustomTextBoxNumeric"
+                Else
+                    Return s
+                End If
+            End Get
+            Set(ByVal value As String)
+                ViewState("_CustomTextBoxNumeric") = value
+            End Set
+        End Property
+
+        <Bindable(True), Category("Appearance"), DefaultValue("CustomTextBoxLabel"), Localizable(True)> Property CssClassLabel() As String
+            Get
+                Dim s As String = TryCast(ViewState("_CustomTextBoxLabel"), String)
                 If s Is Nothing Then
                     Return "CustomTextBoxLabel"
                 Else
@@ -407,7 +481,7 @@ Namespace WebControls
                 End If
             End Get
             Set(ByVal value As String)
-                ViewState("_LabelCssClass") = value
+                ViewState("_CustomTextBoxLabel") = value
             End Set
         End Property
 
@@ -572,29 +646,44 @@ Namespace WebControls
 
             renderizarControl(writer)
 
-            writer.Flush()
+            'writer.Flush()
 
 
-            Dim rfv As New RequiredFieldValidator
-            rfv.ID = Me.ClientID & "_rfv"
-            rfv.ErrorMessage = "*"
+            'Dim rfv As New RequiredFieldValidator
+            'rfv.ID = Me.ClientID & "_rfv"
+            'rfv.ErrorMessage = "*"
+            'rfv.Visible = True
+            'rfv.ControlToValidate = GetControlID()
+            'rfv.Display = ValidatorDisplay.Dynamic
+            'rfv.EnableClientScript = True
+            'rfv.Enabled = True
+            'rfv.EnableTheming = True
+            'rfv.EnableViewState = True
+            'rfv.Text = "*"
+            'rfv.ToolTip = rfv.ErrorMessage
+            ''rfv.Style.Add("visibility", "hidden")
+            'writer.Flush()
 
-            rfv.ControlToValidate = GetControlID()
-            rfv.Display = ValidatorDisplay.Dynamic
-            rfv.EnableClientScript = True
-            rfv.Enabled = True
-            rfv.EnableTheming = True
-            rfv.EnableViewState = True
-            'rfv.Style.Add("visibility", "hidden")
+            'rfv.RenderControl(writer)
+
+            ' rf = New RequiredFieldValidator
+            ' rf.Display = ValidatorDisplay.Dynamic
+            ' rf.ErrorMessage = "You must enter a value"
+
+            ' rf.ControlToValidate = "txt" + intX.ToString
+            'rf.EnableClientScript = True
+            'rf.Enabled = True
+            'rf.EnableViewState = True
 
 
 
-            For Each Ctrli As Control In Page.Controls
-                If TypeOf Ctrli Is System.Web.UI.HtmlControls.HtmlForm Then
-                    Ctrli.Controls.Add(rfv)
-                End If
 
-            Next
+            'For Each Ctrli As Control In Page.Controls
+            '    If TypeOf Ctrli Is System.Web.UI.HtmlControls.HtmlForm Then
+            '        Ctrli.Controls.Add(rfv)
+            '    End If
+
+            'Next
 
         End Sub
 
@@ -604,15 +693,22 @@ Namespace WebControls
         '    MyBase.RenderContents(writer)
         'End Sub 'RenderContents
 
+        Public Enum enumTextType
+            IntegerType
+            DoubleType
+            TextType
+            MultilineType
+            DateType
+        End Enum
 
-        Private Sub PutTextType(ByRef writer As Html32TextWriter)
+        Private Function GetTextType() As enumTextType
 
             Select Case True
                 Case (Me.DbType = Data.DbType.Currency) _
                      OrElse (Me.DbType = Data.DbType.Decimal) _
                      OrElse (Me.DbType = Data.DbType.Double) _
                      OrElse (Me.DbType = Data.DbType.VarNumeric)
-
+                    Return enumTextType.DoubleType
                 Case (Me.DbType = Data.DbType.Byte) _
                         OrElse (Me.DbType = Data.DbType.Int16) _
                         OrElse (Me.DbType = Data.DbType.Int32) _
@@ -620,36 +716,250 @@ Namespace WebControls
                         OrElse (Me.DbType = Data.DbType.UInt16) _
                         OrElse (Me.DbType = Data.DbType.UInt32) _
                         OrElse (Me.DbType = Data.DbType.UInt64)
-
+                    Return enumTextType.IntegerType
 
                 Case (Me.DbType = Data.DbType.Date) _
                         OrElse (Me.DbType = Data.DbType.DateTime) _
                         OrElse (Me.DbType = Data.DbType.DateTime2) _
                         OrElse (Me.DbType = Data.DbType.DateTimeOffset)
-
+                    Return enumTextType.DateType
                 Case Else
-
+                    Return enumTextType.TextType
 
 
             End Select
 
-        End Sub
+        End Function
 
         Private Function GetControlID() As String
             Return Me.ClientID & "_Value"
         End Function
 
+        Private Sub SetNumericInteger(ByRef ctrl As TextBox)
+            Me.OnFocus = "this.select()"
+            Me.OnFocus = "this.className = '" & Me.CssClassOnFocus & "'"
+            Me.OnBlur = "this.className = '" & Me.CssClassNumeric & "'"
+            Me.CssClass = CssClassNumeric
+
+            Dim sb As New System.Text.StringBuilder
+
+            sb.Append("	if(num=='')")
+            sb.Append("	{")
+            sb.Append("		alert('Número Inválido');	this.focus();	this.select(); return false;	")
+            sb.Append("	}")
+            sb.Append("	if(isNaN(num))")
+            sb.Append("	{")
+            sb.Append("		alert('Número Inválido');	this.focus();	this.select(); return false;")
+            sb.Append("	}")
+            sb.Append("	else")
+            sb.Append("	{")
+            sb.Append("				if(num.indexOf(',')>-1)")
+            sb.Append("				{")
+            sb.Append("					alert('Número Inválido');	this.focus();	this.select(); return false;")
+            sb.Append("				}")
+            sb.Append("				if(num.indexOf('.')>-1)")
+            sb.Append("				{")
+            sb.Append("					alert('Número Inválido');	this.focus();	this.select(); return false;")
+            sb.Append("				}")
+            sb.Append("	}")
+            sb.Append("	this.value=Number(this.value);return true;")
+
+            Me.OnBlur = "if(this.value!=''){if(isNaN(this.value)){this.focus();this.select();}else{this.value=Number(this.value)}}"
+
+            sb = New System.Text.StringBuilder
+
+            sb.Append(" try")
+            sb.Append(" {")
+            sb.Append("     isNetscape = (document.layers);")
+            sb.Append("     eventChooser = (isNetscape) ? keyStroke.which : event.keyCode;")
+            sb.Append("     if(((eventChooser < 48)||(eventChooser > 57)))")
+            sb.Append("     {")
+            sb.Append("         if(isNetscape)")
+            sb.Append("         {")
+            sb.Append("             keyStroke.which = 0;")
+            sb.Append("         }")
+            sb.Append("         else")
+            sb.Append("         {")
+            sb.Append("             event.keyCode = 0;")
+            sb.Append("         }")
+            sb.Append("     }")
+            sb.Append(" }")
+            sb.Append(" catch(e){}")
+
+            Me.OnKeyPress = sb.ToString()
+        End Sub
+
+        Private Sub SetNumericDouble(ByRef ctrl As TextBox)
+            Me.OnFocus = "this.select()"
+            Me.OnFocus = "this.className = '" & Me.CssClassOnFocus & "'"
+            Me.OnBlur = "this.className = '" & Me.CssClassNumeric & "'"
+
+            Dim sb As New System.Text.StringBuilder
+            sb.Append("	if(num=='')")
+            sb.Append("	{")
+            sb.Append("		alert('Número Inválido');	this.focus();	this.select(); return false;	")
+            sb.Append("	}")
+            sb.Append("	if(isNaN(num))")
+            sb.Append("	{")
+            sb.Append("		alert('Número Inválido');	this.focus();	this.select(); return false;")
+            sb.Append("	}")
+            sb.Append("	else")
+            sb.Append("	{")
+            sb.Append("				if(num.indexOf(',')>-1)")
+            sb.Append("				{")
+            sb.Append("					alert('Número Inválido');	this.focus();	this.select(); return false;")
+            sb.Append("				}")
+            sb.Append("				if(num.indexOf('.')>-1)")
+            sb.Append("				{")
+            sb.Append("					alert('Número Inválido');	this.focus();	this.select(); return false;")
+            sb.Append("				}")
+            sb.Append("	}")
+            sb.Append("	this.value=Number(this.value);return true;")
+
+            Me.OnBlur = "if(this.value!=''){if(isNaN(this.value)){this.focus();this.select();}else{this.value=Number(this.value)}}"
+
+            sb = New System.Text.StringBuilder
+
+            sb.Append(" try")
+            sb.Append(" {")
+            sb.Append("     isNetscape = (document.layers);")
+            sb.Append("     eventChooser = (isNetscape) ? keyStroke.which : event.keyCode;")
+            sb.Append("     if(eventChooser != 46)")
+            sb.Append("     {")
+            sb.Append("         if(((eventChooser < 48)||(eventChooser > 57)))")
+            sb.Append("         {")
+            sb.Append("             if(isNetscape)")
+            sb.Append("             {")
+            sb.Append("                 keyStroke.which = 0;")
+            sb.Append("             }")
+            sb.Append("             else")
+            sb.Append("             {")
+            sb.Append("                 event.keyCode = 0;")
+            sb.Append("             }")
+            sb.Append("         }")
+            sb.Append("     }")
+            sb.Append(" }")
+            sb.Append(" catch(e){}")
+
+            Me.OnKeyPress = sb.ToString()
+        End Sub
+
+        Private Sub SetTextBox()
+
+        End Sub
+        Private Sub SetControlProperties(ByVal Ctrl As Control)
+            Dim mainPi As Reflection.PropertyInfo() = Me.GetType.GetProperties
+
+            For Each pi As Reflection.PropertyInfo In Ctrl.GetType.GetProperties()
+                If pi.CanWrite AndAlso pi.CanRead Then
+                    For i As Integer = 0 To mainPi.Length - 1
+                        If mainPi(i).Name = pi.Name Then
+                            Dim o As Object = mainPi(i).GetValue(Me, Nothing)
+                            pi.SetValue(Ctrl, o, Nothing)
+                        End If
+                    Next
+                End If
+            Next
+
+            
+        End Sub
+
         Private Sub CreateTextBox(ByRef writer As HtmlTextWriter)
 
-            Dim Ctrl As New TextBox
+           
 
-            Ctrl.ID = GetControlID()
-            Ctrl.Text = Me.Text
+           
 
-            Ctrl.RenderControl(writer)
-            Ctrl.CausesValidation = True
+            Select Case Me.GetTextType
 
-             
+                Case enumTextType.IntegerType
+                    Dim Ctrl As New TextBox
+                    SetControlProperties(Ctrl)
+                    SetNumericInteger(Ctrl)
+                    Ctrl.ID = GetControlID()
+                    Ctrl.Text = Me.Text
+                    Ctrl.CausesValidation = True
+                    Ctrl.CssClass = Me.CssClass
+                    Ctrl.Attributes.Add("OnFocus", Me.OnFocus)
+                    Ctrl.Attributes.Add("OnBlur", Me.OnBlur)
+                    Ctrl.Attributes.Add("OnKeyPress", Me.OnKeyPress)
+                    Ctrl.RenderControl(writer)
+                
+                Case enumTextType.DoubleType
+                    Dim Ctrl As New TextBox
+                    SetControlProperties(Ctrl)
+                    SetNumericDouble(Ctrl)
+                    Ctrl.ID = GetControlID()
+                    Ctrl.Text = Me.Text
+                    Ctrl.CausesValidation = True
+                    Ctrl.CssClass = Me.CssClass
+                    Ctrl.Attributes.Add("OnFocus", Me.OnFocus)
+                    Ctrl.Attributes.Add("OnBlur", Me.OnBlur)
+                    Ctrl.Attributes.Add("OnKeyPress", Me.OnKeyPress)
+                    Ctrl.RenderControl(writer)
+
+                Case enumTextType.MultilineType
+                    Dim Ctrl As New TextBox
+                    SetControlProperties(Ctrl)
+                    ' SetNumericDouble(Ctrl)
+                    Ctrl.ID = GetControlID()
+                    Ctrl.Text = Me.Text
+                    Ctrl.CausesValidation = True
+                    Ctrl.CssClass = Me.CssClass
+                    Ctrl.Attributes.Add("OnFocus", Me.OnFocus)
+                    Ctrl.Attributes.Add("OnBlur", Me.OnBlur)
+                    Ctrl.Attributes.Add("OnKeyPress", Me.OnKeyPress)
+                    Ctrl.RenderControl(writer)
+                Case enumTextType.TextType
+                    Dim Ctrl As New TextBox
+                    SetControlProperties(Ctrl)
+                    ' SetNumericDouble(Ctrl)
+                    Ctrl.ID = GetControlID()
+                    Ctrl.Text = Me.Text
+                    Ctrl.CausesValidation = True
+                    Ctrl.CssClass = Me.CssClass
+                    Me.OnFocus = "this.className = '" & Me.CssClassOnFocus & "'"
+                    Me.OnBlur = "this.className = '" & Me.CssClass & "'"
+
+                    Ctrl.Attributes.Add("OnFocus", Me.OnFocus)
+                    Ctrl.Attributes.Add("OnBlur", Me.OnBlur)
+                    Ctrl.Attributes.Add("OnKeyPress", Me.OnKeyPress)
+                    Ctrl.RenderControl(writer)
+
+                Case enumTextType.DateType
+                    Dim Ctrl As New BrainWork.Utils.Web.Calendar(Me.Page, GetControlID())
+                    'SetControlProperties(Ctrl)
+
+                    Ctrl.Text = Me.Text
+                    Ctrl.CausesValidation = True
+                    Ctrl.CssClass = Me.CssClassCalendar
+                    Me.OnFocus = "this.className = '" & Me.CssClassOnFocus & "'"
+                    Me.OnBlur = "this.className = '" & Me.CssClass & "'"
+                    Me.OnBlur = "verificarFecha(this.value,this)"
+                    For Each key As String In Ctrl.Attributes.Keys
+                        Select Case key.ToLower
+                            Case "onfocus"
+                                Me.OnFocus = Ctrl.Attributes("OnFocus")
+                            Case "onblur"
+                                Me.OnBlur = Ctrl.Attributes("OnBlur")
+                            Case "onkeypress"
+                                Me.OnKeyPress = Ctrl.Attributes("OnKeyPress")
+                        End Select
+                    Next
+                    Ctrl.Style.Add("width", "55px")
+                    Ctrl.Attributes.Add("OnFocus", Me.OnFocus)
+                    Ctrl.Attributes.Add("OnBlur", Me.OnBlur)
+                    Ctrl.Attributes.Add("OnKeyPress", Me.OnKeyPress)
+                    Ctrl.RenderControl(writer)
+            End Select
+
+
+
+           
+
+
+
+
             ''<object  
             'writer.WriteBeginTag("input")
 
@@ -694,6 +1004,7 @@ Namespace WebControls
 
             writer.WriteBeginTag("span")
             writer.WriteAttribute("id", Me.ClientID & "_Label")
+            writer.WriteAttribute("class", Me.CssClassLabel)
             writer.Write(System.Web.UI.HtmlTextWriter.SelfClosingTagEnd)
 
             If Not String.IsNullOrEmpty(Me.LabelText) Then
@@ -793,18 +1104,22 @@ Namespace WebControls
 
         End Sub
 
-        Private Sub CustomTextBox_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-           
+        Private Sub CustomTextBox_Init(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Init
+
         End Sub
 
-
-
-        Private Sub CustomTextBox_PreRender(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.PreRender
+        Private Sub CustomTextBox_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
             If Me.Page.IsPostBack Then
                 If Not System.Web.HttpContext.Current.Request.Form(GetControlID) Is Nothing Then
                     Me.Text = System.Web.HttpContext.Current.Request.Form(GetControlID)
                 End If
             End If
+        End Sub
+
+
+
+        Private Sub CustomTextBox_PreRender(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.PreRender
+           
             
         End Sub
 
