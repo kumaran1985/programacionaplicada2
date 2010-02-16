@@ -162,6 +162,24 @@ tr.RowStyle:hover, tr.over td { background-color: #ffccff; }
 }
 /*Estilo grilla*/
 
+
+/*Tooltip*/
+#dhtmltooltip
+{
+    cursor: pointer;
+    position: absolute;
+    width: 150px;
+    border: 1px solid black;
+    padding: 2px;
+    background-color: #FFFFE0;
+    visibility: hidden;
+    z-index: 100;
+    font-family: Verdana;
+    font-size: 9px;
+    filter: progid:DXImageTransform.Microsoft.Shadow(color=gray,direction=135);
+}
+
+/****/
 .CustomTextBoxLabel
 {
 	font-size: 10px;
