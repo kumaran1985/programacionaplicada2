@@ -84,6 +84,8 @@ Public MustInherit Class AbstractBussinesLogic
 
 
     End Sub
+    Public MustOverride Sub RefreshEntityDataAccess()
+ 
 
 #End Region
 
@@ -94,6 +96,7 @@ Public MustInherit Class AbstractBussinesLogic
 
         Try
             If ClassValidation(strError, Enums.enumValidationType.Add) Then
+                ' RefreshEntityDataAccess()
                 AddEntity()
                 RaiseEvent OnAdd()
             Else
@@ -110,6 +113,7 @@ Public MustInherit Class AbstractBussinesLogic
 
         Try
             If ClassValidation(strError, Enums.enumValidationType.Delete) Then
+                '  RefreshEntityDataAccess()
                 DeleteEntity()
                 RaiseEvent OnDelete()
             Else
@@ -127,6 +131,7 @@ Public MustInherit Class AbstractBussinesLogic
 
         Try
             If ClassValidation(strError, Enums.enumValidationType.Update) Then
+                'RefreshEntityDataAccess()
                 UpdateEntity()
                 RaiseEvent OnUpdate()
             Else
@@ -143,6 +148,7 @@ Public MustInherit Class AbstractBussinesLogic
 
         Try
             If ClassValidation(strError, Enums.enumValidationType.Disable) Then
+                ' RefreshEntityDataAccess()
                 UpdateEntity()
                 RaiseEvent OnUpdate()
             Else
@@ -159,10 +165,10 @@ Public MustInherit Class AbstractBussinesLogic
         Dim strError As String = Nothing
 
         Try
-
+            ' RefreshEntityDataAccess()
             LoadEntity()
             RaiseEvent OnLoad()
-           
+
         Catch ex As Exception
             Throw ex
         End Try
@@ -175,6 +181,7 @@ Public MustInherit Class AbstractBussinesLogic
 
         Try
             If ClassValidation(strError, Enums.enumValidationType.Load) Then
+                ' RefreshEntityDataAccess()
                 LoadEntityByPk(pk)
                 RaiseEvent OnLoad()
             Else
@@ -188,33 +195,41 @@ Public MustInherit Class AbstractBussinesLogic
     End Function
 
     Public Function GetDataTable() As DataTable
+        '  RefreshEntityDataAccess()
         Return GetDataTableEntity(0, 0)
     End Function
     Public Function GetDataSet() As DataSet
+        ' RefreshEntityDataAccess()
         Return GetDataSetEntity(0, 0)
     End Function
     Public Function GetDataTable(ByVal Row As Integer, ByVal MaxRecords As Integer) As DataTable
+        ' RefreshEntityDataAccess()
         Me._CurrentPage = MaxRecords
         Me._CurrentRow = Row
         Return GetDataTableEntity(Row, MaxRecords)
     End Function
     Public Function GetDataSet(ByVal Row As Integer, ByVal MaxRecords As Integer) As DataSet
+        ' RefreshEntityDataAccess()
         Me._CurrentPage = MaxRecords
         Me._CurrentRow = Row
         Return GetDataSetEntity(Row, MaxRecords)
     End Function
     Public Function GetDataReader() As IDataReader
+        '   RefreshEntityDataAccess()
         Return GetDataReaderEntity(0, 0)
     End Function
     Public Function GetDataReader(ByVal Row As Integer, ByVal MaxRecords As Integer) As IDataReader
+        '  RefreshEntityDataAccess()
         Me._CurrentPage = MaxRecords
         Me._CurrentRow = Row
         Return GetDataReaderEntity(Row, MaxRecords)
     End Function
     Public Function GetList() As IList(Of Object)
+        '   RefreshEntityDataAccess()
         Return GetListEntity(0, 0)
     End Function
     Public Function GetList(ByVal Row As Integer, ByVal MaxRecords As Integer) As List(Of Object)
+        '  RefreshEntityDataAccess()
         Me._CurrentPage = MaxRecords
         Me._CurrentRow = Row
         Return GetListEntity(Row, MaxRecords)
@@ -225,37 +240,47 @@ Public MustInherit Class AbstractBussinesLogic
 
 #Region "Funciones de ABML"
     Protected Overridable Sub AddEntity()
+        RefreshEntityDataAccess()
         Me.DataAccess.Add()
     End Sub
     Protected Overridable Sub UpdateEntity()
+        RefreshEntityDataAccess()
         Me.DataAccess.Update()
     End Sub
     Protected Overridable Sub DisableEntity()
+        RefreshEntityDataAccess()
         Me.DataAccess.Disable()
     End Sub
     Protected Overridable Sub DeleteEntity()
+        RefreshEntityDataAccess()
         Me.DataAccess.Delete()
     End Sub
     Protected Overridable Sub LoadEntity()
+        RefreshEntityDataAccess()
         Me.DataAccess.Load()
     End Sub
     Protected Overridable Sub LoadEntityByPk(ByVal PK As Object)
+        RefreshEntityDataAccess()
         Me.DataAccess.LoadByPk(PK)
     End Sub
 
     Protected Overridable Function GetDataTableEntity(ByVal Row As Integer, ByVal Page As Integer) As DataTable
+        RefreshEntityDataAccess()
         Return Me.DataAccess.GetDataTable(Row, Page)
     End Function
 
     Protected Overridable Function GetDataSetEntity(ByVal Row As Integer, ByVal Page As Integer) As DataSet
+        RefreshEntityDataAccess()
         Return Me.DataAccess.GetDataSet(Row, Page)
     End Function
 
     Protected Overridable Function GetDataReaderEntity(ByVal Row As Integer, ByVal Page As Integer) As IDataReader
+        RefreshEntityDataAccess()
         Return Me.DataAccess.GetDataReader(Row, Page)
     End Function
 
     Protected Overridable Function GetListEntity(ByVal Row As Integer, ByVal Page As Integer) As List(Of Object)
+        RefreshEntityDataAccess()
         Return Me.DataAccess.GetList(Row, Page)
     End Function
 
