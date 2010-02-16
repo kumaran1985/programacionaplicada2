@@ -24,8 +24,18 @@ Public MustInherit Class AbstractDataAccess
     Private _ORDER_BY_PARAMETER As String = "@OrderBy"
     Private _ORDER_BY_DIRECTION_PARAMETER As String = "@OrderByDirection"
     Private _ID_GENERATED_ROW As String = "@ID_Generated_New"
+    Protected _CurrentEntity As Object
+    Private WithEvents _CurrentConnection As BrainWork.Connections.BrainWorkConnection
+    Public Event OnAdd(ByVal p As System.Data.IDbDataParameter(), ByVal spName As String)
+    Public Event OnDelete(ByVal p As System.Data.IDbDataParameter(), ByVal spName As String)
+    Public Event OnUpdate(ByVal p As System.Data.IDbDataParameter(), ByVal spName As String)
+    Public Event OnDisable(ByVal p As System.Data.IDbDataParameter(), ByVal spName As String)
 
-
+    Private _SelectedOrderBy As String
+    Private _SelectedDirection As String = "ASC"
+    Private _SelectedRow As Int32 = 0
+    Private _SelectedMaxRecords As Int32 = 0
+    Private _SelectedCountRegisters As Int64
 
     Protected Overridable Property ID_GENERATED_ROW() As String
         Get
@@ -81,24 +91,19 @@ Public MustInherit Class AbstractDataAccess
         End Set
     End Property
 
-    Private WithEvents _CurrentConnection As BrainWork.Connections.BrainWorkConnection
 
 
 
-    Public Event OnAdd(ByVal p As System.Data.IDbDataParameter(), ByVal spName As String)
-    Public Event OnDelete(ByVal p As System.Data.IDbDataParameter(), ByVal spName As String)
-    Public Event OnUpdate(ByVal p As System.Data.IDbDataParameter(), ByVal spName As String)
-    Public Event OnDisable(ByVal p As System.Data.IDbDataParameter(), ByVal spName As String)
 
-    Protected _CurrentEntity As Object
+
     Protected MustOverride Function GetEntity() As Object 
 
+    Public Overridable Sub RefreshEntity(ByVal oEnt As Object)
+          
+        _CurrentEntity = oEnt
+    End Sub
 
-    Private _SelectedOrderBy As String
-    Private _SelectedDirection As String = "ASC"
-    Private _SelectedRow As Int32 = 0
-    Private _SelectedMaxRecords As Int32 = 0
-    Private _SelectedCountRegisters As Int64
+  
 
     Protected Overridable Property SelectedMaxRecords() As Int32
         Get
