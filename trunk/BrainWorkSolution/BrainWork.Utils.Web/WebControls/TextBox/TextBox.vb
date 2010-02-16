@@ -58,6 +58,7 @@ Namespace WebControls
         Private _PropertyName As String
         Private _LabelText As String
 
+        
 
         Public Property PropertyName() As String Implements Interfaces.IEntityFieldExtendsAttribute.PropertyName
             Get
@@ -356,20 +357,20 @@ Namespace WebControls
             End Set
         End Property
 
-        <Bindable(True), Category("Appearance"), DefaultValue(""), Localizable(True)> Property LabelText() As String
-            Get
+        '<Bindable(True), Category("Appearance"), DefaultValue(""), Localizable(True)> Property LabelText() As String
+        '    Get
 
-                If _LabelText Is Nothing Then
-                    Return String.Empty
-                Else
-                    Return _LabelText
-                End If
-            End Get
+        '        If _LabelText Is Nothing Then
+        '            Return String.Empty
+        '        Else
+        '            Return _LabelText
+        '        End If
+        '    End Get
 
-            Set(ByVal Value As String)
-                _LabelText = Value
-            End Set
-        End Property
+        '    Set(ByVal Value As String)
+        '        _LabelText = Value
+        '    End Set
+        'End Property
         '
         Dim _OnKeyPress As String = ""
         <Bindable(True), Category("Appearance"), DefaultValue(""), Localizable(True)> Property OnKeyPress() As String
@@ -413,7 +414,15 @@ Namespace WebControls
         End Property
 
 
-
+        Private _AddTDTag As Boolean = True
+        <Bindable(True), Category("Appearance"), DefaultValue("True"), Localizable(True)> Public Property AddTDTag() As Boolean
+            Get
+                Return _AddTDTag
+            End Get
+            Set(ByVal value As Boolean)
+                _AddTDTag = value
+            End Set
+        End Property
         '
         <Bindable(True), Category("Appearance"), DefaultValue("CssClassCalendar"), Localizable(True)> Property CssClassCalendar() As String
             Get
@@ -861,14 +870,14 @@ Namespace WebControls
                 End If
             Next
 
-            
+
         End Sub
 
         Private Sub CreateTextBox(ByRef writer As HtmlTextWriter)
 
-           
 
-           
+
+
 
             Select Case Me.GetTextType
 
@@ -884,7 +893,7 @@ Namespace WebControls
                     Ctrl.Attributes.Add("OnBlur", Me.OnBlur)
                     Ctrl.Attributes.Add("OnKeyPress", Me.OnKeyPress)
                     Ctrl.RenderControl(writer)
-                
+
                 Case enumTextType.DoubleType
                     Dim Ctrl As New TextBox
                     SetControlProperties(Ctrl)
@@ -955,7 +964,7 @@ Namespace WebControls
 
 
 
-           
+
 
 
 
@@ -1001,36 +1010,38 @@ Namespace WebControls
 
 
         Private Sub renderizarControl(ByRef writer As HtmlTextWriter)
-
+            If AddTDTag Then
+                writer.WriteBeginTag("TD")
+                writer.WriteAttribute("aling", "right")
+            End If
             writer.WriteBeginTag("span")
             writer.WriteAttribute("id", Me.ClientID & "_Label")
             writer.WriteAttribute("class", Me.CssClassLabel)
-            writer.Write(System.Web.UI.HtmlTextWriter.SelfClosingTagEnd)
 
-            If Not String.IsNullOrEmpty(Me.LabelText) Then
-                writer.WriteEncodedText(Me.LabelText & "  ")
-            Else
-                If Not String.IsNullOrEmpty(Me.PropertyName) Then
-                    Dim strToConvert As String = ""
-                    Dim cv() As Char = Me.PropertyName.ToCharArray()
-                    For i As Integer = 0 To cv.Length - 1
-                        If i = 0 Then
-                            strToConvert += UCase(cv(i))
-                        Else
-                            If (Char.IsUpper(cv(i))) Then
-                                strToConvert += " "
-                            End If
-                            strToConvert += cv(i)
-                        End If
-                    Next
-                    writer.WriteEncodedText(strToConvert & "  ")
-                Else
-                    writer.WriteEncodedText(Me.LabelText & "___________________________  ")
-                End If
+            If Not String.IsNullOrEmpty(Me.FieldDescription) Then
+                BrainWork.Utils.Web.JavaScript.JavaScriptUtils.JS_ToolTip(Me.Page, Me.GetType)
+                writer.WriteAttribute("onMouseover", "ddrivetip('" & Me.FieldDescription.Replace("'"c, "").Replace(""""c, "") & "','#FFFFE0', 300);")
+                writer.WriteAttribute("onMouseout", "hideddrivetip();")
             End If
 
-            writer.WriteEndTag("span")
+            writer.Write(System.Web.UI.HtmlTextWriter.TagRightChar)
 
+            If Not String.IsNullOrEmpty(Me.Label) Then
+                writer.WriteEncodedText(Me.Label & "  ")
+            Else
+                writer.WriteEncodedText(Me.FieldName & "___________________________  ")
+
+            End If 
+
+            writer.WriteEndTag("span")
+            If AddTDTag Then
+                writer.WriteEndTag("TD")
+            End If
+
+            If AddTDTag Then
+                writer.WriteBeginTag("TD")
+                writer.WriteAttribute("aling", "left")
+            End If
 
             Select Case Me.RelationType
                 Case EnumRelationType.Combo
@@ -1043,6 +1054,11 @@ Namespace WebControls
                 Case Else
                     Me.CreateTextBox(writer)
             End Select
+
+
+            If AddTDTag Then
+                writer.WriteEndTag("TD")
+            End If
 
             'writer.Write(System.Web.UI.HtmlTextWriter.TagRightChar)
 
@@ -1119,8 +1135,8 @@ Namespace WebControls
 
 
         Private Sub CustomTextBox_PreRender(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.PreRender
-           
-            
+
+
         End Sub
 
         Public Sub New()
@@ -1171,7 +1187,7 @@ Namespace WebControls
 
         End Function
 
-        
+
         Protected Overridable Sub OnTextChanged(ByVal e As EventArgs)
             RaiseEvent TextChanged(Me, e)
         End Sub
@@ -1185,6 +1201,19 @@ Namespace WebControls
         Public Sub RaisePostBackEvent(ByVal eventArgument As String) Implements System.Web.UI.IPostBackEventHandler.RaisePostBackEvent
 
         End Sub
+        Private _label As String
+        Public Property Label() As String Implements Entities.Interfaces.IEntityFieldExtendsAttribute.Label
+            Get
+                If _label Is Nothing Then
+                    Return PropertyName
+                Else
+                    Return _label
+                End If
+            End Get
+            Set(ByVal value As String)
+                _label = value
+            End Set
+        End Property
     End Class
 End Namespace
 
