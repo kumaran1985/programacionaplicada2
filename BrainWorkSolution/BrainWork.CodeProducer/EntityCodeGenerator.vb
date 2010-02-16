@@ -1912,6 +1912,21 @@ Partial Public Class EntityCodeGenerator
         sbSelectProcedure.AppendLine("GO")
     End Function
 
+    Private Function CreateLabelName(ByVal propertyname As String)
+        Dim strToConvert As String = ""
+        Dim cv() As Char = propertyname.ToCharArray()
+        For i As Integer = 0 To cv.Length - 1
+            If i = 0 Then
+                strToConvert += UCase(cv(i))
+            Else
+                If (Char.IsUpper(cv(i))) Then
+                    strToConvert += " "
+                End If
+                strToConvert += cv(i)
+            End If
+        Next
+        Return propertyname
+    End Function
 
     Private Sub AppendProperty(ByRef sbPropertysRegion As System.Text.StringBuilder, _
                                ByRef sbDeclarationRegion As System.Text.StringBuilder, _
@@ -1951,7 +1966,7 @@ Partial Public Class EntityCodeGenerator
         propertyName = FirstLetter(propertyName)
 
         efield.PropertyName = propertyName
-
+        efield.Label = CreateLabelName(propertyName)
         'Nombre del Campo
         Dim PrivateDim As String = IIf(propertyName.Contains("["), "[_" & propertyName.Substring(1), "_" & propertyName).ToString
 
