@@ -4,6 +4,10 @@
 
 <%@ Register assembly="BrainWork.Utils.Web" namespace="BrainWork.Utils.Web.ControlTest" tagprefix="cc2" %>
 
+<%@ Register assembly="BrainWork.Utils.Web" namespace="BrainWork.Utils.Web.WebControls.Data" tagprefix="cc3" %>
+
+<%@ Register assembly="BrainWork.Utils.Web" namespace="BrainWork.Utils.Web.Components.CustomControls" tagprefix="cc4" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -17,11 +21,14 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    
+    <div style="text-align:right ">
+    Alta de Monedas
+    </div>
     
     <div>
     
-    <div style="width:600px">
+        <asp:Panel ID="pnlViewRead" runat="server" Visible="False">
+         <div style="width:600px">
     <fieldset>
     <legend>Nombre</legend>
     <table width="95%">
@@ -140,30 +147,35 @@
     
     </fieldset>
     </div>
-    
-        <br />
+        </asp:Panel>
         <asp:Button ID="btnAdd" runat="server" Text="Agregar" />
-
-       
-    
-         
-
-       
-    
-        <br />
-        <br />
-        
-        <br />
-        <br />
-        <br />
-
-       
-    
-         
-
-       
     
     </div>
+     
+            <asp:Panel ID="pnlGrid" runat="server">
+                <div>
+                    <table width="95%">
+                        <tr>
+                            <td>
+                                Search
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <br />
+                                <br />
+                                <br />
+                                <cc3:GridView ID="GridView1" runat="server">
+                                </cc3:GridView>
+                                <br />
+                                <cc3:SearchControl ID="SearchControl1" runat="server" />
+                                <br />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </asp:Panel>
+         
     </form>
 </body>
 </html>
