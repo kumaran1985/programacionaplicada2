@@ -178,6 +178,12 @@ Public MustInherit Class AbstractConnection
     Public MustOverride Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, _
                                                              ByRef ListReturnedValues As Dictionary(Of String, Object), _
                                                              ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As Data.DataTable
+
+    Public MustOverride Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, _
+                                                             ByVal OrderByField As String, _
+                                                             ByRef ListReturnedValues As System.Collections.Generic.Dictionary(Of String, Object), _
+                                                             ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataTable
+
     '-----------------------------------------------------------------------------------------------
 
     Public MustOverride Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, _

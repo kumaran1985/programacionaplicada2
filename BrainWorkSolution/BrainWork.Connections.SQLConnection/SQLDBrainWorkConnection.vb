@@ -1,6 +1,13 @@
 <Serializable()> _
 Public NotInheritable Class SQLDBrainWorkConnection
     Inherits BrainWorkConnection
+
+    Private _PAGED_ROW_PARAMETER As String = "@Row"
+    Private _PAGED_MAXVALUES_PARAMETER As String = "@MaxValues"
+    Private _PAGED_COUNT_PARAMETER As String = "@RecordCount"
+    Private _ORDER_BY_PARAMETER As String = "@OrderBy"
+    Private _ORDER_BY_DIRECTION_PARAMETER As String = "@OrderByDirection"
+    Private _ID_GENERATED_ROW As String = "@ID_Generated_New"
     '' Implements BrainWork.Connections.Interfaces.IDBrainWorkConnection
     Private oConnection As SqlClient.SqlConnection
     Private oTransaction As SqlClient.SqlTransaction
@@ -324,6 +331,39 @@ Public NotInheritable Class SQLDBrainWorkConnection
         End Try
     End Function
 
+    Public Overloads Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, _
+                                              ByVal OrderByField As String, _
+                                              ByRef ListReturnedValues As System.Collections.Generic.Dictionary(Of String, Object), _
+                                              ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataSet
+        Me.OpenConnection()
+        Try
+            Dim oCommand As SqlClient.SqlCommand
+
+            oCommand = CType(GetNewCommand(), SqlClient.SqlCommand)
+            oCommand.CommandType = CommandType.StoredProcedure
+            oCommand.CommandText = StoredProcedureName
+            oCommand.Connection = Me.GetOpenConnection
+            Me.CastParameterArray(Parameters, oCommand.Parameters)
+            oCommand.Parameters(_ORDER_BY_PARAMETER).Value = OrderByField
+
+            Dim ds As DataSet = GetDataSet(oCommand)
+
+            For Each p As SqlClient.SqlParameter In oCommand.Parameters
+                If p.Direction = ParameterDirection.Output OrElse p.Direction = ParameterDirection.InputOutput Then
+                    ListReturnedValues.Add(p.ParameterName, p.Value)
+                End If
+            Next
+            Return ds
+        Catch ex As Exception
+
+            Throw ex
+        Finally
+            Me.CloseConnection()
+        End Try
+    End Function
+
+
+
 
     Public Overrides Function GetStoredProcedureDataSet(ByVal StoredProcedureName As String, _
                                               ByVal params As System.Data.Common.DbParameterCollection, _
@@ -359,6 +399,21 @@ Public NotInheritable Class SQLDBrainWorkConnection
             Return Nothing
         End If
     End Function
+
+    Public Overloads Overrides Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, _
+                                                                    ByVal OrderByField As String, _
+                                                                    ByRef ListReturnedValues As System.Collections.Generic.Dictionary(Of String, Object), _
+                                                                    ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataTable
+        Dim ds As DataSet = GetStoredProcedureDataSet(StoredProcedureName, OrderByField, ListReturnedValues, Parameters)
+
+        If Not ds Is Nothing AndAlso ds.Tables.Count > 0 Then
+            Return ds.Tables(0)
+        Else
+            Return Nothing
+        End If
+    End Function
+
+
     Public Overrides Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, _
                                                 ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataTable ' Implements Interfaces.IDBrainWorkConnection.GetStoredProcedureDataTable
         Return GetStoredProcedureDataTable(StoredProcedureName, 0, 0, Parameters)
@@ -960,4 +1015,6 @@ Public NotInheritable Class SQLDBrainWorkConnection
             p.ParameterName = "@" & p.ParameterName
         End If
     End Sub
+
+    
 End Class

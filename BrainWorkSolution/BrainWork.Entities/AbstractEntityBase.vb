@@ -37,9 +37,20 @@ Public Class AbstractEntityBase
 
 
         Next
-
+        Return Nothing
         ' Return CType(Me.GetType().GetCustomAttributes(True)(0), EntityClassExtendsAttribute)
 
+    End Function
+
+    Public Function GetDefaultOrderByField() As String
+        Dim defaultOrderBy As String = Me.GetEntityFieldExtendsAttributes(0).FieldName
+        For Each eField As BrainWork.Entities.EntityFieldExtendsAttribute In Me.GetEntityFieldExtendsAttributes
+            If eField.IsDefaultOrderBy Then
+                defaultOrderBy = eField.FieldName
+                Exit For
+            End If
+        Next
+        Return defaultOrderBy
     End Function
 
 

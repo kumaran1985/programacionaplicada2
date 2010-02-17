@@ -14,8 +14,17 @@ Public MustInherit Class AbstractBussinesLogic
     Private _CurrentPage As Integer
     Private _CurrentRow As Integer
 #Region "Propiedades Públicas"
+    Private _RecordCount As Int64
+    Public Overridable Property RecordCount() As Int64
+        Get
+            Return _RecordCount
+        End Get
+        Set(ByVal value As Int64)
+            _RecordCount = value
+        End Set
+    End Property
 
-    Protected ReadOnly Property Entity() As BrainWork.Entities.AbstractEntityBase
+    Public ReadOnly Property Entity() As BrainWork.Entities.AbstractEntityBase
         Get
             Return CType(_Entity, BrainWork.Entities.AbstractEntityBase)
         End Get
@@ -208,6 +217,14 @@ Public MustInherit Class AbstractBussinesLogic
         Me._CurrentRow = Row
         Return GetDataTableEntity(Row, MaxRecords)
     End Function
+
+    Public Function GetDataTable(ByVal Row As Integer, ByVal MaxRecords As Integer, ByVal orderByColumn As String) As DataTable
+        ' RefreshEntityDataAccess()
+        Me._CurrentPage = MaxRecords
+        Me._CurrentRow = Row
+        Return GetDataTableEntity(Row, MaxRecords, orderByColumn)
+    End Function
+
     Public Function GetDataSet(ByVal Row As Integer, ByVal MaxRecords As Integer) As DataSet
         ' RefreshEntityDataAccess()
         Me._CurrentPage = MaxRecords
@@ -266,7 +283,14 @@ Public MustInherit Class AbstractBussinesLogic
 
     Protected Overridable Function GetDataTableEntity(ByVal Row As Integer, ByVal Page As Integer) As DataTable
         RefreshEntityDataAccess()
-        Return Me.DataAccess.GetDataTable(Row, Page)
+        GetDataTableEntity = Me.DataAccess.GetDataTable(Row, Page)
+        RecordCount = Me.DataAccess.RecordCount
+    End Function
+
+    Protected Overridable Function GetDataTableEntity(ByVal Row As Integer, ByVal Page As Integer, ByVal orderByColumn As String) As DataTable
+        RefreshEntityDataAccess()
+        GetDataTableEntity = Me.DataAccess.GetDataTable(Row, Page, orderbycolumn)
+        RecordCount = Me.DataAccess.RecordCount
     End Function
 
     Protected Overridable Function GetDataSetEntity(ByVal Row As Integer, ByVal Page As Integer) As DataSet

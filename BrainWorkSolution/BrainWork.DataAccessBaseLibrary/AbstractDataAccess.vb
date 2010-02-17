@@ -35,7 +35,7 @@ Public MustInherit Class AbstractDataAccess
     Private _SelectedDirection As String = "ASC"
     Private _SelectedRow As Int32 = 0
     Private _SelectedMaxRecords As Int32 = 0
-    Private _SelectedCountRegisters As Int64
+    Private _RecordCount As Int64
 
     Protected Overridable Property ID_GENERATED_ROW() As String
         Get
@@ -96,14 +96,16 @@ Public MustInherit Class AbstractDataAccess
 
 
 
-    Protected MustOverride Function GetEntity() As Object 
+    Protected Overridable Function GetEntity() As Object
+        Return _CurrentEntity
+    End Function
 
     Public Overridable Sub RefreshEntity(ByVal oEnt As Object)
-          
+
         _CurrentEntity = oEnt
     End Sub
 
-  
+
 
     Protected Overridable Property SelectedMaxRecords() As Int32
         Get
@@ -134,12 +136,12 @@ Public MustInherit Class AbstractDataAccess
         End Set
     End Property
 
-    Protected Overridable Property SelectedCountRegisters() As Int64
+    Public Overridable Property RecordCount() As Int64
         Get
-            Return _SelectedCountRegisters
+            Return _RecordCount
         End Get
         Set(ByVal value As Int64)
-            _SelectedCountRegisters = value
+            _RecordCount = value
         End Set
     End Property
 
@@ -392,6 +394,11 @@ Public MustInherit Class AbstractDataAccess
         Return GetDataTableEntity(Row, MaxRecords)
     End Function
 
+    Public Function GetDataTable(ByVal Row As Integer, ByVal MaxRecords As Integer, ByVal orderByColumn As String) As DataTable
+
+        Return GetDataTableEntity(Row, MaxRecords, orderByColumn)
+    End Function
+
     Public Function GetDataSet(ByVal Row As Integer, ByVal MaxRecords As Integer) As DataSet
 
         Return GetDataSetEntity(Row, MaxRecords)
@@ -438,7 +445,7 @@ Public MustInherit Class AbstractDataAccess
         If Me._userlogged Is Nothing Then
             Throw New BrainWork.TrunkLibrary.Exceptions.ExceptionNotSetedUser
         End If
- 
+
         'If Entity Is Nothing Then
         '    Throw New BrainWork.TrunkLibrary.Exceptions.ExceptionNotSetedEntity
         'End If
@@ -509,7 +516,7 @@ Public MustInherit Class AbstractDataAccess
     'End Function
 
     Private Function PropertyToDBValue(ByVal PropertyItem As Reflection.PropertyInfo) As Object
-     
+
 
         'Dim dataType As Type = PropertyItem.PropertyType
         'If dataType.IsGenericType _
@@ -534,7 +541,7 @@ Public MustInherit Class AbstractDataAccess
     End Function
 
     Private Sub ParametizeValues(ByRef ParameterList() As System.Data.IDbDataParameter, _
-                                 Optional ByVal SetOutParameter As Boolean = False )
+                                 Optional ByVal SetOutParameter As Boolean = False)
         Dim pi() As Reflection.PropertyInfo = Me.Entity.GetType.GetProperties()
 
         For i As Integer = 0 To ParameterList.Length - 1
@@ -551,14 +558,14 @@ Public MustInherit Class AbstractDataAccess
             ReDim Preserve ParameterList(ParameterList.Length)
             ParameterList(ParameterList.Length - 1) = GetID_GENERATED_ROW_parameter()
         End If
-         
+
     End Sub
 
     Private Sub SetPagedSortParams(ByRef ParameterList() As System.Data.IDbDataParameter, _
                                    ByVal Row As Int32, _
                                    ByVal MaxRecords As Int32, _
                                    ByVal OrderBy As String, _
-                                   ByVal Direction As String )
+                                   ByVal Direction As String)
 
         ReDim Preserve ParameterList(ParameterList.Length + 4)
 
@@ -695,6 +702,20 @@ Public MustInherit Class AbstractDataAccess
         Dim dr As IDataReader = Me.CurrentConnection.GetStoredProcedureDataReader(Me.SP_GETONE, ParameterList)
         Return CType(CreateObjectByReader(dr), BrainWork.Entities.Interfaces.IEntityFieldExtendsAttribute)
     End Function
+    '
+    Protected Overridable Function GetDataTableEntity(ByVal Row As Integer, ByVal MaxRecords As Integer, ByVal orderByColumn As String) As DataTable
+
+        Dim ParameterList() As System.Data.IDbDataParameter
+        ParameterList = GetParameterByStored(SP_GETALL)
+        ParametizeValues(ParameterList, False)
+
+        Dim listReturnsValues As New Dictionary(Of String, Object)
+        SetPagedSortParams(ParameterList, Row, MaxRecords, Me.SelectedOrderBy, Me.SelectedDirection)
+        GetDataTableEntity = Me.CurrentConnection.GetStoredProcedureDataTable(Me.SP_GETALL, listReturnsValues, ParameterList)
+
+        Me.RecordCount = CLng(listReturnsValues(Me.PAGED_COUNT_PARAMETER))
+
+    End Function
 
     Protected Overridable Function GetDataTableEntity(ByVal Row As Integer, ByVal MaxRecords As Integer) As DataTable
 
@@ -706,7 +727,7 @@ Public MustInherit Class AbstractDataAccess
         SetPagedSortParams(ParameterList, Row, MaxRecords, Me.SelectedOrderBy, Me.SelectedDirection)
         GetDataTableEntity = Me.CurrentConnection.GetStoredProcedureDataTable(Me.SP_GETALL, listReturnsValues, ParameterList)
 
-        Me.SelectedCountRegisters = CLng(listReturnsValues(Me.PAGED_COUNT_PARAMETER))
+        Me.RecordCount = CLng(listReturnsValues(Me.PAGED_COUNT_PARAMETER))
 
     End Function
 
@@ -719,8 +740,8 @@ Public MustInherit Class AbstractDataAccess
         SetPagedSortParams(ParameterList, Row, MaxRecords, Me.SelectedOrderBy, Me.SelectedDirection)
         GetDataSetEntity = Me.CurrentConnection.GetStoredProcedureDataSet(Me.SP_GETALL, listReturnsValues, ParameterList)
 
-        Me.SelectedCountRegisters = CLng(listReturnsValues(Me.PAGED_COUNT_PARAMETER))
-         
+        Me.RecordCount = CLng(listReturnsValues(Me.PAGED_COUNT_PARAMETER))
+
     End Function
 
     Protected Overridable Function GetDataReaderEntity(ByVal Row As Integer, ByVal MaxRecords As Integer) As IDataReader
@@ -732,7 +753,7 @@ Public MustInherit Class AbstractDataAccess
         SetPagedSortParams(ParameterList, Row, MaxRecords, Me.SelectedOrderBy, Me.SelectedDirection)
         GetDataReaderEntity = Me.CurrentConnection.GetStoredProcedureDataReader(Me.SP_GETALL, listReturnsValues, ParameterList)
 
-        Me.SelectedCountRegisters = CLng(listReturnsValues(Me.PAGED_COUNT_PARAMETER))
+        Me.RecordCount = CLng(listReturnsValues(Me.PAGED_COUNT_PARAMETER))
     End Function
 
     Protected Overridable Function GetListEntity(ByVal Row As Integer, ByVal Page As Integer) As List(Of Object)

@@ -166,7 +166,7 @@ Partial Public Class EntityCodeGenerator
         Get
             Dim strTemplate As String = "Public Class ____daClass____ " & vbCrLf
             strTemplate += "    Inherits BrainWork.DataAccessBaseLibrary.AbstractDataAccess " & vbCrLf
-            strTemplate += "    Private _CurrentEntity As ____entClass____" & vbCrLf
+            'strTemplate += "    Private _CurrentEntity As ____entClass____" & vbCrLf
             strTemplate += "" & vbCrLf
             strTemplate += "    Public Property CurrentEntity() As ____entClass____" & vbCrLf
             strTemplate += "        Get" & vbCrLf
@@ -178,7 +178,7 @@ Partial Public Class EntityCodeGenerator
             strTemplate += "    End Property" & vbCrLf
             strTemplate += "" & vbCrLf
             strTemplate += "    Public Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)" & vbCrLf
-            strTemplate += "        MyBase.New(oUser, New ____entClass____)" & vbCrLf
+            strTemplate += "        MyBase.New(oUser)" & vbCrLf
             strTemplate += "        Me._CurrentEntity = CType(MyBase.Entity, ____entClass____)" & vbCrLf
             strTemplate += " ____ConstructorValues____" & vbCrLf
             strTemplate += "    End Sub" & vbCrLf
@@ -225,6 +225,12 @@ Partial Public Class EntityCodeGenerator
             strTemplate += vbCrLf & "            _CurrentEntity = value"
             strTemplate += vbCrLf & "        End Set"
             strTemplate += vbCrLf & "    End Property"
+
+            strTemplate += vbCrLf & "    Public Overrides Sub RefreshEntityDataAccess()"
+            strTemplate += vbCrLf & "       If Me._myDataAccess Is Nothing = False Then"
+            strTemplate += vbCrLf & "           Me._myDataAccess.CurrentEntity = Me.CurrentEntity"
+            strTemplate += vbCrLf & "       End If"
+            strTemplate += vbCrLf & "     End Sub"
             strTemplate += vbCrLf & ""
             strTemplate += vbCrLf & "    Public Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)"
             strTemplate += vbCrLf & "        MyBase.New(oUser, New ____entClassName____, New ____daClassName____(oUser))"
@@ -1922,7 +1928,13 @@ Partial Public Class EntityCodeGenerator
                 If (Char.IsUpper(cv(i))) Then
                     strToConvert += " "
                 End If
-                strToConvert += cv(i)
+                If (cv(i) = "_"c) Then
+                    strToConvert += " "
+                    i = i + 1
+                    strToConvert += cv(i)
+                Else
+                    strToConvert += cv(i)
+                End If
             End If
         Next
         Return propertyname
