@@ -8,8 +8,8 @@ Public Class BlSales_Currency
             Return _CurrentEntity
         End Get
         Set(ByVal value As EntSales_Currency)
-            RefreshEntityDataAccess()
             _CurrentEntity = value
+            RefreshEntityDataAccess()
         End Set
     End Property
 
@@ -21,8 +21,8 @@ Public Class BlSales_Currency
 
     Public Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)
 
-        MyBase.New(oUser, New EntSales_Currency, New DaSales_Currency(oUser))
-        Me._CurrentEntity = CType(MyBase.Entity, EntSales_Currency)
+        MyBase.New(oUser, New DaSales_Currency(oUser))
+        Me.CurrentEntity = New EntSales_Currency
         Me._myDataAccess = CType(MyBase.DataAccess, DaSales_Currency)
 
 
@@ -32,8 +32,9 @@ Public Class BlSales_Currency
 
     End Sub
 
-    Public Overrides Function ClassValidation(ByRef strError As String, _ 
-											  ByVal validationType As BrainWork.BussinesLogicBaseLibrary.Enums.enumValidationType) As Boolean 
+
+    Public Overrides Function ClassValidation(ByRef strError As String, _
+             ByVal validationType As BrainWork.BussinesLogicBaseLibrary.Enums.enumValidationType) As Boolean
         If Me.CurrentEntity.CurrencyCode Is Nothing OrElse _
            Me.CurrentEntity.ModifiedDate = Date.MinValue OrElse _
            Me.CurrentEntity.Name Is Nothing OrElse _
@@ -44,5 +45,28 @@ Public Class BlSales_Currency
             Return True
         End If
 
-    End Function 
+    End Function
+
+
+
+    'Public Overrides Sub SetEntity(ByVal value As Object)
+    '    If Not value.GetType.Name = "EntSales_Currency" Then
+    '        Throw New Exception("la clase base debe ser del tipo EntSales_Currency")
+    '    End If
+    '    _CurrentEntity = value
+    '    MyBase._Entity = _CurrentEntity
+    '    RefreshEntityDataAccess()
+    'End Sub
+
+    Public Overrides Property EntityObject() As Object
+        Get
+            Return Me.CurrentEntity
+        End Get
+        Set(ByVal value As Object)
+            If Not value.GetType.Name = "EntSales_Currency" Then
+                Throw New Exception("la clase base debe ser del tipo EntSales_Currency")
+            End If
+            Me.CurrentEntity = value
+        End Set
+    End Property
 End Class
