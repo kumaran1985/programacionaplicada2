@@ -6,8 +6,8 @@
 <Serializable()> _
  <BrainWork.Entities.EntityClassExtendsAttribute(DescriptionFieldName:="CurrencyCode", PrimaryKeyFieldName:="CurrencyCode", RootContainerName:="[Sales].[Currency]", EnabledPropertyName:="CurrencyCode", PrimaryKeyPropertyName:="CurrencyCode")> _
 Public Class EntSales_Currency
-
     Inherits BrainWork.Entities.AbstractEntityBase
+
 #Region "GeneratedCode Declaration"
     Private _CurrencyCode As String
     Private _ModifiedDate As Nullable(Of DateTime)
