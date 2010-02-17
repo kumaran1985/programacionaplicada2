@@ -166,6 +166,11 @@ Public Class AbstractEntityBase
     End Function
 
 
+    Public Function GetCurrentPrimaryKeyValue() As Object
+        Dim pi As System.Reflection.PropertyInfo = Me.GetType.GetProperty(Me.ExtendedClassAttributes.PrimaryKeyPropertyName)
+        Return pi.GetValue(Me, Nothing)
+    End Function
+
     'Public Function GetAttributesByPropertyName(Of T, TReturn)(ByVal expression As Expression(Of Func(Of T, TReturn)), ByVal value As Object) As BrainWork.Entities.EntityFieldExtendsAttribute()
     '    Dim body As MemberExpression = DirectCast(expression.Body, MemberExpression)
 
