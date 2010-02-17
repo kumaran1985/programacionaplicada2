@@ -783,7 +783,7 @@ Namespace WebControls
 
             If Not String.IsNullOrEmpty(Me.FieldDescription) Then
                 BrainWork.Utils.Web.JavaScript.JavaScriptUtils.JS_ToolTip(Me.Page, Me.GetType)
-                writer.WriteAttribute("onMouseover", "ddrivetip('" & Me.FieldDescription.Replace("'"c, "").Replace(""""c, "") & "','#FFFFE0', 300);")
+                writer.WriteAttribute("onMouseover", "ddrivetip('" & Me.FieldDescription.Replace("'"c, "").Replace(""""c, "") & "');")
                 writer.WriteAttribute("onMouseout", "hideddrivetip();")
             End If
 
