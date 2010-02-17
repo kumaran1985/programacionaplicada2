@@ -9,7 +9,7 @@ Public MustInherit Class AbstractBussinesLogic
     Public Event OnDisable()
     Public Event OnLoad()
     Private WithEvents _DataAccess As Object
-    Private _Entity As Object
+    'Private _Entity_pvt As Object
 
     Private _CurrentPage As Integer
     Private _CurrentRow As Integer
@@ -24,9 +24,21 @@ Public MustInherit Class AbstractBussinesLogic
         End Set
     End Property
 
+    'Protected Property _Entity() As Object
+    '    Get
+    '        Return _Entity_pvt
+    '    End Get
+    '    Set(ByVal value As Object)
+    '        _Entity_pvt = value
+    '        'SetEntity(value)
+    '    End Set
+    'End Property
+
+    Public MustOverride Property EntityObject() As Object
+
     Public ReadOnly Property Entity() As BrainWork.Entities.AbstractEntityBase
         Get
-            Return CType(_Entity, BrainWork.Entities.AbstractEntityBase)
+            Return CType(EntityObject, BrainWork.Entities.AbstractEntityBase)
         End Get
     End Property
 
@@ -41,6 +53,8 @@ Public MustInherit Class AbstractBussinesLogic
             Return _userlogged
         End Get
     End Property
+
+    ' Public MustOverride Sub SetEntity(ByVal o As Object)
 
 
 
@@ -73,17 +87,17 @@ Public MustInherit Class AbstractBussinesLogic
 #End Region
 
 #Region "Constructores"
-    Protected Sub New(ByVal oUser As BrainWork.Security.ApplicationUser, ByVal oEntity As Object, ByVal oDataAccess As Object)
+    Protected Sub New(ByVal oUser As BrainWork.Security.ApplicationUser, ByVal oDataAccess As Object)
         Me._userlogged = oUser
         If Me._userlogged Is Nothing Then
             Throw New BrainWork.TrunkLibrary.Exceptions.ExceptionNotSetedUser
         End If
 
-        Me._Entity = oEntity
+        'Me._Entity = oEntity
 
-        If Me._Entity Is Nothing Then
-            Throw New BrainWork.TrunkLibrary.Exceptions.ExceptionNotSetedEntity
-        End If
+        'If Me._Entity Is Nothing Then
+        '    Throw New BrainWork.TrunkLibrary.Exceptions.ExceptionNotSetedEntity
+        'End If
 
         Me._DataAccess = oDataAccess
 
@@ -93,8 +107,13 @@ Public MustInherit Class AbstractBussinesLogic
 
 
     End Sub
+
+
+
+
+
     Public MustOverride Sub RefreshEntityDataAccess()
- 
+
 
 #End Region
 
@@ -289,7 +308,7 @@ Public MustInherit Class AbstractBussinesLogic
 
     Protected Overridable Function GetDataTableEntity(ByVal Row As Integer, ByVal Page As Integer, ByVal orderByColumn As String) As DataTable
         RefreshEntityDataAccess()
-        GetDataTableEntity = Me.DataAccess.GetDataTable(Row, Page, orderbycolumn)
+        GetDataTableEntity = Me.DataAccess.GetDataTable(Row, Page, orderByColumn)
         RecordCount = Me.DataAccess.RecordCount
     End Function
 
