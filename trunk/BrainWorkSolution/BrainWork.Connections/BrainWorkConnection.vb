@@ -140,6 +140,8 @@ Public MustInherit Class BrainWorkConnection
 
     Public MustOverride Overloads Overrides Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, ByRef ListReturnedValues As System.Collections.Generic.Dictionary(Of String, Object), ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataTable
 
+    Public MustOverride Overloads Overrides Function GetStoredProcedureDataTable(ByVal StoredProcedureName As String, ByVal OrderByField As String, ByRef ListReturnedValues As System.Collections.Generic.Dictionary(Of String, Object), ByVal ParamArray Parameters() As System.Data.IDbDataParameter) As System.Data.DataTable
+
 
     Public MustOverride Overloads Overrides Function GetTable(ByVal TableName As String, ByRef ListReturnedValues As System.Collections.Generic.Dictionary(Of String, Object)) As System.Data.DataTable
 

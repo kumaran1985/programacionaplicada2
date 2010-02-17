@@ -10,7 +10,7 @@ Namespace WebControls
     <Serializable()> _
     <DefaultProperty("Text"), ToolboxData("<{0}:CustomTextBox runat=server></{0}:CustomTextBox>")> _
     <ValidationProperty("Text")> _
-    Public Class CustomTextBox : Inherits System.Web.UI.WebControls.WebControl
+    Public Class CustomTextBox : Inherits BrainWork.Utils.Web.AbstractControl
         Implements System.Web.UI.WebControls.IPostBackContainer
         Implements System.Web.UI.IValidator
         Implements System.Web.UI.IPostBackDataHandler
@@ -40,8 +40,7 @@ Namespace WebControls
         Private _Size As Integer
         Private _EntityClassContainer As String
         Private _TypeName As String
-
-        Private _OnBlur As String = ""
+         
 
         Private _CustomValidationExpression As String
         Private _ForeingCRUD As String
@@ -58,7 +57,7 @@ Namespace WebControls
         Private _PropertyName As String
         Private _LabelText As String
 
-        
+
 
         Public Property PropertyName() As String Implements Interfaces.IEntityFieldExtendsAttribute.PropertyName
             Get
@@ -342,20 +341,7 @@ Namespace WebControls
         End Property
 
 
-        <Bindable(True), Category("Appearance"), DefaultValue(""), Localizable(True)> Property Text() As String
-            Get
-                Dim s As String = CStr(ViewState("Text"))
-                If s Is Nothing Then
-                    Return String.Empty
-                Else
-                    Return s
-                End If
-            End Get
 
-            Set(ByVal Value As String)
-                ViewState("Text") = Value
-            End Set
-        End Property
 
         '<Bindable(True), Category("Appearance"), DefaultValue(""), Localizable(True)> Property LabelText() As String
         '    Get
@@ -372,46 +358,7 @@ Namespace WebControls
         '    End Set
         'End Property
         '
-        Dim _OnKeyPress As String = ""
-        <Bindable(True), Category("Appearance"), DefaultValue(""), Localizable(True)> Property OnKeyPress() As String
-
-            Get
-                If Me._OnKeyPress Is Nothing Then
-                    Me._OnKeyPress = ""
-                End If
-                Return Me._OnKeyPress
-            End Get
-            Set(ByVal value As String)
-                Me._OnKeyPress += value & ";"
-            End Set
-        End Property
-
-        <Bindable(True), Category("Appearance"), DefaultValue(""), Localizable(True)> Property OnBlur() As String
-
-            Get
-                If Me._OnBlur Is Nothing Then
-                    Me._OnBlur = ""
-                End If
-                Return Me._OnBlur
-            End Get
-            Set(ByVal value As String)
-                Me._OnBlur += value & ";"
-            End Set
-        End Property
-
-
-        Private _OnFocus As String = ""
-        <Bindable(True), Category("Appearance"), DefaultValue(""), Localizable(True)> Property OnFocus() As String
-            Get
-                If Me._OnFocus Is Nothing Then
-                    Me._OnFocus = ""
-                End If
-                Return Me._OnFocus
-            End Get
-            Set(ByVal value As String)
-                Me._OnFocus += value & ";"
-            End Set
-        End Property
+        
 
 
         Private _AddTDTag As Boolean = True
@@ -424,75 +371,7 @@ Namespace WebControls
             End Set
         End Property
         '
-        <Bindable(True), Category("Appearance"), DefaultValue("CssClassCalendar"), Localizable(True)> Property CssClassCalendar() As String
-            Get
-                Dim s As String = TryCast(ViewState("_CssClassCalendar"), String)
-                If s Is Nothing Then
-                    Return "CssClassCalendar"
-                Else
-                    Return s
-                End If
-            End Get
-            Set(ByVal value As String)
-                ViewState("_CssClassCalendar") = value
-            End Set
-        End Property
 
-        <Bindable(True), Category("Appearance"), DefaultValue("CustomTextBox"), Localizable(True)> Overrides Property CssClass() As String
-            Get
-                Dim s As String = TryCast(ViewState("_CustomTextBox"), String)
-                If s Is Nothing Then
-                    Return "CustomTextBox"
-                Else
-                    Return s
-                End If
-            End Get
-            Set(ByVal value As String)
-                ViewState("_CustomTextBox") = value
-            End Set
-        End Property
-
-        <Bindable(True), Category("Appearance"), DefaultValue("CustomTextBoxOnFocus"), Localizable(True)> Property CssClassOnFocus() As String
-            Get
-                Dim s As String = TryCast(ViewState("_CustomTextBoxOnFocus"), String)
-                If s Is Nothing Then
-                    Return "CustomTextBoxOnFocus"
-                Else
-                    Return s
-                End If
-            End Get
-            Set(ByVal value As String)
-                ViewState("_CustomTextBoxOnFocus") = value
-            End Set
-        End Property
-
-        <Bindable(True), Category("Appearance"), DefaultValue("CustomTextBoxNumeric"), Localizable(True)> Property CssClassNumeric() As String
-            Get
-                Dim s As String = TryCast(ViewState("_CustomTextBoxNumeric"), String)
-                If s Is Nothing Then
-                    Return "CustomTextBoxNumeric"
-                Else
-                    Return s
-                End If
-            End Get
-            Set(ByVal value As String)
-                ViewState("_CustomTextBoxNumeric") = value
-            End Set
-        End Property
-
-        <Bindable(True), Category("Appearance"), DefaultValue("CustomTextBoxLabel"), Localizable(True)> Property CssClassLabel() As String
-            Get
-                Dim s As String = TryCast(ViewState("_CustomTextBoxLabel"), String)
-                If s Is Nothing Then
-                    Return "CustomTextBoxLabel"
-                Else
-                    Return s
-                End If
-            End Get
-            Set(ByVal value As String)
-                ViewState("_CustomTextBoxLabel") = value
-            End Set
-        End Property
 
 
         <Bindable(True), Category("Appearance"), DefaultValue("EntityClass"), Localizable(True)> Property EntityClass() As Object
@@ -702,156 +581,43 @@ Namespace WebControls
         '    MyBase.RenderContents(writer)
         'End Sub 'RenderContents
 
-        Public Enum enumTextType
-            IntegerType
-            DoubleType
-            TextType
-            MultilineType
-            DateType
-        End Enum
+       
 
-        Private Function GetTextType() As enumTextType
+        'Private Function GetTextType() As enumTextType
 
-            Select Case True
-                Case (Me.DbType = Data.DbType.Currency) _
-                     OrElse (Me.DbType = Data.DbType.Decimal) _
-                     OrElse (Me.DbType = Data.DbType.Double) _
-                     OrElse (Me.DbType = Data.DbType.VarNumeric)
-                    Return enumTextType.DoubleType
-                Case (Me.DbType = Data.DbType.Byte) _
-                        OrElse (Me.DbType = Data.DbType.Int16) _
-                        OrElse (Me.DbType = Data.DbType.Int32) _
-                        OrElse (Me.DbType = Data.DbType.Int64) _
-                        OrElse (Me.DbType = Data.DbType.UInt16) _
-                        OrElse (Me.DbType = Data.DbType.UInt32) _
-                        OrElse (Me.DbType = Data.DbType.UInt64)
-                    Return enumTextType.IntegerType
+        '    Select Case True
+        '        Case (Me.DbType = System.Data.DbType.Currency) _
+        '             OrElse (Me.DbType = System.Data.DbType.Decimal) _
+        '             OrElse (Me.DbType = System.Data.DbType.Double) _
+        '             OrElse (Me.DbType = System.Data.DbType.VarNumeric)
+        '            Return enumTextType.DoubleType
+        '        Case (Me.DbType = System.Data.DbType.Byte) _
+        '                OrElse (Me.DbType = System.Data.DbType.Int16) _
+        '                OrElse (Me.DbType = System.Data.DbType.Int32) _
+        '                OrElse (Me.DbType = System.Data.DbType.Int64) _
+        '                OrElse (Me.DbType = System.Data.DbType.UInt16) _
+        '                OrElse (Me.DbType = System.Data.DbType.UInt32) _
+        '                OrElse (Me.DbType = System.Data.DbType.UInt64)
+        '            Return enumTextType.IntegerType
 
-                Case (Me.DbType = Data.DbType.Date) _
-                        OrElse (Me.DbType = Data.DbType.DateTime) _
-                        OrElse (Me.DbType = Data.DbType.DateTime2) _
-                        OrElse (Me.DbType = Data.DbType.DateTimeOffset)
-                    Return enumTextType.DateType
-                Case Else
-                    Return enumTextType.TextType
+        '        Case (Me.DbType = System.Data.DbType.Date) _
+        '                OrElse (Me.DbType = System.Data.DbType.DateTime) _
+        '                OrElse (Me.DbType = System.Data.DbType.DateTime2) _
+        '                OrElse (Me.DbType = System.Data.DbType.DateTimeOffset)
+        '            Return enumTextType.DateType
+        '        Case Else
+        '            Return enumTextType.TextType
 
 
-            End Select
+        '    End Select
 
-        End Function
+        'End Function
 
         Private Function GetControlID() As String
             Return Me.ClientID & "_Value"
         End Function
 
-        Private Sub SetNumericInteger(ByRef ctrl As TextBox)
-            Me.OnFocus = "this.select()"
-            Me.OnFocus = "this.className = '" & Me.CssClassOnFocus & "'"
-            Me.OnBlur = "this.className = '" & Me.CssClassNumeric & "'"
-            Me.CssClass = CssClassNumeric
 
-            Dim sb As New System.Text.StringBuilder
-
-            sb.Append("	if(num=='')")
-            sb.Append("	{")
-            sb.Append("		alert('Número Inválido');	this.focus();	this.select(); return false;	")
-            sb.Append("	}")
-            sb.Append("	if(isNaN(num))")
-            sb.Append("	{")
-            sb.Append("		alert('Número Inválido');	this.focus();	this.select(); return false;")
-            sb.Append("	}")
-            sb.Append("	else")
-            sb.Append("	{")
-            sb.Append("				if(num.indexOf(',')>-1)")
-            sb.Append("				{")
-            sb.Append("					alert('Número Inválido');	this.focus();	this.select(); return false;")
-            sb.Append("				}")
-            sb.Append("				if(num.indexOf('.')>-1)")
-            sb.Append("				{")
-            sb.Append("					alert('Número Inválido');	this.focus();	this.select(); return false;")
-            sb.Append("				}")
-            sb.Append("	}")
-            sb.Append("	this.value=Number(this.value);return true;")
-
-            Me.OnBlur = "if(this.value!=''){if(isNaN(this.value)){this.focus();this.select();}else{this.value=Number(this.value)}}"
-
-            sb = New System.Text.StringBuilder
-
-            sb.Append(" try")
-            sb.Append(" {")
-            sb.Append("     isNetscape = (document.layers);")
-            sb.Append("     eventChooser = (isNetscape) ? keyStroke.which : event.keyCode;")
-            sb.Append("     if(((eventChooser < 48)||(eventChooser > 57)))")
-            sb.Append("     {")
-            sb.Append("         if(isNetscape)")
-            sb.Append("         {")
-            sb.Append("             keyStroke.which = 0;")
-            sb.Append("         }")
-            sb.Append("         else")
-            sb.Append("         {")
-            sb.Append("             event.keyCode = 0;")
-            sb.Append("         }")
-            sb.Append("     }")
-            sb.Append(" }")
-            sb.Append(" catch(e){}")
-
-            Me.OnKeyPress = sb.ToString()
-        End Sub
-
-        Private Sub SetNumericDouble(ByRef ctrl As TextBox)
-            Me.OnFocus = "this.select()"
-            Me.OnFocus = "this.className = '" & Me.CssClassOnFocus & "'"
-            Me.OnBlur = "this.className = '" & Me.CssClassNumeric & "'"
-
-            Dim sb As New System.Text.StringBuilder
-            sb.Append("	if(num=='')")
-            sb.Append("	{")
-            sb.Append("		alert('Número Inválido');	this.focus();	this.select(); return false;	")
-            sb.Append("	}")
-            sb.Append("	if(isNaN(num))")
-            sb.Append("	{")
-            sb.Append("		alert('Número Inválido');	this.focus();	this.select(); return false;")
-            sb.Append("	}")
-            sb.Append("	else")
-            sb.Append("	{")
-            sb.Append("				if(num.indexOf(',')>-1)")
-            sb.Append("				{")
-            sb.Append("					alert('Número Inválido');	this.focus();	this.select(); return false;")
-            sb.Append("				}")
-            sb.Append("				if(num.indexOf('.')>-1)")
-            sb.Append("				{")
-            sb.Append("					alert('Número Inválido');	this.focus();	this.select(); return false;")
-            sb.Append("				}")
-            sb.Append("	}")
-            sb.Append("	this.value=Number(this.value);return true;")
-
-            Me.OnBlur = "if(this.value!=''){if(isNaN(this.value)){this.focus();this.select();}else{this.value=Number(this.value)}}"
-
-            sb = New System.Text.StringBuilder
-
-            sb.Append(" try")
-            sb.Append(" {")
-            sb.Append("     isNetscape = (document.layers);")
-            sb.Append("     eventChooser = (isNetscape) ? keyStroke.which : event.keyCode;")
-            sb.Append("     if(eventChooser != 46)")
-            sb.Append("     {")
-            sb.Append("         if(((eventChooser < 48)||(eventChooser > 57)))")
-            sb.Append("         {")
-            sb.Append("             if(isNetscape)")
-            sb.Append("             {")
-            sb.Append("                 keyStroke.which = 0;")
-            sb.Append("             }")
-            sb.Append("             else")
-            sb.Append("             {")
-            sb.Append("                 event.keyCode = 0;")
-            sb.Append("             }")
-            sb.Append("         }")
-            sb.Append("     }")
-            sb.Append(" }")
-            sb.Append(" catch(e){}")
-
-            Me.OnKeyPress = sb.ToString()
-        End Sub
 
         Private Sub SetTextBox()
 
@@ -875,11 +641,7 @@ Namespace WebControls
 
         Private Sub CreateTextBox(ByRef writer As HtmlTextWriter)
 
-
-
-
-
-            Select Case Me.GetTextType
+            Select Case GetTextType(Me.DbType)
 
                 Case enumTextType.IntegerType
                     Dim Ctrl As New TextBox
@@ -1013,6 +775,7 @@ Namespace WebControls
             If AddTDTag Then
                 writer.WriteBeginTag("TD")
                 writer.WriteAttribute("aling", "right")
+                writer.Write(System.Web.UI.HtmlTextWriter.TagRightChar)
             End If
             writer.WriteBeginTag("span")
             writer.WriteAttribute("id", Me.ClientID & "_Label")
@@ -1031,7 +794,7 @@ Namespace WebControls
             Else
                 writer.WriteEncodedText(Me.FieldName & "___________________________  ")
 
-            End If 
+            End If
 
             writer.WriteEndTag("span")
             If AddTDTag Then
@@ -1041,6 +804,7 @@ Namespace WebControls
             If AddTDTag Then
                 writer.WriteBeginTag("TD")
                 writer.WriteAttribute("aling", "left")
+                writer.Write(System.Web.UI.HtmlTextWriter.TagRightChar)
             End If
 
             Select Case Me.RelationType
