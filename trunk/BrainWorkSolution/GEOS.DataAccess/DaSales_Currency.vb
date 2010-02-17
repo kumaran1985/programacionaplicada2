@@ -1,11 +1,7 @@
 Public Class DaSales_Currency
     Inherits BrainWork.DataAccessBaseLibrary.AbstractDataAccess
 
-
-    Protected Overrides Function GetEntity() As Object
-        Return _CurrentEntity
-    End Function
-
+ 
     Public Property CurrentEntity() As EntSales_Currency
         Get
             Return _CurrentEntity
