@@ -273,21 +273,87 @@ Namespace WebControls.Data
 
         Private Sub SearchControl_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
             If Me.Page.IsPostBack Then
-                If System.Web.HttpContext.Current.Request.Form(Me.ID & "_txt").Trim.Length > 0 Then
-                    Dim key As String = System.Web.HttpContext.Current.Request.Form(Me.ID & "_cmbFields")
-                    Dim value As String = System.Web.HttpContext.Current.Request.Form(Me.ID & "_txt")
-                    SelectedPropertyName = key
-                    If Me.CurrentFilters.ContainsKey(key) Then
-                        Me.CurrentFilters(key) = value
-                    Else
-                        Me.CurrentFilters.Add(key, value)
-                    End If
-                ElseIf System.Web.HttpContext.Current.Request.Form(Me.ID & "_cmbFields").Trim.Length > 0 Then
-                    SelectedPropertyName = System.Web.HttpContext.Current.Request.Form(Me.ID & "_cmbFields")
-
-                End If
+                GetValuesFromRequest()
             End If
         End Sub
+
+        Private Sub GetValuesFromRequest()
+            If System.Web.HttpContext.Current.Request.Form(Me.ID & "_txt").Trim.Length > 0 Then
+                Dim key As String = System.Web.HttpContext.Current.Request.Form(Me.ID & "_cmbFields")
+                Dim value As String = System.Web.HttpContext.Current.Request.Form(Me.ID & "_txt")
+                SelectedPropertyName = key
+                If Me.CurrentFilters.ContainsKey(key) Then
+                    Me.CurrentFilters(key) = value
+                Else
+                    Me.CurrentFilters.Add(key, value)
+                End If
+
+
+            ElseIf System.Web.HttpContext.Current.Request.Form(Me.ID & "_cmbFields").Trim.Length > 0 Then
+                SelectedPropertyName = System.Web.HttpContext.Current.Request.Form(Me.ID & "_cmbFields")
+
+            End If
+        End Sub
+
+        Public Function GetEntityFiltered()
+            If Me.Page.IsPostBack Then
+                GetValuesFromRequest()
+            End If
+            If Me.CurrentFilters.Count > 0 Then
+                For Each key As String In CurrentFilters.Keys
+                    Dim pi As Reflection.PropertyInfo
+                    pi = Me.Entity.GetType.GetProperty(key)
+
+
+                    Dim NewValue As Object = IIf(String.IsNullOrEmpty(CurrentFilters(key)), Nothing, CObj(CurrentFilters(key)))
+                    If Not NewValue Is Nothing Then
+                        Select Case True
+
+                            Case pi.PropertyType.Name.ToLower.Contains("date")
+                                If IsDate(NewValue) Then
+                                    pi.SetValue(Me.Entity, CDate(NewValue), Nothing)
+                                Else
+                                    Throw New ApplicationException("Tipo de dato no valido:" & key)
+                                End If
+
+                            Case pi.PropertyType.Name.ToLower.Contains("integer") OrElse _
+                                 pi.PropertyType.Name.ToLower.Contains("int32") OrElse _
+                                 pi.PropertyType.Name.ToLower.Contains("int16") OrElse _
+                                 pi.PropertyType.Name.ToLower.Contains("int64") OrElse _
+                                 pi.PropertyType.Name.ToLower.Contains("double") OrElse _
+                                 pi.PropertyType.Name.ToLower.Contains("float")
+
+                                If IsNumeric(NewValue) Then
+                                    pi.SetValue(Me.Entity, Val(NewValue), Nothing)
+                                Else
+                                    Throw New ApplicationException("Tipo de dato no valido" & key)
+                                End If
+
+                            Case Else
+                                pi.SetValue(Me.Entity, NewValue, Nothing)
+
+
+                        End Select
+
+                    End If
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                Next
+            End If
+            Return Entity
+        End Function
 
         Private Sub cmbFields_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmbFields.SelectedIndexChanged
 
