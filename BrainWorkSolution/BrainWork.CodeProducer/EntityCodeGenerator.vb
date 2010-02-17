@@ -217,14 +217,18 @@ Partial Public Class EntityCodeGenerator
             strTemplate += vbCrLf & "    Private _CurrentEntity As ____entClassName____"
             strTemplate += vbCrLf & "    Private _myDataAccess As ____daClassName____"
             strTemplate += vbCrLf & ""
+             
             strTemplate += vbCrLf & "    Public Property CurrentEntity() As ____entClassName____"
             strTemplate += vbCrLf & "        Get"
             strTemplate += vbCrLf & "            Return _CurrentEntity"
             strTemplate += vbCrLf & "        End Get"
             strTemplate += vbCrLf & "        Set(ByVal value As ____entClassName____)"
             strTemplate += vbCrLf & "            _CurrentEntity = value"
+            strTemplate += vbCrLf & "            MyBase._Entity = _CurrentEntity"
+            strTemplate += vbCrLf & "            RefreshEntityDataAccess()"
             strTemplate += vbCrLf & "        End Set"
             strTemplate += vbCrLf & "    End Property"
+             
 
             strTemplate += vbCrLf & "    Public Overrides Sub RefreshEntityDataAccess()"
             strTemplate += vbCrLf & "       If Me._myDataAccess Is Nothing = False Then"
@@ -233,13 +237,24 @@ Partial Public Class EntityCodeGenerator
             strTemplate += vbCrLf & "     End Sub"
             strTemplate += vbCrLf & ""
             strTemplate += vbCrLf & "    Public Sub New(ByVal oUser As BrainWork.Security.ApplicationUser)"
-            strTemplate += vbCrLf & "        MyBase.New(oUser, New ____entClassName____, New ____daClassName____(oUser))"
+            strTemplate += vbCrLf & "        MyBase.New(oUser,  New ____daClassName____(oUser))"
             strTemplate += vbCrLf & "        Me._CurrentEntity = CType(MyBase.Entity, ____entClassName____)"
             strTemplate += vbCrLf & "        Me._myDataAccess = CType(MyBase.DataAccess, ____daClassName____)"
             strTemplate += vbCrLf & "        Me._myDataAccess.CurrentEntity = Me.CurrentEntity"
             strTemplate += vbCrLf & "____ConstructorValues____"
 
             strTemplate += vbCrLf & "    End Sub"
+
+            'If Not value.GetType.Name = ""____entClassName____"" Then
+            strTemplate += vbCrLf & "		Public Overrides Sub SetEntity(ByVal value As Object)"
+            strTemplate += vbCrLf & "    		If Not value.GetType.Name = ""____entClassName____"" Then"
+            strTemplate += vbCrLf & "     		   Throw New Exception(""la clase base debe ser del tipo ____entClassName____"")"
+            strTemplate += vbCrLf & "    		End If"
+            strTemplate += vbCrLf & "  		   Me._CurrentEntity = CType(value, ____entClassName____)"
+            strTemplate += vbCrLf & "  		   RefreshEntityDataAccess()"
+            strTemplate += vbCrLf & "		End Sub"
+
+
             strTemplate += vbCrLf & ""
             strTemplate += vbCrLf & "    Public Overrides Function ClassValidation(ByRef strError As String, _ "
             strTemplate += vbCrLf & "											  ByVal validationType As BrainWork.BussinesLogicBaseLibrary.Enums.enumValidationType) As Boolean "
@@ -1015,7 +1030,8 @@ Partial Public Class EntityCodeGenerator
     Private Function CreateSelectForProcedure(ByVal TableName As String, _
                                                     ByVal listefield As List(Of BrainWork.Entities.EntityFieldExtendsAttribute), _
                                                     Optional ByVal prefix As String = "", _
-                                                    Optional ByVal WithDescriptionField As Boolean = True) As String
+                                                    Optional ByVal WithDescriptionField As Boolean = True, _
+                                                    Optional ByRef SelectNames As String = "") As String
         Dim auxDeclarationVariables As String = prefix & "SELECT "
 
         Dim innerJoinValues As String = ""
@@ -1024,8 +1040,8 @@ Partial Public Class EntityCodeGenerator
             Dim ci As DataColumn
             ci = GetColumnExtendInformation(TableName, pField.FieldName)
 
-            auxDeclarationVariables += vbCrLf & prefix & SanitizeTableName(TableName) & ".[" & pField.FieldName & "] ,"
-
+            auxDeclarationVariables += vbCrLf & prefix & SanitizeTableName(TableName) & ".[" & pField.FieldName & "] As  [" & pField.FieldName.Replace(" "c, "_") & "],"
+            SelectNames += "[" & pField.FieldName.Replace(" "c, "_") & "],"
             If pField.FieldType = Entities.EnumFieldType.ForeingKey Then ' si es clave externa
                 innerJoinValues += vbCrLf & prefix & vbTab & " Inner Join " & pField.ForeingTable & " " & SanitizeTableName(pField.ForeingTable)
 
@@ -1037,10 +1053,11 @@ Partial Public Class EntityCodeGenerator
                     For Each item As BrainWork.Entities.EntityFieldExtendsAttribute In TablesFields(pField.ForeingTable)
                         If item.IsDescription Then
                             If auxDeclarationVariables.Contains(SanitizeTableName(pField.ForeingTable) & ".[" & pField.FieldName & "] ,") Then
-                                auxDeclarationVariables += vbCrLf & prefix & SanitizeTableName(pField.ForeingTable) & ".[" & pField.FieldName & "] As " & SanitizeTableName(pField.ForeingTable) & pField.FieldName.Replace(" "c, "_") & ","
+                                auxDeclarationVariables += vbCrLf & prefix & SanitizeTableName(pField.ForeingTable) & ".[" & pField.FieldName & "] As [" & SanitizeTableName(pField.ForeingTable) & pField.FieldName.Replace(" "c, "_") & "],"
                             Else
-                                auxDeclarationVariables += vbCrLf & prefix & SanitizeTableName(pField.ForeingTable) & ".[" & pField.FieldName & "] ,"
+                                auxDeclarationVariables += vbCrLf & prefix & SanitizeTableName(pField.ForeingTable) & ".[" & pField.FieldName & "] As [" & pField.FieldName.Replace(" "c, "_") & "],"
                             End If
+                            SelectNames += "[" & pField.FieldName.Replace(" "c, "_") & "],"
 
                         End If
                     Next
@@ -1051,6 +1068,10 @@ Partial Public Class EntityCodeGenerator
 
 
         Next
+
+        If SelectNames.EndsWith(",") Then
+            SelectNames = SelectNames.Remove(SelectNames.Length - 1, 1)
+        End If
 
         auxDeclarationVariables = auxDeclarationVariables.Substring(0, auxDeclarationVariables.Length - 1)
         auxDeclarationVariables += vbCrLf & prefix & " From " & TableName & " " & SanitizeTableName(TableName) & innerJoinValues
@@ -1610,7 +1631,12 @@ Partial Public Class EntityCodeGenerator
                     WhereExpression2 += vbTab & vbTab & vbTab & vbTab & vbTab & vbTab & vbTab & vbCrLf & "               ("
                     WhereExpression2 += "(@" & pField.FieldName.Replace(" "c, "_") & " is Null)"
                     WhereExpression2 += " OR "
-                    WhereExpression2 += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+                    If pField.TypeName.ToLower.Contains("varchar") Then
+                        WhereExpression2 += " ([" & pField.FieldName & "] Like '%' + @" & pField.FieldName.Replace(" "c, "_") & " + '%' )"
+                    Else
+                        WhereExpression2 += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+                    End If
+
                     WhereExpression2 += ") AND"
                 End If
             Next
@@ -1648,7 +1674,8 @@ Partial Public Class EntityCodeGenerator
 
         sbSelectAllProcedure.AppendLine("         BEGIN ")
 
-        Dim selectClause As String = CreateSelectForProcedure(TableName, listefield, vbTab & vbTab & vbTab, False)
+        Dim selects As String = ""
+        Dim selectClause As String = CreateSelectForProcedure(TableName, listefield, vbTab & vbTab & vbTab, False, selects)
 
         Dim isFirst As Boolean = True
         Dim auxstr As String = ""
@@ -1672,7 +1699,7 @@ Partial Public Class EntityCodeGenerator
                 vbCrLf & vbTab & vbTab & vbTab & ")" & vbCrLf
 
         sbSelectAllProcedure.AppendLine(vbTab & vbTab & vbTab & auxstr)
-        sbSelectAllProcedure.AppendLine(vbTab & vbTab & vbTab & "SELECT * FROM PagedTableAuxiliary " & _
+        sbSelectAllProcedure.AppendLine(vbTab & vbTab & vbTab & "SELECT " & selects & " FROM PagedTableAuxiliary " & _
                                      vbCrLf & vbTab & vbTab & vbTab & "WHERE RowNumber BETWEEN " & PAGED_ROW_PARAMETER & " AND (" & PAGED_MAXVALUES_PARAMETER & " + " & PAGED_ROW_PARAMETER & ") ")
 
 
@@ -1685,7 +1712,15 @@ Partial Public Class EntityCodeGenerator
                 WhereExpression += vbTab & vbTab & vbTab & vbCrLf & "               ("
                 WhereExpression += "(@" & pField.FieldName.Replace(" "c, "_") & " is Null)"
                 WhereExpression += " OR "
-                WhereExpression += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+
+
+                If pField.TypeName.ToLower.Contains("varchar") Then
+                    WhereExpression += " ([" & pField.FieldName & "] Like '%' + @" & pField.FieldName.Replace(" "c, "_") & " + '%' )"
+                Else
+                    WhereExpression += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+                End If
+
+
                 WhereExpression += ") AND"
             End If
         Next
@@ -1750,7 +1785,15 @@ Partial Public Class EntityCodeGenerator
                     WhereExpression2 += vbTab & vbTab & vbTab & vbTab & vbTab & vbTab & vbTab & vbCrLf & "               ("
                     WhereExpression2 += "(@" & pField.FieldName.Replace(" "c, "_") & " is Null)"
                     WhereExpression2 += " OR "
-                    WhereExpression2 += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+                    'WhereExpression2 += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+
+                    If pField.TypeName.ToLower.Contains("varchar") Then
+                        WhereExpression2 += " ([" & pField.FieldName & "] Like '%' + @" & pField.FieldName.Replace(" "c, "_") & " + '%' )"
+                    Else
+                        WhereExpression2 += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+                    End If
+
+
                     WhereExpression2 += ") AND"
                 End If
             Next
@@ -1782,7 +1825,8 @@ Partial Public Class EntityCodeGenerator
 
         sbSearchAllProcedure.AppendLine("         BEGIN ")
 
-        Dim selectClause As String = CreateSelectForProcedure(TableName, listefield, vbTab & vbTab & vbTab)
+        Dim selects As String = ""
+        Dim selectClause As String = CreateSelectForProcedure(TableName, listefield, vbTab & vbTab & vbTab, True, selects)
 
         Dim isFirst As Boolean = True
         Dim auxstr As String = ""
@@ -1806,7 +1850,7 @@ Partial Public Class EntityCodeGenerator
                 vbCrLf & vbTab & vbTab & vbTab & ")" & vbCrLf
 
         sbSearchAllProcedure.AppendLine(vbTab & vbTab & vbTab & auxstr)
-        sbSearchAllProcedure.AppendLine(vbTab & vbTab & vbTab & "SELECT * FROM PagedTableAuxiliary " & _
+        sbSearchAllProcedure.AppendLine(vbTab & vbTab & vbTab & "SELECT " & selects & " FROM PagedTableAuxiliary " & _
                                      vbCrLf & vbTab & vbTab & vbTab & "WHERE RowNumber BETWEEN " & PAGED_ROW_PARAMETER & " AND (" & PAGED_MAXVALUES_PARAMETER & " + " & PAGED_ROW_PARAMETER & ") ")
 
 
@@ -1819,7 +1863,13 @@ Partial Public Class EntityCodeGenerator
                 WhereExpression += vbTab & vbTab & vbTab & vbCrLf & "               ("
                 WhereExpression += "(@" & pField.FieldName.Replace(" "c, "_") & " is Null)"
                 WhereExpression += " OR "
-                WhereExpression += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+                'WhereExpression += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+                If pField.TypeName.ToLower.Contains("varchar") Then
+                    WhereExpression += " ([" & pField.FieldName & "] Like '%' + @" & pField.FieldName.Replace(" "c, "_") & " + '%' )"
+                Else
+                    WhereExpression += " ([" & pField.FieldName & "] = @" & pField.FieldName.Replace(" "c, "_") & ")"
+                End If
+
                 WhereExpression += ") AND"
             End If
         Next
