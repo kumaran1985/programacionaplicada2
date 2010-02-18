@@ -29,32 +29,19 @@ Public NotInheritable Class SQLDBrainWorkConnection
         Select Case p.DbType
 
             Case DbType.String
-                Dim Longitud As Integer
-                'Tipo de dato VARCHAR2 de ORACLE
-                If p.Value Is Nothing Then
-                    Longitud = 4000
-                Else
-                    Longitud = p.Value.ToString.Length
-                End If
+                
 
-                If Longitud > 32000 Then
-                    Longitud = 32000
-                ElseIf Longitud = 0 Then
-                    Longitud = 4000
-
-                End If
-
-                GetNewParameter = New System.Data.SqlClient.SqlParameter(p.ParameterName, SqlDbType.VarChar, Longitud)
+                GetNewParameter = New System.Data.SqlClient.SqlParameter(p.ParameterName, SqlDbType.VarChar, p.Size)
                 GetNewParameter.Direction = p.Direction
                 GetNewParameter.Value = p.Value
 
             Case DbType.Int32
-                'Tipo de Dato INTEGER de ORACLE
+
                 GetNewParameter = New System.Data.SqlClient.SqlParameter(p.ParameterName, SqlDbType.Int, 22, _
                                                                                p.Direction, False, 38, 0, "", System.Data.DataRowVersion.Current, _
                                                                                p.Value)
             Case DbType.Boolean
-                'Tipo de Dato NUMBER de ORACLE
+
                 Dim intNumero As Int16
                 If CType(p.Value, Boolean) Then
                     intNumero = 1
@@ -65,17 +52,17 @@ Public NotInheritable Class SQLDBrainWorkConnection
                                                                                 1, p.Direction, False, 0, 0, "", _
                                                                                System.Data.DataRowVersion.Current, intNumero)
             Case DbType.Double
-                'Tipo de Dato FLOAT de ORACLE
+
                 GetNewParameter = New System.Data.SqlClient.SqlParameter(p.ParameterName, SqlDbType.Float, _
                                                                                22, p.Direction, False, 15, 0, "", _
                                                                                System.Data.DataRowVersion.Current, p.Value)
             Case DbType.Date
-                'Tipo de Dato DATE de ORACLE
+
                 GetNewParameter = New System.Data.SqlClient.SqlParameter(p.ParameterName, SqlDbType.DateTime, _
                                                                                7, p.Direction, False, 0, 0, "", _
                                                                                System.Data.DataRowVersion.Current, p.Value)
             Case DbType.DateTime
-                'Tipo de Dato DATE de ORACLE
+
                 GetNewParameter = New System.Data.SqlClient.SqlParameter(p.ParameterName, SqlDbType.DateTime, _
                                                                                7, p.Direction, False, 0, 0, "", _
                                                                                System.Data.DataRowVersion.Current, p.Value)
