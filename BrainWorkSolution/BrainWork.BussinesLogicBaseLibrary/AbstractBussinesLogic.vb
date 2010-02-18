@@ -243,6 +243,13 @@ Public MustInherit Class AbstractBussinesLogic
         Me._CurrentRow = Row
         Return GetDataTableEntity(Row, MaxRecords, orderByColumn)
     End Function
+    Public Function GetDataTableFull(ByVal Row As Integer, ByVal MaxRecords As Integer, ByVal orderByColumn As String) As DataTable
+        ' RefreshEntityDataAccess()
+        Me._CurrentPage = MaxRecords
+        Me._CurrentRow = Row
+        Return GetDataTableEntityFull(Row, MaxRecords, orderByColumn)
+    End Function
+
 
     Public Function GetDataSet(ByVal Row As Integer, ByVal MaxRecords As Integer) As DataSet
         ' RefreshEntityDataAccess()
@@ -303,6 +310,12 @@ Public MustInherit Class AbstractBussinesLogic
     Protected Overridable Function GetDataTableEntity(ByVal Row As Integer, ByVal Page As Integer) As DataTable
         RefreshEntityDataAccess()
         GetDataTableEntity = Me.DataAccess.GetDataTable(Row, Page)
+        RecordCount = Me.DataAccess.RecordCount
+    End Function
+
+    Protected Overridable Function GetDataTableEntityFull(ByVal Row As Integer, ByVal Page As Integer, ByVal orderByColumn As String) As DataTable
+        RefreshEntityDataAccess()
+        GetDataTableEntityFull = Me.DataAccess.GetDataTableFull(Row, Page, orderByColumn)
         RecordCount = Me.DataAccess.RecordCount
     End Function
 
