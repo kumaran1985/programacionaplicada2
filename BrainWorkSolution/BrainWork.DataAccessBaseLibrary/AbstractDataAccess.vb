@@ -393,6 +393,12 @@ Public MustInherit Class AbstractDataAccess
 
         Return GetDataTableEntity(Row, MaxRecords)
     End Function
+    '
+
+    Public Function GetDataTableFull(ByVal Row As Integer, ByVal MaxRecords As Integer, ByVal orderByColumn As String) As DataTable
+
+        Return GetDataTableEntityFull(Row, MaxRecords, orderByColumn)
+    End Function
 
     Public Function GetDataTable(ByVal Row As Integer, ByVal MaxRecords As Integer, ByVal orderByColumn As String) As DataTable
 
@@ -702,7 +708,20 @@ Public MustInherit Class AbstractDataAccess
         Dim dr As IDataReader = Me.CurrentConnection.GetStoredProcedureDataReader(Me.SP_GETONE, ParameterList)
         Return CType(CreateObjectByReader(dr), BrainWork.Entities.Interfaces.IEntityFieldExtendsAttribute)
     End Function
-    '
+
+    Protected Overridable Function GetDataTableEntityFull(ByVal Row As Integer, ByVal MaxRecords As Integer, ByVal orderByColumn As String) As DataTable
+
+        Dim ParameterList() As System.Data.IDbDataParameter
+        ParameterList = GetParameterByStored(SP_GETALL_FULLDESCRIPTION)
+        ParametizeValues(ParameterList, False)
+
+        Dim listReturnsValues As New Dictionary(Of String, Object)
+        SetPagedSortParams(ParameterList, Row, MaxRecords, Me.SelectedOrderBy, Me.SelectedDirection)
+        GetDataTableEntityFull = Me.CurrentConnection.GetStoredProcedureDataTable(Me.SP_GETALL_FULLDESCRIPTION, listReturnsValues, ParameterList)
+
+        Me.RecordCount = CLng(IIf(listReturnsValues(Me.PAGED_COUNT_PARAMETER) Is DBNull.Value, 0, listReturnsValues(Me.PAGED_COUNT_PARAMETER)))
+
+    End Function
     Protected Overridable Function GetDataTableEntity(ByVal Row As Integer, ByVal MaxRecords As Integer, ByVal orderByColumn As String) As DataTable
 
         Dim ParameterList() As System.Data.IDbDataParameter
