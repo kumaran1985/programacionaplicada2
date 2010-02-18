@@ -5,7 +5,7 @@ Partial Class Sales_Currency
 
     Public Overrides ReadOnly Property MyGrid() As BrainWork.Utils.Web.WebControls.Data.GridView
         Get
-            Return Me.GridView1
+            ' Return Me.GridView1
         End Get
     End Property
 
@@ -19,8 +19,6 @@ Partial Class Sales_Currency
 
     Protected Sub btnAdd_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnAdd.Click
 
-        
-
 
         MyBase.AddCurrentValues()
 
@@ -29,17 +27,22 @@ Partial Class Sales_Currency
     End Sub
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Me.SearchControl1.Entity = New GEOS.Entities.EntSales_Currency
 
-        LoadSearchValuesInGrid(CType(Me.SearchControl1.GetEntityFiltered, GEOS.Entities.EntSales_Currency))
+        Me.wucSearchGrid1.MyBl = Me.MainBL
+        Me.wucSearchGrid1.MyEntity = Me.MainEntity
+        'Me.SearchControl1.Entity = New GEOS.Entities.EntSales_Currency
+
+        'LoadSearchValuesInGrid(CType(Me.SearchControl1.GetEntityFiltered, GEOS.Entities.EntSales_Currency))
 
 
         '  LoadSearchValuesInGrid(New GEOS.Entities.EntSales_Currency)
     End Sub
 
     Public Sub New()
+
         MyBase.MainEntity = New GEOS.Entities.EntSales_Currency
         MyBase.MainBL = New GEOS.BussinesLogic.BlSales_Currency(CurrentUser)
+ 
     End Sub
 
     Protected Overrides Function GetCurrentForm() As System.Web.UI.HtmlControls.HtmlForm

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5D1246DB-8F52-497D-BA4C-4BA6C4DED92C}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -60,6 +60,55 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntACTIVIDADES.vb" />
+    <Compile Include="EntAFILIADOS_PER.vb" />
+    <Compile Include="EntAFILIADOS_TIPO_PROCEDENCIA.vb" />
+    <Compile Include="EntAPORTES.vb" />
+    <Compile Include="EntAPP_DEPARTAMENTOS.vb" />
+    <Compile Include="EntAPP_DOMICILIOS.vb" />
+    <Compile Include="EntAPP_DOMICILIO_TIPO.vb" />
+    <Compile Include="EntAPP_ENTIDADES.vb" />
+    <Compile Include="EntAPP_ESTADOS.vb" />
+    <Compile Include="EntAPP_LOCALIDADES.vb" />
+    <Compile Include="EntAPP_PAISES.vb" />
+    <Compile Include="EntAPP_PERMISOS.vb" />
+    <Compile Include="EntAPP_PERSONAS.vb" />
+    <Compile Include="EntAPP_PROVINCIAS.vb" />
+    <Compile Include="EntAPP_ROLES.vb" />
+    <Compile Include="EntAPP_TELEFONOS.vb" />
+    <Compile Include="EntAPP_TELEFONOS_TIPO.vb" />
+    <Compile Include="EntAPP_USUARIOS_PER.vb" />
+    <Compile Include="EntAPP_WEB.vb" />
+    <Compile Include="EntBANCOS_CUENTAS.vb" />
+    <Compile Include="EntBANCOS_PER.vb" />
+    <Compile Include="EntCOMPROBANTES_TIPO.vb" />
+    <Compile Include="EntCONSUMOS.vb" />
+    <Compile Include="EntCONSUMOS_DETALLE.vb" />
+    <Compile Include="EntCONVENIOS.vb" />
+    <Compile Include="EntCONVENIOS_TARIFAS.vb" />
+    <Compile Include="EntCREDENCIALES.vb" />
+    <Compile Include="EntDDJJSS.vb" />
+    <Compile Include="EntDDJJSS_DETALLE.vb" />
+    <Compile Include="EntDDJJSS_LISTA_DECLARACIONES.vb" />
+    <Compile Include="EntDDJJSS_OBRASSOCIALES.vb" />
+    <Compile Include="EntEMPLEADORES_PER.vb" />
+    <Compile Include="EntER_AFILIADOS_EMPLEADORES.vb" />
+    <Compile Include="EntER_AFILIADOS_OBRASSOCIALES.vb" />
+    <Compile Include="EntER_AFILIADOS_PLANES.vb" />
+    <Compile Include="EntER_INSTITUCIONES_PROFESIONALES.vb" />
+    <Compile Include="EntER_PERSONAS.vb" />
+    <Compile Include="EntER_PERSONAS_BANCOS_CUENTAS.vb" />
+    <Compile Include="EntER_PERSONAS_TIPO_RELACION.vb" />
+    <Compile Include="EntER_PRESTACIONES_CONVENIOS.vb" />
+    <Compile Include="EntER_PRESTACIONES_PLAN.vb" />
+    <Compile Include="EntESPECIALIDADES.vb" />
+    <Compile Include="EntIDENTIFICACIONES.vb" />
+    <Compile Include="EntIDENTIFICACIONES_TIPO.vb" />
+    <Compile Include="EntOBRASSOCIALES_PER.vb" />
+    <Compile Include="EntPLANES_COBERTURA.vb" />
+    <Compile Include="EntPRESTACIONES.vb" />
+    <Compile Include="EntPROVEEDORES_PER.vb" />
+    <Compile Include="EntRUBROS.vb" />
     <Compile Include="EntSales_Currency.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
