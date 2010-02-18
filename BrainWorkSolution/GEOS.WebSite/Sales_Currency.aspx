@@ -1,4 +1,4 @@
-<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Sales_Currency.aspx.vb" Inherits="Sales_Currency" %>
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Sales_Currency.aspx.vb" Inherits="Sales_Currency" EnableEventValidation="false" %>
     
 <%@ Register assembly="BrainWork.Utils.Web" namespace="BrainWork.Utils.Web.WebControls" tagprefix="cc1" %>
 
@@ -7,6 +7,8 @@
 <%@ Register assembly="BrainWork.Utils.Web" namespace="BrainWork.Utils.Web.WebControls.Data" tagprefix="cc3" %>
 
 <%@ Register assembly="BrainWork.Utils.Web" namespace="BrainWork.Utils.Web.Components.CustomControls" tagprefix="cc4" %>
+
+<%@ Register src="CustomControl/wucSearchGrid.ascx" tagname="wucSearchGrid" tagprefix="uc1" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -131,10 +133,10 @@
         </tr>
         
         <tr>
-            <td>
+            <td colspan="2" align="right">
+                <asp:Button ID="btnAdd" runat="server" Text="Agregar" />
             </td>    
-            <td>
-            </td>
+             
         </tr>
         
     </table>
@@ -148,7 +150,7 @@
     </fieldset>
     </div>
         </asp:Panel>
-        <asp:Button ID="btnAdd" runat="server" Text="Agregar" />
+        
     
     </div>
      
@@ -163,12 +165,10 @@
                         <tr>
                             <td>
                                 <br />
+                                <uc1:wucSearchGrid ID="wucSearchGrid1" runat="server" />
                                 <br />
                                 <br />
-                                <cc3:GridView ID="GridView1" runat="server">
-                                </cc3:GridView>
                                 <br />
-                                <cc3:SearchControl ID="SearchControl1" runat="server" />
                                 <br />
                             </td>
                         </tr>

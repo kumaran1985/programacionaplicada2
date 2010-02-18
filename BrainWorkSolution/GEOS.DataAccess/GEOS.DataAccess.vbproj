@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{D2354AC8-493A-4252-ADB0-D7CA4E617BCB}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -61,6 +61,55 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DaACTIVIDADES.vb" />
+    <Compile Include="DaAFILIADOS_PER.vb" />
+    <Compile Include="DaAFILIADOS_TIPO_PROCEDENCIA.vb" />
+    <Compile Include="DaAPORTES.vb" />
+    <Compile Include="DaAPP_DEPARTAMENTOS.vb" />
+    <Compile Include="DaAPP_DOMICILIOS.vb" />
+    <Compile Include="DaAPP_DOMICILIO_TIPO.vb" />
+    <Compile Include="DaAPP_ENTIDADES.vb" />
+    <Compile Include="DaAPP_ESTADOS.vb" />
+    <Compile Include="DaAPP_LOCALIDADES.vb" />
+    <Compile Include="DaAPP_PAISES.vb" />
+    <Compile Include="DaAPP_PERMISOS.vb" />
+    <Compile Include="DaAPP_PERSONAS.vb" />
+    <Compile Include="DaAPP_PROVINCIAS.vb" />
+    <Compile Include="DaAPP_ROLES.vb" />
+    <Compile Include="DaAPP_TELEFONOS.vb" />
+    <Compile Include="DaAPP_TELEFONOS_TIPO.vb" />
+    <Compile Include="DaAPP_USUARIOS_PER.vb" />
+    <Compile Include="DaAPP_WEB.vb" />
+    <Compile Include="DaBANCOS_CUENTAS.vb" />
+    <Compile Include="DaBANCOS_PER.vb" />
+    <Compile Include="DaCOMPROBANTES_TIPO.vb" />
+    <Compile Include="DaCONSUMOS.vb" />
+    <Compile Include="DaCONSUMOS_DETALLE.vb" />
+    <Compile Include="DaCONVENIOS.vb" />
+    <Compile Include="DaCONVENIOS_TARIFAS.vb" />
+    <Compile Include="DaCREDENCIALES.vb" />
+    <Compile Include="DaDDJJSS.vb" />
+    <Compile Include="DaDDJJSS_DETALLE.vb" />
+    <Compile Include="DaDDJJSS_LISTA_DECLARACIONES.vb" />
+    <Compile Include="DaDDJJSS_OBRASSOCIALES.vb" />
+    <Compile Include="DaEMPLEADORES_PER.vb" />
+    <Compile Include="DaER_AFILIADOS_EMPLEADORES.vb" />
+    <Compile Include="DaER_AFILIADOS_OBRASSOCIALES.vb" />
+    <Compile Include="DaER_AFILIADOS_PLANES.vb" />
+    <Compile Include="DaER_INSTITUCIONES_PROFESIONALES.vb" />
+    <Compile Include="DaER_PERSONAS.vb" />
+    <Compile Include="DaER_PERSONAS_BANCOS_CUENTAS.vb" />
+    <Compile Include="DaER_PERSONAS_TIPO_RELACION.vb" />
+    <Compile Include="DaER_PRESTACIONES_CONVENIOS.vb" />
+    <Compile Include="DaER_PRESTACIONES_PLAN.vb" />
+    <Compile Include="DaESPECIALIDADES.vb" />
+    <Compile Include="DaIDENTIFICACIONES.vb" />
+    <Compile Include="DaIDENTIFICACIONES_TIPO.vb" />
+    <Compile Include="DaOBRASSOCIALES_PER.vb" />
+    <Compile Include="DaPLANES_COBERTURA.vb" />
+    <Compile Include="DaPRESTACIONES.vb" />
+    <Compile Include="DaPROVEEDORES_PER.vb" />
+    <Compile Include="DaRUBROS.vb" />
     <Compile Include="DaSales_Currency.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
