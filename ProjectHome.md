@@ -1,0 +1,1 @@
+Proyecto GNU realizado por los alumnos que cursan tercer año de la carrera Analistas de Sistemas de Información, de la Universidad Nacional De Córdoba, ESC Manuel Belgrano. El sistema es creado en .net con BBDD access. Orientado a Objetos, en tres capas
